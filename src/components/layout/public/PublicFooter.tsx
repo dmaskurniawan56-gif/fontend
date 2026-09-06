@@ -60,6 +60,11 @@ export function PublicFooter() {
               </Link>
             </li>
             <li>
+              <Link href="/#solutions" className="hover:text-foreground transition-colors">
+                {t("common.nav.solutions")}
+              </Link>
+            </li>
+            <li>
               <Link href="/#features" className="hover:text-foreground transition-colors">
                 {t("common.nav.features")}
               </Link>

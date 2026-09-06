@@ -20,6 +20,7 @@
   "saveChanges": "Simpan Perubahan",
   "createSubmit": "Buat Formulir",
   "deleteTitle": "Hapus Formulir",
+  "deleteIrreversible": "Tindakan ini tidak dapat dibatalkan",
   "deleteConfirmPrompt": "Apakah Anda yakin ingin menghapus formulir",
   "deleteWarning": "Perhatian: Tautan publik tidak akan dapat diakses lagi. Data respons yang tersimpan akan ikut terhapus.",
   "submissionsTitle": "Daftar Respons Formulir",

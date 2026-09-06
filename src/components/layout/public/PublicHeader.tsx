@@ -31,8 +31,11 @@ export function PublicHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation: Fitur, Harga, FAQ, Tentang Kami, Hubungi Kami */}
+        {/* Desktop Navigation: Solusi, Fitur, Harga, FAQ, Tentang Kami, Hubungi Kami */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-bold text-foreground-secondary">
+          <Link href="/#solutions" className="hover:text-foreground transition-colors">
+            {t("common.nav.solutions")}
+          </Link>
           <Link href="/#features" className="hover:text-foreground transition-colors">
             {t("common.nav.features")}
           </Link>
@@ -109,6 +112,13 @@ export function PublicHeader() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-b border-border bg-surface px-6 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200 shadow-xl">
           <nav className="flex flex-col gap-1 text-sm font-bold text-foreground">
+            <Link
+              href="/#solutions"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+            >
+              {t("common.nav.solutions")}
+            </Link>
             <Link
               href="/#features"
               onClick={() => setMobileMenuOpen(false)}

@@ -2,16 +2,27 @@ import type { Metadata } from "next";
 import { HomeView } from "@/components/home/HomeView";
 
 export const metadata: Metadata = {
-  title: "Platform WhatsApp Multi-Device SaaS & Gateway Skala Industri",
+  title: "Platform WhatsApp Multi-Device SaaS & Solusi Bisnis Lengkap Skala Industri",
   description:
-    "Solusi Enterprise WhatsApp Multi-Device Gateway untuk bisnis dengan teknologi Session Hibernation hemat RAM 95%, 5 Lapis Anti-Ban, Spintax Engine acak kata, dan integrasi High-Performance Cloud Engine.",
+    "Solusi WhatsApp Multi-Device Gateway dan platform operasional bisnis terpadu: Sistem Reservasi & Booking Jadwal, Pengingat Otomatis, Formulir Dinamis Publik, Template CS, hemat RAM 95%, dan 5-Lapis Anti-Ban.",
+  keywords: [
+    "WhatsApp Gateway",
+    "WhatsApp Multi-Device",
+    "Sistem Reservasi WhatsApp",
+    "Booking Jadwal Online",
+    "Pengingat Otomatis WhatsApp",
+    "Formulir Dinamis WhatsApp",
+    "Template Pesan CS",
+    "Anti Ban WhatsApp",
+    "SaaS WhatsApp",
+  ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Wahide - Enterprise WhatsApp Multi-Tenant Gateway",
+    title: "Wahide - Enterprise WhatsApp Multi-Tenant Gateway & Business Suite",
     description:
-      "Scale hingga 10.000+ perangkat WhatsApp aktif dengan 5 Lapis Anti-Ban dan Session Hibernation berkinerja tinggi.",
+      "Scale hingga 10.000+ perangkat WhatsApp aktif dengan modul Reservasi, Pengingat Otomatis, Formulir Dinamis, Template CS, dan 5 Lapis Anti-Ban.",
     url: "/",
     siteName: "Wahide",
     locale: "id_ID",
@@ -61,6 +72,14 @@ const faqJsonLd = {
       acceptedAnswer: {
         "@type": "Answer",
         text: "WhatsApp Cloud API resmi mengenakan biaya per percakapan berbasis template kaku. Wahide memberikan fleksibilitas penuh untuk multi-device tanpa biaya per percakapan yang mahal, sangat cocok untuk UMKM dan bisnis berkembang.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Selain gateway API, apa saja solusi bisnis siap pakai yang disediakan Wahide?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Wahide menyediakan 4 modul bisnis bawaan siap pakai tanpa perlu coding: Sistem Reservasi & Booking Jadwal, Otomasi Pengingat & Jatuh Tempo, Formulir Dinamis Publik (/f/nama-form), dan Pustaka Template Pesan CS & Sales.",
       },
     },
   ],

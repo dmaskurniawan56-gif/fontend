@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import dynamic from "next/dynamic";
 import { FaqAccordion } from "./FaqAccordion";
+import { BusinessSolutionsSection } from "./BusinessSolutionsSection";
 
 const MessageSimulator = dynamic(
   () => import("./MessageSimulator").then((mod) => mod.MessageSimulator),
@@ -150,17 +151,20 @@ export function HomeView() {
         <MessageSimulator />
       </section>
 
-      {/* 3. Spintax Anti-Ban Engine Section */}
+      {/* 3. Ready-to-Use Business Solutions Showcase */}
+      <BusinessSolutionsSection />
+
+      {/* 4. Spintax Anti-Ban Engine Section */}
       <section id="spintax" className="mx-auto max-w-4xl px-4 sm:px-6">
         <SpintaxSandbox />
       </section>
 
-      {/* 4. Developer REST API & Webhooks Code Sandbox */}
+      {/* 5. Developer REST API & Webhooks Code Sandbox */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6">
         <ApiCodeSandbox />
       </section>
 
-      {/* 5. 9 Core Enterprise Features Grid */}
+      {/* 6. 9 Core Enterprise Features Grid */}
       <section id="features" className="mx-auto max-w-6xl space-y-10 px-4 sm:px-6">
         <div className="mx-auto max-w-2xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
@@ -239,7 +243,7 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 6. Transparent 3-Tier Pricing Grid */}
+      {/* 7. Transparent 3-Tier Pricing Grid */}
       <section id="pricing" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
@@ -413,12 +417,12 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 7. FAQ Accordion */}
+      {/* 8. FAQ Accordion */}
       <section id="faq" className="content-visibility-auto mx-auto max-w-3xl px-4 sm:px-6">
         <FaqAccordion />
       </section>
 
-      {/* 8. Final High-Impact CTA Banner */}
+      {/* 9. Final High-Impact CTA Banner */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 space-y-6 rounded-lg border p-8 text-center shadow-sm sm:p-12">
           <div className="mx-auto max-w-xl space-y-2">

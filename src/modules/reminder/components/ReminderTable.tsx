@@ -97,16 +97,29 @@ export function ReminderTable({
 
   const formatDate = (dateStr: string) => {
     try {
-      const d = new Date(dateStr);
-      if (isNaN(d.getTime())) return dateStr;
-      return d.toLocaleDateString("id-ID", {
+      let d: Date;
+      if (dateStr.includes("/")) {
+        const [day, month, year] = dateStr.split("/");
+        d = new Date(Number(year), Number(month) - 1, Number(day));
+      } else {
+        d = new Date(dateStr);
+      }
+      if (isNaN(d.getTime())) return { numeric: dateStr, text: "" };
+
+      const day = String(d.getDate()).padStart(2, "0");
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const year = d.getFullYear();
+      const numeric = `${day}/${month}/${year}`;
+
+      const text = d.toLocaleDateString("id-ID", {
         weekday: "short",
         day: "numeric",
         month: "short",
-        year: "numeric",
       });
+
+      return { numeric, text };
     } catch {
-      return dateStr;
+      return { numeric: dateStr, text: "" };
     }
   };
 
@@ -212,10 +225,22 @@ export function ReminderTable({
                       </div>
                     </TableCell>
                     <TableCell className="text-xs">
-                      <div className="flex items-center gap-1 font-medium text-foreground">
-                        <Calendar className="size-3 text-blue-500/70" />
-                        <span>{formatDate(rem.targetDate)}</span>
-                      </div>
+                      {(() => {
+                        const formatted = formatDate(rem.targetDate);
+                        return (
+                          <div className="flex flex-col gap-0.5">
+                            <div className="flex items-center gap-1.5 font-bold text-foreground">
+                              <Calendar className="size-3 text-blue-500/80 shrink-0" />
+                              <span className="font-mono tracking-tight text-xs">{formatted.numeric}</span>
+                            </div>
+                            {formatted.text && (
+                              <span className="text-[11px] text-foreground-muted pl-4">
+                                {formatted.text}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </TableCell>
                     <TableCell className="text-foreground-muted text-xs">
                       <span className="line-clamp-1">

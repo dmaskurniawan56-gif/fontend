@@ -12,6 +12,7 @@ import {
   XCircle,
   Calendar as CalendarIcon,
   ChevronDown,
+  Plus,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -63,6 +64,20 @@ export function DailyAgendaList({
 }: DailyAgendaListProps) {
   const { t } = useI18n();
 
+  const formatBookingDate = (dateStr: string) => {
+    if (!dateStr) return "";
+    const clean = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+    const parts = clean.includes("-") ? clean.split("-") : clean.split("/");
+    if (parts.length === 3) {
+      if (parts[0].length === 4) {
+        // YYYY-MM-DD -> DD/MM/YYYY
+        return `${parts[2].padStart(2, "0")}/${parts[1].padStart(2, "0")}/${parts[0]}`;
+      }
+      return `${parts[0].padStart(2, "0")}/${parts[1].padStart(2, "0")}/${parts[2]}`;
+    }
+    return dateStr;
+  };
+
   const getStatusBadge = (resStatus: ReservationStatus) => {
     switch (resStatus) {
       case "CONFIRMED":
@@ -112,11 +127,13 @@ export function DailyAgendaList({
 
         <div className="flex items-center gap-2">
           <Button
+            variant="primaryPill"
             onClick={onAddClick}
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-9 px-3"
+            className="h-9 cursor-pointer gap-1.5 px-3.5 text-xs font-bold shadow-xs"
           >
-            + {t("reservation.newReservation") || "Reservasi Baru"}
+            <Plus className="h-4 w-4" />
+            <span>{t("reservation.newReservation") || "Reservasi Baru"}</span>
           </Button>
         </div>
       </div>
@@ -204,9 +221,9 @@ export function DailyAgendaList({
                     <Phone className="h-3 w-3" />
                     {item.phone}
                   </span>
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1 font-mono font-medium">
                     <CalendarIcon className="h-3 w-3" />
-                    {item.bookingDate}
+                    {formatBookingDate(item.bookingDate)}
                   </span>
                   {item.bookingTime && (
                     <span className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-300">

@@ -24,17 +24,18 @@ export function VariableQuickInsert({ onInsert, customVariables }: VariableQuick
         <span className="font-medium">Variabel Cepat (Klik untuk menyisipkan):</span>
         <span className="text-[11px] opacity-75">Format: {"{{variabel}}"}</span>
       </div>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5 py-0.5">
         {DEFAULT_VARIABLES.map((v) => (
           <button
             key={v.key}
             type="button"
             onClick={() => onInsert(v.key)}
-            className="inline-flex items-center gap-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-700 transition hover:border-emerald-500/40 hover:bg-emerald-500/20 dark:text-emerald-300"
+            className="group/chip inline-flex items-center gap-1 rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary transition-all duration-150 hover:bg-primary/20 hover:scale-105 active:scale-95 cursor-pointer"
+            title={`Sisipkan {{${v.key}}} (${v.label})`}
           >
-            <Plus className="size-3" />
-            <span>{`{{${v.key}}}`}</span>
-            <span className="text-[10px] opacity-70">({v.label})</span>
+            <Plus className="size-3 text-primary transition-transform group-hover/chip:rotate-90" />
+            <span className="font-mono">{`{{${v.key}}}`}</span>
+            <span className="text-[10px] text-foreground-muted font-normal">({v.label})</span>
           </button>
         ))}
         {customVariables?.map((v) => (
@@ -42,10 +43,11 @@ export function VariableQuickInsert({ onInsert, customVariables }: VariableQuick
             key={v}
             type="button"
             onClick={() => onInsert(v)}
-            className="inline-flex items-center gap-1 rounded-md border border-blue-500/20 bg-blue-500/10 px-2 py-1 text-xs font-medium text-blue-700 transition hover:border-blue-500/40 hover:bg-blue-500/20 dark:text-blue-300"
+            className="group/chip inline-flex items-center gap-1 rounded-full border border-blue-500/25 bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400 transition-all duration-150 hover:bg-blue-500/20 hover:scale-105 active:scale-95 cursor-pointer"
+            title={`Sisipkan {{${v}}}`}
           >
-            <Plus className="size-3" />
-            <span>{`{{${v}}}`}</span>
+            <Plus className="size-3 text-blue-600 dark:text-blue-400 transition-transform group-hover/chip:rotate-90" />
+            <span className="font-mono">{`{{${v}}}`}</span>
           </button>
         ))}
       </div>

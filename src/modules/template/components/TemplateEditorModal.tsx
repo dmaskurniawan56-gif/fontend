@@ -117,10 +117,10 @@ function TemplateEditorContent({
     <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         showCloseButton={true}
-        className="flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl p-0 ring-1 ring-border"
+        className="flex max-h-[92dvh] w-[96vw] sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl flex-col overflow-hidden rounded-3xl p-0 border border-border shadow-2xl bg-surface"
       >
         {/* Header */}
-        <DialogHeader className="flex flex-row items-center justify-between border-b border-border/60 px-6 py-4">
+        <DialogHeader className="flex flex-row items-center justify-between border-b border-border/60 px-5 sm:px-6 py-4 shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Sparkles className="size-5" />
@@ -135,16 +135,16 @@ function TemplateEditorContent({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 mr-6">
-            {/* Mobile Tab Toggle */}
+          <div className="flex items-center gap-2 mr-7">
+            {/* Mobile Tab Toggle (Visible only on < lg screens) */}
             <div className="lg:hidden">
               <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as "form" | "preview")}>
-                <TabsList className="h-8">
-                  <TabsTrigger value="form" className="text-xs gap-1">
+                <TabsList className="h-8 p-0.5 bg-muted rounded-lg">
+                  <TabsTrigger value="form" className="text-xs gap-1 px-2.5 py-1">
                     <Layers className="size-3.5" />
                     <span>Form</span>
                   </TabsTrigger>
-                  <TabsTrigger value="preview" className="text-xs gap-1">
+                  <TabsTrigger value="preview" className="text-xs gap-1 px-2.5 py-1">
                     <Smartphone className="size-3.5" />
                     <span>Pratinjau</span>
                   </TabsTrigger>
@@ -155,15 +155,15 @@ function TemplateEditorContent({
         </DialogHeader>
 
         {/* Modal Body: Split Layout */}
-        <div className="flex flex-1 overflow-y-auto">
+        <div className="flex flex-1 min-h-0 flex-col lg:flex-row overflow-hidden">
           {/* Left Column: Form Controls */}
           <div
             className={cn(
-              "flex-1 p-6 space-y-5 lg:block lg:border-r lg:border-border/60",
-              mobileTab === "form" ? "block" : "hidden"
+              "w-full lg:w-7/12 xl:w-3/5 overflow-y-auto p-5 sm:p-6 space-y-5 border-border/60 lg:border-r flex flex-col",
+              mobileTab === "form" ? "block" : "hidden lg:block"
             )}
           >
-            <form id="template-editor-form" onSubmit={handleSubmit} className="space-y-4">
+            <form id="template-editor-form" onSubmit={handleSubmit} className="space-y-4 flex-1">
               {/* Template Name & Category */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
@@ -259,8 +259,18 @@ function TemplateEditorContent({
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Ketik pesan Anda di sini. Gunakan {{variabel}} untuk data dinamis."
-                  className="rounded-2xl p-3.5 text-xs leading-relaxed"
+                  className="rounded-2xl p-3.5 text-xs leading-relaxed resize-none"
                 />
+
+                {/* WhatsApp Formatting Helper */}
+                <div className="flex items-center justify-between text-[11px] text-foreground-muted px-1">
+                  <span>
+                    Format WhatsApp: <code className="text-foreground font-mono font-semibold">*tebal*</code>, <code className="text-foreground font-mono font-semibold">_miring_</code>, <code className="text-foreground font-mono font-semibold">~coret~</code>
+                  </span>
+                  <span className="hidden lg:inline text-[10px] bg-muted/80 text-foreground-muted px-2 py-0.5 rounded-full font-medium">
+                    Pratinjau Live di kanan 👉
+                  </span>
+                </div>
 
                 {/* Variable Quick Insert Chips */}
                 <VariableQuickInsert onInsert={handleInsertVariable} />
@@ -358,11 +368,16 @@ function TemplateEditorContent({
           {/* Right Column: Live Mockup Preview */}
           <div
             className={cn(
-              "flex-1 items-center justify-center p-6 bg-muted/10 lg:flex",
-              mobileTab === "preview" ? "flex" : "hidden"
+              "w-full lg:w-5/12 xl:w-2/5 overflow-y-auto p-5 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-[420px]",
+              mobileTab === "preview" ? "flex" : "hidden lg:flex"
             )}
           >
-            <div className="w-full max-w-sm">
+            <div className="w-full max-w-[340px] my-auto">
+              <div className="mb-2.5 text-center hidden lg:block">
+                <span className="text-[11px] font-medium text-foreground-muted bg-background/80 border border-border/60 px-3 py-1 rounded-full shadow-xs">
+                  📱 Pratinjau Interaktif WhatsApp
+                </span>
+              </div>
               <WhatsAppPhoneMockup
                 name={name}
                 category={category}
@@ -376,35 +391,44 @@ function TemplateEditorContent({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2.5 border-t border-border/60 bg-muted/20 px-6 py-4">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={onClose}
-            disabled={isSubmitting}
-            className="rounded-xl cursor-pointer"
-          >
-            Batal
-          </Button>
-          <Button
-            type="submit"
-            form="template-editor-form"
-            disabled={isSubmitting || !name.trim() || !content.trim()}
-            className="rounded-xl cursor-pointer"
-          >
-            {isSubmitting ? (
-              <span className="flex items-center gap-2">
-                <span className="size-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                Menyimpan...
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5">
-                <Check className="size-4" />
-                {initialData ? "Simpan Perubahan" : "Buat Template"}
-              </span>
-            )}
-          </Button>
+        <div className="flex items-center justify-between border-t border-border/60 bg-muted/20 px-5 sm:px-6 py-3.5 shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
+            <Sparkles className="size-3.5 text-primary" />
+            <span>Pratinjau otomatis tersinkronisasi secara real-time.</span>
+          </div>
+
+          <div className="flex items-center gap-2.5 ml-auto">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onClose}
+              disabled={isSubmitting}
+              className="rounded-full cursor-pointer px-4"
+            >
+              Batal
+            </Button>
+            <Button
+              type="submit"
+              variant="primaryPill"
+              form="template-editor-form"
+              disabled={isSubmitting || !name.trim() || !content.trim()}
+              size="sm"
+              className="cursor-pointer px-5 font-bold shadow-xs"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center gap-2">
+                  <span className="size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Menyimpan...
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5">
+                  <Check className="size-4" />
+                  {initialData ? "Simpan Perubahan" : "Buat Template"}
+                </span>
+              )}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

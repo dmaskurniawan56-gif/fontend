@@ -80,12 +80,13 @@ export function ReservationsView() {
             {t("common.refresh") || "Segarkan"}
           </Button>
           <Button
+            variant="primaryPill"
             onClick={() => setIsAddOpen(true)}
             size="sm"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white h-9 text-xs"
+            className="h-9 cursor-pointer gap-1.5 px-4 text-xs font-bold shadow-xs"
           >
-            <Plus className="h-4 w-4 mr-1.5" />
-            {t("reservation.newReservation") || "Reservasi Baru"}
+            <Plus className="h-4 w-4" />
+            <span>{t("reservation.newReservation") || "Reservasi Baru"}</span>
           </Button>
         </div>
       </div>

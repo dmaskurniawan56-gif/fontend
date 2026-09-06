@@ -7,33 +7,109 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { CalendarPlus, User, Phone, Calendar, FileText, Loader2 } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { cn } from "@/lib/utils";
+import {
+  CalendarPlus,
+  User,
+  Phone,
+  Calendar,
+  FileText,
+  Loader2,
+  AlertTriangle,
+  ArrowRight,
+  Smartphone,
+} from "lucide-react";
 import { toast } from "sonner";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 
 interface QuickScheduleCardProps {
   onSchedule: (input: CreateReminderInput) => Promise<boolean>;
+  hasConfiguredDevice?: boolean;
+  onNavigateToRules?: () => void;
 }
 
-export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
+export function QuickScheduleCard({
+  onSchedule,
+  hasConfiguredDevice = true,
+  onNavigateToRules,
+}: QuickScheduleCardProps) {
   const [recipientName, setRecipientName] = useState("");
   const [phone, setPhone] = useState("");
-  const [targetDate, setTargetDate] = useState("");
+  const [displayDate, setDisplayDate] = useState("");
+  const [isoDate, setIsoDate] = useState("");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const datePickerRef = React.useRef<HTMLInputElement>(null);
 
-  // Set default target date to tomorrow
+  // Set default target date to tomorrow formatted as DD/MM/YYYY
   useEffect(() => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const yyyy = tomorrow.getFullYear();
     const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
     const dd = String(tomorrow.getDate()).padStart(2, "0");
-    setTargetDate(`${yyyy}-${mm}-${dd}`);
+    setIsoDate(`${yyyy}-${mm}-${dd}`);
+    setDisplayDate(`${dd}/${mm}/${yyyy}`);
   }, []);
+
+  const handleNativeDateChange = (val: string) => {
+    if (!val) return;
+    setIsoDate(val);
+    const parts = val.split("-");
+    if (parts.length === 3) {
+      setDisplayDate(`${parts[2]}/${parts[1]}/${parts[0]}`);
+    }
+  };
+
+  const handleDisplayDateChange = (val: string) => {
+    setDisplayDate(val);
+    const cleaned = val.trim().replace(/-/g, "/");
+    const parts = cleaned.split("/");
+    if (parts.length === 3 && parts[2].length === 4) {
+      const dd = parts[0].padStart(2, "0");
+      const mm = parts[1].padStart(2, "0");
+      const yyyy = parts[2];
+      setIsoDate(`${yyyy}-${mm}-${dd}`);
+    }
+  };
+
+  const getDatePreview = () => {
+    let dateObj: Date | null = null;
+    if (displayDate.includes("/")) {
+      const [d, m, y] = displayDate.split("/");
+      if (d && m && y && y.length === 4) {
+        const numD = Number(d);
+        const numM = Number(m);
+        const numY = Number(y);
+        if (numM >= 1 && numM <= 12 && numD >= 1 && numD <= 31) {
+          dateObj = new Date(numY, numM - 1, numD);
+        }
+      }
+    } else if (isoDate) {
+      dateObj = new Date(isoDate);
+    }
+    if (dateObj && !isNaN(dateObj.getTime())) {
+      return dateObj.toLocaleDateString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+    return null;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!hasConfiguredDevice) {
+      toast.warning("Perangkat WhatsApp belum dipilih", {
+        description: "Mengalihkan Anda ke tab Aturan Pengiriman & Drip untuk menyimpan nomor pengirim terlebih dahulu.",
+      });
+      onNavigateToRules?.();
+      return;
+    }
 
     if (!recipientName.trim()) {
       toast.error("Nama penerima wajib diisi");
@@ -51,7 +127,8 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
       return;
     }
 
-    if (!targetDate) {
+    const finalDate = displayDate.trim();
+    if (!finalDate) {
       toast.error("Tanggal target jadwal wajib dipilih");
       return;
     }
@@ -61,7 +138,7 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
       const success = await onSchedule({
         recipientName: recipientName.trim(),
         phone: cleanPhone,
-        targetDate,
+        targetDate: finalDate,
         notes: notes.trim(),
       });
 
@@ -69,6 +146,14 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
         setRecipientName("");
         setPhone("");
         setNotes("");
+        // reset to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const yyyy = tomorrow.getFullYear();
+        const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
+        const dd = String(tomorrow.getDate()).padStart(2, "0");
+        setIsoDate(`${yyyy}-${mm}-${dd}`);
+        setDisplayDate(`${dd}/${mm}/${yyyy}`);
       }
     } finally {
       setIsSubmitting(false);
@@ -93,7 +178,40 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
 
       <Separator />
 
-      <CardContent className="p-0">
+      <CardContent className="p-0 flex flex-col gap-4">
+        {!hasConfiguredDevice && (
+          <Alert
+            variant="warning"
+            className="border-amber-300/80 bg-amber-500/10 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 rounded-xl"
+          >
+            <AlertTriangle className="size-4.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between w-full">
+              <div>
+                <AlertTitle className="text-xs sm:text-sm font-bold text-amber-950 dark:text-amber-100">
+                  Perangkat WhatsApp Pengirim Belum Dikonfigurasi
+                </AlertTitle>
+                <AlertDescription className="text-xs text-amber-800/90 dark:text-amber-300/90 mt-0.5">
+                  Sebelum menjadwalkan pengingat, Anda perlu memilih dan menyimpan nomor WhatsApp pengirim pada menu{" "}
+                  <span className="font-semibold underline underline-offset-2">Aturan Drip & Jadwal Otomatis</span> agar pesan otomatis dapat terkirim.
+                </AlertDescription>
+              </div>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => {
+                  toast.info("Silakan pilih Perangkat WhatsApp Pengirim dan klik Simpan Aturan.");
+                  onNavigateToRules?.();
+                }}
+                className="h-8.5 px-3.5 text-xs font-bold rounded-lg bg-amber-600 hover:bg-amber-700 text-white shrink-0 self-start sm:self-auto gap-1.5 shadow-xs cursor-pointer transition-all"
+              >
+                <Smartphone className="size-3.5" />
+                <span>Atur Nomor Pengirim Sekarang</span>
+                <ArrowRight className="size-3" />
+              </Button>
+            </div>
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {/* Recipient Name */}
           <div className="flex flex-col gap-1.5">
@@ -131,19 +249,60 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
 
           {/* Target Date */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rem-date" className="flex items-center gap-1.5 text-xs">
-              <Calendar className="size-3.5 text-blue-500" />
-              <span>Tanggal Target *</span>
-            </Label>
-            <Input
-              id="rem-date"
-              type="date"
-              value={targetDate}
-              onChange={(e) => setTargetDate(e.target.value)}
-              className="h-10 text-xs rounded-xl"
-              disabled={isSubmitting}
-              required
-            />
+            <div className="flex items-center justify-between">
+              <Label htmlFor="rem-date-display" className="flex items-center gap-1.5 text-xs">
+                <Calendar className="size-3.5 text-blue-500" />
+                <span>Tanggal Target *</span>
+              </Label>
+              <span className="text-[10px] font-mono text-foreground-muted">
+                (Tgl/Bln/Thn)
+              </span>
+            </div>
+            <div className="relative flex items-center">
+              <Input
+                id="rem-date-display"
+                type="text"
+                value={displayDate}
+                onChange={(e) => handleDisplayDateChange(e.target.value)}
+                placeholder="07/09/2026"
+                className="h-10 text-xs font-mono rounded-xl pr-10"
+                disabled={isSubmitting}
+                required
+              />
+              {/* Invisible native input to invoke browser calendar picker via showPicker */}
+              <input
+                ref={datePickerRef}
+                type="date"
+                tabIndex={-1}
+                aria-hidden="true"
+                value={isoDate}
+                onChange={(e) => handleNativeDateChange(e.target.value)}
+                className="absolute right-2 opacity-0 pointer-events-none size-6"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-xs"
+                onClick={() => {
+                  try {
+                    datePickerRef.current?.showPicker?.();
+                  } catch {
+                    datePickerRef.current?.focus();
+                  }
+                }}
+                disabled={isSubmitting}
+                className="absolute right-1.5 size-7 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg cursor-pointer"
+                title="Pilih Tanggal dari Kalender"
+              >
+                <Calendar className="size-3.5" />
+              </Button>
+            </div>
+            {/* Live Indonesian Confirmation Text */}
+            {getDatePreview() && (
+              <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">
+                🗓️ {getDatePreview()}
+              </span>
+            )}
           </div>
 
           {/* Notes */}
@@ -167,12 +326,23 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="h-10 rounded-xl px-5 text-xs font-semibold gap-2 shadow-xs cursor-pointer"
+              className={cn(
+                "h-10 rounded-xl px-5 text-xs font-semibold gap-2 shadow-xs cursor-pointer transition-all",
+                !hasConfiguredDevice
+                  ? "bg-amber-600 hover:bg-amber-700 text-white"
+                  : ""
+              )}
             >
               {isSubmitting ? (
                 <>
                   <Loader2 className="size-3.5 animate-spin" />
                   Menyimpan...
+                </>
+              ) : !hasConfiguredDevice ? (
+                <>
+                  <Smartphone className="size-3.5" />
+                  Atur Nomor Pengirim Dulu
+                  <ArrowRight className="size-3" />
                 </>
               ) : (
                 <>

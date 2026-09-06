@@ -92,14 +92,9 @@ export function TemplatesView() {
       {/* Top Header & Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-              Template Pesan WhatsApp
-            </h1>
-            <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-              Modul 1: Template
-            </span>
-          </div>
+          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            Template Pesan WhatsApp
+          </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
             Buat pesan terstandarisasi dengan variabel dinamis, format tombol cepat, dan gambar header.
           </p>

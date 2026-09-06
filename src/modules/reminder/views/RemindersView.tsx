@@ -239,7 +239,11 @@ export function RemindersView() {
       {/* Tab Panels */}
       {activeTab === "schedules" && (
         <div className="flex flex-col gap-6">
-          <QuickScheduleCard onSchedule={createReminder} />
+          <QuickScheduleCard
+            onSchedule={createReminder}
+            hasConfiguredDevice={Boolean(rule?.deviceId && rule.deviceId.trim() !== "")}
+            onNavigateToRules={() => setActiveTab("rules")}
+          />
           <ReminderTable
             reminders={reminders}
             isLoading={isRemindersLoading}

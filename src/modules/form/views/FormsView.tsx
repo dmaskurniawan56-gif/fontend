@@ -7,6 +7,7 @@ import {
   Eye,
   FileCheck2,
   TrendingUp,
+  RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -40,6 +41,7 @@ export function FormsView() {
     setPage,
     total,
     totalPages,
+    fetchForms,
     createForm,
     updateForm,
     toggleActive,
@@ -97,71 +99,89 @@ export function FormsView() {
   };
 
   return (
-    <div className="space-y-6 pb-12">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8 pb-12">
+      {/* Top Header & Actions */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            {t("form.viewTitle") || "Formulir Dinamis (Lead & Booking)"}
+          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            {t("form.viewTitle") || "Formulir Dinamis"}
           </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
             {t("form.viewSubtitle") ||
-              "Buat landing page formulir publik untuk reservasi, pendaftaran, dan penangkapan prospek otomatis."}
+              "Landing page formulir publik untuk reservasi, pendaftaran, dan penangkapan leads WhatsApp."}
           </p>
         </div>
 
-        <Button onClick={handleCreateNew} className="gap-2 font-semibold shadow-sm">
-          <Plus className="w-4 h-4" />
-          {t("form.createNewButton") || "Buat Formulir"}
-        </Button>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => fetchForms()}
+            disabled={isLoading}
+            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs"
+            title="Muat Ulang Data"
+          >
+            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <span className="hidden sm:inline">Refresh</span>
+          </Button>
+
+          <Button
+            onClick={handleCreateNew}
+            size="sm"
+            className="h-9 gap-1.5 rounded-xl bg-primary text-xs font-semibold shadow-xs shadow-primary/25 w-full sm:w-auto cursor-pointer"
+          >
+            <Plus className="size-4" />
+            <span>{t("form.createNewButton") || "Buat Formulir Baru"}</span>
+          </Button>
+        </div>
       </div>
 
-      {/* Overview Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <Card className="p-4 shadow-sm">
-          <div className="flex items-center gap-2.5 text-slate-500 mb-1">
-            <FileSpreadsheet className="w-4 h-4 text-primary" />
-            <span className="text-xs font-medium">Total Formulir</span>
+      {/* Overview Stat Cards (Clean Responsive Pill Format) */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0">
+            <FileSpreadsheet className="size-4" />
           </div>
-          <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
-            {stats.totalForms}
-          </span>
-        </Card>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[11px] font-medium text-foreground-muted">Total Formulir</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalForms}</p>
+          </div>
+        </div>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex items-center gap-2.5 text-slate-500 mb-1">
-            <Eye className="w-4 h-4 text-blue-500" />
-            <span className="text-xs font-medium">Total Dilihat (Views)</span>
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+            <Eye className="size-4" />
           </div>
-          <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
-            {stats.totalViews.toLocaleString()}
-          </span>
-        </Card>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[11px] font-medium text-foreground-muted">Total Dilihat (Views)</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalViews.toLocaleString()}</p>
+          </div>
+        </div>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex items-center gap-2.5 text-slate-500 mb-1">
-            <FileCheck2 className="w-4 h-4 text-emerald-500" />
-            <span className="text-xs font-medium">Respons Terkumpul</span>
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+            <FileCheck2 className="size-4" />
           </div>
-          <span className="text-xl sm:text-2xl font-bold text-primary">
-            {stats.totalSubmissions.toLocaleString()}
-          </span>
-        </Card>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[11px] font-medium text-foreground-muted">Respons Terkumpul</p>
+            <p className="text-lg font-bold text-primary sm:text-xl">{stats.totalSubmissions.toLocaleString()}</p>
+          </div>
+        </div>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex items-center gap-2.5 text-slate-500 mb-1">
-            <TrendingUp className="w-4 h-4 text-emerald-600" />
-            <span className="text-xs font-medium">Rata-rata Konversi</span>
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+            <TrendingUp className="size-4" />
           </div>
-          <span className="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-            {stats.avgConversion}%
-          </span>
-        </Card>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[11px] font-medium text-foreground-muted">Rata-rata Konversi</p>
+            <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400 sm:text-xl">{stats.avgConversion}%</p>
+          </div>
+        </div>
       </div>
 
       {/* Filter and Search Toolbar */}
-      <Card className="p-3.5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
-        <div className="w-full md:w-80">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+        <div className="w-full lg:w-80">
           <SearchInput
             placeholder={t("form.searchPlaceholder") || "Cari formulir atau slug..."}
             value={search}
@@ -177,34 +197,37 @@ export function FormsView() {
               setSearch("");
               setPage(1);
             }}
-            className="text-xs h-9"
+            className="text-xs h-9 w-full"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
-          {/* Type Filter Tabs */}
-          <Tabs
-            value={type}
-            onValueChange={(val) => {
-              setType(val as FormType | "ALL");
-              setPage(1);
-            }}
-          >
-            <TabsList className="h-9">
-              <TabsTrigger value="ALL" className="text-xs px-2.5">
-                Semua Tipe
-              </TabsTrigger>
-              <TabsTrigger value="STANDARD" className="text-xs px-2.5">
-                Standard
-              </TabsTrigger>
-              <TabsTrigger value="RESERVATION" className="text-xs px-2.5">
-                Reservasi
-              </TabsTrigger>
-              <TabsTrigger value="LEAD" className="text-xs px-2.5">
-                Lead
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 w-full lg:w-auto">
+          {/* Type Filter Tabs with horizontal scroll on small devices */}
+          <div className="overflow-x-auto scrollbar-none pb-0.5 w-full sm:w-auto">
+            <Tabs
+              value={type}
+              onValueChange={(val) => {
+                setType(val as FormType | "ALL");
+                setPage(1);
+              }}
+              className="w-full sm:w-auto"
+            >
+              <TabsList className="h-9 w-full sm:w-auto justify-start shrink-0">
+                <TabsTrigger value="ALL" className="text-xs px-2.5">
+                  Semua Tipe
+                </TabsTrigger>
+                <TabsTrigger value="STANDARD" className="text-xs px-2.5">
+                  Standard
+                </TabsTrigger>
+                <TabsTrigger value="RESERVATION" className="text-xs px-2.5">
+                  Reservasi
+                </TabsTrigger>
+                <TabsTrigger value="LEAD" className="text-xs px-2.5">
+                  Lead
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
 
           {/* Status Filter */}
           <NativeSelect
@@ -222,7 +245,7 @@ export function FormsView() {
               else setIsActiveFilter(false);
               setPage(1);
             }}
-            wrapperClassName="w-[120px]"
+            wrapperClassName="w-full sm:w-36 shrink-0"
             className="text-xs h-9"
           >
             <NativeSelectOption value="ALL">Semua Status</NativeSelectOption>
@@ -230,11 +253,11 @@ export function FormsView() {
             <NativeSelectOption value="INACTIVE">Nonaktif</NativeSelectOption>
           </NativeSelect>
         </div>
-      </Card>
+      </div>
 
       {/* Forms Grid */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
@@ -243,7 +266,7 @@ export function FormsView() {
           ))}
         </div>
       ) : forms.length === 0 ? (
-        <Card className="border-dashed p-12 text-center flex flex-col items-center">
+        <Card className="border-dashed p-8 sm:p-12 text-center flex flex-col items-center">
           <FileSpreadsheet className="w-10 h-10 text-slate-300 dark:text-slate-700 mb-3" />
           <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">
             {t("form.emptyTitle") || "Belum Ada Formulir"}
@@ -252,13 +275,13 @@ export function FormsView() {
             {t("form.emptyDescription") ||
               "Buat formulir pertama Anda untuk mulai mengumpulkan leads, pesanan, atau pendaftaran otomatis via WhatsApp."}
           </p>
-          <Button onClick={handleCreateNew} size="sm" className="gap-2">
+          <Button onClick={handleCreateNew} size="sm" className="gap-2 w-full sm:w-auto">
             <Plus className="w-4 h-4" />
             {t("form.createNewButton") || "Buat Formulir Sekarang"}
           </Button>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
           {forms.map((f) => (
             <FormCard
               key={f.id}
@@ -277,15 +300,15 @@ export function FormsView() {
       {totalPages > 1 && (
         <div>
           <Separator className="my-4" />
-          <div className="flex items-center justify-between text-xs">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <span className="text-slate-500">
               Halaman {page} dari {totalPages} ({total} formulir)
             </span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 w-full sm:w-auto justify-end">
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 text-xs"
+                className="h-8 text-xs flex-1 sm:flex-none"
                 disabled={page <= 1}
                 onClick={() => setPage(page - 1)}
               >
@@ -294,7 +317,7 @@ export function FormsView() {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 text-xs"
+                className="h-8 text-xs flex-1 sm:flex-none"
                 disabled={page >= totalPages}
                 onClick={() => setPage(page + 1)}
               >

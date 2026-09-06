@@ -174,13 +174,13 @@ export function FormCard({
             type="button"
             variant="secondary"
             size="sm"
-            className="flex-1 h-8 text-xs font-medium"
+            className="flex-1 h-8 text-xs font-medium min-w-0"
             onClick={() => onViewSubmissions(form)}
           >
-            <Inbox className="h-3.5 w-3.5 mr-1.5" />
-            {t("form.viewSubmissions") || "Lihat Respons"}
+            <Inbox className="h-3.5 w-3.5 mr-1.5 shrink-0" />
+            <span className="truncate">{t("form.viewSubmissions") || "Lihat Respons"}</span>
             {form.submissionCount > 0 && (
-              <Badge variant="outline" className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary">
+              <Badge variant="outline" className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary shrink-0">
                 {form.submissionCount}
               </Badge>
             )}
@@ -190,7 +190,7 @@ export function FormCard({
             type="button"
             variant="outline"
             size="icon"
-            className="h-8 w-8 text-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
+            className="h-8 w-8 shrink-0 text-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
             onClick={() => onEdit(form)}
             title={t("common.edit") || "Edit"}
           >
@@ -201,7 +201,7 @@ export function FormCard({
             type="button"
             variant="outline"
             size="icon"
-            className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+            className="h-8 w-8 shrink-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40"
             onClick={() => onDelete(form)}
             title={t("common.delete") || "Hapus"}
           >

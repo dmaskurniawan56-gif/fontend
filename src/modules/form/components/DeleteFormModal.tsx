@@ -45,7 +45,7 @@ export function DeleteFormModal({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <AlertDialogContent className="sm:max-w-[420px]">
+      <AlertDialogContent className="sm:max-w-105">
         <AlertDialogHeader>
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-destructive">

@@ -344,10 +344,11 @@ export function FormBuilderModal({
             {/* Type & Active */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div className="space-y-1.5">
-                <Label className="text-xs font-medium">
+                <Label htmlFor="form-type" className="text-xs font-medium">
                   {t("form.fieldType") || "Tipe / Tujuan Formulir"}
                 </Label>
                 <NativeSelect
+                  id="form-type"
                   value={type}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     setType(e.target.value as FormType)
@@ -445,10 +446,11 @@ export function FormBuilderModal({
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <div className="sm:col-span-2 space-y-1">
-                        <Label className="text-[11px] font-medium">
+                        <Label htmlFor={`f-label-${idx}`} className="text-[11px] font-medium">
                           Label Pertanyaan
                         </Label>
                         <Input
+                          id={`f-label-${idx}`}
                           value={f.label}
                           onChange={(e) => handleUpdateField(idx, "label", e.target.value)}
                           placeholder="Contoh: Pilih Lokasi"
@@ -457,10 +459,11 @@ export function FormBuilderModal({
                         />
                       </div>
                       <div className="space-y-1">
-                        <Label className="text-[11px] font-medium">
+                        <Label htmlFor={`f-type-${idx}`} className="text-[11px] font-medium">
                           Tipe Input
                         </Label>
                         <NativeSelect
+                          id={`f-type-${idx}`}
                           value={f.fieldType}
                           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                             handleUpdateField(idx, "fieldType", e.target.value as FormFieldType)
@@ -479,7 +482,7 @@ export function FormBuilderModal({
                     {/* Field key (name) & Required */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
                       <div className="sm:col-span-2 space-y-1">
-                        <Label className="text-[11px] font-medium flex items-center gap-1">
+                        <Label htmlFor={`f-name-${idx}`} className="text-[11px] font-medium flex items-center gap-1">
                           Kunci Data (Field Name)
                           <Tooltip>
                             <TooltipTrigger
@@ -493,6 +496,7 @@ export function FormBuilderModal({
                           </Tooltip>
                         </Label>
                         <Input
+                          id={`f-name-${idx}`}
                           value={f.name}
                           onChange={(e) =>
                             handleUpdateField(
@@ -521,10 +525,11 @@ export function FormBuilderModal({
                     {/* Select options editor */}
                     {f.fieldType === "select" && (
                       <div className="space-y-1 pt-1">
-                        <Label className="text-[11px] font-medium">
+                        <Label htmlFor={`f-opts-${idx}`} className="text-[11px] font-medium">
                           Pilihan Dropdown (Pisahkan dengan koma)
                         </Label>
                         <Input
+                          id={`f-opts-${idx}`}
                           value={f.options?.join(", ") || ""}
                           onChange={(e) =>
                             handleUpdateField(

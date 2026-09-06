@@ -83,7 +83,7 @@ export function AddReservationForm({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[480px]">
+      <DialogContent className="sm:max-w-120">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base sm:text-lg font-bold">
             <CalendarIcon className="size-5 text-emerald-600" />

@@ -15,6 +15,8 @@ import {
   FileText,
 } from "lucide-react";
 import { Form, FormType } from "../types/form.types";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -35,19 +37,19 @@ const getTypeBadge = (type: FormType) => {
       return {
         label: "Reservasi",
         icon: <Calendar className="w-3 h-3 mr-1" />,
-        className: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800",
+        variant: "success" as const,
       };
     case "LEAD":
       return {
         label: "Lead Capture",
         icon: <UserPlus className="w-3 h-3 mr-1" />,
-        className: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800",
+        variant: "warning" as const,
       };
     default:
       return {
         label: "Standard",
         icon: <FileText className="w-3 h-3 mr-1" />,
-        className: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800",
+        variant: "info" as const,
       };
   }
 };
@@ -70,11 +72,11 @@ export function FormCard({
       : "0.0";
 
   return (
-    <div className="flex flex-col justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition-shadow duration-200 p-5">
+    <Card className="flex flex-col justify-between p-5 hover:shadow-md transition-shadow duration-200">
       <div>
         {/* Top Header: Badge & Status Switch */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <Badge variant="outline" className={`text-xs font-medium px-2 py-0.5 flex items-center ${typeBadge.className}`}>
+          <Badge variant={typeBadge.variant} className="text-xs font-medium px-2 py-0.5 flex items-center">
             {typeBadge.icon}
             {typeBadge.label}
           </Badge>
@@ -165,45 +167,48 @@ export function FormCard({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="flex-1 h-8 text-xs font-medium"
-          onClick={() => onViewSubmissions(form)}
-        >
-          <Inbox className="h-3.5 w-3.5 mr-1.5" />
-          {t("form.viewSubmissions") || "Lihat Respons"}
-          {form.submissionCount > 0 && (
-            <span className="ml-1.5 px-1.5 py-0.2 bg-primary/10 text-primary rounded-full text-[10px] font-bold">
-              {form.submissionCount}
-            </span>
-          )}
-        </Button>
+      <div>
+        <Separator className="mb-3" />
+        <div className="flex items-center justify-between gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="flex-1 h-8 text-xs font-medium"
+            onClick={() => onViewSubmissions(form)}
+          >
+            <Inbox className="h-3.5 w-3.5 mr-1.5" />
+            {t("form.viewSubmissions") || "Lihat Respons"}
+            {form.submissionCount > 0 && (
+              <Badge variant="outline" className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary">
+                {form.submissionCount}
+              </Badge>
+            )}
+          </Button>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          className="h-8 w-8 text-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
-          onClick={() => onEdit(form)}
-          title={t("common.edit") || "Edit"}
-        >
-          <Pencil className="h-3.5 w-3.5" />
-        </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 text-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
+            onClick={() => onEdit(form)}
+            title={t("common.edit") || "Edit"}
+          >
+            <Pencil className="h-3.5 w-3.5" />
+          </Button>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40"
-          onClick={() => onDelete(form)}
-          title={t("common.delete") || "Hapus"}
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+            onClick={() => onDelete(form)}
+            title={t("common.delete") || "Hapus"}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 }

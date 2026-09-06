@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Trash2, Loader2 } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { Form } from "../types/form.types";
@@ -32,7 +33,8 @@ export function DeleteFormModal({
 
   if (!form) return null;
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsDeleting(true);
     const success = await onConfirm(form.id);
     setIsDeleting(false);
@@ -42,58 +44,69 @@ export function DeleteFormModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader>
-          <div className="flex items-center gap-2.5 text-rose-600 mb-1">
-            <div className="p-2 rounded-full bg-rose-100 dark:bg-rose-950/50">
-              <AlertTriangle className="h-5 w-5" />
+    <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialogContent className="sm:max-w-[420px]">
+        <AlertDialogHeader>
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-destructive/10 text-destructive">
+              <AlertTriangle className="size-5" />
             </div>
-            <DialogTitle className="text-base sm:text-lg">
-              {t("form.deleteTitle") || "Hapus Formulir"}
-            </DialogTitle>
+            <div>
+              <AlertDialogTitle className="text-base font-bold text-foreground">
+                {t("form.deleteTitle") || "Hapus Formulir"}
+              </AlertDialogTitle>
+              <p className="text-xs text-foreground-muted">
+                {t("form.deleteIrreversible") || "Tindakan ini tidak dapat dibatalkan"}
+              </p>
+            </div>
           </div>
-          <DialogDescription className="text-xs text-slate-600 dark:text-slate-400 pt-2 leading-relaxed">
+          <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
             {t("form.deleteConfirmPrompt") ||
               "Apakah Anda yakin ingin menghapus formulir"}{" "}
-            <strong className="text-slate-900 dark:text-slate-100">
-              {form.title}
+            <strong className="font-semibold text-foreground">
+              &ldquo;{form.title}&rdquo;
             </strong>{" "}
             (/{form.slug})?
             <br />
             <br />
-            <span className="text-rose-600 dark:text-rose-400 font-medium">
+            <span className="text-destructive font-medium">
               {t("form.deleteWarning") ||
                 "Perhatian: Tautan publik tidak akan dapat diakses lagi. Data respons yang tersimpan akan ikut terhapus."}
             </span>
-          </DialogDescription>
-        </DialogHeader>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-        <DialogFooter className="mt-4 flex items-center justify-end gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
+        <AlertDialogFooter className="mt-4 flex items-center justify-end gap-2">
+          <AlertDialogCancel
             onClick={onClose}
             disabled={isDeleting}
-            className="text-xs"
+            size="sm"
+            className="rounded-xl cursor-pointer"
           >
             {t("common.cancel") || "Batal"}
-          </Button>
+          </AlertDialogCancel>
           <Button
             type="button"
             variant="destructive"
             size="sm"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="text-xs"
+            className="rounded-xl cursor-pointer"
           >
-            {isDeleting
-              ? t("common.deleting") || "Menghapus..."
-              : t("common.delete") || "Hapus Formulir"}
+            {isDeleting ? (
+              <>
+                <Loader2 className="size-3.5 animate-spin" />
+                {t("common.deleting") || "Menghapus..."}
+              </>
+            ) : (
+              <>
+                <Trash2 className="size-3.5" />
+                {t("common.delete") || "Hapus Formulir"}
+              </>
+            )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

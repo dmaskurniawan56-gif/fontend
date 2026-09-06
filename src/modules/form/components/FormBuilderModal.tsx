@@ -20,6 +20,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   NativeSelect,
   NativeSelectOption,
@@ -301,9 +308,9 @@ export function FormBuilderModal({
             {/* Title & Slug */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label htmlFor="form-title" className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                <Label htmlFor="form-title" className="text-xs font-medium">
                   {t("form.fieldTitle") || "Judul Formulir"} *
-                </label>
+                </Label>
                 <Input
                   id="form-title"
                   placeholder="Contoh: Pendaftaran Workshop Bisnis"
@@ -315,9 +322,9 @@ export function FormBuilderModal({
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="form-slug" className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                <Label htmlFor="form-slug" className="text-xs font-medium">
                   {t("form.fieldSlug") || "URL Slug Publik"} *
-                </label>
+                </Label>
                 <div className="flex items-center rounded-md border border-slate-200 dark:border-slate-800 px-3 bg-slate-50 dark:bg-slate-900">
                   <span className="text-xs text-slate-400 select-none">/f/</span>
                   <input
@@ -337,9 +344,9 @@ export function FormBuilderModal({
             {/* Type & Active */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                <Label className="text-xs font-medium">
                   {t("form.fieldType") || "Tipe / Tujuan Formulir"}
-                </label>
+                </Label>
                 <NativeSelect
                   value={type}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -376,9 +383,9 @@ export function FormBuilderModal({
 
             {/* Description */}
             <div className="space-y-1.5">
-              <label htmlFor="form-desc" className="text-xs font-medium text-slate-700 dark:text-slate-300">
+              <Label htmlFor="form-desc" className="text-xs font-medium">
                 {t("form.fieldDescription") || "Deskripsi Singkat (Opsional)"}
-              </label>
+              </Label>
               <Textarea
                 id="form-desc"
                 placeholder="Penjelasan ringkas tentang formulir ini..."
@@ -390,7 +397,8 @@ export function FormBuilderModal({
             </div>
 
             {/* Form Fields Builder */}
-            <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
+            <div>
+              <Separator className="my-3" />
               <div className="flex items-center justify-between mb-2.5">
                 <div>
                   <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
@@ -437,9 +445,9 @@ export function FormBuilderModal({
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <div className="sm:col-span-2 space-y-1">
-                        <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
+                        <Label className="text-[11px] font-medium">
                           Label Pertanyaan
-                        </label>
+                        </Label>
                         <Input
                           value={f.label}
                           onChange={(e) => handleUpdateField(idx, "label", e.target.value)}
@@ -449,9 +457,9 @@ export function FormBuilderModal({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
+                        <Label className="text-[11px] font-medium">
                           Tipe Input
-                        </label>
+                        </Label>
                         <NativeSelect
                           value={f.fieldType}
                           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -471,12 +479,19 @@ export function FormBuilderModal({
                     {/* Field key (name) & Required */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
                       <div className="sm:col-span-2 space-y-1">
-                        <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                        <Label className="text-[11px] font-medium flex items-center gap-1">
                           Kunci Data (Field Name)
-                          <span title="Kunci data dipakai untuk otomatisasi kalender / integrasi webhook">
-                            <HelpCircle className="w-3 h-3 text-slate-400" />
-                          </span>
-                        </label>
+                          <Tooltip>
+                            <TooltipTrigger
+                              render={<span className="cursor-help inline-flex items-center" />}
+                            >
+                              <HelpCircle className="w-3 h-3 text-slate-400" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              Kunci data dipakai untuk otomatisasi kalender / integrasi webhook
+                            </TooltipContent>
+                          </Tooltip>
+                        </Label>
                         <Input
                           value={f.name}
                           onChange={(e) =>
@@ -497,18 +512,18 @@ export function FormBuilderModal({
                           onCheckedChange={(val) => handleUpdateField(idx, "required", val)}
                           id={`req-${idx}`}
                         />
-                        <label htmlFor={`req-${idx}`} className="text-xs font-medium cursor-pointer text-slate-700 dark:text-slate-300">
+                        <Label htmlFor={`req-${idx}`} className="text-xs font-medium cursor-pointer">
                           Wajib Diisi
-                        </label>
+                        </Label>
                       </div>
                     </div>
 
                     {/* Select options editor */}
                     {f.fieldType === "select" && (
                       <div className="space-y-1 pt-1">
-                        <label className="text-[11px] font-medium text-slate-700 dark:text-slate-300">
+                        <Label className="text-[11px] font-medium">
                           Pilihan Dropdown (Pisahkan dengan koma)
-                        </label>
+                        </Label>
                         <Input
                           value={f.options?.join(", ") || ""}
                           onChange={(e) =>
@@ -529,31 +544,34 @@ export function FormBuilderModal({
             </div>
 
             {/* Post-submit behavior */}
-            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
-              <div className="space-y-1.5">
-                <label htmlFor="success-msg" className="text-xs font-medium text-slate-700 dark:text-slate-300">
-                  {t("form.fieldSuccessMsg") || "Pesan Sukses Setelah Kirim"}
-                </label>
-                <Input
-                  id="success-msg"
-                  value={successMessage}
-                  onChange={(e) => setSuccessMessage(e.target.value)}
-                  placeholder="Terima kasih, data Anda telah berhasil terkirim!"
-                  className="text-sm"
-                />
-              </div>
+            <div>
+              <Separator className="my-3" />
+              <div className="space-y-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="success-msg" className="text-xs font-medium">
+                    {t("form.fieldSuccessMsg") || "Pesan Sukses Setelah Kirim"}
+                  </Label>
+                  <Input
+                    id="success-msg"
+                    value={successMessage}
+                    onChange={(e) => setSuccessMessage(e.target.value)}
+                    placeholder="Terima kasih, data Anda telah berhasil terkirim!"
+                    className="text-sm"
+                  />
+                </div>
 
-              <div className="space-y-1.5">
-                <label htmlFor="redirect-url" className="text-xs font-medium text-slate-700 dark:text-slate-300">
-                  {t("form.fieldRedirectUrl") || "URL Pengalihan / Redirect (Opsional)"}
-                </label>
-                <Input
-                  id="redirect-url"
-                  value={redirectUrl}
-                  onChange={(e) => setRedirectUrl(e.target.value)}
-                  placeholder="https://tokoanda.com/terima-kasih"
-                  className="text-sm"
-                />
+                <div className="space-y-1.5">
+                  <Label htmlFor="redirect-url" className="text-xs font-medium">
+                    {t("form.fieldRedirectUrl") || "URL Pengalihan / Redirect (Opsional)"}
+                  </Label>
+                  <Input
+                    id="redirect-url"
+                    value={redirectUrl}
+                    onChange={(e) => setRedirectUrl(e.target.value)}
+                    placeholder="https://tokoanda.com/terima-kasih"
+                    className="text-sm"
+                  />
+                </div>
               </div>
             </div>
           </div>

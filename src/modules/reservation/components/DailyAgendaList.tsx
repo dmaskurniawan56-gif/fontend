@@ -13,6 +13,8 @@ import {
   Calendar as CalendarIcon,
   ChevronDown,
 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SearchInput } from "@/components/ui/search-input";
@@ -23,7 +25,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import { Reservation, ReservationStatus } from "../types/reservation.types";
 
@@ -66,25 +67,25 @@ export function DailyAgendaList({
     switch (resStatus) {
       case "CONFIRMED":
         return (
-          <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800 text-xs">
+          <Badge variant="success" className="text-xs">
             {t("reservation.statusConfirmed") || "Terkonfirmasi"}
           </Badge>
         );
       case "COMPLETED":
         return (
-          <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800 text-xs">
+          <Badge variant="info" className="text-xs">
             {t("reservation.statusCompleted") || "Selesai"}
           </Badge>
         );
       case "CANCELLED":
         return (
-          <Badge className="bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800 text-xs">
+          <Badge variant="danger" className="text-xs">
             {t("reservation.statusCancelled") || "Dibatalkan"}
           </Badge>
         );
       case "NO_SHOW":
         return (
-          <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-200 dark:border-amber-800 text-xs">
+          <Badge variant="warning" className="text-xs">
             {t("reservation.statusNoShow") || "Tidak Hadir"}
           </Badge>
         );
@@ -94,9 +95,9 @@ export function DailyAgendaList({
   };
 
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-5 flex flex-col gap-4">
+    <Card className="p-4 sm:p-5 flex flex-col gap-4">
       {/* Title & Filter Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h3 className="font-semibold text-base sm:text-lg text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <CalendarIcon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
@@ -119,6 +120,8 @@ export function DailyAgendaList({
           </Button>
         </div>
       </div>
+
+      <Separator />
 
       {/* Search and Status Dropdown */}
       <div className="flex flex-col sm:flex-row gap-2">
@@ -276,32 +279,35 @@ export function DailyAgendaList({
 
       {/* Pagination Footer */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
-          <span>
-            {t("common.page") || "Halaman"} {page} {t("common.of") || "dari"} {totalPages}
-          </span>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(page - 1)}
-              disabled={page <= 1 || isLoading}
-              className="h-8 px-2.5 text-xs"
-            >
-              {t("common.prev") || "Sebelumnya"}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onPageChange(page + 1)}
-              disabled={page >= totalPages || isLoading}
-              className="h-8 px-2.5 text-xs"
-            >
-              {t("common.next") || "Selanjutnya"}
-            </Button>
+        <>
+          <Separator />
+          <div className="flex items-center justify-between text-xs text-slate-500">
+            <span>
+              {t("common.page") || "Halaman"} {page} {t("common.of") || "dari"} {totalPages}
+            </span>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onPageChange(page - 1)}
+                disabled={page <= 1 || isLoading}
+                className="h-8 px-2.5 text-xs"
+              >
+                {t("common.prev") || "Sebelumnya"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onPageChange(page + 1)}
+                disabled={page >= totalPages || isLoading}
+                className="h-8 px-2.5 text-xs"
+              >
+                {t("common.next") || "Selanjutnya"}
+              </Button>
+            </div>
           </div>
-        </div>
+        </>
       )}
-    </div>
+    </Card>
   );
 }

@@ -40,7 +40,6 @@ const mapBackendForm = (f: any): Form => {
     };
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rawFields = Array.isArray(f.fields) ? f.fields : [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fields = rawFields.map((field: any) => ({
@@ -207,7 +206,6 @@ export const formApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(`${API_BASE}/forms/public/${encodeURIComponent(slug)}`);
     const p = res.payload || res;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rawFields = Array.isArray(p.fields) ? p.fields : [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fields = rawFields.map((field: any) => ({

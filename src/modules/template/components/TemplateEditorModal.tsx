@@ -32,7 +32,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 interface TemplateEditorModalProps {
@@ -365,6 +364,8 @@ function TemplateEditorContent({
           >
             <div className="w-full max-w-sm">
               <WhatsAppPhoneMockup
+                name={name}
+                category={category}
                 content={content}
                 mediaType={mediaType}
                 mediaUrl={mediaUrl}

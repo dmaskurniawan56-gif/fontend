@@ -100,13 +100,12 @@ const mapBackendReminderRule = (rule: any): ReminderRule => {
     deviceId: rule.device_id || rule.deviceId || "",
     sendTime: rule.send_time || rule.sendTime || "09:00",
     showInChat: rule.show_in_chat ?? rule.showInChat ?? true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rules: Array.isArray(items)
-      ? items.map((i: any) => ({
+      ? items.map((i: Record<string, unknown>) => ({
           daysOffset: Number(i.days_offset ?? i.daysOffset ?? 0),
-          name: i.name || "",
+          name: (i.name as string) || "",
           isEnabled: Boolean(i.is_enabled ?? i.isEnabled ?? false),
-          template: i.template || "",
+          template: (i.template as string) || "",
         }))
       : [],
     createdAt: rule.created_at || rule.createdAt,

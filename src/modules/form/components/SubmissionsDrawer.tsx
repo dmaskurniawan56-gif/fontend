@@ -20,6 +20,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,17 +43,17 @@ const getStatusBadge = (status: SubmissionStatus) => {
     case "PROCESSED":
       return {
         label: "Diproses",
-        className: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300",
+        variant: "success" as const,
       };
     case "ARCHIVED":
       return {
         label: "Diarsipkan",
-        className: "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300",
+        variant: "secondary" as const,
       };
     default:
       return {
         label: "Menunggu (Pending)",
-        className: "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300",
+        variant: "warning" as const,
       };
   }
 };
@@ -94,7 +96,7 @@ export function SubmissionsDrawer({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[850px] max-h-[90vh] flex flex-col p-6">
-        <DialogHeader className="border-b border-slate-100 dark:border-slate-800 pb-3">
+        <DialogHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-primary/10 text-primary">
@@ -112,8 +114,10 @@ export function SubmissionsDrawer({
           </div>
         </DialogHeader>
 
+        <Separator />
+
         {/* Filter & Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
             <Input
@@ -127,29 +131,28 @@ export function SubmissionsDrawer({
             />
           </div>
 
-          <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto">
-            {(["ALL", "PENDING", "PROCESSED", "ARCHIVED"] as const).map((st) => (
-              <Button
-                key={st}
-                type="button"
-                variant={status === st ? "default" : "outline"}
-                size="sm"
-                className="h-7 text-[11px] px-2.5 shrink-0"
-                onClick={() => {
-                  setStatus(st);
-                  setPage(1);
-                }}
-              >
-                {st === "ALL"
-                  ? "Semua"
-                  : st === "PENDING"
-                  ? "Pending"
-                  : st === "PROCESSED"
-                  ? "Diproses"
-                  : "Arsip"}
-              </Button>
-            ))}
-          </div>
+          <Tabs
+            value={status}
+            onValueChange={(val) => {
+              setStatus(val as SubmissionStatus | "ALL");
+              setPage(1);
+            }}
+          >
+            <TabsList className="h-8">
+              <TabsTrigger value="ALL" className="text-xs px-2.5">
+                Semua
+              </TabsTrigger>
+              <TabsTrigger value="PENDING" className="text-xs px-2.5">
+                Pending
+              </TabsTrigger>
+              <TabsTrigger value="PROCESSED" className="text-xs px-2.5">
+                Diproses
+              </TabsTrigger>
+              <TabsTrigger value="ARCHIVED" className="text-xs px-2.5">
+                Arsip
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
         {/* Submissions List Body */}
@@ -189,7 +192,7 @@ export function SubmissionsDrawer({
                         <span className="font-semibold text-slate-900 dark:text-slate-100 text-sm">
                           {sub.respondentName}
                         </span>
-                        <Badge variant="outline" className={`text-[10px] py-0 px-2 font-medium ${badge.className}`}>
+                        <Badge variant={badge.variant} className="text-[10px] py-0 px-2 font-medium">
                           {badge.label}
                         </Badge>
                       </div>
@@ -263,7 +266,8 @@ export function SubmissionsDrawer({
 
                   {/* Expanded Detail View */}
                   {isExpanded && (
-                    <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 rounded-md p-3">
+                    <div className="mt-3 bg-slate-50 dark:bg-slate-800/40 rounded-md p-3">
+                      <Separator className="mb-2.5" />
                       <h5 className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                         Jawaban Pertanyaan:
                       </h5>
@@ -306,29 +310,32 @@ export function SubmissionsDrawer({
 
         {/* Pagination Footer */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
-            <span className="text-slate-500">
-              Halaman {page} dari {totalPages}
-            </span>
-            <div className="flex items-center gap-1.5">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-7 text-xs"
-                disabled={page <= 1}
-                onClick={() => setPage(page - 1)}
-              >
-                Sebelumnya
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-7 text-xs"
-                disabled={page >= totalPages}
-                onClick={() => setPage(page + 1)}
-              >
-                Berikutnya
-              </Button>
+          <div>
+            <Separator className="mb-3" />
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-slate-500">
+                Halaman {page} dari {totalPages}
+              </span>
+              <div className="flex items-center gap-1.5">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs"
+                  disabled={page <= 1}
+                  onClick={() => setPage(page - 1)}
+                >
+                  Sebelumnya
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage(page + 1)}
+                >
+                  Berikutnya
+                </Button>
+              </div>
             </div>
           </div>
         )}

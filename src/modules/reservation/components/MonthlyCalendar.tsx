@@ -2,6 +2,8 @@
 
 import React, { useMemo } from "react";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -142,7 +144,7 @@ export function MonthlyCalendar({
   };
 
   return (
-    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-5 flex flex-col gap-4">
+    <Card className="p-4 sm:p-5 flex flex-col gap-4">
       {/* Calendar Header Navigation */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -210,8 +212,10 @@ export function MonthlyCalendar({
         </div>
       )}
 
+      <Separator />
+
       {/* Weekday Labels */}
-      <div className="grid grid-cols-7 gap-1 text-center font-medium text-xs text-slate-500 dark:text-slate-400 pb-1 border-b border-slate-100 dark:border-slate-800">
+      <div className="grid grid-cols-7 gap-1 text-center font-medium text-xs text-slate-500 dark:text-slate-400 pb-1">
         {weekdays.map((day) => (
           <div key={day} className="py-1">
             {day}
@@ -286,6 +290,6 @@ export function MonthlyCalendar({
           {t("common.loading") || "Memuat kalender..."}
         </div>
       )}
-    </div>
+    </Card>
   );
 }

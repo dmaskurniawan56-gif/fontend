@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Loader2, Trash2 } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { Reservation } from "../types/reservation.types";
@@ -32,7 +33,8 @@ export function DeleteReservationModal({
 
   if (!reservation) return null;
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsDeleting(true);
     const success = await onConfirm(reservation.id, reservation.customerName);
     setIsDeleting(false);
@@ -42,58 +44,64 @@ export function DeleteReservationModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader>
-          <div className="flex items-center gap-2.5 text-rose-600 mb-1">
-            <div className="p-2 rounded-full bg-rose-100 dark:bg-rose-950/50">
-              <AlertTriangle className="h-5 w-5" />
+    <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialogContent className="sm:max-w-[420px]">
+        <AlertDialogHeader>
+          <div className="flex items-center gap-2.5 text-destructive mb-1">
+            <div className="p-2 rounded-full bg-destructive/10">
+              <AlertTriangle className="size-5" />
             </div>
-            <DialogTitle className="text-base sm:text-lg">
+            <AlertDialogTitle className="text-base font-bold text-foreground sm:text-lg">
               {t("reservation.deleteTitle") || "Hapus Jadwal Reservasi"}
-            </DialogTitle>
+            </AlertDialogTitle>
           </div>
-          <DialogDescription className="text-xs text-slate-600 dark:text-slate-400 pt-2 leading-relaxed">
+          <AlertDialogDescription className="text-xs text-foreground-secondary pt-2 leading-relaxed">
             {t("reservation.deleteConfirmPrompt") ||
               "Apakah Anda yakin ingin menghapus reservasi untuk"}{" "}
-            <strong className="text-slate-900 dark:text-slate-100">
+            <strong className="text-foreground font-semibold">
               {reservation.customerName}
             </strong>{" "}
             ({reservation.bookingDate})?
             <br />
             <br />
-            <span className="text-rose-600 dark:text-rose-400 font-medium">
+            <span className="text-destructive font-medium">
               {t("reservation.deleteWarning") ||
                 "Perhatian: Pengingat otomatis (Reminder) terkait reservasi ini juga akan dibatalkan."}
             </span>
-          </DialogDescription>
-        </DialogHeader>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-        <DialogFooter className="mt-4 flex items-center justify-end gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
+        <AlertDialogFooter className="mt-4 flex items-center justify-end gap-2">
+          <AlertDialogCancel
             onClick={onClose}
             disabled={isDeleting}
-            className="text-xs"
+            size="sm"
+            className="rounded-xl cursor-pointer"
           >
             {t("common.cancel") || "Batal"}
-          </Button>
+          </AlertDialogCancel>
           <Button
             type="button"
             variant="destructive"
             size="sm"
             onClick={handleDelete}
             disabled={isDeleting}
-            className="text-xs"
+            className="rounded-xl cursor-pointer"
           >
-            {isDeleting
-              ? t("common.deleting") || "Menghapus..."
-              : t("common.delete") || "Hapus Reservasi"}
+            {isDeleting ? (
+              <>
+                <Loader2 className="size-3.5 animate-spin" />
+                <span>{t("common.deleting") || "Menghapus..."}</span>
+              </>
+            ) : (
+              <>
+                <Trash2 className="size-3.5" />
+                <span>{t("common.delete") || "Hapus Reservasi"}</span>
+              </>
+            )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

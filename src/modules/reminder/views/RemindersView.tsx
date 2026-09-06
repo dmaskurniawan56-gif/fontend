@@ -10,9 +10,11 @@ import { DeliveryRulesCard } from "../components/DeliveryRulesCard";
 import { ReminderTable } from "../components/ReminderTable";
 import { ReminderLogsTable } from "../components/ReminderLogsTable";
 import { Reminder } from "../types/reminder.types";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  BellRing,
   RefreshCw,
   Calendar,
   Layers,
@@ -99,9 +101,9 @@ export function RemindersView() {
             <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
               Pengingat Otomatis WhatsApp
             </h1>
-            <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
+            <Badge variant="outline" className="text-primary border-primary/20 bg-primary/10">
               Modul 2: Pengingat
-            </span>
+            </Badge>
           </div>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
             Jadwalkan pengingat tanggal target, automasi pesan drip (H-1, Hari H, H+3), dan pantau audit pengiriman.
@@ -114,7 +116,7 @@ export function RemindersView() {
             size="sm"
             onClick={handleGlobalRefresh}
             disabled={isRemindersLoading || isLogsLoading}
-            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs"
+            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
             title="Muat Ulang Data"
           >
             <RefreshCw
@@ -130,7 +132,7 @@ export function RemindersView() {
             size="sm"
             onClick={dispatchNow}
             disabled={isDispatching}
-            className="h-9 gap-1.5 rounded-xl px-4 text-xs font-semibold shadow-xs"
+            className="h-9 gap-1.5 rounded-xl px-4 text-xs font-semibold shadow-xs cursor-pointer"
             title="Kirim semua pengingat yang jatuh tempo sekarang"
           >
             <Send className="size-3.5" />
@@ -142,17 +144,17 @@ export function RemindersView() {
       {/* Metrics Summary Cards */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {/* Total Reminders */}
-        <div className="rounded-2xl border border-border/70 bg-card p-4 shadow-xs">
+        <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
             <span className="text-xs font-medium">Total Jadwal</span>
             <Calendar className="size-4 text-primary" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-foreground">{stats.total}</div>
           <div className="mt-1 text-[11px] text-foreground-muted">Semua jadwal tersimpan</div>
-        </div>
+        </Card>
 
         {/* Active Reminders */}
-        <div className="rounded-2xl border border-border/70 bg-card p-4 shadow-xs">
+        <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
             <span className="text-xs font-medium">Jadwal Aktif</span>
             <CheckCircle2 className="size-4 text-emerald-500" />
@@ -161,10 +163,10 @@ export function RemindersView() {
             {stats.active}
           </div>
           <div className="mt-1 text-[11px] text-foreground-muted">Menunggu evaluasi cron</div>
-        </div>
+        </Card>
 
         {/* Paused Reminders */}
-        <div className="rounded-2xl border border-border/70 bg-card p-4 shadow-xs">
+        <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
             <span className="text-xs font-medium">Ditunda</span>
             <Pause className="size-4 text-amber-500" />
@@ -173,68 +175,44 @@ export function RemindersView() {
             {stats.paused}
           </div>
           <div className="mt-1 text-[11px] text-foreground-muted">Pengiriman dinonaktifkan</div>
-        </div>
+        </Card>
 
         {/* Total Logs Dispatched */}
-        <div className="rounded-2xl border border-border/70 bg-card p-4 shadow-xs">
+        <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">Riwayat Audit</span>
-            <History className="size-4 text-purple-500" />
+            <span className="text-xs font-medium">Total Terkirim</span>
+            <Clock className="size-4 text-purple-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-purple-600 dark:text-purple-400">
             {logsTotal}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">Total log eksekusi idempoten</div>
-        </div>
+          <div className="mt-1 text-[11px] text-foreground-muted">Pesan berhasil dikirim</div>
+        </Card>
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-border/50 pb-2">
-        <button
-          type="button"
-          onClick={() => setActiveTab("schedules")}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
-            activeTab === "schedules"
-              ? "bg-primary text-primary-foreground shadow-xs"
-              : "text-foreground-muted hover:bg-muted/50 hover:text-foreground"
-          }`}
-        >
-          <Calendar className="size-3.5" />
-          <span>Jadwal Pengingat</span>
-          <span className="rounded-full bg-background/20 px-1.5 py-0.2 text-[10px]">
-            {stats.total}
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab("rules")}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
-            activeTab === "rules"
-              ? "bg-primary text-primary-foreground shadow-xs"
-              : "text-foreground-muted hover:bg-muted/50 hover:text-foreground"
-          }`}
-        >
-          <Layers className="size-3.5" />
-          <span>Aturan Pengiriman & Drip</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab("logs")}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition ${
-            activeTab === "logs"
-              ? "bg-primary text-primary-foreground shadow-xs"
-              : "text-foreground-muted hover:bg-muted/50 hover:text-foreground"
-          }`}
-        >
-          <History className="size-3.5" />
-          <span>Riwayat Pengiriman</span>
-          <span className="rounded-full bg-background/20 px-1.5 py-0.2 text-[10px]">
-            {logsTotal}
-          </span>
-        </button>
-      </div>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
+        <TabsList className="h-10 p-1">
+          <TabsTrigger value="schedules" className="text-xs gap-2 px-3 py-1.5">
+            <Calendar className="size-3.5" />
+            <span>Jadwal Pengingat</span>
+            <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
+              {stats.total}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger value="rules" className="text-xs gap-2 px-3 py-1.5">
+            <Layers className="size-3.5" />
+            <span>Aturan Pengiriman & Drip</span>
+          </TabsTrigger>
+          <TabsTrigger value="logs" className="text-xs gap-2 px-3 py-1.5">
+            <History className="size-3.5" />
+            <span>Riwayat Pengiriman</span>
+            <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
+              {logsTotal}
+            </Badge>
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Tab Panels */}
       {activeTab === "schedules" && (
@@ -258,29 +236,25 @@ export function RemindersView() {
       )}
 
       {activeTab === "rules" && (
-        <div className="flex flex-col gap-6">
-          <DeliveryRulesCard
-            initialRule={rule}
-            onSave={updateRule}
-            isSaving={isSavingRules}
-          />
-        </div>
+        <DeliveryRulesCard
+          initialRule={rule}
+          onSave={updateRule}
+          isSaving={isSavingRules}
+        />
       )}
 
       {activeTab === "logs" && (
-        <div className="flex flex-col gap-6">
-          <ReminderLogsTable
-            logs={logs}
-            isLoading={isLogsLoading}
-            isDispatching={isDispatching}
-            page={logsPage}
-            totalPages={logsTotalPages}
-            total={logsTotal}
-            onPageChange={goToLogsPage}
-            onDispatchNow={dispatchNow}
-            onReload={reloadLogs}
-          />
-        </div>
+        <ReminderLogsTable
+          logs={logs}
+          isLoading={isLogsLoading}
+          isDispatching={isDispatching}
+          page={logsPage}
+          totalPages={logsTotalPages}
+          total={logsTotal}
+          onPageChange={goToLogsPage}
+          onDispatchNow={dispatchNow}
+          onReload={reloadLogs}
+        />
       )}
 
       {/* Delete Confirmation Modal */}

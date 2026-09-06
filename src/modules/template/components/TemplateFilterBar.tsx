@@ -3,7 +3,6 @@
 import React from "react";
 import { TemplateCategory } from "../types/template.types";
 import {
-  Search,
   Star,
   Flame,
   Info,
@@ -13,6 +12,9 @@ import {
   Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SearchInput } from "@/components/ui/search-input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface TemplateFilterBarProps {
   currentCategory: TemplateCategory | "ALL";
@@ -86,64 +88,62 @@ export function TemplateFilterBar({
   ];
 
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-surface/50 p-3 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       {/* Category Pills */}
       <div className="flex flex-wrap items-center gap-1.5">
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const isActive = currentCategory === cat.id;
           return (
-            <button
+            <Button
               key={cat.id}
               type="button"
+              variant={isActive ? "default" : "secondary"}
+              size="sm"
               onClick={() => onSelectCategory(cat.id)}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition cursor-pointer",
+                "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-xs shadow-primary/25"
-                  : "text-foreground-secondary hover:bg-muted/70 hover:text-foreground"
+                  ? "shadow-xs"
+                  : "text-foreground-secondary hover:text-foreground"
               )}
             >
               <Icon className="size-3.5" />
               <span>{cat.label}</span>
               {cat.count !== undefined && (
-                <span
-                  className={cn(
-                    "ml-0.5 rounded-full px-1.5 py-0.2 text-[10px] font-bold",
-                    isActive
-                      ? "bg-primary-foreground/20 text-primary-foreground"
-                      : "bg-muted text-foreground-muted"
-                  )}
+                <Badge
+                  variant={isActive ? "default" : "outline"}
+                  className="ml-0.5 h-4 px-1.5 text-[10px]"
                 >
                   {cat.count}
-                </span>
+                </Badge>
               )}
-            </button>
+            </Button>
           );
         })}
       </div>
 
       {/* Right Side: Search & Favorite Filter */}
       <div className="flex items-center gap-2">
-        <div className="relative min-w-[200px] flex-1 sm:w-64">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-foreground-muted" />
-          <input
-            type="text"
+        <div className="w-full sm:w-64">
+          <SearchInput
             value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={onSearchChange}
+            onSearch={onSearchChange}
+            onClear={() => onSearchChange("")}
             placeholder="Cari template..."
-            className="w-full rounded-xl border border-border/60 bg-background/80 py-1.5 pl-9 pr-3 text-xs text-foreground placeholder:text-foreground-muted/70 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+            className="h-8 text-xs rounded-xl"
           />
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="sm"
           onClick={onToggleFavoriteOnly}
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition cursor-pointer",
-            favoriteOnly
-              ? "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
-              : "border-border/60 text-foreground-secondary hover:bg-muted/60 hover:text-foreground"
+            "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
+            favoriteOnly && "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
           )}
           title="Filter hanya template favorit"
         >
@@ -154,7 +154,7 @@ export function TemplateFilterBar({
             )}
           />
           <span className="hidden sm:inline">Favorit</span>
-        </button>
+        </Button>
       </div>
     </div>
   );

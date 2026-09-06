@@ -3,14 +3,16 @@
 import React, { useState, useMemo } from "react";
 import {
   Plus,
-  Search,
   FileSpreadsheet,
   Eye,
   FileCheck2,
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { SearchInput } from "@/components/ui/search-input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   NativeSelect,
   NativeSelectOption,
@@ -116,7 +118,7 @@ export function FormsView() {
 
       {/* Overview Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <div className="flex items-center gap-2.5 text-slate-500 mb-1">
             <FileSpreadsheet className="w-4 h-4 text-primary" />
             <span className="text-xs font-medium">Total Formulir</span>
@@ -124,9 +126,9 @@ export function FormsView() {
           <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
             {stats.totalForms}
           </span>
-        </div>
+        </Card>
 
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <div className="flex items-center gap-2.5 text-slate-500 mb-1">
             <Eye className="w-4 h-4 text-blue-500" />
             <span className="text-xs font-medium">Total Dilihat (Views)</span>
@@ -134,9 +136,9 @@ export function FormsView() {
           <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">
             {stats.totalViews.toLocaleString()}
           </span>
-        </div>
+        </Card>
 
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <div className="flex items-center gap-2.5 text-slate-500 mb-1">
             <FileCheck2 className="w-4 h-4 text-emerald-500" />
             <span className="text-xs font-medium">Respons Terkumpul</span>
@@ -144,9 +146,9 @@ export function FormsView() {
           <span className="text-xl sm:text-2xl font-bold text-primary">
             {stats.totalSubmissions.toLocaleString()}
           </span>
-        </div>
+        </Card>
 
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm">
+        <Card className="p-4 shadow-sm">
           <div className="flex items-center gap-2.5 text-slate-500 mb-1">
             <TrendingUp className="w-4 h-4 text-emerald-600" />
             <span className="text-xs font-medium">Rata-rata Konversi</span>
@@ -154,40 +156,55 @@ export function FormsView() {
           <span className="text-xl sm:text-2xl font-bold text-emerald-600 dark:text-emerald-400">
             {stats.avgConversion}%
           </span>
-        </div>
+        </Card>
       </div>
 
       {/* Filter and Search Toolbar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-          <Input
+      <Card className="p-3.5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="w-full md:w-80">
+          <SearchInput
             placeholder={t("form.searchPlaceholder") || "Cari formulir atau slug..."}
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
+            onChange={(val) => {
+              setSearch(val);
               setPage(1);
             }}
-            className="pl-9 text-xs h-9"
+            onSearch={(val) => {
+              setSearch(val);
+              setPage(1);
+            }}
+            onClear={() => {
+              setSearch("");
+              setPage(1);
+            }}
+            className="text-xs h-9"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          {/* Type Filter */}
-          <NativeSelect
+        <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+          {/* Type Filter Tabs */}
+          <Tabs
             value={type}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              setType(e.target.value as FormType | "ALL");
+            onValueChange={(val) => {
+              setType(val as FormType | "ALL");
               setPage(1);
             }}
-            wrapperClassName="w-[140px]"
-            className="text-xs h-9"
           >
-            <NativeSelectOption value="ALL">Semua Tipe</NativeSelectOption>
-            <NativeSelectOption value="STANDARD">Standard</NativeSelectOption>
-            <NativeSelectOption value="RESERVATION">Reservasi</NativeSelectOption>
-            <NativeSelectOption value="LEAD">Lead Capture</NativeSelectOption>
-          </NativeSelect>
+            <TabsList className="h-9">
+              <TabsTrigger value="ALL" className="text-xs px-2.5">
+                Semua Tipe
+              </TabsTrigger>
+              <TabsTrigger value="STANDARD" className="text-xs px-2.5">
+                Standard
+              </TabsTrigger>
+              <TabsTrigger value="RESERVATION" className="text-xs px-2.5">
+                Reservasi
+              </TabsTrigger>
+              <TabsTrigger value="LEAD" className="text-xs px-2.5">
+                Lead
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
 
           {/* Status Filter */}
           <NativeSelect
@@ -205,7 +222,7 @@ export function FormsView() {
               else setIsActiveFilter(false);
               setPage(1);
             }}
-            wrapperClassName="w-[130px]"
+            wrapperClassName="w-[120px]"
             className="text-xs h-9"
           >
             <NativeSelectOption value="ALL">Semua Status</NativeSelectOption>
@@ -213,7 +230,7 @@ export function FormsView() {
             <NativeSelectOption value="INACTIVE">Nonaktif</NativeSelectOption>
           </NativeSelect>
         </div>
-      </div>
+      </Card>
 
       {/* Forms Grid */}
       {isLoading ? (
@@ -226,12 +243,12 @@ export function FormsView() {
           ))}
         </div>
       ) : forms.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-12 text-center">
-          <FileSpreadsheet className="w-10 h-10 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
+        <Card className="border-dashed p-12 text-center flex flex-col items-center">
+          <FileSpreadsheet className="w-10 h-10 text-slate-300 dark:text-slate-700 mb-3" />
           <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">
             {t("form.emptyTitle") || "Belum Ada Formulir"}
           </h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+          <p className="text-xs text-slate-500 max-w-sm mb-4">
             {t("form.emptyDescription") ||
               "Buat formulir pertama Anda untuk mulai mengumpulkan leads, pesanan, atau pendaftaran otomatis via WhatsApp."}
           </p>
@@ -239,7 +256,7 @@ export function FormsView() {
             <Plus className="w-4 h-4" />
             {t("form.createNewButton") || "Buat Formulir Sekarang"}
           </Button>
-        </div>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {forms.map((f) => (
@@ -258,29 +275,32 @@ export function FormsView() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800 text-xs">
-          <span className="text-slate-500">
-            Halaman {page} dari {totalPages} ({total} formulir)
-          </span>
-          <div className="flex items-center gap-1.5">
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 text-xs"
-              disabled={page <= 1}
-              onClick={() => setPage(page - 1)}
-            >
-              Sebelumnya
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 text-xs"
-              disabled={page >= totalPages}
-              onClick={() => setPage(page + 1)}
-            >
-              Berikutnya
-            </Button>
+        <div>
+          <Separator className="my-4" />
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-slate-500">
+              Halaman {page} dari {totalPages} ({total} formulir)
+            </span>
+            <div className="flex items-center gap-1.5">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs"
+                disabled={page <= 1}
+                onClick={() => setPage(page - 1)}
+              >
+                Sebelumnya
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs"
+                disabled={page >= totalPages}
+                onClick={() => setPage(page + 1)}
+              >
+                Berikutnya
+              </Button>
+            </div>
           </div>
         </div>
       )}

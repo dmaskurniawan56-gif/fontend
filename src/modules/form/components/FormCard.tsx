@@ -27,23 +27,23 @@ interface FormCardProps {
   onViewSubmissions: (form: Form) => void;
 }
 
-const getTypeBadge = (type: FormType) => {
+const getTypeBadge = (type: FormType, t: (key: string) => string) => {
   switch (type) {
     case "RESERVATION":
       return {
-        label: "Reservasi",
+        label: t("form.typeReservation") || "Reservasi",
         icon: <Calendar className="w-3 h-3 mr-1" />,
         variant: "success" as const,
       };
     case "LEAD":
       return {
-        label: "Lead Capture",
+        label: t("form.typeLead") || "Lead Capture",
         icon: <UserPlus className="w-3 h-3 mr-1" />,
         variant: "warning" as const,
       };
     default:
       return {
-        label: "Standard",
+        label: t("form.typeStandard") || "Standar",
         icon: <FileText className="w-3 h-3 mr-1" />,
         variant: "info" as const,
       };
@@ -57,7 +57,7 @@ export function FormCard({
   onViewSubmissions,
 }: FormCardProps) {
   const { t } = useI18n();
-  const typeBadge = getTypeBadge(form.type);
+  const typeBadge = getTypeBadge(form.type, t);
 
   return (
     <Card className="flex flex-col justify-between p-5 hover:shadow-md transition-shadow duration-200">
@@ -74,7 +74,7 @@ export function FormCard({
             className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/30 gap-1 px-2 py-0.5"
           >
             <Lock className="size-3" />
-            <span>Privat Internal</span>
+            <span>{t("form.preview.officialBadge") || "Privat Internal"}</span>
           </Badge>
         </div>
 
@@ -94,7 +94,7 @@ export function FormCard({
           </div>
           <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Akses Terproteksi</span>
+            <span>{t("form.protectedAccess") || "Akses Terproteksi"}</span>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export function FormCard({
           <div>
             <div className="flex items-center justify-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 mb-0.5">
               <FileCheck2 className="w-3 h-3 text-primary" />
-              <span>Total Respons</span>
+              <span>{t("form.stats.totalSubmissions") || "Total Respons"}</span>
             </div>
             <span className="font-bold text-primary text-sm">
               {form.submissionCount.toLocaleString()}
@@ -113,10 +113,10 @@ export function FormCard({
           <div>
             <div className="flex items-center justify-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 mb-0.5">
               <FileSpreadsheet className="w-3 h-3 text-slate-500" />
-              <span>Pertanyaan</span>
+              <span>{t("form.cardQuestions") || "Pertanyaan"}</span>
             </div>
             <span className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-              {form.fields?.length || 0} Bidang
+              {form.fields?.length || 0} {t("form.cardFields") || "Bidang"}
             </span>
           </div>
         </div>

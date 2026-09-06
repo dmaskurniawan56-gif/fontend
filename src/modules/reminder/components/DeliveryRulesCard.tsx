@@ -24,6 +24,7 @@ import {
   Loader2,
   AlertCircle,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface DeliveryRulesCardProps {
   initialRule: ReminderRule;
@@ -36,6 +37,7 @@ export function DeliveryRulesCard({
   onSave,
   isSaving,
 }: DeliveryRulesCardProps) {
+  const { t } = useI18n();
   const [deviceId, setDeviceId] = useState(initialRule.deviceId || "");
   const [sendTime, setSendTime] = useState(initialRule.sendTime || "09:00");
   const [showInChat, setShowInChat] = useState(initialRule.showInChat ?? true);
@@ -120,9 +122,9 @@ export function DeliveryRulesCard({
             <Clock className="size-4" />
           </div>
           <div>
-            <CardTitle className="text-sm font-bold">Aturan Drip & Jadwal Otomatis</CardTitle>
+            <CardTitle className="text-sm font-bold">{t("reminder.rules.title") || "Aturan Drip & Jadwal Otomatis"}</CardTitle>
             <CardDescription className="text-xs">
-              Konfigurasikan template pesan bertahap (H-3, H-1, Hari H, H+1) dan perangkat pengirim.
+              {t("reminder.rules.subtitle") || "Konfigurasikan template pesan bertahap (H-3, H-1, Hari H, H+1) dan perangkat pengirim."}
             </CardDescription>
           </div>
         </div>
@@ -137,12 +139,12 @@ export function DeliveryRulesCard({
           {isSaving ? (
             <>
               <Loader2 className="size-3.5 animate-spin" />
-              Menyimpan...
+              {t("reminder.rules.saving") || "Menyimpan..."}
             </>
           ) : (
             <>
               <Save className="size-3.5" />
-              Simpan Aturan
+              {t("reminder.rules.saveRules") || "Simpan Aturan"}
             </>
           )}
         </Button>
@@ -158,7 +160,7 @@ export function DeliveryRulesCard({
             <div className="flex flex-col gap-1.5 sm:col-span-1">
               <Label htmlFor="rem-device" className="text-xs">
                 <Smartphone className="size-3.5 text-primary" />
-                <span>Nomor WhatsApp Pengirim</span>
+                <span>{t("reminder.rules.senderDevice") || "Nomor WhatsApp Pengirim"}</span>
               </Label>
               <NativeSelect
                 id="rem-device"
@@ -167,7 +169,7 @@ export function DeliveryRulesCard({
                 disabled={isSaving || isLoadingDevices}
                 className="h-10 text-xs rounded-xl"
               >
-                <NativeSelectOption value="">-- Pilih Slot Device --</NativeSelectOption>
+                <NativeSelectOption value="">{t("reminder.rules.selectDevice") || "-- Pilih Slot Device --"}</NativeSelectOption>
                 {devices.map((d) => (
                   <NativeSelectOption key={d.id} value={d.id}>
                     {d.name} {d.phone ? `(${d.phone})` : ""} - [{d.status}]
@@ -176,7 +178,7 @@ export function DeliveryRulesCard({
               </NativeSelect>
               {devices.length === 0 && !isLoadingDevices && (
                 <p className="text-[11px] text-amber-500 flex items-center gap-1">
-                  <AlertCircle className="size-3" /> Belum ada perangkat WhatsApp terhubung.
+                  <AlertCircle className="size-3" /> {t("reminder.rules.noDevices") || "Belum ada perangkat WhatsApp terhubung."}
                 </p>
               )}
             </div>
@@ -185,7 +187,7 @@ export function DeliveryRulesCard({
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="rem-send-time" className="text-xs">
                 <Clock className="size-3.5 text-blue-500" />
-                <span>Jam Kirim Harian (WIB)</span>
+                <span>{t("reminder.rules.sendTime") || "Jam Kirim Harian (WIB)"}</span>
               </Label>
               <Input
                 id="rem-send-time"
@@ -203,7 +205,7 @@ export function DeliveryRulesCard({
               <div className="flex items-center justify-between">
                 <Label className="text-xs font-semibold text-foreground flex items-center gap-1.5 cursor-pointer">
                   <MessageSquare className="size-3.5 text-emerald-500" />
-                  <span>Tampilkan di Chat</span>
+                  <span>{t("reminder.rules.chatVisibility") || "Tampilkan di Chat"}</span>
                 </Label>
                 <Switch
                   checked={showInChat}
@@ -212,7 +214,7 @@ export function DeliveryRulesCard({
                 />
               </div>
               <span className="text-[11px] text-foreground-muted">
-                Pesan pengingat akan muncul di riwayat obrolan WhatsApp bisnis.
+                {t("reminder.rules.chatVisibilityDesc") || "Pesan pengingat akan muncul di riwayat obrolan WhatsApp bisnis."}
               </span>
             </div>
           </div>
@@ -225,128 +227,128 @@ export function DeliveryRulesCard({
                   <Layers className="size-4" />
                 </div>
                 <div>
-                  <span className="text-xs sm:text-sm font-bold text-foreground block">
-                    Fase Drip Pengingat
-                  </span>
-                  <span className="text-[11px] text-foreground-muted">
-                    Pilih tahapan pesan yang ingin dikonfigurasi
-                  </span>
-                </div>
+                <span className="text-xs sm:text-sm font-bold text-foreground block">
+                  {t("reminder.rules.dripPhases") || "Fase Drip Pengingat"}
+                </span>
+                <span className="text-[11px] text-foreground-muted">
+                  Pilih tahapan pesan yang ingin dikonfigurasi
+                </span>
               </div>
-              <Tabs
-                value={String(activeTabOffset)}
-                onValueChange={(v) => setActiveTabOffset(Number(v))}
-                className="w-full sm:w-auto"
-              >
-                <TabsList className="h-10 sm:h-11 p-1 rounded-xl bg-slate-200/80 dark:bg-muted/60 border border-border/70 shadow-2xs flex items-center gap-1 w-full sm:w-auto justify-between sm:justify-start">
-                  {rules.map((r) => {
-                    const isCurrentActive = activeTabOffset === r.daysOffset;
-                    return (
-                      <TabsTrigger
-                        key={r.daysOffset}
-                        value={String(r.daysOffset)}
+            </div>
+            <Tabs
+              value={String(activeTabOffset)}
+              onValueChange={(v) => setActiveTabOffset(Number(v))}
+              className="w-full sm:w-auto"
+            >
+              <TabsList className="h-10 sm:h-11 p-1 rounded-xl bg-slate-200/80 dark:bg-muted/60 border border-border/70 shadow-2xs flex items-center gap-1 w-full sm:w-auto justify-between sm:justify-start">
+                {rules.map((r) => {
+                  const isCurrentActive = activeTabOffset === r.daysOffset;
+                  return (
+                    <TabsTrigger
+                      key={r.daysOffset}
+                      value={String(r.daysOffset)}
+                      className={cn(
+                        "h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm font-medium gap-2 rounded-lg cursor-pointer transition-all shrink-0 flex-1 sm:flex-initial justify-center",
+                        "text-muted-foreground hover:text-foreground",
+                        "data-active:bg-white dark:data-active:bg-card data-active:text-foreground data-active:font-bold data-active:shadow-xs",
+                        "border border-transparent data-active:border-border/80 data-active:ring-1 data-active:ring-black/5 dark:data-active:ring-white/10"
+                      )}
+                    >
+                      <span
                         className={cn(
-                          "h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm font-medium gap-2 rounded-lg cursor-pointer transition-all shrink-0 flex-1 sm:flex-initial justify-center",
-                          "text-muted-foreground hover:text-foreground",
-                          "data-active:bg-white dark:data-active:bg-card data-active:text-foreground data-active:font-bold data-active:shadow-xs",
-                          "border border-transparent data-active:border-border/80 data-active:ring-1 data-active:ring-black/5 dark:data-active:ring-white/10"
+                          "size-2 rounded-full transition-all shrink-0",
+                          r.isEnabled
+                            ? "bg-emerald-500 ring-2 ring-emerald-500/25"
+                            : "bg-muted-foreground/30"
                         )}
-                      >
+                        title={r.isEnabled ? (t("reminder.rules.phaseActive") || "Fase ini aktif") : (t("reminder.rules.phaseInactive") || "Fase ini nonaktif")}
+                      />
+                      <span>
+                        {r.daysOffset < 0
+                          ? `H${r.daysOffset}`
+                          : r.daysOffset === 0
+                          ? "Hari H"
+                          : `H+${r.daysOffset}`}
+                      </span>
+                      {r.isEnabled ? (
                         <span
                           className={cn(
-                            "size-2 rounded-full transition-all shrink-0",
-                            r.isEnabled
-                              ? "bg-emerald-500 ring-2 ring-emerald-500/25"
-                              : "bg-muted-foreground/30"
+                            "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
+                            isCurrentActive
+                              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
+                              : "bg-muted text-muted-foreground"
                           )}
-                          title={r.isEnabled ? "Fase ini aktif" : "Fase ini nonaktif"}
-                        />
-                        <span>
-                          {r.daysOffset < 0
-                            ? `H${r.daysOffset}`
-                            : r.daysOffset === 0
-                            ? "Hari H"
-                            : `H+${r.daysOffset}`}
+                        >
+                          ON
                         </span>
-                        {r.isEnabled ? (
-                          <span
-                            className={cn(
-                              "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
-                              isCurrentActive
-                                ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
-                                : "bg-muted text-muted-foreground"
-                            )}
-                          >
-                            ON
-                          </span>
-                        ) : (
-                          <span
-                            className={cn(
-                              "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
-                              isCurrentActive
-                                ? "bg-muted text-muted-foreground"
-                                : "bg-muted/50 text-muted-foreground/60"
-                            )}
-                          >
-                            OFF
-                          </span>
-                        )}
-                      </TabsTrigger>
-                    );
-                  })}
-                </TabsList>
-              </Tabs>
-            </div>
+                      ) : (
+                        <span
+                          className={cn(
+                            "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
+                            isCurrentActive
+                              ? "bg-muted text-muted-foreground"
+                              : "bg-muted/50 text-muted-foreground/60"
+                          )}
+                        >
+                          OFF
+                        </span>
+                      )}
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </Tabs>
+          </div>
 
-            {activeRule && (
-              <div className="space-y-4 pt-2">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <h3 className="text-xs font-bold text-foreground">{activeRule.name}</h3>
-                    <p className="text-[11px] text-foreground-muted">
-                      {activeRule.daysOffset < 0
-                        ? `Dikirim ${Math.abs(activeRule.daysOffset)} hari sebelum tanggal target jadwal`
-                        : activeRule.daysOffset === 0
-                        ? "Dikirim pada tanggal target jadwal acara/janji temu"
-                        : `Dikirim ${activeRule.daysOffset} hari setelah tanggal target (follow-up)`}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 rounded-xl bg-background px-3 py-1.5 border border-border/60 self-start sm:self-auto">
-                    <Label className="text-xs font-semibold text-foreground cursor-pointer">
-                      Aktifkan Fase Ini
-                    </Label>
-                    <Switch
-                      checked={activeRule.isEnabled}
-                      onCheckedChange={(c) => handleUpdateActiveRule("isEnabled", c)}
-                    />
-                  </div>
+          {activeRule && (
+            <div className="space-y-4 pt-2">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h3 className="text-xs font-bold text-foreground">{activeRule.name}</h3>
+                  <p className="text-[11px] text-foreground-muted">
+                    {activeRule.daysOffset < 0
+                      ? `Dikirim ${Math.abs(activeRule.daysOffset)} hari sebelum tanggal target jadwal`
+                      : activeRule.daysOffset === 0
+                      ? "Dikirim pada tanggal target jadwal acara/janji temu"
+                      : `Dikirim ${activeRule.daysOffset} hari setelah tanggal target (follow-up)`}
+                  </p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold text-foreground-muted">
-                      Template Pesan Fase Ini
-                    </Label>
-                    <span className="text-[10px] text-foreground-muted">
-                      {activeRule.template.length} karakter
-                    </span>
-                  </div>
-
-                  <Textarea
-                    rows={4}
-                    value={activeRule.template}
-                    onChange={(e) => handleUpdateActiveRule("template", e.target.value)}
-                    placeholder="Contoh: Halo Kak {{nama}}, mengingatkan jadwal Anda besok {{tanggal}}..."
-                    className="rounded-xl p-3 text-xs leading-relaxed"
+                <div className="flex items-center gap-2 rounded-xl bg-background px-3 py-1.5 border border-border/60 self-start sm:self-auto">
+                  <Label className="text-xs font-semibold text-foreground cursor-pointer">
+                    {t("reminder.rules.enablePhase") || "Aktifkan Fase Ini"}
+                  </Label>
+                  <Switch
+                    checked={activeRule.isEnabled}
+                    onCheckedChange={(c) => handleUpdateActiveRule("isEnabled", c)}
                   />
-
-                  {/* Dynamic Variable Chips */}
-                  <VariableInsertChips onInsert={handleInsertVariable} />
                 </div>
               </div>
-            )}
-          </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label className="text-xs font-semibold text-foreground-muted">
+                    {t("reminder.rules.phaseTemplate") || "Template Pesan Fase Ini"}
+                  </Label>
+                  <span className="text-[10px] text-foreground-muted">
+                    {activeRule.template.length} {t("reminder.rules.characters") || "karakter"}
+                  </span>
+                </div>
+
+                <Textarea
+                  rows={4}
+                  value={activeRule.template}
+                  onChange={(e) => handleUpdateActiveRule("template", e.target.value)}
+                  placeholder={t("reminder.rules.templatePlaceholder") || "Contoh: Halo Kak {{nama}}, mengingatkan jadwal Anda besok {{tanggal}}..."}
+                  className="rounded-xl p-3 text-xs leading-relaxed"
+                />
+
+                {/* Dynamic Variable Chips */}
+                <VariableInsertChips onInsert={handleInsertVariable} />
+              </div>
+            </div>
+          )}
+        </div>
         </form>
       </CardContent>
     </Card>

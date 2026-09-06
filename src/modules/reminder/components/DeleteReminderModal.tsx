@@ -12,6 +12,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/context";
 
 interface DeleteReminderModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export function DeleteReminderModal({
   onConfirm,
   recipientName,
 }: DeleteReminderModalProps) {
+  const { t } = useI18n();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleConfirm = async (e: React.MouseEvent) => {
@@ -48,15 +50,15 @@ export function DeleteReminderModal({
             </div>
             <div>
               <AlertDialogTitle className="text-base font-bold text-foreground">
-                Hapus Jadwal Pengingat
+                {t("reminder.table.deleteSchedule") || "Hapus Jadwal Pengingat"}
               </AlertDialogTitle>
-              <p className="text-xs text-foreground-muted">Tindakan ini bersifat permanen</p>
+              <p className="text-xs text-foreground-muted">{t("reminder.deleteIrreversible") || "Tindakan ini bersifat permanen"}</p>
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
-            Apakah Anda yakin ingin menghapus jadwal pengingat untuk{" "}
-            <strong className="font-semibold text-foreground">&ldquo;{recipientName}&rdquo;</strong>?
-            Pesan otomatis untuk jadwal ini tidak akan dievaluasi maupun dikirimkan lagi.
+            {t("reminder.deleteConfirmPrompt") || "Apakah Anda yakin ingin menghapus jadwal pengingat untuk"}{" "}
+            <strong className="font-semibold text-foreground">&ldquo;{recipientName}&rdquo;</strong>?{" "}
+            {t("reminder.deleteWarning") || "Pesan otomatis untuk jadwal ini tidak akan dievaluasi maupun dikirimkan lagi."}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -67,7 +69,7 @@ export function DeleteReminderModal({
             size="sm"
             className="rounded-xl cursor-pointer"
           >
-            Batal
+            {t("cancel") || "Batal"}
           </AlertDialogCancel>
           <Button
             type="button"
@@ -80,12 +82,12 @@ export function DeleteReminderModal({
             {isDeleting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                Menghapus...
+                {t("deleting") || "Menghapus..."}
               </>
             ) : (
               <>
                 <Trash2 className="size-3.5" />
-                Ya, Hapus
+                {t("delete") || "Hapus"}
               </>
             )}
           </Button>

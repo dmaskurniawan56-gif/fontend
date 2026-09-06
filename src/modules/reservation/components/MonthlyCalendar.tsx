@@ -168,7 +168,7 @@ export function MonthlyCalendar({
             size="sm"
             onClick={handleCurrentMonth}
             className="text-xs h-8 px-2.5"
-            title="Bulan Ini"
+            title={t("reservation.thisMonth") || "Bulan Ini"}
           >
             {t("reservation.todayBtn") || "Hari Ini"}
           </Button>
@@ -177,7 +177,7 @@ export function MonthlyCalendar({
             size="icon"
             onClick={handlePrevMonth}
             className="h-8 w-8"
-            aria-label="Previous Month"
+            aria-label={t("reservation.prevMonth") || "Previous Month"}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -186,7 +186,7 @@ export function MonthlyCalendar({
             size="icon"
             onClick={handleNextMonth}
             className="h-8 w-8"
-            aria-label="Next Month"
+            aria-label={t("reservation.nextMonth") || "Next Month"}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>

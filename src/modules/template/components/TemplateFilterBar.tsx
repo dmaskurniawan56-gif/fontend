@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { SearchInput } from "@/components/ui/search-input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n/context";
 
 interface TemplateFilterBarProps {
   currentCategory: TemplateCategory | "ALL";
@@ -43,6 +44,8 @@ export function TemplateFilterBar({
   onToggleFavoriteOnly,
   stats,
 }: TemplateFilterBarProps) {
+  const { t } = useI18n();
+
   const CATEGORIES: Array<{
     id: TemplateCategory | "ALL";
     label: string;
@@ -51,37 +54,37 @@ export function TemplateFilterBar({
   }> = [
     {
       id: "ALL",
-      label: "Semua Kategori",
+      label: t("template.categories.all") || "Semua Kategori",
       icon: Layers,
       count: stats?.total,
     },
     {
       id: "MARKETING",
-      label: "Marketing",
+      label: t("template.stats.marketing") || "Marketing",
       icon: Flame,
       count: stats?.marketing,
     },
     {
       id: "UTILITY",
-      label: "Operasional",
+      label: t("template.stats.utility") || "Operasional & Utilitas",
       icon: Info,
       count: stats?.utility,
     },
     {
       id: "REMINDER",
-      label: "Pengingat",
+      label: t("template.stats.reminder") || "Pengingat",
       icon: Bell,
       count: stats?.reminder,
     },
     {
       id: "RESERVATION",
-      label: "Reservasi",
+      label: t("template.stats.reservation") || "Reservasi",
       icon: CalendarCheck,
       count: stats?.reservation,
     },
     {
       id: "QUICK_REPLY",
-      label: "Balasan Cepat",
+      label: t("template.stats.quickReply") || "Balasan Cepat",
       icon: MessageSquareReply,
       count: stats?.quickReply,
     },
@@ -131,7 +134,7 @@ export function TemplateFilterBar({
             onChange={onSearchChange}
             onSearch={onSearchChange}
             onClear={() => onSearchChange("")}
-            placeholder="Cari template..."
+            placeholder={t("template.filter.searchPlaceholder") || "Cari template..."}
             className="h-8 text-xs rounded-xl"
           />
         </div>
@@ -145,7 +148,7 @@ export function TemplateFilterBar({
             "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
             favoriteOnly && "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
           )}
-          title="Filter hanya template favorit"
+          title={t("template.stats.favorites") || "Filter hanya template favorit"}
         >
           <Star
             className={cn(
@@ -153,7 +156,7 @@ export function TemplateFilterBar({
               favoriteOnly ? "fill-amber-500 text-amber-500" : "text-foreground-muted"
             )}
           />
-          <span className="hidden sm:inline">Favorit</span>
+          <span className="hidden sm:inline">{t("template.stats.favorites") || "Favorit"}</span>
         </Button>
       </div>
     </div>

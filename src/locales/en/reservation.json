@@ -44,5 +44,11 @@
   "statusUpdateFailed": "Failed to update reservation status",
   "deletedSuccess": "Reservation deleted successfully",
   "deleteFailed": "Failed to delete reservation",
-  "fetchFailed": "Failed to load reservations"
+  "fetchFailed": "Failed to load reservations",
+  "pickCalendar": "Pick Date from Calendar",
+  "notesPlaceholder": "Special notes or customer requests...",
+  "thisMonth": "This Month",
+  "servicePlaceholder": "e.g.: Dental Consultation / Haircut",
+  "prevMonth": "Previous Month",
+  "nextMonth": "Next Month"
 }

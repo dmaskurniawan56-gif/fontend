@@ -31,6 +31,7 @@ import {
   CheckCircle2,
   XCircle,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface ReminderTableProps {
   reminders: Reminder[];
@@ -61,27 +62,29 @@ export function ReminderTable({
   onToggleStatus,
   onDeleteRequest,
 }: ReminderTableProps) {
+  const { t } = useI18n();
+
   const getStatusBadge = (s: ReminderStatus) => {
     switch (s) {
       case "ACTIVE":
         return (
           <Badge variant="success" className="gap-1 text-[11px] font-semibold">
             <CheckCircle2 className="size-3" />
-            <span>Aktif</span>
+            <span>{t("reminder.table.tabActive") || "Aktif"}</span>
           </Badge>
         );
       case "PAUSED":
         return (
           <Badge variant="warning" className="gap-1 text-[11px] font-semibold">
             <Pause className="size-3" />
-            <span>Ditunda</span>
+            <span>{t("reminder.stats.paused") || "Ditunda"}</span>
           </Badge>
         );
       case "COMPLETED":
         return (
           <Badge variant="secondary" className="gap-1 text-[11px] font-semibold">
             <CheckCircle2 className="size-3" />
-            <span>Selesai</span>
+            <span>{t("reminder.stats.completed") || "Selesai"}</span>
           </Badge>
         );
       case "CANCELLED":
@@ -89,7 +92,7 @@ export function ReminderTable({
         return (
           <Badge variant="destructive" className="gap-1 text-[11px] font-semibold">
             <XCircle className="size-3" />
-            <span>Batal</span>
+            <span>{t("reminder.table.tabCancelled") || "Batal"}</span>
           </Badge>
         );
     }
@@ -130,13 +133,13 @@ export function ReminderTable({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <CardTitle className="text-sm font-bold">Daftar Jadwal Pengingat</CardTitle>
+              <CardTitle className="text-sm font-bold">{t("reminder.table.title") || "Daftar Jadwal Pengingat"}</CardTitle>
               <Badge variant="outline" className="text-[10px]">
-                {total} kontak
+                {total} {t("reminder.table.tabAll") === "All" ? "contacts" : "kontak"}
               </Badge>
             </div>
             <CardDescription className="text-xs">
-              Seluruh antrean pesan pengingat yang dievaluasi secara otomatis setiap hari.
+              {t("reminder.table.subtitle") || "Seluruh antrean pesan pengingat yang dievaluasi secara otomatis setiap hari."}
             </CardDescription>
           </div>
 
@@ -146,7 +149,7 @@ export function ReminderTable({
               onChange={onSearchChange}
               onSearch={onSearchChange}
               onClear={() => onSearchChange("")}
-              placeholder="Cari penerima / catatan..."
+              placeholder={t("reminder.table.searchPlaceholder") || "Cari penerima / catatan..."}
               className="h-9 text-xs rounded-xl"
             />
           </div>
@@ -159,11 +162,11 @@ export function ReminderTable({
             onValueChange={(v) => onStatusChange(v as ReminderStatus | "ALL")}
           >
             <TabsList className="h-8">
-              <TabsTrigger value="ALL" className="text-xs">Semua</TabsTrigger>
-              <TabsTrigger value="ACTIVE" className="text-xs">Aktif</TabsTrigger>
-              <TabsTrigger value="PAUSED" className="text-xs">Ditunda</TabsTrigger>
-              <TabsTrigger value="COMPLETED" className="text-xs">Selesai</TabsTrigger>
-              <TabsTrigger value="CANCELLED" className="text-xs">Batal</TabsTrigger>
+              <TabsTrigger value="ALL" className="text-xs">{t("reminder.table.tabAll") || "Semua"}</TabsTrigger>
+              <TabsTrigger value="ACTIVE" className="text-xs">{t("reminder.table.tabActive") || "Aktif"}</TabsTrigger>
+              <TabsTrigger value="PAUSED" className="text-xs">{t("reminder.stats.paused") || "Ditunda"}</TabsTrigger>
+              <TabsTrigger value="COMPLETED" className="text-xs">{t("reminder.stats.completed") || "Selesai"}</TabsTrigger>
+              <TabsTrigger value="CANCELLED" className="text-xs">{t("reminder.table.tabCancelled") || "Batal"}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -177,12 +180,12 @@ export function ReminderTable({
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="text-xs font-semibold">Penerima</TableHead>
-                <TableHead className="text-xs font-semibold">No. WhatsApp</TableHead>
-                <TableHead className="text-xs font-semibold">Tanggal Target</TableHead>
-                <TableHead className="text-xs font-semibold">Catatan / Layanan</TableHead>
-                <TableHead className="text-center text-xs font-semibold">Status</TableHead>
-                <TableHead className="text-right text-xs font-semibold">Aksi</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.table.colRecipient") || "Penerima"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.quick.phoneLabel") || "No. WhatsApp"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.table.colDate") || "Tanggal Target"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.table.colNotes") || "Catatan / Layanan"}</TableHead>
+                <TableHead className="text-center text-xs font-semibold">{t("reminder.table.colStatus") || "Status"}</TableHead>
+                <TableHead className="text-right text-xs font-semibold">{t("reminder.table.colActions") || "Aksi"}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -202,9 +205,9 @@ export function ReminderTable({
                   <TableCell colSpan={6} className="py-12 text-center text-foreground-muted">
                     <div className="flex flex-col items-center justify-center gap-2">
                       <Clock className="size-8 text-foreground-muted/40" />
-                      <p className="text-sm font-medium">Belum ada jadwal pengingat</p>
+                      <p className="text-sm font-medium">{t("reminder.table.emptyTitle") || "Belum ada jadwal pengingat"}</p>
                       <p className="text-xs text-foreground-muted/70">
-                        Gunakan form di atas untuk menjadwalkan pengingat pertama Anda.
+                        {t("reminder.table.emptyDesc") || "Gunakan form di atas untuk menjadwalkan pengingat pertama Anda."}
                       </p>
                     </div>
                   </TableCell>
@@ -273,7 +276,7 @@ export function ReminderTable({
                               )}
                             </TooltipTrigger>
                             <TooltipContent>
-                              {rem.status === "ACTIVE" ? "Tunda Jadwal" : "Aktifkan Jadwal"}
+                              {rem.status === "ACTIVE" ? (t("reminder.table.pauseSchedule") || "Tunda Jadwal") : (t("reminder.table.activateSchedule") || "Aktifkan Jadwal")}
                             </TooltipContent>
                           </Tooltip>
                         )}
@@ -293,7 +296,7 @@ export function ReminderTable({
                           >
                             <Trash2 className="size-3.5" />
                           </TooltipTrigger>
-                          <TooltipContent>Hapus Jadwal</TooltipContent>
+                          <TooltipContent>{t("reminder.table.deleteSchedule") || "Hapus Jadwal"}</TooltipContent>
                         </Tooltip>
                       </div>
                     </TableCell>
@@ -309,8 +312,9 @@ export function ReminderTable({
       {totalPages > 1 && (
         <CardFooter className="flex items-center justify-between p-0 pt-2 text-xs text-foreground-muted">
           <span>
-            Menampilkan halaman <strong className="text-foreground">{page}</strong> dari{" "}
-            <strong className="text-foreground">{totalPages}</strong> (Total {total} data)
+            {t("reminder.table.tabAll") === "All"
+              ? `Showing page ${page} of ${totalPages} (Total ${total} items)`
+              : `Menampilkan halaman ${page} dari ${totalPages} (Total ${total} data)`}
           </span>
           <div className="flex items-center gap-1.5">
             <Button

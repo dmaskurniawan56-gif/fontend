@@ -135,7 +135,7 @@ export function TemplatesView() {
             <Layers className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Total Template</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.total") || "Total Template"}</p>
             <p className="text-lg font-bold text-foreground">{stats.total}</p>
           </div>
         </div>
@@ -145,7 +145,7 @@ export function TemplatesView() {
             <Flame className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Marketing & Promo</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.marketing") || "Marketing & Promo"}</p>
             <p className="text-lg font-bold text-foreground">{stats.marketing}</p>
           </div>
         </div>
@@ -155,7 +155,7 @@ export function TemplatesView() {
             <Info className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Operasional & Utilitas</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.utility") || "Operasional & Utilitas"}</p>
             <p className="text-lg font-bold text-foreground">{stats.utility}</p>
           </div>
         </div>
@@ -165,7 +165,7 @@ export function TemplatesView() {
             <Star className="size-4 fill-yellow-500" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Template Favorit</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.favorites") || "Template Favorit"}</p>
             <p className="text-lg font-bold text-foreground">{stats.favorites}</p>
           </div>
         </div>
@@ -208,7 +208,7 @@ export function TemplatesView() {
             onClick={reload}
             className="mt-3 rounded-xl border-red-500/30 text-xs"
           >
-            Coba Lagi
+            {t("common.retry") || "Coba Lagi"}
           </Button>
         </div>
       ) : templates.length === 0 ? (
@@ -218,13 +218,13 @@ export function TemplatesView() {
           </div>
           <h3 className="mt-4 text-base font-bold text-foreground">
             {search || category !== "ALL" || favoriteOnly
-              ? "Tidak ada template yang cocok"
-              : "Belum ada template pesan"}
+              ? (t("template.noMatching") || "Tidak ada template yang cocok")
+              : (t("template.emptyTitle") || "Belum ada template pesan")}
           </h3>
           <p className="mt-1.5 max-w-sm text-xs text-foreground-muted">
             {search || category !== "ALL" || favoriteOnly
-              ? "Coba ubah kata kunci pencarian atau bersihkan filter kategori Anda."
-              : "Buat template pesan pertama Anda untuk mempermudah siaran massal dan komunikasi WhatsApp yang konsisten."}
+              ? (t("template.noMatchingDesc") || "Coba ubah kata kunci pencarian atau bersihkan filter kategori Anda.")
+              : (t("template.emptyDesc") || "Buat template pesan pertama Anda untuk mempermudah siaran massal dan komunikasi WhatsApp yang konsisten.")}
           </p>
           <Button
             variant="primaryPill"

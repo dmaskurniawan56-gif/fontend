@@ -235,7 +235,7 @@ export function AddReservationForm({
                   }}
                   disabled={isSubmitting}
                   className="absolute right-1 size-7 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg cursor-pointer"
-                  title="Pilih Tanggal dari Kalender"
+                  title={t("reservation.pickCalendar") || "Pilih Tanggal dari Kalender"}
                 >
                   <CalendarIcon className="size-3.5" />
                 </Button>
@@ -271,7 +271,7 @@ export function AddReservationForm({
             </Label>
             <Input
               id="res-service"
-              placeholder="Contoh: Konsultasi Dokter Gigi / Potong Rambut"
+              placeholder={t("reservation.servicePlaceholder") || "Contoh: Konsultasi Dokter Gigi / Potong Rambut"}
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
               className="h-9 text-xs rounded-xl"
@@ -287,7 +287,7 @@ export function AddReservationForm({
             <Textarea
               id="res-notes"
               rows={2}
-              placeholder="Catatan khusus atau permintaan pelanggan..."
+              placeholder={t("reservation.notesPlaceholder") || "Catatan khusus atau permintaan pelanggan..."}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="text-xs resize-none rounded-xl"

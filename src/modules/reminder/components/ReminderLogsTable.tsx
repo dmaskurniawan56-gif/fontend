@@ -29,6 +29,7 @@ import {
   ChevronRight,
   Loader2,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface ReminderLogsTableProps {
   logs: ReminderLog[];
@@ -53,6 +54,7 @@ export function ReminderLogsTable({
   onDispatchNow,
   onReload,
 }: ReminderLogsTableProps) {
+  const { t } = useI18n();
   const formatDateTime = (dateStr: string) => {
     if (!dateStr) return "-";
     try {
@@ -98,13 +100,13 @@ export function ReminderLogsTable({
       <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between p-0">
         <div>
           <div className="flex items-center gap-2">
-            <CardTitle className="text-sm font-bold">Riwayat & Log Pengiriman Otomatis</CardTitle>
+            <CardTitle className="text-sm font-bold">{t("reminder.logs.title") || "Riwayat & Log Pengiriman Otomatis"}</CardTitle>
             <Badge variant="outline" className="text-[10px]">
-              {total} log audit
+              {total} {t("reminder.logs.colPhase") === "Phase" ? "audit logs" : "log audit"}
             </Badge>
           </div>
           <CardDescription className="text-xs">
-            Audit trail eksekusi pengiriman pesan pengingat yang dijalankan secara terjadwal.
+            {t("reminder.logs.description") || "Audit trail eksekusi pengiriman pesan pengingat yang dijalankan secara terjadwal."}
           </CardDescription>
         </div>
 
@@ -125,7 +127,7 @@ export function ReminderLogsTable({
             >
               <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
             </TooltipTrigger>
-            <TooltipContent>Segarkan Log</TooltipContent>
+            <TooltipContent>{t("reminder.actions.refresh") || "Segarkan Log"}</TooltipContent>
           </Tooltip>
 
           {/* Trigger Cron Dispatch Now */}
@@ -140,12 +142,12 @@ export function ReminderLogsTable({
             {isDispatching ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                <span>Mengevaluasi...</span>
+                <span>{t("reminder.actions.evaluating") || "Mengevaluasi..."}</span>
               </>
             ) : (
               <>
                 <Send className="size-3.5" />
-                <span>Jalankan Scheduler Sekarang</span>
+                <span>{t("reminder.actions.dispatchNow") || "Jalankan Scheduler Sekarang"}</span>
               </>
             )}
           </Button>
@@ -160,12 +162,12 @@ export function ReminderLogsTable({
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="text-xs font-semibold">Fase</TableHead>
-                <TableHead className="text-xs font-semibold">Penerima</TableHead>
-                <TableHead className="text-xs font-semibold">No. WhatsApp</TableHead>
-                <TableHead className="text-xs font-semibold">Isi Pesan Terkirim</TableHead>
-                <TableHead className="text-center text-xs font-semibold">Status</TableHead>
-                <TableHead className="text-right text-xs font-semibold">Waktu Eksekusi</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.logs.colPhase") || "Fase"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.logs.colRecipient") || "Penerima"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.quick.phoneLabel") || "No. WhatsApp"}</TableHead>
+                <TableHead className="text-xs font-semibold">{t("reminder.logs.colMessage") || "Isi Pesan Terkirim"}</TableHead>
+                <TableHead className="text-center text-xs font-semibold">{t("reminder.logs.colStatus") || "Status"}</TableHead>
+                <TableHead className="text-right text-xs font-semibold">{t("reminder.logs.colTime") || "Waktu Eksekusi"}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -185,9 +187,9 @@ export function ReminderLogsTable({
                   <TableCell colSpan={6} className="py-12 text-center text-foreground-muted">
                     <div className="flex flex-col items-center justify-center gap-2">
                       <Clock className="size-8 text-foreground-muted/40" />
-                      <p className="text-sm font-medium">Belum ada riwayat pengiriman</p>
+                      <p className="text-sm font-medium">{t("reminder.logs.empty") || "Belum ada riwayat pengiriman"}</p>
                       <p className="text-xs text-foreground-muted/70">
-                        Pesan yang dieksekusi otomatis oleh scheduler akan tercatat di sini secara permanen.
+                        {t("reminder.logs.emptyDesc") || "Pesan yang dieksekusi otomatis oleh scheduler akan tercatat di sini secara permanen."}
                       </p>
                     </div>
                   </TableCell>
@@ -222,7 +224,7 @@ export function ReminderLogsTable({
                       {log.status === "SENT" ? (
                         <Badge variant="success" className="gap-1 text-[11px] font-semibold">
                           <CheckCircle2 className="size-3" />
-                          <span>Sukses</span>
+                          <span>{t("reminder.logs.statusSuccess") || "Sukses"}</span>
                         </Badge>
                       ) : (
                         <Tooltip>
@@ -230,11 +232,11 @@ export function ReminderLogsTable({
                             render={
                               <Badge variant="destructive" className="gap-1 text-[11px] font-semibold cursor-help">
                                 <AlertCircle className="size-3" />
-                                <span>Gagal</span>
+                                <span>{t("reminder.logs.statusFailed") || "Gagal"}</span>
                               </Badge>
                             }
                           >
-                            <span>{log.errorReason || "Gagal terkirim"}</span>
+                            <span>{log.errorReason || (t("reminder.logs.statusFailed") || "Gagal terkirim")}</span>
                           </TooltipTrigger>
                         </Tooltip>
                       )}

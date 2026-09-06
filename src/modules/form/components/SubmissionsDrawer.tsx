@@ -215,17 +215,17 @@ export function SubmissionsDrawer({
                       {/* Status Dropdown */}
                       <DropdownMenu>
                         <DropdownMenuTrigger className="inline-flex items-center justify-center rounded-xl text-xs font-medium border border-border/70 bg-background hover:bg-accent hover:text-accent-foreground h-8 px-3 cursor-pointer">
-                          Status <ChevronDown className="w-3 h-3 ml-1" />
+                          {t("reservation.changeStatus") || "Status"} <ChevronDown className="w-3 h-3 ml-1" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => updateStatus(sub.id, "PENDING")}>
-                            Tandai Pending
+                            {t("form.markPending") || "Tandai Pending"}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => updateStatus(sub.id, "PROCESSED")}>
-                            Tandai Diproses
+                            {t("form.markProcessed") || "Tandai Diproses"}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => updateStatus(sub.id, "ARCHIVED")}>
-                            Arsipkan
+                            {t("form.markArchived") || "Arsipkan"}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -239,11 +239,11 @@ export function SubmissionsDrawer({
                       >
                         {isExpanded ? (
                           <>
-                            Tutup <ChevronUp className="w-3 h-3" />
+                            {t("form.btnClose") || "Tutup"} <ChevronUp className="w-3 h-3" />
                           </>
                         ) : (
                           <>
-                            Jawaban <ChevronDown className="w-3 h-3" />
+                            {t("form.btnResponses") || "Jawaban"} <ChevronDown className="w-3 h-3" />
                           </>
                         )}
                       </Button>
@@ -254,7 +254,7 @@ export function SubmissionsDrawer({
                         size="icon"
                         className="h-8 w-8 rounded-xl text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer"
                         onClick={() => deleteSubmission(sub.id)}
-                        title="Hapus respons"
+                        title={t("form.deleteSubmissionTooltip") || "Hapus respons"}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </Button>
@@ -266,11 +266,11 @@ export function SubmissionsDrawer({
                     <div className="mt-3.5 bg-muted/30 rounded-xl p-3.5 border border-border/60">
                       <Separator className="mb-2.5" />
                       <h5 className="text-[11px] font-bold text-foreground-muted uppercase tracking-wider mb-2">
-                        Jawaban Pertanyaan:
+                        {t("form.responsesTitle") || "Jawaban Pertanyaan:"}
                       </h5>
                       {Object.keys(sub.responses).length === 0 ? (
                         <p className="text-xs text-foreground-muted italic">
-                          Tidak ada jawaban tambahan.
+                          {t("form.noExtraResponses") || "Tidak ada jawaban tambahan."}
                         </p>
                       ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">

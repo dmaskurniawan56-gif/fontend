@@ -17,6 +17,7 @@ import {
   Calendar,
   Clock,
   Smartphone,
+  Phone,
   Users,
   ShieldCheck,
   Copy,
@@ -261,9 +262,10 @@ export function CampaignDetailModal({
                         {campaign.targetNumbers.map((num) => (
                           <span
                             key={num}
-                            className="inline-flex items-center gap-0.5 rounded-full bg-sky-500/10 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
+                            className="inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
                           >
-                            📞 {num}
+                            <Phone className="size-2.5 shrink-0" />
+                            <span>{num}</span>
                           </span>
                         ))}
                       </div>

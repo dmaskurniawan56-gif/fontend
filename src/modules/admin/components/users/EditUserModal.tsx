@@ -27,6 +27,7 @@ import {
   Mail,
   User,
   Lock,
+  AlertTriangle,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -237,9 +238,12 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
               </button>
             </div>
             {password && (
-              <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400">
-                {t("admin.users.passwordOverwriteWarning")}{" "}
-                <code className="bg-muted rounded px-1 font-mono font-bold">{password}</code>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                <AlertTriangle className="size-3 shrink-0" />
+                <span>
+                  {t("admin.users.passwordOverwriteWarning")}{" "}
+                  <code className="bg-muted rounded px-1 font-mono font-bold">{password}</code>
+                </span>
               </span>
             )}
           </div>

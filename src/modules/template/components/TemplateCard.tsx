@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   FileText,
   Send,
+  MousePointerClick,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -196,7 +197,7 @@ export function TemplateCard({
         </h3>
 
         {/* Content Preview Box */}
-        <div className="mt-2 min-h-[72px] rounded-xl bg-muted/40 p-3 text-xs leading-relaxed text-foreground-secondary line-clamp-4">
+        <div className="mt-2 min-h-18 rounded-xl bg-muted/40 p-3 text-xs leading-relaxed text-foreground-secondary line-clamp-4">
           {previewParts.map((part, idx) => {
             const isVar = part.startsWith("{{") && part.endsWith("}}");
             return isVar ? (
@@ -219,9 +220,10 @@ export function TemplateCard({
               <Badge
                 key={bIdx}
                 variant="neutral"
-                className="rounded-md text-[10px] font-medium"
+                className="inline-flex items-center gap-1 rounded-md text-[10px] font-medium"
               >
-                🔘 {btn.text}
+                <MousePointerClick className="size-2.5 shrink-0 text-foreground-muted" />
+                <span>{btn.text}</span>
               </Badge>
             ))}
           </div>

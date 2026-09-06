@@ -35,7 +35,7 @@
   "deleteModalTitle": "Hapus Anggota Tim",
   "deleteModalSubtitle": "Konfirmasi penghapusan akses staf agen.",
   "deleteConfirmDesc": "Apakah Anda yakin ingin menghapus akses anggota tim ini secara permanen dari akun Anda?",
-  "deleteWarning": "⚠️ Tindakan ini tidak dapat dibatalkan. Staf tidak akan lagi dapat mengelola chat pelanggan atau membalas pesan.",
+  "deleteWarning": "Tindakan ini tidak dapat dibatalkan. Staf tidak akan lagi dapat mengelola chat pelanggan atau membalas pesan.",
   "confirmDeleteBtn": "Ya, Hapus Anggota",
   "deletingBtn": "Menghapus..."
 }

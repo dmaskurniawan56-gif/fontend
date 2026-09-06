@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { parseSpintax } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { Sparkles, RefreshCw } from "lucide-react";
+import { Shuffle, RefreshCw } from "lucide-react";
 
 const DEFAULT_SPINTAX_INPUT =
   "{Halo|Hai|Selamat Pagi} {Bpk/Ibu|Kak}, pesanan #{1001|1002|1003} sedang {diproses|dikemas}.";
@@ -23,7 +23,7 @@ export function SpintaxSandbox() {
     <div className="border-border bg-surface space-y-6 rounded-lg border p-6 shadow-sm sm:p-8">
       <div className="max-w-xl space-y-2">
         <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
-          <Sparkles className="size-3.5" />
+          <Shuffle className="size-3.5" />
           <span>{t("common.spintaxSection.badge")}</span>
         </div>
         <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl">

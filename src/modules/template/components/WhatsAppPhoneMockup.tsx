@@ -112,7 +112,7 @@ export function WhatsAppPhoneMockup({
 
   return (
     <div
-      className={`mx-auto flex w-full max-w-[340px] flex-col overflow-hidden rounded-[32px] border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
+      className={`mx-auto flex w-full max-w-85 flex-col overflow-hidden rounded-[32px] border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
     >
       {/* Top Phone Speaker / Camera Notch */}
       <div className="flex h-5 w-full items-center justify-center bg-neutral-900 pt-1">
@@ -138,7 +138,7 @@ export function WhatsAppPhoneMockup({
       </div>
 
       {/* WhatsApp Chat Body Wallpaper */}
-      <div className="relative flex min-h-[360px] flex-1 flex-col justify-end bg-[#EFEAE2] p-3 dark:bg-[#0b141a]">
+      <div className="relative flex min-h-90 flex-1 flex-col justify-end bg-[#EFEAE2] p-3 dark:bg-[#0b141a]">
         {/* Subtle Chat Pattern Overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-15"

@@ -83,7 +83,14 @@ export function SessionConfirmModal({
                 : "border-amber-500/20 bg-amber-500/5 dark:bg-amber-500/10"
             }`}
           >
-            <div className="flex items-center gap-2 text-xs font-extrabold">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold">
+              <AlertTriangle
+                className={`size-3.5 shrink-0 ${
+                  isLogoutAll
+                    ? "text-rose-600 dark:text-rose-400"
+                    : "text-amber-600 dark:text-amber-400"
+                }`}
+              />
               <span
                 className={
                   isLogoutAll

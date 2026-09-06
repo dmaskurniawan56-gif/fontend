@@ -242,7 +242,7 @@ export function AddReservationForm({
               </div>
               {getDatePreview() && (
                 <div className="text-[11px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/50 dark:border-blue-900/50 rounded-lg px-2.5 py-1 flex items-center gap-1.5 animate-in fade-in duration-200">
-                  <span>🗓️</span>
+                  <CalendarIcon className="size-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>{getDatePreview()}</span>
                 </div>
               )}

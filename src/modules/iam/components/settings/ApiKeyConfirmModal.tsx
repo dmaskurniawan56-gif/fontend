@@ -79,7 +79,14 @@ export function ApiKeyConfirmModal({
                 : "border-rose-500/20 bg-rose-500/5 dark:bg-rose-500/10"
             }`}
           >
-            <div className="flex items-center gap-2 text-xs font-extrabold">
+            <div className="flex items-center gap-1.5 text-xs font-extrabold">
+              <AlertTriangle
+                className={`size-3.5 shrink-0 ${
+                  isRegenerate
+                    ? "text-amber-600 dark:text-amber-400"
+                    : "text-rose-600 dark:text-rose-400"
+                }`}
+              />
               <span
                 className={
                   isRegenerate

@@ -9,7 +9,7 @@ import {
   MessageSquare,
   ArrowRight,
   CheckCircle2,
-  Sparkles,
+  Layers,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -102,7 +102,7 @@ export function BusinessSolutionsSection() {
       {/* Header Section */}
       <div className="mx-auto max-w-2xl space-y-2.5 text-center">
         <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
-          <Sparkles className="size-3.5" />
+          <Layers className="size-3.5" />
           <span>{t("common.landing.solutions.badge")}</span>
         </div>
         <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl lg:text-4xl">

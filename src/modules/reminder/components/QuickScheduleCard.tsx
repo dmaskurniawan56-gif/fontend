@@ -299,8 +299,9 @@ export function QuickScheduleCard({
             </div>
             {/* Live Indonesian Confirmation Text */}
             {getDatePreview() && (
-              <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">
-                🗓️ {getDatePreview()}
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-blue-600 dark:text-blue-400">
+                <Calendar className="size-3 shrink-0" />
+                <span>{getDatePreview()}</span>
               </span>
             )}
           </div>

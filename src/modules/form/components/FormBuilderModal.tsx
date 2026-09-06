@@ -10,8 +10,8 @@ import {
   FileText,
   Smartphone,
   Layers,
-  Sparkles,
   Lock,
+  RefreshCw,
 } from "lucide-react";
 import {
   Dialog,
@@ -284,7 +284,7 @@ export function FormBuilderModal({
                     : (t("form.createTitle") || "Buat Formulir Baru")}
                 </DialogTitle>
                 <p className="text-xs text-foreground-muted">
-                  {t("form.viewSubtitle") || "Landing page formulir publik untuk reservasi dan penangkapan leads WhatsApp."}
+                  {t("form.viewSubtitle") || "Pencatatan data internal, reservasi jadwal, dan pengelolaan kontak WhatsApp secara privat."}
                 </p>
               </div>
             </div>
@@ -644,7 +644,7 @@ export function FormBuilderModal({
 
           <DialogFooter className="border-border/70 bg-muted/20 flex shrink-0 items-center justify-between border-t p-4 sm:px-6">
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
-              <Sparkles className="size-3.5 text-primary" />
+              <RefreshCw className="size-3.5 text-foreground-muted" />
               <span>{t("form.preview.liveSyncHint") || "Pratinjau otomatis tersinkronisasi secara real-time"}</span>
             </div>
             <div className="flex items-center gap-2 ml-auto">

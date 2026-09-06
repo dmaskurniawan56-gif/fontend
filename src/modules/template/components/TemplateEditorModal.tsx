@@ -14,10 +14,12 @@ import { VariableQuickInsert } from "./VariableQuickInsert";
 import {
   Plus,
   Trash2,
-  Sparkles,
   Layers,
   Smartphone,
   Check,
+  LayoutTemplate,
+  ArrowRight,
+  RefreshCw,
 } from "lucide-react";
 import {
   Dialog,
@@ -123,7 +125,7 @@ function TemplateEditorContent({
         <DialogHeader className="flex flex-row items-center justify-between border-b border-border/60 px-5 sm:px-6 py-4 shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <Sparkles className="size-5" />
+              <LayoutTemplate className="size-5" />
             </div>
             <div>
               <DialogTitle className="text-base font-bold text-foreground sm:text-lg">
@@ -267,8 +269,9 @@ function TemplateEditorContent({
                   <span>
                     Format WhatsApp: <code className="text-foreground font-mono font-semibold">*tebal*</code>, <code className="text-foreground font-mono font-semibold">_miring_</code>, <code className="text-foreground font-mono font-semibold">~coret~</code>
                   </span>
-                  <span className="hidden lg:inline text-[10px] bg-muted/80 text-foreground-muted px-2 py-0.5 rounded-full font-medium">
-                    Pratinjau Live di kanan 👉
+                  <span className="hidden lg:inline-flex items-center gap-1 text-[10px] bg-muted/80 text-foreground-muted px-2 py-0.5 rounded-full font-medium">
+                    <span>Pratinjau Live di samping</span>
+                    <ArrowRight className="size-2.5" />
                   </span>
                 </div>
 
@@ -368,14 +371,15 @@ function TemplateEditorContent({
           {/* Right Column: Live Mockup Preview */}
           <div
             className={cn(
-              "w-full lg:w-5/12 xl:w-2/5 overflow-y-auto p-5 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-[420px]",
+              "w-full lg:w-5/12 xl:w-2/5 overflow-y-auto p-5 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-105",
               mobileTab === "preview" ? "flex" : "hidden lg:flex"
             )}
           >
-            <div className="w-full max-w-[340px] my-auto">
+            <div className="w-full max-w-85 my-auto">
               <div className="mb-2.5 text-center hidden lg:block">
-                <span className="text-[11px] font-medium text-foreground-muted bg-background/80 border border-border/60 px-3 py-1 rounded-full shadow-xs">
-                  📱 Pratinjau Interaktif WhatsApp
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-foreground-muted bg-background/80 border border-border/60 px-3 py-1 rounded-full shadow-xs">
+                  <Smartphone className="size-3 text-foreground-muted shrink-0" />
+                  <span>Pratinjau Interaktif WhatsApp</span>
                 </span>
               </div>
               <WhatsAppPhoneMockup
@@ -393,7 +397,7 @@ function TemplateEditorContent({
         {/* Footer */}
         <div className="flex items-center justify-between border-t border-border/60 bg-muted/20 px-5 sm:px-6 py-3.5 shrink-0">
           <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
-            <Sparkles className="size-3.5 text-primary" />
+            <RefreshCw className="size-3.5 text-foreground-muted" />
             <span>Pratinjau otomatis tersinkronisasi secara real-time.</span>
           </div>
 

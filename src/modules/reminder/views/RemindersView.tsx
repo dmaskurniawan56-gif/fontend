@@ -12,8 +12,8 @@ import { ReminderLogsTable } from "../components/ReminderLogsTable";
 import { Reminder } from "../types/reminder.types";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import {
   RefreshCw,
   Calendar,
@@ -97,14 +97,9 @@ export function RemindersView() {
       {/* Top Header & Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-              Pengingat Otomatis WhatsApp
-            </h1>
-            <Badge variant="outline" className="text-primary border-primary/20 bg-primary/10">
-              Modul 2: Pengingat
-            </Badge>
-          </div>
+          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            Pengingat Otomatis WhatsApp
+          </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
             Jadwalkan pengingat tanggal target, automasi pesan drip (H-1, Hari H, H+3), dan pantau audit pengiriman.
           </p>
@@ -190,29 +185,56 @@ export function RemindersView() {
         </Card>
       </div>
 
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
-        <TabsList className="h-10 p-1">
-          <TabsTrigger value="schedules" className="text-xs gap-2 px-3 py-1.5">
-            <Calendar className="size-3.5" />
-            <span>Jadwal Pengingat</span>
-            <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
-              {stats.total}
-            </Badge>
-          </TabsTrigger>
-          <TabsTrigger value="rules" className="text-xs gap-2 px-3 py-1.5">
-            <Layers className="size-3.5" />
-            <span>Aturan Pengiriman & Drip</span>
-          </TabsTrigger>
-          <TabsTrigger value="logs" className="text-xs gap-2 px-3 py-1.5">
-            <History className="size-3.5" />
-            <span>Riwayat Pengiriman</span>
-            <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
-              {logsTotal}
-            </Badge>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      {/* Tabs Navigation (Elevated Segmented Modern Nav) */}
+      <div className="overflow-x-auto scrollbar-none pb-1 sm:pb-0 w-full sm:w-fit">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
+          <TabsList className="h-12 sm:h-13 p-1.5 rounded-2xl bg-muted/70 dark:bg-muted/40 border border-border/80 shadow-xs flex items-center gap-1.5 w-full sm:w-auto shrink-0">
+            <TabsTrigger
+              value="schedules"
+              className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
+            >
+              <Calendar className="size-4 sm:size-4.5 text-primary shrink-0" />
+              <span>Jadwal Pengingat</span>
+              <span
+                className={cn(
+                  "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",
+                  activeTab === "schedules"
+                    ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30"
+                    : "bg-background/80 text-muted-foreground border border-border/50"
+                )}
+              >
+                {stats.total}
+              </span>
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="rules"
+              className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
+            >
+              <Layers className="size-4 sm:size-4.5 text-amber-500 shrink-0" />
+              <span>Aturan Pengiriman & Drip</span>
+            </TabsTrigger>
+
+            <TabsTrigger
+              value="logs"
+              className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
+            >
+              <History className="size-4 sm:size-4.5 text-purple-500 shrink-0" />
+              <span>Riwayat Pengiriman</span>
+              <span
+                className={cn(
+                  "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",
+                  activeTab === "logs"
+                    ? "bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30"
+                    : "bg-background/80 text-muted-foreground border border-border/50"
+                )}
+              >
+                {logsTotal}
+              </span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       {/* Tab Panels */}
       {activeTab === "schedules" && (

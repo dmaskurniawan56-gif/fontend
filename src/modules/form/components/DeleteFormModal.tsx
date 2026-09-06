@@ -66,12 +66,12 @@ export function DeleteFormModal({
             <strong className="font-semibold text-foreground">
               &ldquo;{form.title}&rdquo;
             </strong>{" "}
-            (/{form.slug})?
+            (ID: {form.slug})?
             <br />
             <br />
             <span className="text-destructive font-medium">
               {t("form.deleteWarning") ||
-                "Perhatian: Tautan publik tidak akan dapat diakses lagi. Data respons yang tersimpan akan ikut terhapus."}
+                "Perhatian: Data respons formulir yang tersimpan akan ikut terhapus secara permanen."}
             </span>
           </AlertDialogDescription>
         </AlertDialogHeader>

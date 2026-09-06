@@ -154,13 +154,11 @@ export function useForms() {
     }
   };
 
-  // 6. Copy Public Form Link
+  // 6. Copy Form Identifier
   const copyPublicLink = (slug: string) => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const url = `${origin}/f/${slug}`;
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(url);
-      toast.success(t("form.linkCopied") || "Link formulir disalin ke clipboard!");
+      navigator.clipboard.writeText(slug);
+      toast.success(t("form.linkCopied") || "Identifier formulir disalin ke clipboard!");
     }
   };
 

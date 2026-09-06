@@ -11,6 +11,7 @@ import {
   Smartphone,
   Layers,
   Sparkles,
+  Lock,
 } from "lucide-react";
 import {
   Dialog,
@@ -83,7 +84,6 @@ export function FormBuilderModal({
   const [fields, setFields] = useState<FormField[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [redirectUrl, setRedirectUrl] = useState("");
-  const [isActive, setIsActive] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mobileTab, setMobileTab] = useState<"form" | "preview">("form");
 
@@ -97,7 +97,6 @@ export function FormBuilderModal({
       setFields(form.fields || []);
       setSuccessMessage(form.successMessage || "");
       setRedirectUrl(form.redirectUrl || "");
-      setIsActive(form.isActive ?? true);
     } else {
       setTitle("");
       setSlug("");
@@ -115,7 +114,6 @@ export function FormBuilderModal({
       ]);
       setSuccessMessage("Terima kasih! Formulir Anda telah berhasil kami terima.");
       setRedirectUrl("");
-      setIsActive(true);
     }
   }, [form, isOpen]);
 
@@ -249,7 +247,7 @@ export function FormBuilderModal({
           fields,
           successMessage: successMessage.trim(),
           redirectUrl: redirectUrl.trim() || undefined,
-          isActive,
+          isActive: false,
         });
         if (res) onClose();
       } else {
@@ -261,7 +259,7 @@ export function FormBuilderModal({
           fields,
           successMessage: successMessage.trim(),
           redirectUrl: redirectUrl.trim() || undefined,
-          isActive,
+          isActive: false,
         });
         if (res) onClose();
       }
@@ -364,13 +362,13 @@ export function FormBuilderModal({
 
               <div className="space-y-1.5">
                 <Label htmlFor="form-slug" className="text-xs font-medium">
-                  {t("form.fieldSlug") || "URL Slug Publik"} *
+                  {t("form.fieldSlug") || "Identifier Kode Internal"} *
                 </Label>
-                <div className="flex items-center rounded-md border border-slate-200 dark:border-slate-800 px-3 bg-slate-50 dark:bg-slate-900">
-                  <span className="text-xs text-slate-400 select-none">/f/</span>
+                <div className="flex items-center rounded-xl border border-border/70 px-3 bg-muted/40">
+                  <span className="text-xs text-foreground-muted select-none font-mono">internal/</span>
                   <input
                     id="form-slug"
-                    className="w-full bg-transparent py-2 pl-1 text-sm outline-none text-slate-900 dark:text-slate-100 font-mono"
+                    className="w-full bg-transparent py-2 pl-1 text-xs outline-none text-foreground font-mono"
                     placeholder="workshop-bisnis"
                     value={slug}
                     onChange={(e) =>
@@ -382,7 +380,7 @@ export function FormBuilderModal({
               </div>
             </div>
 
-            {/* Type & Active */}
+            {/* Type & Private Status */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div className="space-y-1.5">
                 <Label htmlFor="form-type" className="text-xs font-medium">
@@ -408,18 +406,21 @@ export function FormBuilderModal({
                 </NativeSelect>
               </div>
 
-              <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-3 p-3 rounded-xl border border-border/70 bg-muted/30">
+                <div className="flex size-8 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+                  <Lock className="size-4" />
+                </div>
                 <div>
-                  <div className="text-xs font-medium text-slate-900 dark:text-slate-100">
-                    {t("form.fieldStatus") || "Status Publik"}
+                  <div className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                    <span>Akses: Privat Internal</span>
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
+                      Wajib Privat
+                    </span>
                   </div>
-                  <div className="text-[11px] text-slate-500">
-                    {isActive
-                      ? "Dapat diakses oleh publik"
-                      : "Ditutup sementara (tidak menerima respons)"}
+                  <div className="text-[11px] text-foreground-muted">
+                    Hanya dapat dikelola di dashboard internal. Akses publik luar dinonaktifkan.
                   </div>
                 </div>
-                <Switch checked={isActive} onCheckedChange={setIsActive} />
               </div>
             </div>
 

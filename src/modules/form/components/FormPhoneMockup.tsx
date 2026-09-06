@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import {
   Lock,
-  RotateCw,
   Calendar,
   Send,
   CheckCircle2,
@@ -93,15 +92,17 @@ export function FormPhoneMockup({
           </div>
         </div>
 
-        {/* Mobile Browser Address Bar */}
+        {/* Mobile Internal Mode Bar */}
         <div className="flex items-center justify-between gap-2 border-b border-border/50 bg-slate-100 px-3 py-1.5 text-[11px] text-slate-700 dark:bg-neutral-900 dark:border-neutral-800 dark:text-neutral-300 shrink-0">
-          <div className="flex flex-1 items-center gap-1.5 overflow-hidden rounded-full bg-white px-2.5 py-1 text-slate-800 shadow-2xs dark:bg-neutral-800 dark:text-neutral-200">
-            <Lock className="size-2.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span className="truncate font-mono text-[10px]">
-              wahide.id/f/{slug ? slug.toLowerCase() : "contoh-form"}
+          <div className="flex flex-1 items-center gap-1.5 overflow-hidden rounded-full bg-amber-500/10 px-2.5 py-1 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+            <Lock className="size-2.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span className="truncate font-semibold text-[10px]">
+              Mode Privat • Internal Dashboard
             </span>
           </div>
-          <RotateCw className="size-3 text-slate-400 hover:text-slate-600 dark:hover:text-neutral-200 cursor-pointer shrink-0" />
+          <span className="text-[10px] font-mono text-slate-400 truncate">
+            ref:{slug ? slug.toLowerCase() : "internal"}
+          </span>
         </div>
 
         {/* Inner Mobile Screen Content (Scrollable Viewport) */}

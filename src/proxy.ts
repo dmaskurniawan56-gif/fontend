@@ -67,6 +67,11 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  // 4. Redirect root /f or /f/ to /
+  if (pathname === "/f" || pathname === "/f/") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   return NextResponse.next();
 }
 

@@ -4,9 +4,10 @@ import React, { useState, useMemo } from "react";
 import {
   Plus,
   FileSpreadsheet,
-  Eye,
   FileCheck2,
-  TrendingUp,
+  Calendar,
+  UserPlus,
+  Lock,
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,10 +15,6 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SearchInput } from "@/components/ui/search-input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select";
 import { useI18n } from "@/lib/i18n/context";
 import { Form, FormType } from "../types/form.types";
 import { useForms } from "../hooks/useForms";
@@ -35,8 +32,6 @@ export function FormsView() {
     setSearch,
     type,
     setType,
-    isActiveFilter,
-    setIsActiveFilter,
     page,
     setPage,
     total,
@@ -44,9 +39,7 @@ export function FormsView() {
     fetchForms,
     createForm,
     updateForm,
-    toggleActive,
     deleteForm,
-    copyPublicLink,
   } = useForms();
 
   // Modal states
@@ -61,20 +54,20 @@ export function FormsView() {
 
   // Aggregated Stats from loaded forms
   const stats = useMemo(() => {
-    let totalViews = 0;
     let totalSubmissions = 0;
+    let reservationForms = 0;
+    let leadForms = 0;
     forms.forEach((f) => {
-      totalViews += f.viewCount;
       totalSubmissions += f.submissionCount;
+      if (f.type === "RESERVATION") reservationForms++;
+      else if (f.type === "LEAD") leadForms++;
     });
-    const avgConversion =
-      totalViews > 0 ? ((totalSubmissions / totalViews) * 100).toFixed(1) : "0.0";
 
     return {
       totalForms: total,
-      totalViews,
       totalSubmissions,
-      avgConversion,
+      reservationForms,
+      leadForms,
     };
   }, [forms, total]);
 
@@ -104,11 +97,11 @@ export function FormsView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            {t("form.viewTitle") || "Formulir Dinamis"}
+            {t("form.viewTitle") || "Formulir Privat"}
           </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
             {t("form.viewSubtitle") ||
-              "Landing page formulir publik untuk reservasi, pendaftaran, dan penangkapan leads WhatsApp."}
+              "Pencatatan data internal, reservasi jadwal, dan pengelolaan kontak WhatsApp secara privat."}
           </p>
         </div>
 
@@ -118,7 +111,7 @@ export function FormsView() {
             size="sm"
             onClick={() => fetchForms()}
             disabled={isLoading}
-            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs"
+            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
             title="Muat Ulang Data"
           >
             <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
@@ -152,18 +145,6 @@ export function FormsView() {
         </div>
 
         <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
-            <Eye className="size-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.totalViews") || "Total Dilihat (Views)"}
-            </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalViews.toLocaleString()}</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
           <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
             <FileCheck2 className="size-4" />
           </div>
@@ -176,14 +157,26 @@ export function FormsView() {
         </div>
 
         <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 shrink-0">
-            <TrendingUp className="size-4" />
+          <div className="flex size-9 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 shrink-0">
+            <Calendar className="size-4" />
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.avgConversion") || "Rata-rata Konversi"}
+              {t("form.stats.reservationForms") || "Formulir Reservasi"}
             </p>
-            <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400 sm:text-xl">{stats.avgConversion}%</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.reservationForms}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+            <UserPlus className="size-4" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[11px] font-medium text-foreground-muted">
+              {t("form.stats.leadForms") || "Form Lead Capture"}
+            </p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.leadForms}</p>
           </div>
         </div>
       </div>
@@ -222,45 +215,26 @@ export function FormsView() {
               className="w-full sm:w-auto"
             >
               <TabsList className="h-9 w-full sm:w-auto justify-start shrink-0">
-                <TabsTrigger value="ALL" className="text-xs px-2.5">
+                <TabsTrigger value="ALL" className="text-xs px-2.5 cursor-pointer">
                   Semua Tipe
                 </TabsTrigger>
-                <TabsTrigger value="STANDARD" className="text-xs px-2.5">
+                <TabsTrigger value="STANDARD" className="text-xs px-2.5 cursor-pointer">
                   Standard
                 </TabsTrigger>
-                <TabsTrigger value="RESERVATION" className="text-xs px-2.5">
+                <TabsTrigger value="RESERVATION" className="text-xs px-2.5 cursor-pointer">
                   Reservasi
                 </TabsTrigger>
-                <TabsTrigger value="LEAD" className="text-xs px-2.5">
+                <TabsTrigger value="LEAD" className="text-xs px-2.5 cursor-pointer">
                   Lead
                 </TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
 
-          {/* Status Filter */}
-          <NativeSelect
-            value={
-              isActiveFilter === undefined
-                ? "ALL"
-                : isActiveFilter
-                ? "ACTIVE"
-                : "INACTIVE"
-            }
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-              const val = e.target.value;
-              if (val === "ALL") setIsActiveFilter(undefined);
-              else if (val === "ACTIVE") setIsActiveFilter(true);
-              else setIsActiveFilter(false);
-              setPage(1);
-            }}
-            wrapperClassName="w-full sm:w-36 shrink-0"
-            className="text-xs h-9"
-          >
-            <NativeSelectOption value="ALL">Semua Status</NativeSelectOption>
-            <NativeSelectOption value="ACTIVE">Aktif</NativeSelectOption>
-            <NativeSelectOption value="INACTIVE">Nonaktif</NativeSelectOption>
-          </NativeSelect>
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs font-semibold shrink-0">
+            <Lock className="size-3.5" />
+            <span>100% Privat Internal</span>
+          </div>
         </div>
       </div>
 
@@ -303,8 +277,6 @@ export function FormsView() {
               onEdit={handleEdit}
               onDelete={handleDelete}
               onViewSubmissions={handleViewSubmissions}
-              onToggleActive={toggleActive}
-              onCopyLink={copyPublicLink}
             />
           ))}
         </div>

@@ -48,6 +48,7 @@ export interface User {
   email: string;
   role: UserRole;
   phone?: string;
+  token?: string;
   avatarUrl?: string;
   balance?: number;
   incomePending?: number;

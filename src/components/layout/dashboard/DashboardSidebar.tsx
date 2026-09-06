@@ -15,6 +15,8 @@ import {
   LifeBuoy,
   Settings,
   ShieldAlert,
+  FileText,
+  BellRing,
 } from "lucide-react";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
@@ -67,6 +69,18 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
         key: "dashboardMenu.contacts",
         href: "/contacts",
         icon: Users,
+      },
+      {
+        key: "dashboardMenu.templates",
+        href: "/templates",
+        icon: FileText,
+        roles: SELLER_ROLES,
+      },
+      {
+        key: "dashboardMenu.reminders",
+        href: "/reminders",
+        icon: BellRing,
+        roles: SELLER_ROLES,
       },
     ],
   },

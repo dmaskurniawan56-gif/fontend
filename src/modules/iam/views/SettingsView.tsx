@@ -27,8 +27,7 @@ import {
 export function SettingsView() {
   const { t } = useI18n();
   const { user, tenant, updateProfileName, fetchProfile } = useAuth();
-  const [apiKey, setApiKey] = useState<string>("");
-  const [isKeyFetching, setIsKeyFetching] = useState(true);
+  const [apiKey, setApiKey] = useState<string>(user?.token || "");
   const [showKey, setShowKey] = useState(false);
   const [isKeyLoading, setIsKeyLoading] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
@@ -39,35 +38,17 @@ export function SettingsView() {
     mode: "REGENERATE",
   });
 
-  // Auto-sync fresh profile and API key on page load
+  // Auto-sync fresh profile on page load
   useEffect(() => {
     fetchProfile().catch(() => null);
-
-    let isMounted = true;
-    setIsKeyFetching(true);
-    authApi
-      .getApiKey()
-      .then((res) => {
-        if (isMounted) {
-          setApiKey(res?.token || "");
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to load API key:", err);
-        if (isMounted) {
-          setApiKey("");
-        }
-      })
-      .finally(() => {
-        if (isMounted) {
-          setIsKeyFetching(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
   }, [fetchProfile]);
+
+  // Keep apiKey in sync with user profile whenever user data updates
+  useEffect(() => {
+    if (user?.token) {
+      setApiKey(user.token);
+    }
+  }, [user?.token]);
 
   // Password Form state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -105,6 +86,7 @@ export function SettingsView() {
         if (res?.token) {
           setApiKey(res.token);
           toast.success(t("settings.keyRegenerated"), { id: "apikey-action" });
+          await fetchProfile().catch(() => null);
         } else {
           toast.error("Gagal mendapatkan API Key dari server.", { id: "apikey-action" });
         }
@@ -112,6 +94,7 @@ export function SettingsView() {
         await authApi.revokeApiKey();
         setApiKey("");
         toast.success("API Key berhasil dicabut.", { id: "apikey-action" });
+        await fetchProfile().catch(() => null);
       }
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } catch (err: unknown) {
@@ -204,7 +187,7 @@ export function SettingsView() {
             <Button
               variant="outline"
               size="sm"
-              disabled={isKeyLoading || isKeyFetching}
+              disabled={isKeyLoading}
               onClick={handleOpenRegenerateModal}
               className="border-border hover:border-foreground-muted gap-1.5 rounded-full text-xs font-bold"
             >
@@ -215,7 +198,7 @@ export function SettingsView() {
               <Button
                 variant="outline"
                 size="sm"
-                disabled={isKeyLoading || isKeyFetching}
+                disabled={isKeyLoading}
                 onClick={handleOpenRevokeModal}
                 className="gap-1.5 rounded-full border-rose-500/20 text-xs font-bold text-rose-600 hover:bg-rose-500/10 dark:text-rose-400"
               >
@@ -226,14 +209,7 @@ export function SettingsView() {
           </div>
         </div>
 
-        {isKeyFetching ? (
-          <div className="border-border bg-muted/20 flex items-center justify-center rounded-md border p-8 text-center">
-            <div className="text-foreground-secondary flex items-center gap-2 text-xs font-semibold">
-              <Loader2 className="dark:text-wise-green size-4 animate-spin text-emerald-600" />
-              <span>Memuat status API Key...</span>
-            </div>
-          </div>
-        ) : apiKey ? (
+        {apiKey ? (
           <div className="border-border bg-muted/30 space-y-3 rounded-md border p-4">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-wrap items-center gap-1.5">

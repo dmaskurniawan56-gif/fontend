@@ -1,0 +1,42 @@
+{
+  "title": "WhatsApp Message Templates",
+  "subtitle": "Ready-to-send message template collection with dynamic variables and interactive action buttons.",
+  "addTemplate": "Add Template",
+  "editTemplate": "Edit Template",
+  "duplicateTemplate": "Duplicate",
+  "deleteTemplate": "Delete",
+  "copyContent": "Copy Message",
+  "contentCopied": "Template message successfully copied to clipboard!",
+  "favorited": "Template added to favorites",
+  "unfavorited": "Template removed from favorites",
+  "createdSuccess": "Template created successfully",
+  "updatedSuccess": "Template updated successfully",
+  "duplicatedSuccess": "Template duplicated successfully",
+  "deletedSuccess": "Template deleted successfully",
+  "createFailed": "Failed to create template",
+  "updateFailed": "Failed to update template",
+  "duplicateFailed": "Failed to duplicate template",
+  "deleteFailed": "Failed to delete template",
+  "categories": {
+    "all": "All Categories",
+    "marketing": "Marketing & Promotions",
+    "utility": "Operations & Utility",
+    "reminder": "Reminders & Invoices",
+    "reservation": "Reservations & Bookings",
+    "quickReply": "Quick Reply (CS)"
+  },
+  "mediaTypes": {
+    "none": "No Media",
+    "image": "Image",
+    "document": "Document"
+  },
+  "stats": {
+    "total": "Total Templates",
+    "marketing": "Marketing & Promo",
+    "utility": "Operational",
+    "reminder": "Reminders",
+    "reservation": "Reservations",
+    "quickReply": "Quick Replies",
+    "favorites": "Favorite Templates"
+  }
+}

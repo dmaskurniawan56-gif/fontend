@@ -16,6 +16,7 @@ export const userApi = {
       email: p.email || "",
       role: p.role_name?.toUpperCase() || "SELLER",
       phone: p.phone_number,
+      token: p.token || "",
       balance: p.balance,
       incomePending: p.income,
       isVerified: p.is_active,

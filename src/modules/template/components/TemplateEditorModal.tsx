@@ -131,10 +131,10 @@ function TemplateEditorContent({
             </div>
             <div>
               <DialogTitle className="text-base font-bold text-foreground sm:text-lg">
-                {initialData ? (t("template.editor.editTitle") || "Edit Template Pesan") : (t("template.editor.createTitle") || "Buat Template Pesan Baru")}
+                {initialData ? t("template.editor.editTitle") : t("template.editor.createTitle")}
               </DialogTitle>
               <DialogDescription className="text-xs text-foreground-muted">
-                {t("template.editor.subtitle") || "Didesain untuk siaran massal, balasan otomatis, dan notifikasi transaksi"}
+                {t("template.editor.subtitle")}
               </DialogDescription>
             </div>
           </div>
@@ -146,11 +146,11 @@ function TemplateEditorContent({
                 <TabsList className="h-8 p-0.5 bg-muted rounded-lg">
                   <TabsTrigger value="form" className="text-xs gap-1 px-2.5 py-1">
                     <Layers className="size-3.5" />
-                    <span>{t("template.editor.tabForm") || "Form"}</span>
+                    <span>{t("template.editor.tabForm")}</span>
                   </TabsTrigger>
                   <TabsTrigger value="preview" className="text-xs gap-1 px-2.5 py-1">
                     <Smartphone className="size-3.5" />
-                    <span>{t("template.editor.tabPreview") || "Pratinjau"}</span>
+                    <span>{t("template.editor.tabPreview")}</span>
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -172,7 +172,7 @@ function TemplateEditorContent({
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <Label htmlFor="template-name">
-                    {t("template.editor.nameLabel") || "Nama Template"} <span className="text-destructive">*</span>
+                    {t("template.editor.nameLabel")} <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="template-name"
@@ -180,14 +180,14 @@ function TemplateEditorContent({
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder={t("template.editor.namePlaceholder") || "Contoh: Pengingat Jadwal Temu"}
+                    placeholder={t("template.editor.namePlaceholder")}
                     className="h-10 text-xs rounded-xl"
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <Label htmlFor="template-category">
-                    {t("template.editor.categoryLabel") || "Kategori Template"} <span className="text-destructive">*</span>
+                    {t("template.editor.categoryLabel")} <span className="text-destructive">*</span>
                   </Label>
                   <NativeSelect
                     id="template-category"
@@ -195,11 +195,11 @@ function TemplateEditorContent({
                     onChange={(e) => setCategory(e.target.value as TemplateCategory)}
                     className="h-10 text-xs rounded-xl"
                   >
-                    <NativeSelectOption value="MARKETING">{t("template.categories.marketing") || "Marketing & Promosi"}</NativeSelectOption>
-                    <NativeSelectOption value="UTILITY">{t("template.categories.utility") || "Operasional & Utilitas"}</NativeSelectOption>
-                    <NativeSelectOption value="REMINDER">{t("template.categories.reminder") || "Pengingat & Tagihan"}</NativeSelectOption>
-                    <NativeSelectOption value="RESERVATION">{t("template.categories.reservation") || "Reservasi & Janji Temu"}</NativeSelectOption>
-                    <NativeSelectOption value="QUICK_REPLY">{t("template.categories.quickReply") || "Balasan Cepat (CS)"}</NativeSelectOption>
+                    <NativeSelectOption value="MARKETING">{t("template.categories.marketing")}</NativeSelectOption>
+                    <NativeSelectOption value="UTILITY">{t("template.categories.utility")}</NativeSelectOption>
+                    <NativeSelectOption value="REMINDER">{t("template.categories.reminder")}</NativeSelectOption>
+                    <NativeSelectOption value="RESERVATION">{t("template.categories.reservation")}</NativeSelectOption>
+                    <NativeSelectOption value="QUICK_REPLY">{t("template.categories.quickReply")}</NativeSelectOption>
                   </NativeSelect>
                 </div>
               </div>
@@ -208,7 +208,7 @@ function TemplateEditorContent({
               <div className="rounded-2xl border border-border/60 bg-muted/20 p-3.5 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-foreground">
-                    {t("template.editor.mediaLabel") || "Header Media (Opsional)"}
+                    {t("template.editor.mediaLabel")}
                   </span>
                   <div className="flex items-center gap-1 rounded-xl bg-muted p-0.5">
                     {(["NONE", "IMAGE", "DOCUMENT"] as TemplateMediaType[]).map((m) => (
@@ -220,9 +220,9 @@ function TemplateEditorContent({
                         onClick={() => setMediaType(m)}
                         className="rounded-lg text-[11px] cursor-pointer"
                       >
-                        {m === "NONE" && (t("template.mediaTypes.none") || "Tanpa Media")}
-                        {m === "IMAGE" && (t("template.mediaTypes.image") || "Gambar")}
-                        {m === "DOCUMENT" && (t("template.mediaTypes.document") || "Dokumen")}
+                        {m === "NONE" && t("template.mediaTypes.none")}
+                        {m === "IMAGE" && t("template.mediaTypes.image")}
+                        {m === "DOCUMENT" && t("template.mediaTypes.document")}
                       </Button>
                     ))}
                   </div>
@@ -249,7 +249,7 @@ function TemplateEditorContent({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="template-content">
-                    {t("template.editor.contentLabel") || "Isi Pesan Template"} <span className="text-destructive">*</span>
+                    {t("template.editor.contentLabel")} <span className="text-destructive">*</span>
                   </Label>
                   <span className="text-[11px] text-foreground-muted">
                     {content.length} karakter
@@ -262,17 +262,17 @@ function TemplateEditorContent({
                   rows={6}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder={t("template.editor.contentPlaceholder") || "Ketik pesan Anda di sini. Gunakan {{variabel}} untuk data dinamis."}
+                  placeholder={t("template.editor.contentPlaceholder")}
                   className="rounded-2xl p-3.5 text-xs leading-relaxed resize-none"
                 />
 
                 {/* WhatsApp Formatting Helper */}
                 <div className="flex items-center justify-between text-[11px] text-foreground-muted px-1">
                   <span>
-                    {t("template.editor.formatHint") || "Format WhatsApp: *tebal*, _miring_, ~coret~"}
+                    {t("template.editor.formatHint")}
                   </span>
                   <span className="hidden lg:inline-flex items-center gap-1 text-[10px] bg-muted/80 text-foreground-muted px-2 py-0.5 rounded-full font-medium">
-                    <span>{t("template.editor.livePreviewSide") || "Pratinjau Live di samping"}</span>
+                    <span>{t("template.editor.livePreviewSide")}</span>
                     <ArrowRight className="size-2.5" />
                   </span>
                 </div>
@@ -286,10 +286,10 @@ function TemplateEditorContent({
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-xs font-semibold text-foreground">
-                      {t("template.editor.buttonsTitle") || "Tombol Aksi Interaktif WhatsApp"}
+                      {t("template.editor.buttonsTitle")}
                     </span>
                     <p className="text-[11px] text-foreground-muted">
-                      {t("template.editor.buttonsDesc") || "Maksimal 3 tombol (Quick Reply, Buka URL, atau Panggilan Telepon)"}
+                      {t("template.editor.buttonsDesc")}
                     </p>
                   </div>
 
@@ -302,7 +302,7 @@ function TemplateEditorContent({
                       className="h-7 gap-1 rounded-xl text-xs cursor-pointer"
                     >
                       <Plus className="size-3" />
-                      {t("template.editor.addButton") || "Tambah Tombol"}
+                      {t("template.editor.addButton")}
                     </Button>
                   )}
                 </div>
@@ -322,8 +322,8 @@ function TemplateEditorContent({
                           className="h-8 rounded-lg text-xs w-32"
                         >
                           <NativeSelectOption value="QUICK_REPLY">Quick Reply</NativeSelectOption>
-                          <NativeSelectOption value="URL">{t("template.editor.btnUrl") || "Tautan URL Web"}</NativeSelectOption>
-                          <NativeSelectOption value="CALL">{t("template.editor.btnCall") || "Panggilan Telepon"}</NativeSelectOption>
+                          <NativeSelectOption value="URL">{t("template.editor.btnUrl")}</NativeSelectOption>
+                          <NativeSelectOption value="CALL">{t("template.editor.btnCall")}</NativeSelectOption>
                         </NativeSelect>
 
                         <Input
@@ -333,7 +333,7 @@ function TemplateEditorContent({
                           onChange={(e) =>
                             handleUpdateButton(idx, "text", e.target.value)
                           }
-                          placeholder={t("template.editor.btnTextPlaceholder") || "Teks Tombol (cth: Cek Pesanan)"}
+                          placeholder={t("template.editor.btnTextPlaceholder")}
                           className="h-8 flex-1 rounded-lg text-xs"
                         />
 
@@ -381,7 +381,7 @@ function TemplateEditorContent({
               <div className="mb-2.5 text-center hidden lg:block">
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-foreground-muted bg-background/80 border border-border/60 px-3 py-1 rounded-full shadow-xs">
                   <Smartphone className="size-3 text-foreground-muted shrink-0" />
-                  <span>{t("template.editor.interactivePreview") || "Pratinjau Interaktif WhatsApp"}</span>
+                  <span>{t("template.editor.interactivePreview")}</span>
                 </span>
               </div>
               <WhatsAppPhoneMockup
@@ -400,7 +400,7 @@ function TemplateEditorContent({
         <div className="flex items-center justify-between border-t border-border/60 bg-muted/20 px-5 sm:px-6 py-3.5 shrink-0">
           <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
             <RefreshCw className="size-3.5 text-foreground-muted" />
-            <span>{t("template.editor.liveSyncHint") || "Pratinjau otomatis tersinkronisasi secara real-time."}</span>
+            <span>{t("template.editor.liveSyncHint")}</span>
           </div>
 
           <div className="flex items-center gap-2.5 ml-auto">
@@ -430,7 +430,7 @@ function TemplateEditorContent({
               ) : (
                 <span className="flex items-center gap-1.5">
                   <Check className="size-4" />
-                  {initialData ? (t("template.editor.saveChanges") || "Simpan Perubahan") : (t("template.editor.createSubmit") || "Buat Template")}
+                  {initialData ? t("template.editor.saveChanges") : t("template.editor.createSubmit")}
                 </span>
               )}
             </Button>

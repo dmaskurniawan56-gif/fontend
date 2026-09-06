@@ -64,7 +64,7 @@ export function useForms() {
         const msg =
           err instanceof Error
             ? err.message
-            : t("form.fetchFailed") || "Gagal memuat formulir";
+            : t("form.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -84,14 +84,14 @@ export function useForms() {
   const createForm = async (input: CreateFormInput): Promise<Form | null> => {
     try {
       const created = await formApi.createForm(input);
-      toast.success(t("form.createSuccess") || "Formulir berhasil dibuat!");
+      toast.success(t("form.createSuccess"));
       await fetchForms();
       return created;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.createFailed") || "Gagal membuat formulir";
+          : t("form.createFailed");
       toast.error(msg);
       return null;
     }
@@ -101,14 +101,14 @@ export function useForms() {
   const updateForm = async (id: string, input: UpdateFormInput): Promise<Form | null> => {
     try {
       const updated = await formApi.updateForm(id, input);
-      toast.success(t("form.updateSuccess") || "Formulir berhasil diperbarui!");
+      toast.success(t("form.updateSuccess"));
       setForms((prev) => prev.map((f) => (f.id === id ? updated : f)));
       return updated;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.updateFailed") || "Gagal memperbarui formulir";
+          : t("form.updateFailed");
       toast.error(msg);
       return null;
     }
@@ -124,14 +124,14 @@ export function useForms() {
       );
       toast.success(
         newStatus
-          ? t("form.activated") || "Formulir diaktifkan"
-          : t("form.deactivated") || "Formulir dinonaktifkan"
+          ? t("form.activated")
+          : t("form.deactivated")
       );
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.toggleFailed") || "Gagal mengubah status formulir";
+          : t("form.toggleFailed");
       toast.error(msg);
     }
   };
@@ -140,7 +140,7 @@ export function useForms() {
   const deleteForm = async (id: string): Promise<boolean> => {
     try {
       await formApi.deleteForm(id);
-      toast.success(t("form.deleteSuccess") || "Formulir berhasil dihapus!");
+      toast.success(t("form.deleteSuccess"));
       setForms((prev) => prev.filter((f) => f.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
       return true;
@@ -148,7 +148,7 @@ export function useForms() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.deleteFailed") || "Gagal menghapus formulir";
+          : t("form.deleteFailed");
       toast.error(msg);
       return false;
     }
@@ -158,7 +158,7 @@ export function useForms() {
   const copyPublicLink = (slug: string) => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(slug);
-      toast.success(t("form.linkCopied") || "Identifier formulir disalin ke clipboard!");
+      toast.success(t("form.linkCopied"));
     }
   };
 

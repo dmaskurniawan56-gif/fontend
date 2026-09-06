@@ -75,15 +75,13 @@ export function useReminderRules() {
     try {
       const updated = await reminderApi.updateRules(input);
       setRule(updated);
-      toast.success(
-        t("reminder.rulesUpdatedSuccess") || "Aturan pengiriman berhasil disimpan"
-      );
+      toast.success(t("reminder.rulesUpdatedSuccess"));
       return true;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reminder.rulesUpdateFailed") || "Gagal menyimpan aturan pengiriman";
+          : t("reminder.rulesUpdateFailed");
       toast.error(msg);
       return false;
     } finally {

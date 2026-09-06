@@ -122,9 +122,9 @@ export function DeliveryRulesCard({
             <Clock className="size-4" />
           </div>
           <div>
-            <CardTitle className="text-sm font-bold">{t("reminder.rules.title") || "Aturan Drip & Jadwal Otomatis"}</CardTitle>
+            <CardTitle className="text-sm font-bold">{t("reminder.rules.title")}</CardTitle>
             <CardDescription className="text-xs">
-              {t("reminder.rules.subtitle") || "Konfigurasikan template pesan bertahap (H-3, H-1, Hari H, H+1) dan perangkat pengirim."}
+              {t("reminder.rules.subtitle")}
             </CardDescription>
           </div>
         </div>
@@ -139,12 +139,12 @@ export function DeliveryRulesCard({
           {isSaving ? (
             <>
               <Loader2 className="size-3.5 animate-spin" />
-              {t("reminder.rules.saving") || "Menyimpan..."}
+              {t("reminder.rules.saving")}
             </>
           ) : (
             <>
               <Save className="size-3.5" />
-              {t("reminder.rules.saveRules") || "Simpan Aturan"}
+              {t("reminder.rules.saveRules")}
             </>
           )}
         </Button>
@@ -160,7 +160,7 @@ export function DeliveryRulesCard({
             <div className="flex flex-col gap-1.5 sm:col-span-1">
               <Label htmlFor="rem-device" className="text-xs">
                 <Smartphone className="size-3.5 text-primary" />
-                <span>{t("reminder.rules.senderDevice") || "Nomor WhatsApp Pengirim"}</span>
+                <span>{t("reminder.rules.senderDevice")}</span>
               </Label>
               <NativeSelect
                 id="rem-device"
@@ -169,7 +169,7 @@ export function DeliveryRulesCard({
                 disabled={isSaving || isLoadingDevices}
                 className="h-10 text-xs rounded-xl"
               >
-                <NativeSelectOption value="">{t("reminder.rules.selectDevice") || "-- Pilih Slot Device --"}</NativeSelectOption>
+                <NativeSelectOption value="">{t("reminder.rules.selectDevice")}</NativeSelectOption>
                 {devices.map((d) => (
                   <NativeSelectOption key={d.id} value={d.id}>
                     {d.name} {d.phone ? `(${d.phone})` : ""} - [{d.status}]
@@ -178,7 +178,7 @@ export function DeliveryRulesCard({
               </NativeSelect>
               {devices.length === 0 && !isLoadingDevices && (
                 <p className="text-[11px] text-amber-500 flex items-center gap-1">
-                  <AlertCircle className="size-3" /> {t("reminder.rules.noDevices") || "Belum ada perangkat WhatsApp terhubung."}
+                  <AlertCircle className="size-3" /> {t("reminder.rules.noDevices")}
                 </p>
               )}
             </div>
@@ -187,7 +187,7 @@ export function DeliveryRulesCard({
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="rem-send-time" className="text-xs">
                 <Clock className="size-3.5 text-blue-500" />
-                <span>{t("reminder.rules.sendTime") || "Jam Kirim Harian (WIB)"}</span>
+                <span>{t("reminder.rules.sendTime")}</span>
               </Label>
               <Input
                 id="rem-send-time"
@@ -205,7 +205,7 @@ export function DeliveryRulesCard({
               <div className="flex items-center justify-between">
                 <Label className="text-xs font-semibold text-foreground flex items-center gap-1.5 cursor-pointer">
                   <MessageSquare className="size-3.5 text-emerald-500" />
-                  <span>{t("reminder.rules.chatVisibility") || "Tampilkan di Chat"}</span>
+                  <span>{t("reminder.rules.chatVisibility")}</span>
                 </Label>
                 <Switch
                   checked={showInChat}
@@ -214,7 +214,7 @@ export function DeliveryRulesCard({
                 />
               </div>
               <span className="text-[11px] text-foreground-muted">
-                {t("reminder.rules.chatVisibilityDesc") || "Pesan pengingat akan muncul di riwayat obrolan WhatsApp bisnis."}
+                {t("reminder.rules.chatVisibilityDesc")}
               </span>
             </div>
           </div>
@@ -228,7 +228,7 @@ export function DeliveryRulesCard({
                 </div>
                 <div>
                 <span className="text-xs sm:text-sm font-bold text-foreground block">
-                  {t("reminder.rules.dripPhases") || "Fase Drip Pengingat"}
+                  {t("reminder.rules.dripPhases")}
                 </span>
                 <span className="text-[11px] text-foreground-muted">
                   Pilih tahapan pesan yang ingin dikonfigurasi
@@ -261,7 +261,7 @@ export function DeliveryRulesCard({
                             ? "bg-emerald-500 ring-2 ring-emerald-500/25"
                             : "bg-muted-foreground/30"
                         )}
-                        title={r.isEnabled ? (t("reminder.rules.phaseActive") || "Fase ini aktif") : (t("reminder.rules.phaseInactive") || "Fase ini nonaktif")}
+                        title={r.isEnabled ? t("reminder.rules.phaseActive") : t("reminder.rules.phaseInactive")}
                       />
                       <span>
                         {r.daysOffset < 0
@@ -316,7 +316,7 @@ export function DeliveryRulesCard({
 
                 <div className="flex items-center gap-2 rounded-xl bg-background px-3 py-1.5 border border-border/60 self-start sm:self-auto">
                   <Label className="text-xs font-semibold text-foreground cursor-pointer">
-                    {t("reminder.rules.enablePhase") || "Aktifkan Fase Ini"}
+                    {t("reminder.rules.enablePhase")}
                   </Label>
                   <Switch
                     checked={activeRule.isEnabled}
@@ -328,10 +328,10 @@ export function DeliveryRulesCard({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label className="text-xs font-semibold text-foreground-muted">
-                    {t("reminder.rules.phaseTemplate") || "Template Pesan Fase Ini"}
+                    {t("reminder.rules.phaseTemplate")}
                   </Label>
                   <span className="text-[10px] text-foreground-muted">
-                    {activeRule.template.length} {t("reminder.rules.characters") || "karakter"}
+                    {activeRule.template.length} {t("reminder.rules.characters")}
                   </span>
                 </div>
 
@@ -339,7 +339,7 @@ export function DeliveryRulesCard({
                   rows={4}
                   value={activeRule.template}
                   onChange={(e) => handleUpdateActiveRule("template", e.target.value)}
-                  placeholder={t("reminder.rules.templatePlaceholder") || "Contoh: Halo Kak {{nama}}, mengingatkan jadwal Anda besok {{tanggal}}..."}
+                  placeholder={t("reminder.rules.templatePlaceholder")}
                   className="rounded-xl p-3 text-xs leading-relaxed"
                 />
 

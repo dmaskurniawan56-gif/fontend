@@ -52,12 +52,11 @@ export function DeleteReservationModal({
               <AlertTriangle className="size-5" />
             </div>
             <AlertDialogTitle className="text-base font-bold text-foreground sm:text-lg">
-              {t("reservation.deleteTitle") || "Hapus Jadwal Reservasi"}
+              {t("reservation.deleteTitle")}
             </AlertDialogTitle>
           </div>
           <AlertDialogDescription className="text-xs text-foreground-secondary pt-2 leading-relaxed">
-            {t("reservation.deleteConfirmPrompt") ||
-              "Apakah Anda yakin ingin menghapus reservasi untuk"}{" "}
+            {t("reservation.deleteConfirmPrompt")}{" "}
             <strong className="text-foreground font-semibold">
               {reservation.customerName}
             </strong>{" "}
@@ -65,8 +64,7 @@ export function DeleteReservationModal({
             <br />
             <br />
             <span className="text-destructive font-medium">
-              {t("reservation.deleteWarning") ||
-                "Perhatian: Pengingat otomatis (Reminder) terkait reservasi ini juga akan dibatalkan."}
+              {t("reservation.deleteWarning")}
             </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -78,7 +76,7 @@ export function DeleteReservationModal({
             size="sm"
             className="rounded-xl cursor-pointer"
           >
-            {t("common.cancel") || "Batal"}
+            {t("common.cancel")}
           </AlertDialogCancel>
           <Button
             type="button"
@@ -91,12 +89,12 @@ export function DeleteReservationModal({
             {isDeleting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                <span>{t("common.deleting") || "Menghapus..."}</span>
+                <span>{t("common.deleting")}</span>
               </>
             ) : (
               <>
                 <Trash2 className="size-3.5" />
-                <span>{t("common.delete") || "Hapus Reservasi"}</span>
+                <span>{t("common.delete")}</span>
               </>
             )}
           </Button>

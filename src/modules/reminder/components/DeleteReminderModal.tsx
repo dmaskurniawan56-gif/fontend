@@ -50,15 +50,15 @@ export function DeleteReminderModal({
             </div>
             <div>
               <AlertDialogTitle className="text-base font-bold text-foreground">
-                {t("reminder.table.deleteSchedule") || "Hapus Jadwal Pengingat"}
+                {t("reminder.table.deleteSchedule")}
               </AlertDialogTitle>
-              <p className="text-xs text-foreground-muted">{t("reminder.deleteIrreversible") || "Tindakan ini bersifat permanen"}</p>
+              <p className="text-xs text-foreground-muted">{t("reminder.deleteIrreversible")}</p>
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
-            {t("reminder.deleteConfirmPrompt") || "Apakah Anda yakin ingin menghapus jadwal pengingat untuk"}{" "}
+            {t("reminder.deleteConfirmPrompt")}{" "}
             <strong className="font-semibold text-foreground">&ldquo;{recipientName}&rdquo;</strong>?{" "}
-            {t("reminder.deleteWarning") || "Pesan otomatis untuk jadwal ini tidak akan dievaluasi maupun dikirimkan lagi."}
+            {t("reminder.deleteWarning")}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -69,7 +69,7 @@ export function DeleteReminderModal({
             size="sm"
             className="rounded-xl cursor-pointer"
           >
-            {t("cancel") || "Batal"}
+            {t("cancel")}
           </AlertDialogCancel>
           <Button
             type="button"
@@ -82,12 +82,12 @@ export function DeleteReminderModal({
             {isDeleting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                {t("deleting") || "Menghapus..."}
+                {t("deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="size-3.5" />
-                {t("delete") || "Hapus"}
+                {t("delete")}
               </>
             )}
           </Button>

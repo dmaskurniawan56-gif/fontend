@@ -56,11 +56,10 @@ export function ReservationsView() {
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
             <CalendarDays className="h-7 w-7 text-emerald-600 dark:text-emerald-500" />
-            {t("reservation.pageTitle") || "Jadwal Reservasi & Janji Temu"}
+            {t("reservation.pageTitle")}
           </h1>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            {t("reservation.pageSubtitle") ||
-              "Kelola jadwal booking pelanggan, sinkronisasi otomatis dengan pengingat WhatsApp, dan pantau kalender reservasi."}
+            {t("reservation.pageSubtitle")}
           </p>
         </div>
 
@@ -77,7 +76,7 @@ export function ReservationsView() {
                 isLoading || isCalendarLoading ? "animate-spin" : ""
               }`}
             />
-            {t("common.refresh") || "Segarkan"}
+            {t("common.refresh")}
           </Button>
           <Button
             variant="primaryPill"
@@ -86,7 +85,7 @@ export function ReservationsView() {
             className="h-9 cursor-pointer gap-1.5 px-4 text-xs font-bold shadow-xs"
           >
             <Plus className="h-4 w-4" />
-            <span>{t("reservation.newReservation") || "Reservasi Baru"}</span>
+            <span>{t("reservation.newReservation")}</span>
           </Button>
         </div>
       </div>
@@ -101,7 +100,7 @@ export function ReservationsView() {
             onClick={reload}
             className="text-xs h-7 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/50"
           >
-            {t("common.retry") || "Coba Lagi"}
+            {t("common.retry")}
           </Button>
         </div>
       )}
@@ -111,7 +110,7 @@ export function ReservationsView() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              {t("reservation.metricMonth") || "Total Bulan Ini"}
+              {t("reservation.metricMonth")}
             </p>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
               {stats.totalMonth}
@@ -125,7 +124,7 @@ export function ReservationsView() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              {t("reservation.metricToday") || "Jadwal Hari Ini"}
+              {t("reservation.metricToday")}
             </p>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
               {stats.today}
@@ -139,7 +138,7 @@ export function ReservationsView() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              {t("reservation.metricConfirmed") || "Terkonfirmasi"}
+              {t("reservation.metricConfirmed")}
             </p>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
               {stats.confirmed}
@@ -153,7 +152,7 @@ export function ReservationsView() {
         <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              {t("reservation.metricCompleted") || "Selesai"}
+              {t("reservation.metricCompleted")}
             </p>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
               {stats.completed}

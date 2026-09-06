@@ -12,17 +12,17 @@ export function VariableInsertChips({ onInsert }: VariableInsertChipsProps) {
   const { t } = useI18n();
 
   const reminderVariables = [
-    { label: t("reminder.variables.name") || "Nama Penerima", key: "nama" },
-    { label: t("reminder.variables.phone") || "Nomor WhatsApp", key: "nomor" },
-    { label: t("reminder.variables.date") || "Tanggal Jadwal", key: "tanggal" },
-    { label: t("reminder.variables.notes") || "Catatan Layanan", key: "catatan" },
+    { label: t("reminder.variables.name"), key: "nama" },
+    { label: t("reminder.variables.phone"), key: "nomor" },
+    { label: t("reminder.variables.date"), key: "tanggal" },
+    { label: t("reminder.variables.notes"), key: "catatan" },
   ];
 
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between text-xs text-foreground-muted">
-        <span className="font-medium">{t("reminder.variables.title") || "Variabel Dinamis Pengingat:"}</span>
-        <span className="text-[11px] opacity-75">{t("reminder.variables.format") || "Format: {{variabel}}"}</span>
+        <span className="font-medium">{t("reminder.variables.title")}</span>
+        <span className="text-[11px] opacity-75">{t("reminder.variables.format")}</span>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {reminderVariables.map((v) => (

@@ -106,32 +106,32 @@ export function QuickScheduleCard({
     e.preventDefault();
 
     if (!hasConfiguredDevice) {
-      toast.warning(t("reminder.quick.warnToastTitle") || "Perangkat WhatsApp belum dipilih", {
-        description: t("reminder.quick.warnToastDesc") || "Mengalihkan Anda ke tab Aturan Pengiriman & Drip untuk menyimpan nomor pengirim terlebih dahulu.",
+      toast.warning(t("reminder.quick.warnToastTitle"), {
+        description: t("reminder.quick.warnToastDesc"),
       });
       onNavigateToRules?.();
       return;
     }
 
     if (!recipientName.trim()) {
-      toast.error(t("reminder.quick.errNameRequired") || "Nama penerima wajib diisi");
+      toast.error(t("reminder.quick.errNameRequired"));
       return;
     }
 
     if (!phone.trim()) {
-      toast.error(t("reminder.quick.errPhoneRequired") || "Nomor WhatsApp wajib diisi");
+      toast.error(t("reminder.quick.errPhoneRequired"));
       return;
     }
 
     const cleanPhone = normalizePhoneNumber(phone);
     if (!isValidE164(cleanPhone)) {
-      toast.error(t("reminder.quick.errPhoneInvalid") || "Format nomor WhatsApp tidak valid (contoh: 08123456789 atau 628123456789)");
+      toast.error(t("reminder.quick.errPhoneInvalid"));
       return;
     }
 
     const finalDate = displayDate.trim();
     if (!finalDate) {
-      toast.error(t("reminder.quick.errDateRequired") || "Tanggal target jadwal wajib dipilih");
+      toast.error(t("reminder.quick.errDateRequired"));
       return;
     }
 
@@ -170,9 +170,9 @@ export function QuickScheduleCard({
             <CalendarPlus className="size-4" />
           </div>
           <div>
-            <CardTitle className="text-sm font-bold">{t("reminder.quick.title") || "Jadwalkan Pengingat Cepat"}</CardTitle>
+            <CardTitle className="text-sm font-bold">{t("reminder.quick.title")}</CardTitle>
             <CardDescription className="text-xs">
-              {t("reminder.quick.subtitle") || "Tambahkan kontak dan tanggal target. Sistem akan mengirimkan pesan otomatis sesuai aturan drip."}
+              {t("reminder.quick.subtitle")}
             </CardDescription>
           </div>
         </div>
@@ -190,23 +190,23 @@ export function QuickScheduleCard({
             <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between w-full">
               <div>
                 <AlertTitle className="text-xs sm:text-sm font-bold text-amber-950 dark:text-amber-100">
-                  {t("reminder.quick.warnNoDeviceTitle") || "Perangkat WhatsApp Pengirim Belum Dikonfigurasi"}
+                  {t("reminder.quick.warnNoDeviceTitle")}
                 </AlertTitle>
                 <AlertDescription className="text-xs text-amber-800/90 dark:text-amber-300/90 mt-0.5">
-                  {t("reminder.quick.warnNoDeviceDesc") || "Sebelum menjadwalkan pengingat, Anda perlu memilih dan menyimpan nomor WhatsApp pengirim pada menu Aturan Drip & Jadwal Otomatis agar pesan otomatis dapat terkirim."}
+                  {t("reminder.quick.warnNoDeviceDesc")}
                 </AlertDescription>
               </div>
               <Button
                 type="button"
                 size="sm"
                 onClick={() => {
-                  toast.info(t("reminder.quick.errNoDevice") || "Silakan pilih Perangkat WhatsApp Pengirim dan klik Simpan Aturan.");
+                  toast.info(t("reminder.quick.errNoDevice"));
                   onNavigateToRules?.();
                 }}
                 className="h-8.5 px-3.5 text-xs font-bold rounded-lg bg-amber-600 hover:bg-amber-700 text-white shrink-0 self-start sm:self-auto gap-1.5 shadow-xs cursor-pointer transition-all"
               >
                 <Smartphone className="size-3.5" />
-                <span>{t("reminder.quick.setupSender") || "Atur Nomor Pengirim Sekarang"}</span>
+                <span>{t("reminder.quick.setupSender")}</span>
                 <ArrowRight className="size-3" />
               </Button>
             </div>
@@ -218,13 +218,13 @@ export function QuickScheduleCard({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="rem-name" className="flex items-center gap-1.5 text-xs">
               <User className="size-3.5 text-primary" />
-              <span>{t("reminder.quick.recipientName") || "Nama Penerima"} *</span>
+              <span>{t("reminder.quick.recipientName")} *</span>
             </Label>
             <Input
               id="rem-name"
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value)}
-              placeholder={t("reminder.quick.namePlaceholder") || "Contoh: Ahmad Dahlan"}
+              placeholder={t("reminder.quick.namePlaceholder")}
               className="h-10 text-xs rounded-xl"
               disabled={isSubmitting}
               required
@@ -235,13 +235,13 @@ export function QuickScheduleCard({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="rem-phone" className="flex items-center gap-1.5 text-xs">
               <Phone className="size-3.5 text-emerald-500" />
-              <span>{t("reminder.quick.phoneLabel") || "No. WhatsApp"} *</span>
+              <span>{t("reminder.quick.phoneLabel")} *</span>
             </Label>
             <Input
               id="rem-phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder={t("reminder.quick.phonePlaceholder") || "08123456789 atau 628123456789"}
+              placeholder={t("reminder.quick.phonePlaceholder")}
               className="h-10 text-xs rounded-xl"
               disabled={isSubmitting}
               required
@@ -253,10 +253,10 @@ export function QuickScheduleCard({
             <div className="flex items-center justify-between">
               <Label htmlFor="rem-date-display" className="flex items-center gap-1.5 text-xs">
                 <Calendar className="size-3.5 text-blue-500" />
-                <span>{t("reminder.quick.targetDate") || "Tanggal Target"} *</span>
+                <span>{t("reminder.quick.targetDate")} *</span>
               </Label>
               <span className="text-[10px] font-mono text-foreground-muted">
-                {t("reminder.quick.dateFormat") || "(Tgl/Bln/Thn)"}
+                {t("reminder.quick.dateFormat")}
               </span>
             </div>
             <div className="relative flex items-center">
@@ -293,7 +293,7 @@ export function QuickScheduleCard({
                 }}
                 disabled={isSubmitting}
                 className="absolute right-1.5 size-7 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg cursor-pointer"
-                title={t("reminder.quick.pickCalendar") || "Pilih Tanggal dari Kalender"}
+                title={t("reminder.quick.pickCalendar")}
               >
                 <Calendar className="size-3.5" />
               </Button>
@@ -311,13 +311,13 @@ export function QuickScheduleCard({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="rem-notes" className="flex items-center gap-1.5 text-xs">
               <FileText className="size-3.5 text-amber-500" />
-              <span>{t("reminder.quick.notes") || "Catatan / Layanan"}</span>
+              <span>{t("reminder.quick.notes")}</span>
             </Label>
             <Input
               id="rem-notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder={t("reminder.quick.notesPlaceholder") || "Contoh: Servis Rutin / Konsultasi Gigi"}
+              placeholder={t("reminder.quick.notesPlaceholder")}
               className="h-10 text-xs rounded-xl"
               disabled={isSubmitting}
             />
@@ -339,18 +339,18 @@ export function QuickScheduleCard({
               {isSubmitting ? (
                 <>
                   <Loader2 className="size-3.5 animate-spin" />
-                  {t("reminder.rules.saving") || "Menyimpan..."}
+                  {t("reminder.rules.saving")}
                 </>
               ) : !hasConfiguredDevice ? (
                 <>
                   <Smartphone className="size-3.5" />
-                  {t("reminder.quick.btnSetupDevice") || "Atur Nomor Pengirim Dulu"}
+                  {t("reminder.quick.btnSetupDevice")}
                   <ArrowRight className="size-3" />
                 </>
               ) : (
                 <>
                   <CalendarPlus className="size-3.5" />
-                  {t("reminder.quick.btnSubmit") || "Simpan & Jadwalkan"}
+                  {t("reminder.quick.btnSubmit")}
                 </>
               )}
             </Button>

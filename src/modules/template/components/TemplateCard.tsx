@@ -63,7 +63,7 @@ export function TemplateCard({
       toast.success(t("template.contentCopied"));
       setTimeout(() => setIsCopied(false), 2000);
     } catch {
-      toast.error(t("template.copyFailed") || "Gagal menyalin teks");
+      toast.error(t("template.copyFailed"));
     }
   };
 
@@ -71,32 +71,32 @@ export function TemplateCard({
     switch (template.category) {
       case "MARKETING":
         return {
-          label: t("template.categories.marketing") || "Marketing",
+          label: t("template.categories.marketing"),
           icon: Flame,
           variant: "warning" as const,
         };
       case "REMINDER":
         return {
-          label: t("template.categories.reminder") || "Pengingat",
+          label: t("template.categories.reminder"),
           icon: Bell,
           variant: "secondary" as const,
         };
       case "RESERVATION":
         return {
-          label: t("template.categories.reservation") || "Reservasi",
+          label: t("template.categories.reservation"),
           icon: CalendarCheck,
           variant: "info" as const,
         };
       case "QUICK_REPLY":
         return {
-          label: t("template.categories.quickReply") || "Balasan Cepat",
+          label: t("template.categories.quickReply"),
           icon: MessageSquareReply,
           variant: "neutral" as const,
         };
       case "UTILITY":
       default:
         return {
-          label: t("template.categories.utility") || "Operasional",
+          label: t("template.categories.utility"),
           icon: Info,
           variant: "success" as const,
         };
@@ -178,7 +178,7 @@ export function TemplateCard({
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onDuplicate(template.id)} className="cursor-pointer gap-2">
                   <CopyPlus className="size-3.5 text-foreground-muted" />
-                  <span>{t("template.duplicateTemplate") || "Duplikat"}</span>
+                  <span>{t("template.duplicateTemplate")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -235,7 +235,7 @@ export function TemplateCard({
       {/* Footer Meta & Quick Action */}
       <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-2.5 text-xs text-foreground-muted">
         <div className="flex items-center gap-2">
-          <span>{t("template.usedCount", { count: template.usageCount }) || `Dipakai ${template.usageCount}x`}</span>
+          <span>{t("template.usedCount", { count: template.usageCount })}</span>
           {template.variables && template.variables.length > 0 && (
             <Badge variant="outline" className="text-[10px]">
               {template.variables.length} var
@@ -254,12 +254,12 @@ export function TemplateCard({
             {isCopied ? (
               <>
                 <Check className="size-3 text-emerald-500" />
-                <span className="text-emerald-600 dark:text-emerald-400">{t("copied") || "Tersalin"}</span>
+                <span className="text-emerald-600 dark:text-emerald-400">{t("copied")}</span>
               </>
             ) : (
               <>
                 <Copy className="size-3" />
-                <span>{t("template.copyBtn") || "Salin"}</span>
+                <span>{t("template.copyBtn")}</span>
               </>
             )}
           </Button>
@@ -273,7 +273,7 @@ export function TemplateCard({
               className="gap-1 rounded-lg text-[11px] cursor-pointer"
             >
               <Send className="size-3" />
-              <span>{t("template.useBtn") || "Gunakan"}</span>
+              <span>{t("template.useBtn")}</span>
             </Button>
           )}
         </div>

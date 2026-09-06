@@ -53,7 +53,7 @@ export function WhatsAppPhoneMockup({
 
   // Render content replacing {{variable}} with colored spans
   const renderedContent = useMemo(() => {
-    if (!content) return t("template.editor.contentPlaceholder") || "Tulis isi pesan template di sini...";
+    if (!content) return t("template.editor.contentPlaceholder");
 
     // Split text by {{variable}}
     const parts = content.split(/(\{\{[a-zA-Z0-9_]+\}\})/g);
@@ -82,32 +82,32 @@ export function WhatsAppPhoneMockup({
       case "MARKETING":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-amber-500">
-            <Flame className="size-3" /> {t("template.stats.marketing") || "Marketing"}
+            <Flame className="size-3" /> {t("template.stats.marketing")}
           </span>
         );
       case "REMINDER":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-purple-400">
-            <Bell className="size-3" /> {t("template.stats.reminder") || "Pengingat"}
+            <Bell className="size-3" /> {t("template.stats.reminder")}
           </span>
         );
       case "RESERVATION":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-blue-400">
-            <CalendarCheck className="size-3" /> {t("template.stats.reservation") || "Reservasi"}
+            <CalendarCheck className="size-3" /> {t("template.stats.reservation")}
           </span>
         );
       case "QUICK_REPLY":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-cyan-400">
-            <MessageSquareReply className="size-3" /> {t("template.stats.quickReply") || "Balasan Cepat"}
+            <MessageSquareReply className="size-3" /> {t("template.stats.quickReply")}
           </span>
         );
       case "UTILITY":
       default:
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500">
-            <Info className="size-3" /> {t("template.stats.utility") || "Utility"}
+            <Info className="size-3" /> {t("template.stats.utility")}
           </span>
         );
     }
@@ -130,10 +130,10 @@ export function WhatsAppPhoneMockup({
         </div>
         <div className="flex flex-1 flex-col overflow-hidden">
           <span className="truncate text-sm font-semibold leading-tight">
-            {name || t("template.editor.interactivePreview") || "Pratinjau Template"}
+            {name || t("template.editor.interactivePreview")}
           </span>
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-emerald-200">{t("template.editor.previewOnline") || "Online"}</span>
+            <span className="text-[10px] text-emerald-200">{t("template.editor.previewOnline")}</span>
             <span className="text-[10px] text-white/40">•</span>
             {categoryBadge}
           </div>
@@ -171,7 +171,7 @@ export function WhatsAppPhoneMockup({
                 ) : (
                   <div className="flex h-28 flex-col items-center justify-center gap-1 text-neutral-500">
                     <ImageIcon className="size-8 opacity-60" />
-                    <span className="text-[11px]">{t("template.mediaTypes.image") || "Header Gambar"}</span>
+                    <span className="text-[11px]">{t("template.mediaTypes.image")}</span>
                   </div>
                 )}
               </div>
@@ -182,9 +182,9 @@ export function WhatsAppPhoneMockup({
                 <FileText className="size-7 text-red-500" />
                 <div className="flex flex-1 flex-col overflow-hidden">
                   <span className="truncate text-xs font-semibold">
-                    {mediaUrl ? mediaUrl.split("/").pop() : (t("template.editor.previewDocName") || "Dokumen.pdf")}
+                    {mediaUrl ? mediaUrl.split("/").pop() : t("template.editor.previewDocName")}
                   </span>
-                  <span className="text-[10px] opacity-70">{t("template.editor.previewDocType") || "Dokumen PDF • 240 KB"}</span>
+                  <span className="text-[10px] opacity-70">{t("template.editor.previewDocType")}</span>
                 </div>
               </div>
             )}
@@ -212,7 +212,7 @@ export function WhatsAppPhoneMockup({
                   {btn.type === "URL" && <ExternalLink className="size-3.5" />}
                   {btn.type === "CALL" && <Phone className="size-3.5" />}
                   {btn.type === "QUICK_REPLY" && <CornerDownLeft className="size-3.5" />}
-                  <span className="truncate">{btn.text || t("template.editor.addButton") || "Tombol Aksi"}</span>
+                  <span className="truncate">{btn.text || t("template.editor.addButton")}</span>
                 </div>
               ))}
             </div>
@@ -223,7 +223,7 @@ export function WhatsAppPhoneMockup({
       {/* WhatsApp Input Mock Bar */}
       <div className="flex items-center gap-2 bg-[#F0F2F5] px-3 py-2 text-neutral-500 dark:bg-[#1f2c34]">
         <div className="flex h-7 flex-1 items-center rounded-full bg-white px-3 text-[11px] text-neutral-400 dark:bg-[#2a3942]">
-          {t("template.editor.previewTypeMessage") || "Ketik pesan"}
+          {t("template.editor.previewTypeMessage")}
         </div>
         <div className="size-7 rounded-full bg-[#00a884]" />
       </div>

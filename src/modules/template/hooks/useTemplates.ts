@@ -62,7 +62,7 @@ export function useTemplates() {
         setPage(res.page);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
-        const msg = err instanceof Error ? err.message : t("common.networkError") || "Gagal memuat template";
+        const msg = err instanceof Error ? err.message : t("common.networkError");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -139,12 +139,12 @@ export function useTemplates() {
 
   const createTemplate = async (input: CreateTemplateInput): Promise<boolean> => {
     try {
-      const created = await templateApi.createTemplate(input);
-      toast.success(t("template.createdSuccess") || `Template "${created.name}" berhasil dibuat`);
+      await templateApi.createTemplate(input);
+      toast.success(t("template.createdSuccess"));
       await fetchTemplates();
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.createFailed") || "Gagal membuat template";
+      const msg = err instanceof Error ? err.message : t("template.createFailed");
       toast.error(msg);
       return false;
     }
@@ -153,11 +153,11 @@ export function useTemplates() {
   const updateTemplate = async (id: string, input: UpdateTemplateInput): Promise<boolean> => {
     try {
       const updated = await templateApi.updateTemplate(id, input);
-      toast.success(t("template.updatedSuccess") || `Template "${updated.name}" berhasil diperbarui`);
+      toast.success(t("template.updatedSuccess"));
       setTemplates((prev) => prev.map((t) => (t.id === id ? updated : t)));
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.updateFailed") || "Gagal memperbarui template";
+      const msg = err instanceof Error ? err.message : t("template.updateFailed");
       toast.error(msg);
       return false;
     }
@@ -165,26 +165,26 @@ export function useTemplates() {
 
   const duplicateTemplate = async (id: string): Promise<boolean> => {
     try {
-      const duplicated = await templateApi.duplicateTemplate(id);
-      toast.success(t("template.duplicatedSuccess") || `Template diduplikasi sebagai "${duplicated.name}"`);
+      await templateApi.duplicateTemplate(id);
+      toast.success(t("template.duplicatedSuccess"));
       await fetchTemplates();
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.duplicateFailed") || "Gagal menduplikasi template";
+      const msg = err instanceof Error ? err.message : t("template.duplicateFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const deleteTemplate = async (id: string, name?: string): Promise<boolean> => {
+  const deleteTemplate = async (id: string, _name?: string): Promise<boolean> => {
     try {
       await templateApi.deleteTemplate(id);
-      toast.success(t("template.deletedSuccess") || `Template "${name || id}" berhasil dihapus`);
+      toast.success(t("template.deletedSuccess"));
       setTemplates((prev) => prev.filter((t) => t.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.deleteFailed") || "Gagal menghapus template";
+      const msg = err instanceof Error ? err.message : t("template.deleteFailed");
       toast.error(msg);
       return false;
     }
@@ -200,15 +200,15 @@ export function useTemplates() {
       await templateApi.toggleFavorite(template.id);
       toast.success(
         nextFavorite
-          ? t("template.favorited") || `Template ditambahkan ke favorit`
-          : t("template.unfavorited") || `Template dihapus dari favorit`
+          ? t("template.favorited")
+          : t("template.unfavorited")
       );
     } catch {
       // Rollback
       setTemplates((prev) =>
         prev.map((t) => (t.id === template.id ? { ...t, isFavorite: template.isFavorite } : t))
       );
-      toast.error(t("common.genericError") || "Gagal mengubah status favorit");
+      toast.error(t("common.genericError"));
     }
   };
 

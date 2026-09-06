@@ -54,37 +54,37 @@ export function TemplateFilterBar({
   }> = [
     {
       id: "ALL",
-      label: t("template.categories.all") || "Semua Kategori",
+      label: t("template.categories.all"),
       icon: Layers,
       count: stats?.total,
     },
     {
       id: "MARKETING",
-      label: t("template.stats.marketing") || "Marketing",
+      label: t("template.stats.marketing"),
       icon: Flame,
       count: stats?.marketing,
     },
     {
       id: "UTILITY",
-      label: t("template.stats.utility") || "Operasional & Utilitas",
+      label: t("template.stats.utility"),
       icon: Info,
       count: stats?.utility,
     },
     {
       id: "REMINDER",
-      label: t("template.stats.reminder") || "Pengingat",
+      label: t("template.stats.reminder"),
       icon: Bell,
       count: stats?.reminder,
     },
     {
       id: "RESERVATION",
-      label: t("template.stats.reservation") || "Reservasi",
+      label: t("template.stats.reservation"),
       icon: CalendarCheck,
       count: stats?.reservation,
     },
     {
       id: "QUICK_REPLY",
-      label: t("template.stats.quickReply") || "Balasan Cepat",
+      label: t("template.stats.quickReply"),
       icon: MessageSquareReply,
       count: stats?.quickReply,
     },
@@ -134,7 +134,7 @@ export function TemplateFilterBar({
             onChange={onSearchChange}
             onSearch={onSearchChange}
             onClear={() => onSearchChange("")}
-            placeholder={t("template.filter.searchPlaceholder") || "Cari template..."}
+            placeholder={t("template.filter.searchPlaceholder")}
             className="h-8 text-xs rounded-xl"
           />
         </div>
@@ -148,7 +148,7 @@ export function TemplateFilterBar({
             "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
             favoriteOnly && "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
           )}
-          title={t("template.stats.favorites") || "Filter hanya template favorit"}
+          title={t("template.stats.favorites")}
         >
           <Star
             className={cn(
@@ -156,7 +156,7 @@ export function TemplateFilterBar({
               favoriteOnly ? "fill-amber-500 text-amber-500" : "text-foreground-muted"
             )}
           />
-          <span className="hidden sm:inline">{t("template.stats.favorites") || "Favorit"}</span>
+          <span className="hidden sm:inline">{t("template.stats.favorites")}</span>
         </Button>
       </div>
     </div>

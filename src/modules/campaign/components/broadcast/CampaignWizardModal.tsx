@@ -244,7 +244,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                         : "bg-muted text-foreground-muted"
                   }`}
                 >
-                  {step > num ? <Check className="size-3 stroke-[3]" /> : num}
+                  {step > num ? <Check className="size-3 stroke-3" /> : num}
                 </div>
                 <div className="hidden min-w-0 items-center gap-1 overflow-hidden sm:flex">
                   <Icon className="size-3.5 shrink-0" />

@@ -60,7 +60,7 @@ export function useReminders() {
         const msg =
           err instanceof Error
             ? err.message
-            : t("reminder.fetchFailed") || "Gagal memuat daftar pengingat";
+            : t("reminder.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -127,18 +127,15 @@ export function useReminders() {
 
   const createReminder = async (input: CreateReminderInput): Promise<boolean> => {
     try {
-      const created = await reminderApi.createReminder(input);
-      toast.success(
-        t("reminder.createdSuccess") ||
-          `Pengingat untuk "${created.recipientName}" berhasil dijadwalkan`
-      );
+      await reminderApi.createReminder(input);
+      toast.success(t("reminder.createdSuccess"));
       await fetchReminders({ page: 1 });
       return true;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reminder.createFailed") || "Gagal membuat pengingat";
+          : t("reminder.createFailed");
       toast.error(msg);
       return false;
     }
@@ -150,29 +147,23 @@ export function useReminders() {
   ): Promise<boolean> => {
     try {
       const updated = await reminderApi.updateReminder(id, input);
-      toast.success(
-        t("reminder.updatedSuccess") ||
-          `Pengingat untuk "${updated.recipientName}" berhasil diperbarui`
-      );
+      toast.success(t("reminder.updatedSuccess"));
       setReminders((prev) => prev.map((r) => (r.id === id ? updated : r)));
       return true;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reminder.updateFailed") || "Gagal memperbarui pengingat";
+          : t("reminder.updateFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const deleteReminder = async (id: string, name?: string): Promise<boolean> => {
+  const deleteReminder = async (id: string, _name?: string): Promise<boolean> => {
     try {
       await reminderApi.deleteReminder(id);
-      toast.success(
-        t("reminder.deletedSuccess") ||
-          `Pengingat untuk "${name || id}" berhasil dihapus`
-      );
+      toast.success(t("reminder.deletedSuccess"));
       setReminders((prev) => prev.filter((r) => r.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
       return true;
@@ -180,7 +171,7 @@ export function useReminders() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reminder.deleteFailed") || "Gagal menghapus pengingat";
+          : t("reminder.deleteFailed");
       toast.error(msg);
       return false;
     }

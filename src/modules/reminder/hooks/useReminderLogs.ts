@@ -40,7 +40,7 @@ export function useReminderLogs() {
         const msg =
           err instanceof Error
             ? err.message
-            : t("reminder.logsFetchFailed") || "Gagal memuat riwayat pengiriman";
+            : t("reminder.logsFetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -64,17 +64,14 @@ export function useReminderLogs() {
   const dispatchNow = async () => {
     setIsDispatching(true);
     try {
-      const result = await reminderApi.dispatchNow();
-      toast.success(
-        t("reminder.dispatchSuccess") ||
-          `Evaluasi pengingat selesai! Terkirim: ${result.dispatched}, Dilewati: ${result.skipped}, Gagal: ${result.failed}`
-      );
+      await reminderApi.dispatchNow();
+      toast.success(t("reminder.dispatchSuccess"));
       await fetchLogs(1);
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reminder.dispatchFailed") || "Gagal memicu evaluasi pengingat";
+          : t("reminder.dispatchFailed");
       toast.error(msg);
     } finally {
       setIsDispatching(false);

@@ -97,11 +97,10 @@ export function FormsView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            {t("form.viewTitle") || "Formulir Privat"}
+            {t("form.viewTitle")}
           </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            {t("form.viewSubtitle") ||
-              "Pencatatan data internal, reservasi jadwal, dan pengelolaan kontak WhatsApp secara privat."}
+            {t("form.viewSubtitle")}
           </p>
         </div>
 
@@ -125,7 +124,7 @@ export function FormsView() {
             className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>{t("form.createNewButton") || "Buat Formulir Baru"}</span>
+            <span>{t("form.createNewButton")}</span>
           </Button>
         </div>
       </div>
@@ -138,7 +137,7 @@ export function FormsView() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.totalForms") || "Total Formulir"}
+              {t("form.stats.totalForms")}
             </p>
             <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalForms}</p>
           </div>
@@ -150,7 +149,7 @@ export function FormsView() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.totalSubmissions") || "Respons Terkumpul"}
+              {t("form.stats.totalSubmissions")}
             </p>
             <p className="text-lg font-bold text-primary sm:text-xl">{stats.totalSubmissions.toLocaleString()}</p>
           </div>
@@ -162,7 +161,7 @@ export function FormsView() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.reservationForms") || "Formulir Reservasi"}
+              {t("form.stats.reservationForms")}
             </p>
             <p className="text-lg font-bold text-foreground sm:text-xl">{stats.reservationForms}</p>
           </div>
@@ -174,7 +173,7 @@ export function FormsView() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] font-medium text-foreground-muted">
-              {t("form.stats.leadForms") || "Form Lead Capture"}
+              {t("form.stats.leadForms")}
             </p>
             <p className="text-lg font-bold text-foreground sm:text-xl">{stats.leadForms}</p>
           </div>
@@ -185,7 +184,7 @@ export function FormsView() {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
         <div className="w-full lg:w-80">
           <SearchInput
-            placeholder={t("form.searchPlaceholder") || "Cari formulir atau slug..."}
+            placeholder={t("form.searchPlaceholder")}
             value={search}
             onChange={(val) => {
               setSearch(val);
@@ -252,11 +251,10 @@ export function FormsView() {
         <Card className="border-dashed p-8 sm:p-12 text-center flex flex-col items-center">
           <FileSpreadsheet className="w-10 h-10 text-slate-300 dark:text-slate-700 mb-3" />
           <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">
-            {t("form.emptyTitle") || "Belum Ada Formulir"}
+            {t("form.emptyTitle")}
           </h3>
           <p className="text-xs text-slate-500 max-w-sm mb-4">
-            {t("form.emptyDescription") ||
-              "Buat formulir pertama Anda untuk mulai mengumpulkan leads, pesanan, atau pendaftaran otomatis via WhatsApp."}
+            {t("form.emptyDescription")}
           </p>
           <Button
             variant="primaryPill"
@@ -265,7 +263,7 @@ export function FormsView() {
             className="gap-2 px-5 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>{t("form.createNewButton") || "Buat Formulir Sekarang"}</span>
+            <span>{t("form.createNewButton")}</span>
           </Button>
         </Card>
       ) : (

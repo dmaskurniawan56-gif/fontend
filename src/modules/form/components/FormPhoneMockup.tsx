@@ -51,17 +51,17 @@ export function FormPhoneMockup({
   // Determine Form Type Badge
   const typeBadgeLabel =
     type === "RESERVATION"
-      ? (t("form.typeReservation") || "Form Reservasi")
+      ? t("form.typeReservation")
       : type === "LEAD"
-      ? (t("form.typeLead") || "Form Lead & Kontak")
-      : (t("form.preview.officialBadge") || "Formulir Resmi");
+      ? t("form.typeLead")
+      : t("form.preview.officialBadge");
 
   return (
     <div className={cn("mx-auto flex w-full max-w-85 sm:max-w-90 flex-col", className)}>
       {/* Top Device Segmented View Mode Toggle */}
       <div className="mb-2 flex items-center justify-between px-2">
         <span className="text-[11px] font-bold uppercase tracking-wider text-foreground-muted">
-          {t("form.preview.badge") || "Pratinjau Responsif"}
+          {t("form.preview.badge")}
         </span>
         <Tabs
           value={activePreviewTab}
@@ -69,10 +69,10 @@ export function FormPhoneMockup({
         >
           <TabsList className="h-7 p-0.5 rounded-lg bg-muted/80 border border-border/60">
             <TabsTrigger value="form" className="text-[11px] px-2.5 py-0.5 rounded-md gap-1">
-              {t("form.preview.tabForm") || "Formulir"}
+              {t("form.preview.tabForm")}
             </TabsTrigger>
             <TabsTrigger value="success" className="text-[11px] px-2.5 py-0.5 rounded-md gap-1">
-              {t("form.preview.tabSuccess") || "Layar Sukses"}
+              {t("form.preview.tabSuccess")}
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -99,7 +99,7 @@ export function FormPhoneMockup({
           <div className="flex flex-1 items-center gap-1.5 overflow-hidden rounded-full bg-amber-500/10 px-2.5 py-1 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
             <Lock className="size-2.5 text-amber-600 dark:text-amber-400 shrink-0" />
             <span className="truncate font-semibold text-[10px]">
-              {t("form.preview.privateMode") || "Mode Privat • Internal Dashboard"}
+              {t("form.preview.privateMode")}
             </span>
           </div>
           <span className="text-[10px] font-mono text-slate-400 truncate">
@@ -120,7 +120,7 @@ export function FormPhoneMockup({
                     <span>{typeBadgeLabel}</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug wrap-break-word">
-                    {title || (t("form.fieldTitle") || "Judul Formulir Anda")}
+                    {title || t("form.fieldTitle")}
                   </h3>
                   {description ? (
                     <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 wrap-break-word">
@@ -128,7 +128,7 @@ export function FormPhoneMockup({
                     </p>
                   ) : (
                     <p className="mt-1 text-[10px] italic text-slate-400 dark:text-slate-500">
-                      {t("form.noDescription") || "Belum ada deskripsi formulir."}
+                      {t("form.noDescription")}
                     </p>
                   )}
                 </div>
@@ -139,7 +139,7 @@ export function FormPhoneMockup({
                   <div className="space-y-1">
                     <label className="flex items-center gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                       <User className="size-3 text-slate-400" />
-                      <span>{t("form.preview.fullName") || "Nama Lengkap"}</span>
+                      <span>{t("form.preview.fullName")}</span>
                       <span className="text-rose-500">*</span>
                     </label>
                     <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60">
@@ -151,7 +151,7 @@ export function FormPhoneMockup({
                   <div className="space-y-1">
                     <label className="flex items-center gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-300">
                       <Phone className="size-3 text-slate-400" />
-                      <span>{t("form.preview.whatsappNumber") || "Nomor WhatsApp"}</span>
+                      <span>{t("form.preview.whatsappNumber")}</span>
                       <span className="text-rose-500">*</span>
                     </label>
                     <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60 font-mono">
@@ -213,7 +213,7 @@ export function FormPhoneMockup({
                       className="flex h-9 w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 px-3 text-xs font-bold text-white shadow-xs opacity-95 transition-transform"
                     >
                       <Send className="size-3.5" />
-                      <span>{t("form.preview.submitButton") || "Kirim Formulir Sekarang"}</span>
+                      <span>{t("form.preview.submitButton")}</span>
                     </button>
                   </div>
                 </div>
@@ -222,7 +222,7 @@ export function FormPhoneMockup({
               {/* Wahide Branding */}
               <div className="text-center">
                 <span className="text-[10px] font-medium text-slate-400 dark:text-neutral-500">
-                  {t("form.preview.poweredBy") || "Ditenagai oleh Wahide WhatsApp Gateway"}
+                  {t("form.preview.poweredBy")}
                 </span>
               </div>
             </div>
@@ -234,7 +234,7 @@ export function FormPhoneMockup({
                   <CheckCircle2 className="size-7 animate-in zoom-in-75 duration-200" />
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                  {t("form.preview.successTitle") || "Berhasil Terkirim!"}
+                  {t("form.preview.successTitle")}
                 </h4>
                 <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
                   {successMessage || "Terima kasih! Formulir Anda telah berhasil kami terima."}
@@ -243,17 +243,17 @@ export function FormPhoneMockup({
                 {/* WhatsApp Confirmation Callout */}
                 <div className="mt-4 flex items-start gap-2 rounded-xl border border-emerald-100 bg-emerald-50/80 p-2.5 text-left text-[11px] text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-300">
                   <MessageCircle className="size-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
-                  <span>{t("form.preview.waNotice") || "Notifikasi konfirmasi WhatsApp akan segera dikirimkan ke nomor Anda."}</span>
+                  <span>{t("form.preview.waNotice")}</span>
                 </div>
 
                 {/* Redirect Preview */}
                 {redirectUrl && (
                   <div className="mt-4 space-y-2">
                     <p className="text-[10px] text-slate-400 dark:text-neutral-400">
-                      {t("form.preview.redirecting") || "Mengalihkan otomatis ke link tujuan..."}
+                      {t("form.preview.redirecting")}
                     </p>
                     <div className="flex h-8 w-full items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 text-xs font-semibold text-white dark:bg-neutral-100 dark:text-neutral-900">
-                      <span>{t("form.preview.continueNow") || "Lanjutkan Sekarang"}</span>
+                      <span>{t("form.preview.continueNow")}</span>
                       <ExternalLink className="size-3" />
                     </div>
                   </div>

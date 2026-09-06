@@ -83,25 +83,25 @@ export function DailyAgendaList({
       case "CONFIRMED":
         return (
           <Badge variant="success" className="text-xs">
-            {t("reservation.statusConfirmed") || "Terkonfirmasi"}
+            {t("reservation.statusConfirmed")}
           </Badge>
         );
       case "COMPLETED":
         return (
           <Badge variant="info" className="text-xs">
-            {t("reservation.statusCompleted") || "Selesai"}
+            {t("reservation.statusCompleted")}
           </Badge>
         );
       case "CANCELLED":
         return (
           <Badge variant="danger" className="text-xs">
-            {t("reservation.statusCancelled") || "Dibatalkan"}
+            {t("reservation.statusCancelled")}
           </Badge>
         );
       case "NO_SHOW":
         return (
           <Badge variant="warning" className="text-xs">
-            {t("reservation.statusNoShow") || "Tidak Hadir"}
+            {t("reservation.statusNoShow")}
           </Badge>
         );
       default:
@@ -117,11 +117,11 @@ export function DailyAgendaList({
           <h3 className="font-semibold text-base sm:text-lg text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <CalendarIcon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
             {selectedDate
-              ? `${t("reservation.agendaFor") || "Agenda"}: ${selectedDate}`
-              : t("reservation.allAgendas") || "Daftar Semua Reservasi"}
+              ? `${t("reservation.agendaFor")}: ${selectedDate}`
+              : t("reservation.allAgendas")}
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            {total} {t("reservation.itemsFound") || "reservasi ditemukan"}
+            {total} {t("reservation.itemsFound")}
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export function DailyAgendaList({
             className="h-9 cursor-pointer gap-1.5 px-3.5 text-xs font-bold shadow-xs"
           >
             <Plus className="h-4 w-4" />
-            <span>{t("reservation.newReservation") || "Reservasi Baru"}</span>
+            <span>{t("reservation.newReservation")}</span>
           </Button>
         </div>
       </div>
@@ -144,7 +144,7 @@ export function DailyAgendaList({
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1">
           <SearchInput
-            placeholder={t("reservation.searchPlaceholder") || "Cari nama atau telepon..."}
+            placeholder={t("reservation.searchPlaceholder")}
             value={search}
             onChange={onSearchChange}
             onSearch={onSearchChange}
@@ -158,11 +158,11 @@ export function DailyAgendaList({
             onChange={(e) => onStatusChange(e.target.value as ReservationStatus | "ALL")}
             className="h-9 text-xs"
           >
-            <option value="ALL">{t("reservation.allStatuses") || "Semua Status"}</option>
-            <option value="CONFIRMED">{t("reservation.statusConfirmed") || "Terkonfirmasi"}</option>
-            <option value="COMPLETED">{t("reservation.statusCompleted") || "Selesai"}</option>
-            <option value="CANCELLED">{t("reservation.statusCancelled") || "Dibatalkan"}</option>
-            <option value="NO_SHOW">{t("reservation.statusNoShow") || "Tidak Hadir"}</option>
+            <option value="ALL">{t("reservation.allStatuses")}</option>
+            <option value="CONFIRMED">{t("reservation.statusConfirmed")}</option>
+            <option value="COMPLETED">{t("reservation.statusCompleted")}</option>
+            <option value="CANCELLED">{t("reservation.statusCancelled")}</option>
+            <option value="NO_SHOW">{t("reservation.statusNoShow")}</option>
           </NativeSelect>
         </div>
       </div>
@@ -184,12 +184,12 @@ export function DailyAgendaList({
               <CalendarIcon className="h-6 w-6" />
             </div>
             <p className="font-medium text-sm text-slate-700 dark:text-slate-300">
-              {t("reservation.noReservations") || "Belum ada reservasi"}
+              {t("reservation.noReservations")}
             </p>
             <p className="text-xs text-slate-400 mt-1 max-w-sm">
               {selectedDate
-                ? `${t("reservation.noBookingsOnDate") || "Tidak ada jadwal reservasi pada"} ${selectedDate}.`
-                : t("reservation.noBookingsEmpty") || "Mulai buat reservasi pelanggan baru melalui tombol di atas."}
+                ? `${t("reservation.noBookingsOnDate")} ${selectedDate}.`
+                : t("reservation.noBookingsEmpty")}
             </p>
             <Button
               onClick={onAddClick}
@@ -197,7 +197,7 @@ export function DailyAgendaList({
               size="sm"
               className="mt-4 text-xs"
             >
-              + {t("reservation.newReservation") || "Buat Reservasi"}
+              + {t("reservation.newReservation")}
             </Button>
           </div>
         ) : (
@@ -251,7 +251,7 @@ export function DailyAgendaList({
               <div className="flex items-center gap-1.5 self-end sm:self-center shrink-0">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="inline-flex items-center justify-center rounded-md text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 px-2.5 cursor-pointer">
-                    {t("reservation.changeStatus") || "Status"}
+                    {t("reservation.changeStatus")}
                     <ChevronDown className="h-3 w-3 ml-1 text-slate-400" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="text-xs">
@@ -260,21 +260,21 @@ export function DailyAgendaList({
                       disabled={item.status === "CONFIRMED"}
                     >
                       <CheckCircle className="h-3.5 w-3.5 mr-2 text-emerald-600" />
-                      {t("reservation.statusConfirmed") || "Terkonfirmasi"}
+                      {t("reservation.statusConfirmed")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => onStatusUpdate(item.id, "COMPLETED")}
                       disabled={item.status === "COMPLETED"}
                     >
                       <CheckCircle className="h-3.5 w-3.5 mr-2 text-blue-600" />
-                      {t("reservation.statusCompleted") || "Selesai"}
+                      {t("reservation.statusCompleted")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => onStatusUpdate(item.id, "CANCELLED")}
                       disabled={item.status === "CANCELLED"}
                     >
                       <XCircle className="h-3.5 w-3.5 mr-2 text-rose-600" />
-                      {t("reservation.statusCancelled") || "Batalkan"}
+                      {t("reservation.statusCancelled")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -300,7 +300,7 @@ export function DailyAgendaList({
           <Separator />
           <div className="flex items-center justify-between text-xs text-slate-500">
             <span>
-              {t("common.page") || "Halaman"} {page} {t("common.of") || "dari"} {totalPages}
+              {t("common.page")} {page} {t("common.of")} {totalPages}
             </span>
             <div className="flex items-center gap-1">
               <Button
@@ -310,7 +310,7 @@ export function DailyAgendaList({
                 disabled={page <= 1 || isLoading}
                 className="h-8 px-2.5 text-xs"
               >
-                {t("common.prev") || "Sebelumnya"}
+                {t("common.prev")}
               </Button>
               <Button
                 variant="outline"
@@ -319,7 +319,7 @@ export function DailyAgendaList({
                 disabled={page >= totalPages || isLoading}
                 className="h-8 px-2.5 text-xs"
               >
-                {t("common.next") || "Selanjutnya"}
+                {t("common.next")}
               </Button>
             </div>
           </div>

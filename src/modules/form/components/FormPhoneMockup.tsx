@@ -78,7 +78,7 @@ export function FormPhoneMockup({
       </div>
 
       {/* Smartphone Hardware Frame */}
-      <div className="flex h-[600px] w-full flex-col overflow-hidden rounded-[40px] border-[7px] border-neutral-900 bg-neutral-900 shadow-2xl dark:border-neutral-800">
+      <div className="flex h-150 w-full flex-col overflow-hidden rounded-xl border-[7px] border-neutral-900 bg-neutral-900 shadow-2xl dark:border-neutral-800">
         {/* Top Notch & Status Bar */}
         <div className="flex h-7 w-full items-center justify-between bg-neutral-950 px-5 pt-1 text-white shrink-0">
           <span className="text-[11px] font-semibold tracking-tight">09:41</span>

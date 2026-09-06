@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -274,9 +275,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
           {step === 1 && (
             <div className="space-y-4 text-xs font-semibold">
               <div>
-                <label className="text-foreground-secondary mb-1.5 block font-bold tracking-wider uppercase">
+                <Label className="text-foreground-secondary mb-1.5 block font-bold tracking-wider uppercase">
                   {t("campaign.campaignNameLabel")}
-                </label>
+                </Label>
                 <Input
                   type="text"
                   value={name}
@@ -290,9 +291,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-foreground-secondary font-bold tracking-wider uppercase">
+                  <Label className="text-foreground-secondary font-bold tracking-wider uppercase">
                     {t("campaign.senderDeviceLabel")}
-                  </label>
+                  </Label>
                   <div className="flex items-center gap-2">
                     {connectedDevices.length > 1 && (
                       <button
@@ -400,9 +401,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
           {/* STEP 2: Target Audience */}
           {step === 2 && (
             <div className="space-y-4 text-xs font-semibold">
-              <label className="text-foreground-secondary block font-bold tracking-wider uppercase">
+              <Label className="text-foreground-secondary block font-bold tracking-wider uppercase">
                 {t("campaign.audienceScopeLabel")}
-              </label>
+              </Label>
 
               <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                 {[
@@ -478,9 +479,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
               {/* Custom Numbers Box */}
               {targetType === "CUSTOM" && (
                 <div className="space-y-1.5 pt-2">
-                  <label className="text-foreground-secondary block text-[11px] font-bold uppercase">
+                  <Label className="text-foreground-secondary block text-[11px] font-bold uppercase">
                     {t("campaign.customNumbersLabel")}
-                  </label>
+                  </Label>
                   <Textarea
                     rows={4}
                     value={customNumbersStr}
@@ -519,9 +520,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
             <div className="space-y-4 text-xs font-semibold">
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-foreground-secondary font-bold tracking-wider uppercase">
+                  <Label className="text-foreground-secondary font-bold tracking-wider uppercase">
                     {t("campaign.spintaxTemplateLabel")}
-                  </label>
+                  </Label>
                   <button
                     type="button"
                     onClick={insertSpintaxSample}
@@ -563,9 +564,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                 <div className="space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
-                      <label className="text-foreground-secondary font-semibold">
+                      <Label className="text-foreground-secondary font-semibold">
                         {t("campaign.jitterDelayLabel")}
-                      </label>
+                      </Label>
                       <span className="dark:text-wise-green font-mono font-black text-emerald-700">
                         {jitterDelaySeconds} {t("campaign.secondsUnit")}
                       </span>
@@ -647,9 +648,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
                 {isScheduled && (
                   <div className="pt-1">
-                    <label className="text-foreground-secondary mb-1 block text-[11px]">
+                    <Label className="text-foreground-secondary mb-1 block text-[11px]">
                       {t("campaign.selectDateTimeLabel")}
-                    </label>
+                    </Label>
                     <Input
                       type="datetime-local"
                       value={scheduledAt}

@@ -6,6 +6,7 @@ import { formatPhoneNumber } from "@/modules/whatsapp/components/devices/DeviceC
 import { whatsappApi } from "@/modules/whatsapp/api/whatsapp.api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -94,9 +95,9 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
           <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
             {/* Select Device */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.selectSenderDevice")}
-              </label>
+              </Label>
               <NativeSelect
                 value={activeDeviceId}
                 onChange={(e) => setUserSelectedDeviceId(e.target.value)}
@@ -117,10 +118,11 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Recipient Phone */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label htmlFor="send-msg-phone" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.recipientPhoneLabel")}
-              </label>
+              </Label>
               <Input
+                id="send-msg-phone"
                 type="tel"
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
@@ -136,10 +138,11 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Message Body */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label htmlFor="send-msg-text" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.messageTextLabel")}
-              </label>
+              </Label>
               <Textarea
+                id="send-msg-text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}

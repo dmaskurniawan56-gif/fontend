@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -75,10 +76,11 @@ export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProp
             )}
 
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label htmlFor="device-name-input" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.deviceNameLabel")}
-              </label>
+              </Label>
               <Input
+                id="device-name-input"
                 type="text"
                 value={name}
                 onChange={(e) => {

@@ -14,6 +14,8 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { useTableSort } from "@/hooks/useTableSort";
 
@@ -58,7 +60,7 @@ export function ContactTable({
   const isAllSelected = sortedContacts.length > 0 && selectedIds.size === sortedContacts.length;
 
   return (
-    <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-xs">
+    <Card className="border-border bg-surface overflow-hidden rounded-xl border p-0 gap-0 shadow-xs">
       {/* Mobile View: Card-based Contact List (Visible on < 1024px) */}
       <div className="divide-border/40 divide-y lg:hidden">
         {/* Select All Bar on Mobile */}
@@ -101,22 +103,37 @@ export function ContactTable({
                 </div>
 
                 <div className="flex shrink-0 items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => onEdit(contact)}
-                    className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                    aria-label={`Ubah ${contact.name}`}
-                  >
-                    <Edit2 className="size-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDelete(contact)}
-                    className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                    aria-label={`Hapus ${contact.name}`}
-                  >
-                    <Trash2 className="size-3.5" />
-                  </button>
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <button
+                          type="button"
+                          onClick={() => onEdit(contact)}
+                          className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
+                          aria-label={`Ubah ${contact.name}`}
+                        >
+                          <Edit2 className="size-3.5" />
+                        </button>
+                      }
+                    />
+                    <TooltipContent>Ubah Kontak</TooltipContent>
+                  </Tooltip>
+
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <button
+                          type="button"
+                          onClick={() => onDelete(contact)}
+                          className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
+                          aria-label={`Hapus ${contact.name}`}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </button>
+                      }
+                    />
+                    <TooltipContent>Hapus Kontak</TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
 
@@ -258,22 +275,37 @@ export function ContactTable({
                   {/* Action Buttons */}
                   <TableCell className="px-5 py-3.5 text-right align-middle">
                     <div className="flex items-center justify-end gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => onEdit(contact)}
-                        className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                        aria-label={`Ubah ${contact.name}`}
-                      >
-                        <Edit2 className="size-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => onDelete(contact)}
-                        className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                        aria-label={`Hapus ${contact.name}`}
-                      >
-                        <Trash2 className="size-4" />
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger
+                          render={
+                            <button
+                              type="button"
+                              onClick={() => onEdit(contact)}
+                              className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
+                              aria-label={`Ubah ${contact.name}`}
+                            >
+                              <Edit2 className="size-4" />
+                            </button>
+                          }
+                        />
+                        <TooltipContent>Ubah Kontak</TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger
+                          render={
+                            <button
+                              type="button"
+                              onClick={() => onDelete(contact)}
+                              className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
+                              aria-label={`Hapus ${contact.name}`}
+                            >
+                              <Trash2 className="size-4" />
+                            </button>
+                          }
+                        />
+                        <TooltipContent>Hapus Kontak</TooltipContent>
+                      </Tooltip>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -297,6 +329,6 @@ export function ContactTable({
           nextText={t("contact.nextPage") || "Berikutnya"}
         />
       )}
-    </div>
+    </Card>
   );
 }

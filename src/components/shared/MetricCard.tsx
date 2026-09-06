@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 
 export interface MetricCardProps {
   title: string;
@@ -19,7 +20,7 @@ export function MetricCard({
   className,
 }: MetricCardProps) {
   return (
-    <div
+    <Card
       className={cn(
         "border-border bg-surface space-y-2 rounded-xl border p-4 shadow-xs sm:p-5",
         className
@@ -40,6 +41,6 @@ export function MetricCard({
       </div>
       <div className="text-foreground text-2xl font-black tracking-tight">{value}</div>
       {subtitle && <div className="text-[11px] font-semibold">{subtitle}</div>}
-    </div>
+    </Card>
   );
 }

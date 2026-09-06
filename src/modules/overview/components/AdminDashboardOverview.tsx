@@ -6,6 +6,8 @@ import { AdminDashboardStats } from "@/modules/iam/types/dashboard.types";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/ui/empty";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { useI18n } from "@/lib/i18n/context";
@@ -139,8 +141,8 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Recent Registered Users */}
         <ErrorBoundary fallbackTitle="Gagal Memuat Pengguna Terbaru">
-          <div className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
-            <div className="border-border flex items-center justify-between border-b pb-3">
+          <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
+            <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
                 <Users className="text-dark-green dark:text-wise-green size-4" />
                 <h2 className="text-foreground text-sm font-extrabold sm:text-base">
@@ -155,6 +157,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                 <ArrowRight className="size-3" />
               </Link>
             </div>
+            <Separator className="my-0" />
 
             {stats.recent_users.length === 0 ? (
               <EmptyState
@@ -184,13 +187,13 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         </ErrorBoundary>
 
         {/* Recent Transactions & Financial Overview */}
         <ErrorBoundary fallbackTitle="Gagal Memuat Transaksi Terbaru">
-          <div className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
-            <div className="border-border flex items-center justify-between border-b pb-3">
+          <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
+            <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
                 <CreditCard className="text-dark-green dark:text-wise-green size-4" />
                 <h2 className="text-foreground text-sm font-extrabold sm:text-base">
@@ -205,6 +208,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                 <ArrowRight className="size-3" />
               </Link>
             </div>
+            <Separator className="my-0" />
 
             {stats.recent_transactions.length === 0 ? (
               <EmptyState
@@ -239,7 +243,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         </ErrorBoundary>
       </div>
     </div>

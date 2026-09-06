@@ -7,6 +7,7 @@ import { useQRPairing } from "@/modules/whatsapp/hooks/useQRPairing";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useClipboard } from "@/hooks/useClipboard";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -280,9 +281,9 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                 ) : (
                   <form onSubmit={handleRequestCode} className="w-full space-y-3">
                     <div className="space-y-1 text-left">
-                      <label className="text-foreground text-xs font-bold">
+                      <Label className="text-foreground text-xs font-bold">
                         {t("whatsapp.phoneLabel")}
-                      </label>
+                      </Label>
                       <div className="border-border bg-surface focus-within:ring-wise-green/40 flex overflow-hidden rounded-md border focus-within:ring-2">
                         <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold">
                           +62

@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { CreateContactInput } from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -192,8 +194,8 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
 
           {/* Preview Parsed Contacts */}
           {parsedData.length > 0 && (
-            <div className="border-border bg-surface rounded-md border p-3.5 text-xs dark:bg-[#10110e]">
-              <div className="border-border/60 flex items-center justify-between border-b pb-2">
+            <Card className="border-border bg-surface rounded-md border p-3.5 text-xs dark:bg-[#10110e]">
+              <div className="flex items-center justify-between pb-1">
                 <span className="text-foreground flex items-center gap-1.5 font-bold">
                   <CheckCircle2 className="dark:text-wise-green size-4 text-emerald-600" />
                   <span>Pratinjau Data CSV Terbaca</span>
@@ -202,6 +204,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                   {parsedData.length} Kontak Siap Impor
                 </span>
               </div>
+              <Separator className="my-1.5" />
 
               <div className="divide-border/40 mt-2 max-h-32 divide-y overflow-y-auto font-mono">
                 {parsedData.slice(0, 5).map((c, idx) => (
@@ -216,7 +219,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                   </div>
                 )}
               </div>
-            </div>
+            </Card>
           )}
         </div>
 

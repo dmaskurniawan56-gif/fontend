@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Contact, CreateContactInput, Tag } from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -108,9 +109,9 @@ function ContactForm({
         )}
 
         <div>
-          <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("contact.nameLabel")}
-          </label>
+          </Label>
           <Input
             type="text"
             value={name}
@@ -123,9 +124,9 @@ function ContactForm({
         </div>
 
         <div>
-          <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("contact.phoneLabel")}
-          </label>
+          </Label>
           <Input
             type="text"
             value={phone}
@@ -140,10 +141,10 @@ function ContactForm({
         {/* Tag / Category Selector */}
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between">
-            <label className="text-foreground-secondary flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase">
+            <Label className="text-foreground-secondary flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase">
               <TagIcon className="dark:text-wise-green size-3 text-emerald-600" />
               <span>{t("contact.tagSegmentationLabel")}</span>
-            </label>
+            </Label>
             <span className="text-foreground-muted text-[11px]">{t("contact.optional")}</span>
           </div>
 

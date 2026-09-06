@@ -8,6 +8,8 @@ import { UserDashboardStats } from "@/modules/iam/types/dashboard.types";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/ui/empty";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { useI18n } from "@/lib/i18n/context";
@@ -234,8 +236,8 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Active WhatsApp Devices */}
         <ErrorBoundary fallbackTitle="Gagal Memuat Ringkasan Sesi WhatsApp">
-          <div className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
-            <div className="border-border flex items-center justify-between border-b pb-3">
+          <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
+            <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
                 <Radio className="text-dark-green dark:text-wise-green size-4" />
                 <h2 className="text-foreground text-sm font-extrabold sm:text-base">
@@ -250,6 +252,7 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                 <ArrowRight className="size-3" />
               </Link>
             </div>
+            <Separator className="my-0" />
 
             {devices.length === 0 ? (
               <EmptyState
@@ -290,13 +293,13 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         </ErrorBoundary>
 
         {/* Broadcast Campaigns & Invoices Activity */}
         <ErrorBoundary fallbackTitle="Gagal Memuat Ringkasan Kampanye">
-          <div className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
-            <div className="border-border flex items-center justify-between border-b pb-3">
+          <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
+            <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
                 <Layers className="text-dark-green dark:text-wise-green size-4" />
                 <h2 className="text-foreground text-sm font-extrabold sm:text-base">
@@ -311,6 +314,7 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                 <ArrowRight className="size-3" />
               </Link>
             </div>
+            <Separator className="my-0" />
 
             {campaigns.length === 0 &&
             (!stats.recent_invoices || stats.recent_invoices.length === 0) ? (
@@ -345,7 +349,7 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                 ))}
               </div>
             )}
-          </div>
+          </Card>
         </ErrorBoundary>
       </div>
     </div>

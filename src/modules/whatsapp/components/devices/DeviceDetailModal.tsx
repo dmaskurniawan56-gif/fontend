@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useI18n } from "@/lib/i18n/context";
 import { formatPhoneNumber } from "./DeviceCard";
 import { toast } from "sonner";
@@ -184,17 +185,25 @@ export function DeviceDetailModal({
                   <span className="text-foreground font-mono text-xs font-bold select-all">
                     {device.id}
                   </span>
-                  <button
-                    onClick={() => handleCopy(device.id, "Device ID")}
-                    className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-6 shrink-0 cursor-pointer items-center justify-center rounded transition"
-                    title={t("whatsapp.copyDeviceId") || "Salin Device ID"}
-                  >
-                    {copiedField === "Device ID" ? (
-                      <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-                    ) : (
-                      <Copy className="size-3.5" />
-                    )}
-                  </button>
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <button
+                          onClick={() => handleCopy(device.id, "Device ID")}
+                          className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-6 shrink-0 cursor-pointer items-center justify-center rounded transition"
+                        />
+                      }
+                    >
+                      {copiedField === "Device ID" ? (
+                        <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
+                      ) : (
+                        <Copy className="size-3.5" />
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {copiedField === "Device ID" ? "Tersalin!" : (t("whatsapp.copyDeviceId") || "Salin Device ID")}
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
 
@@ -208,17 +217,25 @@ export function DeviceDetailModal({
                     {device.jid || "-"}
                   </span>
                   {device.jid && (
-                    <button
-                      onClick={() => handleCopy(device.jid || "", "WhatsApp JID")}
-                      className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-6 shrink-0 cursor-pointer items-center justify-center rounded transition"
-                      title="Salin JID"
-                    >
-                      {copiedField === "WhatsApp JID" ? (
-                        <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-                      ) : (
-                        <Copy className="size-3.5" />
-                      )}
-                    </button>
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <button
+                            onClick={() => handleCopy(device.jid || "", "WhatsApp JID")}
+                            className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-6 shrink-0 cursor-pointer items-center justify-center rounded transition"
+                          />
+                        }
+                      >
+                        {copiedField === "WhatsApp JID" ? (
+                          <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
+                        ) : (
+                          <Copy className="size-3.5" />
+                        )}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {copiedField === "WhatsApp JID" ? "Tersalin!" : "Salin JID"}
+                      </TooltipContent>
+                    </Tooltip>
                   )}
                 </div>
               </div>

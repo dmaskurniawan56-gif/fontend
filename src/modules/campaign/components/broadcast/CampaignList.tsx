@@ -6,6 +6,9 @@ import { Campaign, CampaignStatus } from "@/modules/campaign/types/campaign.type
 import { useCampaigns } from "@/modules/campaign/hooks/useCampaigns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { EmptyState } from "@/components/ui/empty";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -255,7 +258,7 @@ export function CampaignList() {
                 : 0;
 
             return (
-              <div
+              <Card
                 key={campaign.id}
                 onClick={() => setSelectedCampaignForDetail(campaign)}
                 className="border-border bg-surface hover:border-wise-green/60 group flex cursor-pointer flex-col justify-between space-y-4 rounded-md border p-5 transition hover:shadow-md sm:p-6"
@@ -354,8 +357,10 @@ export function CampaignList() {
                   <Progress value={percent} className="h-2 w-full" />
                 </div>
 
+                <Separator />
+
                 {/* Action Footer */}
-                <div className="border-border/60 flex items-center justify-between border-t pt-2">
+                <div className="flex items-center justify-between pt-0.5">
                   <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
@@ -409,21 +414,28 @@ export function CampaignList() {
                       </Button>
                     )}
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCampaignToDelete(campaign);
-                      }}
-                      className="size-8 rounded-full border-rose-500/20 p-0 text-rose-500 hover:bg-rose-500/10"
-                      aria-label={t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
-                    >
-                      <Trash2 className="size-3.5" />
-                    </Button>
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCampaignToDelete(campaign);
+                            }}
+                            className="size-8 cursor-pointer rounded-full border-rose-500/20 p-0 text-rose-500 hover:bg-rose-500/10"
+                            aria-label={t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </Button>
+                        }
+                      />
+                      <TooltipContent>{t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}</TooltipContent>
+                    </Tooltip>
                   </div>
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>

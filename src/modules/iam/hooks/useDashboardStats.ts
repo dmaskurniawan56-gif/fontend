@@ -6,6 +6,7 @@ import { isAdmin } from "../types/auth.types";
 import { userApi } from "../api/user.api";
 import { adminApi } from "@/modules/admin/api/admin.api";
 import { UserDashboardStats, AdminDashboardStats } from "../types/dashboard.types";
+import { ApiError } from "@/lib/api/http-client";
 
 export function useDashboardStats() {
   const userRole = useAuth((s) => s.user?.role);
@@ -59,6 +60,23 @@ export function useDashboardStats() {
       }
     } catch (err: unknown) {
       if (err instanceof Error && err.name === "AbortError") return;
+      if (
+        err instanceof ApiError &&
+        (err.statusCode === 401 ||
+          err.code === "USER_NOT_FOUND" ||
+          err.code === "ACCOUNT_INACTIVE")
+      ) {
+        useAuth.getState().logout().catch(() => null);
+        if (
+          typeof window !== "undefined" &&
+          window.location.pathname !== "/login" &&
+          window.location.pathname !== "/register"
+        ) {
+          // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+          window.location.href = "/login?session_invalid=1";
+        }
+        return;
+      }
       const msg = err instanceof Error ? err.message : "Gagal memuat statistik dasbor";
       setError(msg);
     } finally {
@@ -107,6 +125,23 @@ export function useDashboardStats() {
         }
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
+        if (
+          err instanceof ApiError &&
+          (err.statusCode === 401 ||
+            err.code === "USER_NOT_FOUND" ||
+            err.code === "ACCOUNT_INACTIVE")
+        ) {
+          useAuth.getState().logout().catch(() => null);
+          if (
+            typeof window !== "undefined" &&
+            window.location.pathname !== "/login" &&
+            window.location.pathname !== "/register"
+          ) {
+            // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+            window.location.href = "/login?session_invalid=1";
+          }
+          return;
+        }
         if (isMounted) {
           setError(err instanceof Error ? err.message : "Gagal memuat statistik dasbor");
         }

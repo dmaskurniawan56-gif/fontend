@@ -28,21 +28,23 @@ export function LoginForm() {
   const isRegistered = searchParams.get("registered") === "true";
   const isSessionExpired =
     searchParams.get("session_expired") === "1" || searchParams.get("session_expired") === "true";
+  const isSessionInvalid =
+    searchParams.get("session_invalid") === "1" || searchParams.get("session_invalid") === "true";
 
   const { login, isLoading, error, clearError } = useAuth();
   const { t } = useI18n();
   const turnstileRef = useRef<TurnstileInstance>(null);
 
-  // Auto purge all residual auth cookies & reset Zustand session when redirected on session expired
+  // Auto purge all residual auth cookies & reset Zustand session when redirected on session expired or invalid
   useEffect(() => {
-    if (isSessionExpired) {
+    if (isSessionExpired || isSessionInvalid) {
       clearAllAuthStorage();
       useAuth
         .getState()
         .logout()
         .catch(() => null);
     }
-  }, [isSessionExpired]);
+  }, [isSessionExpired, isSessionInvalid]);
 
   const [formData, setFormData] = useState<LoginInput>({
     email: "",
@@ -113,6 +115,13 @@ export function LoginForm() {
           <Alert variant="warning">
             <AlertCircle className="size-5 shrink-0" />
             <span>{t("auth.login.sessionExpiredNotice")}</span>
+          </Alert>
+        )}
+
+        {isSessionInvalid && !error && !isRegistered && !isSessionExpired && (
+          <Alert variant="warning">
+            <AlertCircle className="size-5 shrink-0" />
+            <span>{t("auth.login.sessionInvalidNotice")}</span>
           </Alert>
         )}
 

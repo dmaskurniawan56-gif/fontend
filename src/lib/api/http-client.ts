@@ -197,14 +197,44 @@ class HttpClient {
           return this.request<T>(endpoint, { ...options, retries: retries - 1 });
         }
 
-        // Auto-Logout & Session Cleanup on HTTP 401 (Session Revoked / Expired Token)
+        // Precision Auto-Logout & Session Cleanup:
+        // 1. HTTP 401: Universal session expired / revoked / deleted token
+        // 2. HTTP 403: Explicit account inactive / suspended
+        // 3. HTTP 404: ONLY on Identity Anchor endpoints (/users/profile) proving user is deleted in DB
+        const isAuthEndpoint =
+          endpoint.includes("/auth/login") ||
+          endpoint.includes("/auth/register") ||
+          endpoint.includes("/auth/forgot-password") ||
+          endpoint.includes("/auth/reset-password");
+
+        const errorCode =
+          (typeof data?.additional_info === "object" && data?.additional_info !== null && "code" in (data.additional_info as Record<string, unknown>)
+            ? String((data.additional_info as Record<string, unknown>).code)
+            : "") ||
+          (typeof data?.code === "string" ? data.code : "") ||
+          "";
+
+        const isIdentityEndpoint =
+          endpoint.includes("/users/profile") ||
+          endpoint.includes("/users/me") ||
+          endpoint.includes("/auth/profile") ||
+          endpoint.includes("/auth/me");
+
+        const is401SessionFatal = response.status === 401;
+        const is403AccountFatal =
+          response.status === 403 && (errorCode === "ACCOUNT_INACTIVE" || errorCode === "SESSION_REVOKED");
+        const is404IdentityFatal =
+          response.status === 404 &&
+          isIdentityEndpoint &&
+          (errorCode === "USER_NOT_FOUND" ||
+            errorCode === "TENANT_NOT_FOUND" ||
+            String(data?.message || "").toLowerCase().includes("user not found") ||
+            !errorCode);
+
         if (
-          response.status === 401 &&
+          (is401SessionFatal || is403AccountFatal || is404IdentityFatal) &&
           typeof window !== "undefined" &&
-          !endpoint.includes("/auth/login") &&
-          !endpoint.includes("/auth/register") &&
-          !endpoint.includes("/auth/forgot-password") &&
-          !endpoint.includes("/auth/reset-password")
+          !isAuthEndpoint
         ) {
           clearAllAuthStorage();
 
@@ -214,8 +244,9 @@ class HttpClient {
             setTimeout(() => {
               isRedirectingToLogin = false;
             }, 3000);
+            const redirectParam = is401SessionFatal ? "session_expired=1" : "session_invalid=1";
             // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-            window.location.href = "/login?session_expired=1";
+            window.location.href = `/login?${redirectParam}`;
           }
         }
 

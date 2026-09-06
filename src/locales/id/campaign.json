@@ -148,5 +148,17 @@
   "startBroadcastNow": "Mulai Siaran Sekarang",
   "closeBtn": "Tutup",
   "cardClickHint": "Klik untuk melihat detail kampanye",
-  "btnBack": "Kembali"
+  "btnBack": "Kembali",
+  "selectAllDevices": "Pilih Semua Perangkat Aktif",
+  "deselectAllDevices": "Batalkan Semua",
+  "multiDeviceBannerTitle": "Mode Multi-Device Aktif ({count} Perangkat)",
+  "multiDeviceBannerDesc": "Beban broadcast dibagi rata secara Round-Robin ke {count} nomor. Waktu kirim dipangkas hingga ~{percent}% dan risiko banned berkurang drastis.",
+  "singleDeviceBannerDesc": "Kirim menggunakan 1 perangkat WhatsApp pengirim.",
+  "autoScrubDeadNumbersLabel": "Filter Nomor Tidak Aktif (Pre-Blast USync)",
+  "autoScrubDeadNumbersHint": "Cek keberadaan akun WA target sebelum kirim. Mencegah banned akibat blast ke nomor mati/tidak terdaftar.",
+  "warmupEngineTitle": "Smart Anti-Ban Warmup Engine",
+  "warmupEngineDesc": "Sistem otomatis menerapkan kuota adaptif berdasarkan usia nomor pengirim. Jika kuota hari ini tercapai, kampanye akan otomatis di-pause dan dapat di-resume esok hari tanpa mengulang kontak yang sudah terkirim.",
+  "warmupPausedBanner": "Dijeda Otomatis (Kuota Warmup Hari Ini Tercapai)",
+  "warmupPausedDesc": "Telah diproses hingga kontak ke-{offset} dari {total}. Lanjutkan kembali (Resume) esok hari untuk sisa kontak.",
+  "poolMultiDevice": "Pool Multi-Device ({count} Perangkat)"
 }

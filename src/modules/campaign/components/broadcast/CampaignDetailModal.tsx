@@ -205,9 +205,20 @@ export function CampaignDetailModal({
                 <span className="text-foreground-muted block text-[11px]">
                   {t("campaign.deviceInfoLabel")}
                 </span>
-                <span className="text-foreground font-bold">
-                  {campaign.deviceName || "Perangkat Utama"}
-                </span>
+                {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
+                  <div>
+                    <span className="text-foreground font-bold block">
+                      {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                    </span>
+                    <span className="text-foreground-muted text-[10px] font-mono">
+                      Round-Robin load balancing
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-foreground font-bold">
+                    {campaign.deviceName || "Perangkat Utama"}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -268,13 +279,21 @@ export function CampaignDetailModal({
                 <span className="text-foreground-muted block text-[11px]">
                   {t("campaign.antiBanProtection")}
                 </span>
-                <div className="text-foreground flex items-center gap-2 pt-0.5 text-[11px] font-bold">
+                <div className="text-foreground flex flex-wrap items-center gap-2 pt-0.5 text-[11px] font-bold">
                   <span>Jitter: {campaign.jitterDelaySeconds ?? 3}s</span>
                   <span>•</span>
                   <span className="inline-flex items-center gap-1">
                     <Sparkles className="size-3 text-amber-500" />
                     Typing:{" "}
                     {campaign.enableHumanTyping ? t("campaign.active") : t("campaign.inactive")}
+                  </span>
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-1">
+                    <ShieldCheck className="size-3 text-emerald-500" />
+                    USync:{" "}
+                    {campaign.autoScrubDeadNumbers !== false
+                      ? t("campaign.active")
+                      : t("campaign.inactive")}
                   </span>
                 </div>
               </div>
@@ -310,6 +329,18 @@ export function CampaignDetailModal({
                 <span className="font-bold text-rose-500">{failedCount}</span>
               </div>
             </div>
+
+            {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
+              <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
+                <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                  {t("campaign.warmupPausedDesc", {
+                    offset: String(campaign.processedOffset),
+                    total: String(totalRecipients),
+                  })}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Message Template Preview */}

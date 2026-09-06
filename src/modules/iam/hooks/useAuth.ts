@@ -7,6 +7,7 @@ import { authApi } from "../api/auth.api";
 import { userApi } from "../api/user.api";
 import { LoginInput, RegisterInput } from "../schemas/auth.schema";
 import { setCookie, clearAllAuthStorage } from "@/lib/storage/cookies";
+import { ApiError } from "@/lib/api/http-client";
 
 interface AuthState {
   user: User | null;
@@ -144,9 +145,30 @@ export const useAuth = create<AuthState>()(
             },
             isAuthenticated: true,
           });
-        } catch {
-          // Jika token invalid/expired, lakukan logout
-          get().logout();
+        } catch (err: unknown) {
+          // If the profile error is fatal (401 unauthorized, 404 user not found, 403 account inactive),
+          // clear storage and gracefully redirect to login.
+          // Network errors or temporary timeouts will NOT logout the user.
+          const isFatal =
+            err instanceof ApiError &&
+            (err.statusCode === 401 ||
+              err.statusCode === 404 ||
+              (err.statusCode === 403 &&
+                (err.code === "ACCOUNT_INACTIVE" || err.message.toLowerCase().includes("inactive"))));
+
+          if (isFatal) {
+            await get().logout();
+            if (
+              typeof window !== "undefined" &&
+              window.location.pathname !== "/login" &&
+              window.location.pathname !== "/register"
+            ) {
+              const redirectParam =
+                err.statusCode === 401 ? "session_expired=1" : "session_invalid=1";
+              // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+              window.location.href = `/login?${redirectParam}`;
+            }
+          }
         }
       },
 

@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/modules/iam/hooks/useAuth";
+import { getCookie } from "@/lib/storage/cookies";
 import { DashboardSidebar } from "@/components/layout/dashboard/DashboardSidebar";
 import { DashboardHeader } from "@/components/layout/dashboard/DashboardHeader";
 import { DashboardMobileNav } from "@/components/layout/dashboard/DashboardMobileNav";
@@ -8,6 +11,21 @@ import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const router = useRouter();
+  const token = useAuth((s) => s.token);
+  const isAuthenticated = useAuth((s) => s.isAuthenticated);
+
+  useEffect(() => {
+    // 1. Immediate client-side check: if completely unauthenticated, redirect to login
+    const cookieToken = getCookie("wahide_session_token");
+    if (!token && !cookieToken && !isAuthenticated) {
+      router.replace("/login");
+      return;
+    }
+
+    // 2. Background Identity Anchor check: verify user entity still exists in DB
+    useAuth.getState().fetchProfile().catch(() => null);
+  }, [token, isAuthenticated, router]);
 
   return (
     <div className="bg-background text-foreground flex min-h-screen">

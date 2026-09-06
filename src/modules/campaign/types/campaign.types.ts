@@ -4,10 +4,13 @@ export interface Campaign {
   id: string;
   name: string;
   deviceId: string;
+  deviceIds?: string[];
   deviceName?: string;
   messageTemplate: string;
   jitterDelaySeconds: number;
   enableHumanTyping: boolean;
+  autoScrubDeadNumbers?: boolean;
+  processedOffset?: number;
   targetType: "ALL" | "TAGS" | "CUSTOM";
   targetTags?: string[];
   targetNumbers?: string[];
@@ -21,10 +24,12 @@ export interface Campaign {
 
 export interface CreateCampaignInput {
   name: string;
-  deviceId: string;
+  deviceId?: string;
+  deviceIds?: string[];
   messageTemplate: string;
   jitterDelaySeconds: number;
   enableHumanTyping: boolean;
+  autoScrubDeadNumbers?: boolean;
   targetType: "ALL" | "TAGS" | "CUSTOM";
   targetTags?: string[];
   targetNumbers?: string[];

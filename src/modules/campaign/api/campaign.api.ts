@@ -29,6 +29,32 @@ const mapBackendCampaign = (c: any): Campaign => {
   const sentCount = Number(c.total_sent ?? c.sentCount ?? 0);
   const failedCount = Number(c.total_failed ?? c.failedCount ?? 0);
 
+  let deviceIds: string[] | undefined = undefined;
+  if (Array.isArray(c.device_ids)) {
+    deviceIds = c.device_ids;
+  } else if (typeof c.device_ids === "string" && c.device_ids.trim() !== "") {
+    try {
+      const parsed = JSON.parse(c.device_ids);
+      if (Array.isArray(parsed)) {
+        deviceIds = parsed;
+      }
+    } catch {
+      deviceIds = [c.device_ids];
+    }
+  } else if (Array.isArray(c.deviceIds)) {
+    deviceIds = c.deviceIds;
+  }
+
+  const primaryDeviceId = c.device_id || c.deviceId || (deviceIds && deviceIds.length > 0 ? deviceIds[0] : "");
+  if ((!deviceIds || deviceIds.length === 0) && primaryDeviceId) {
+    deviceIds = [primaryDeviceId];
+  }
+
+  const autoScrubDeadNumbers = Boolean(
+    c.auto_scrub_dead_numbers ?? c.autoScrubDeadNumbers ?? true
+  );
+  const processedOffset = Number(c.processed_offset ?? c.processedOffset ?? 0);
+
   const rawTags: string[] = Array.isArray(c.tag_ids) ? c.tag_ids : c.targetTags || [];
   let derivedTargetType: "ALL" | "TAGS" | "CUSTOM" = "ALL";
   let targetTags: string[] = [];
@@ -54,11 +80,14 @@ const mapBackendCampaign = (c: any): Campaign => {
   return {
     id: String(c.id || ""),
     name: c.name || "Kampanye Siaran",
-    deviceId: c.device_id || c.deviceId || "",
+    deviceId: primaryDeviceId,
+    deviceIds,
     deviceName: c.device_name || c.deviceName || undefined,
     messageTemplate: c.message_template || c.messageTemplate || "",
     jitterDelaySeconds: Number(c.jitter_delay_seconds ?? c.jitterDelaySeconds ?? 3),
     enableHumanTyping: Boolean(c.enable_human_typing ?? c.enableHumanTyping ?? true),
+    autoScrubDeadNumbers,
+    processedOffset: isNaN(processedOffset) ? 0 : processedOffset,
     targetType: derivedTargetType,
     targetTags,
     targetNumbers,
@@ -98,8 +127,19 @@ export const campaignApi = {
       tagIDs = input.targetNumbers.map((num) => `phone:${num}`);
     }
 
+    const primaryDeviceId =
+      input.deviceId || (input.deviceIds && input.deviceIds.length > 0 ? input.deviceIds[0] : "");
+    const deviceIds =
+      input.deviceIds && input.deviceIds.length > 0
+        ? input.deviceIds
+        : primaryDeviceId
+          ? [primaryDeviceId]
+          : [];
+
     const payload = {
-      device_id: input.deviceId,
+      device_id: primaryDeviceId,
+      device_ids: deviceIds,
+      auto_scrub_dead_numbers: input.autoScrubDeadNumbers ?? true,
       name: input.name,
       message_template: input.messageTemplate,
       target_type: input.targetType,

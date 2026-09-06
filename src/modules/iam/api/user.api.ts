@@ -8,7 +8,7 @@ const IAM_BASE = env.NEXT_PUBLIC_IAM_API_URL;
 
 export const userApi = {
   getProfile: async (signal?: AbortSignal): Promise<User> => {
-    const res = await httpClient.get<BackendUserPayload>(`${IAM_BASE}/users/profile`, { signal });
+    const res = await httpClient.get<BackendUserPayload>(`${IAM_BASE}/auth/profile`, { signal });
     const p = res.payload || (res as unknown as BackendUserPayload);
     return {
       id: p.id || "",

@@ -273,7 +273,13 @@ export function CampaignList() {
                     <div className="text-foreground-muted flex flex-wrap items-center gap-2 text-xs font-semibold">
                       <div className="flex items-center gap-1">
                         <Smartphone className="size-3.5" />
-                        <span>{campaign.deviceName || "Perangkat Utama"}</span>
+                        {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
+                          <span className="font-bold text-emerald-700 dark:text-wise-green">
+                            {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                          </span>
+                        ) : (
+                          <span>{campaign.deviceName || "Perangkat Utama"}</span>
+                        )}
                       </div>
                       <span>•</span>
                       <div className="flex items-center gap-1">
@@ -307,6 +313,22 @@ export function CampaignList() {
                         time: formatDateTime(campaign.scheduledAt),
                       })}
                     </span>
+                  </div>
+                )}
+
+                {/* Partial Dispatch Warm-up auto-paused banner */}
+                {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
+                  <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                    <Pause className="size-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+                    <div>
+                      <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
+                      <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                        {t("campaign.warmupPausedDesc", {
+                          offset: String(campaign.processedOffset),
+                          total: String(totalRecipients),
+                        })}
+                      </p>
+                    </div>
                   </div>
                 )}
 

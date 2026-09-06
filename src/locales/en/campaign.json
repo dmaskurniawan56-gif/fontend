@@ -148,5 +148,17 @@
   "startBroadcastNow": "Start Broadcast Now",
   "closeBtn": "Close",
   "cardClickHint": "Click to view campaign details",
-  "btnBack": "Back"
+  "btnBack": "Back",
+  "selectAllDevices": "Select All Active Devices",
+  "deselectAllDevices": "Deselect All",
+  "multiDeviceBannerTitle": "Multi-Device Mode Active ({count} Devices)",
+  "multiDeviceBannerDesc": "Broadcast workload is distributed equally via Round-Robin across {count} sender numbers. Delivery time is slashed by up to ~{percent}% and ban risk is minimized.",
+  "singleDeviceBannerDesc": "Sending via single WhatsApp sender device.",
+  "autoScrubDeadNumbersLabel": "Filter Inactive Numbers (Pre-Blast USync)",
+  "autoScrubDeadNumbersHint": "Check target WA account validity before sending. Prevents ban risk caused by blasting to dead/unregistered numbers.",
+  "warmupEngineTitle": "Smart Anti-Ban Warmup Engine",
+  "warmupEngineDesc": "The system applies an adaptive daily quota based on sender device age. If today's quota is reached, dispatch automatically pauses and can be resumed tomorrow without repeating sent contacts.",
+  "warmupPausedBanner": "Auto-Paused (Today's Warmup Quota Reached)",
+  "warmupPausedDesc": "Processed up to contact {offset} of {total}. Resume tomorrow to dispatch the remaining recipients.",
+  "poolMultiDevice": "Multi-Device Pool ({count} Devices)"
 }

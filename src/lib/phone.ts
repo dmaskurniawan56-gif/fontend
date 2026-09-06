@@ -22,14 +22,17 @@ export const E164_PHONE_REGEX = /^[1-9][0-9]{6,14}$/;
 export function normalizePhoneNumber(raw: string, defaultCountryCode = "62"): string {
   if (!raw) return "";
 
-  let clean = raw.trim().replace(/[^0-9]/g, "");
+  const trimmed = raw.trim();
+  const hasPlus = trimmed.startsWith("+");
+  let clean = trimmed.replace(/[^0-9]/g, "");
 
   // Local Indonesia format starting with 0 (e.g., 081234567890 -> 6281234567890)
   if (clean.startsWith("0")) {
     clean = defaultCountryCode + clean.slice(1);
   }
   // Local Indonesia format omitting leading 0 (e.g., 81234567890 -> 6281234567890)
-  else if (clean.startsWith("8") && clean.length >= 9 && clean.length <= 12) {
+  // Only apply if user did NOT explicitly specify an international leading '+'
+  else if (!hasPlus && clean.startsWith("8") && clean.length >= 9 && clean.length <= 13) {
     clean = defaultCountryCode + clean;
   }
 

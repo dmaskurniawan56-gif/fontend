@@ -19,13 +19,6 @@ const MessageSimulator = dynamic(
   }
 );
 
-const SpintaxSandbox = dynamic(() => import("./SpintaxSandbox").then((mod) => mod.SpintaxSandbox), {
-  ssr: false,
-  loading: () => (
-    <div className="border-border bg-muted/30 h-64 w-full animate-pulse rounded-2xl border" />
-  ),
-});
-
 const ApiCodeSandbox = dynamic(() => import("./ApiCodeSandbox").then((mod) => mod.ApiCodeSandbox), {
   ssr: false,
   loading: () => (
@@ -33,19 +26,12 @@ const ApiCodeSandbox = dynamic(() => import("./ApiCodeSandbox").then((mod) => mo
   ),
 });
 import {
-  Zap,
   ArrowRight,
-  RefreshCw,
-  FileSpreadsheet,
   CheckCircle2,
   Check,
   CreditCard,
-  Cloud,
-  ShieldCheck,
-  Calendar,
-  Bell,
-  FileText,
-  LayoutTemplate,
+  QrCode,
+  Sparkles,
 } from "lucide-react";
 
 export function HomeView() {
@@ -103,7 +89,7 @@ export function HomeView() {
             <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
               {t("common.metrics.deviceScale")}
             </p>
-            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">10.000+</p>
+            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">100%</p>
             <p className="text-foreground-secondary text-xs font-semibold">
               {t("common.metrics.deviceScaleDesc")}
             </p>
@@ -114,7 +100,7 @@ export function HomeView() {
               {t("common.metrics.ramSavings")}
             </p>
             <p className="text-dark-green dark:text-wise-green font-mono text-2xl font-black sm:text-3xl">
-              95%
+              Alami
             </p>
             <p className="text-foreground-secondary text-xs font-semibold">
               {t("common.metrics.ramSavingsDesc")}
@@ -125,7 +111,7 @@ export function HomeView() {
             <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
               {t("common.metrics.wakeupLatency")}
             </p>
-            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">&lt; 0.3s</p>
+            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">2 Menit</p>
             <p className="text-foreground-secondary text-xs font-semibold">
               {t("common.metrics.wakeupLatencyDesc")}
             </p>
@@ -136,7 +122,7 @@ export function HomeView() {
               {t("common.metrics.antiBan")}
             </p>
             <p className="text-dark-green dark:text-wise-green font-mono text-2xl font-black sm:text-3xl">
-              5-Layer
+              4-in-1
             </p>
             <p className="text-foreground-secondary text-xs font-semibold">
               {t("common.metrics.antiBanDesc")}
@@ -150,96 +136,66 @@ export function HomeView() {
         <MessageSimulator />
       </section>
 
-      {/* 3. Ready-to-Use Business Solutions Showcase */}
-      <BusinessSolutionsSection />
-
-      {/* 4. Spintax Anti-Ban Engine Section */}
-      <section id="spintax" className="mx-auto max-w-4xl px-4 sm:px-6">
-        <SpintaxSandbox />
-      </section>
-
-      {/* 5. Developer REST API & Webhooks Code Sandbox */}
-      <section className="mx-auto max-w-4xl px-4 sm:px-6">
-        <ApiCodeSandbox />
-      </section>
-
-      {/* 6. 9 Core Enterprise Features Grid */}
-      <section id="features" className="mx-auto max-w-6xl space-y-10 px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl space-y-2.5 text-center">
+      {/* 3. How It Works (3 Steps) */}
+      <section id="features" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+        <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
-            <Zap className="size-3.5" />
-            <span>{t("common.landing.features.badge")}</span>
+            <Sparkles className="size-3.5" />
+            <span>{t("common.landing.howItWorks.badge")}</span>
           </div>
-          <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl lg:text-4xl">
-            {t("common.landing.features.title")}
+          <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl">
+            {t("common.landing.howItWorks.title")}
           </h2>
           <p className="text-foreground-secondary text-xs leading-relaxed font-semibold sm:text-sm">
-            {t("common.landing.features.subtitle")}
+            {t("common.landing.howItWorks.subtitle")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-          {[
-            {
-              icon: Cloud,
-              title: t("common.landing.features.f1Title"),
-              desc: t("common.landing.features.f1Desc"),
-            },
-            {
-              icon: ShieldCheck,
-              title: t("common.landing.features.f2Title"),
-              desc: t("common.landing.features.f2Desc"),
-            },
-            {
-              icon: Calendar,
-              title: t("common.landing.features.f3Title"),
-              desc: t("common.landing.features.f3Desc"),
-            },
-            {
-              icon: Bell,
-              title: t("common.landing.features.f4Title"),
-              desc: t("common.landing.features.f4Desc"),
-            },
-            {
-              icon: FileText,
-              title: t("common.landing.features.f5Title"),
-              desc: t("common.landing.features.f5Desc"),
-            },
-            {
-              icon: LayoutTemplate,
-              title: t("common.landing.features.f6Title"),
-              desc: t("common.landing.features.f6Desc"),
-            },
-            {
-              icon: RefreshCw,
-              title: t("common.landing.features.f7Title"),
-              desc: t("common.landing.features.f7Desc"),
-            },
-            {
-              icon: FileSpreadsheet,
-              title: t("common.landing.features.f8Title"),
-              desc: t("common.landing.features.f8Desc"),
-            },
-            {
-              icon: Zap,
-              title: t("common.landing.features.f9Title"),
-              desc: t("common.landing.features.f9Desc"),
-            },
-          ].map((feat, i) => (
-            <div
-              key={i}
-              className="border-border bg-surface hover:border-wise-green/50 space-y-2.5 rounded-lg border p-5 shadow-xs transition duration-150 sm:p-6"
-            >
-              <div className="bg-wise-green/15 text-dark-green dark:text-wise-green flex size-9 items-center justify-center rounded-full">
-                <feat.icon className="size-4.5" />
-              </div>
-              <h3 className="text-foreground text-sm font-bold sm:text-base">{feat.title}</h3>
-              <p className="text-foreground-secondary text-xs leading-relaxed font-semibold">
-                {feat.desc}
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3">
+          <div className="border-border bg-surface flex flex-col justify-between space-y-3.5 rounded-2xl border p-6 shadow-xs transition hover:border-border/90">
+            <div className="bg-wise-green/15 text-dark-green dark:text-wise-green flex size-11 items-center justify-center rounded-xl">
+              <QrCode className="size-5" />
+            </div>
+            <div>
+              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step1Title")}</h3>
+              <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
+                {t("common.landing.howItWorks.step1Desc")}
               </p>
             </div>
-          ))}
+          </div>
+
+          <div className="border-border bg-surface flex flex-col justify-between space-y-3.5 rounded-2xl border p-6 shadow-xs transition hover:border-border/90">
+            <div className="bg-wise-green/15 text-dark-green dark:text-wise-green flex size-11 items-center justify-center rounded-xl">
+              <Sparkles className="size-5" />
+            </div>
+            <div>
+              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step2Title")}</h3>
+              <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
+                {t("common.landing.howItWorks.step2Desc")}
+              </p>
+            </div>
+          </div>
+
+          <div className="border-border bg-surface flex flex-col justify-between space-y-3.5 rounded-2xl border p-6 shadow-xs transition hover:border-border/90">
+            <div className="bg-wise-green/15 text-dark-green dark:text-wise-green flex size-11 items-center justify-center rounded-xl">
+              <CheckCircle2 className="size-5" />
+            </div>
+            <div>
+              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step3Title")}</h3>
+              <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
+                {t("common.landing.howItWorks.step3Desc")}
+              </p>
+            </div>
+          </div>
         </div>
+      </section>
+
+      {/* 4. Ready-to-Use Business Solutions Showcase */}
+      <BusinessSolutionsSection />
+
+      {/* 5. Developer REST API & Webhooks Code Sandbox */}
+      <section id="api" className="mx-auto max-w-4xl px-4 sm:px-6">
+        <ApiCodeSandbox />
       </section>
 
       {/* 7. Transparent 3-Tier Pricing Grid */}

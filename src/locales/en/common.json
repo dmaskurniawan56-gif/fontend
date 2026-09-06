@@ -38,22 +38,22 @@
     "openMenu": "Open Menu"
   },
   "hero": {
-    "badge": "WhatsApp Multi-Device Gateway & REST API",
-    "title": "Send Bulk WhatsApp Messages Faster, Safer, and Ban-Free.",
-    "subtitle": "High-throughput multi-device WhatsApp gateway with 5-layer anti-ban protection, dynamic spintax, and number load balancing. Power your chatbots, alerts, and mass broadcasts effortlessly.",
-    "ctaTrial": "Start Free (1,500 Messages)",
-    "ctaLogin": "Access Dashboard",
-    "trustBadge": "No credit card required • 5-minute setup • End-to-end encryption"
+    "badge": "WhatsApp Business Automation",
+    "title": "Your WhatsApp business, on autopilot.",
+    "subtitle": "Send marketing broadcasts, manage customer reservations, and schedule payment reminders using your own WhatsApp number — without hassle or ban fears.",
+    "ctaTrial": "Start Free Today",
+    "ctaLogin": "Go to Dashboard",
+    "trustBadge": "No credit card required • 2-minute setup • Use your own number"
   },
   "metrics": {
-    "deviceScale": "Device Capacity",
-    "deviceScaleDesc": "Active sessions per node",
-    "ramSavings": "Memory Efficiency",
-    "ramSavingsDesc": "95% Server Resource Savings",
-    "wakeupLatency": "Webhook Latency",
-    "wakeupLatencyDesc": "Real-time event dispatching",
-    "antiBan": "Anti-Ban Protection",
-    "antiBanDesc": "Spintax, Jitter & Auto-Rotate"
+    "deviceScale": "Own Number",
+    "deviceScaleDesc": "Use your existing WhatsApp business number",
+    "ramSavings": "Human Anti-Ban",
+    "ramSavingsDesc": "Natural typing simulation & smart delay",
+    "wakeupLatency": "2-Min Setup",
+    "wakeupLatencyDesc": "Simply scan QR like WhatsApp Web",
+    "antiBan": "4-in-1 Suite",
+    "antiBanDesc": "Built-in Reservations, Reminders, Forms & Templates"
   },
   "spintaxSection": {
     "badge": "Live Anti-Ban Spintax Engine",
@@ -64,10 +64,21 @@
     "randomizeBtn": "Generate New Variation"
   },
   "landing": {
+    "howItWorks": {
+      "badge": "How It Works",
+      "title": "Get Started in 3 Simple Steps",
+      "subtitle": "No complicated technical setup. Your business is ready to roll in minutes.",
+      "step1Title": "1. Connect Your WhatsApp",
+      "step1Desc": "Scan the QR code from your phone just like WhatsApp Web. You retain full control over your business number.",
+      "step2Title": "2. Select Your Automations",
+      "step2Desc": "Set up appointment bookings, scheduled invoice reminders, public lead forms, or CS message templates.",
+      "step3Title": "3. Run on Autopilot",
+      "step3Desc": "Wahide delivers confirmations and reminders with natural human typing delays that keep your number healthy and safe."
+    },
     "showcase": {
-      "badge": "Multi-Format Message Simulator",
-      "title": "Supports All WhatsApp Payload Types",
-      "subtitle": "Dispatch personalized text with dynamic variables, rich media images/PDFs, priority OTP codes, interactive action buttons, and product lists.",
+      "badge": "Interactive Preview",
+      "title": "See how your message appears on WhatsApp",
+      "subtitle": "Test text personalization, rich images, fast OTPs, and interactive buttons live.",
       "tabText": "Text & Spintax",
       "tabMedia": "Media & Documents",
       "tabOtp": "Priority OTP Alerts",
@@ -78,9 +89,9 @@
       "statusRead": "Read"
     },
     "solutions": {
-      "badge": "Ready-to-Use Business Solutions",
-      "title": "More Than Just a Gateway — Complete Business Operations Suite",
-      "subtitle": "Boost sales conversions, automate customer follow-ups, and manage reservations seamlessly integrated with your WhatsApp number without complex coding.",
+      "badge": "Daily Business Toolkit",
+      "title": "One platform for all your business communication",
+      "subtitle": "More than just messaging. Wahide comes with practical tools ready to power your daily sales and operations.",
       "reservationTitle": "Reservation & Appointment Scheduling",
       "reservationDesc": "Manage customer appointment slots, eliminate manual booking friction, and send automatic WhatsApp confirmation tickets instantly.",
       "reservationF1": "Visual daily and monthly agenda calendars",
@@ -174,9 +185,9 @@
       "row5Others": "Manual per Device"
     },
     "pricing": {
-      "badge": "Transparent Pricing & Quotas",
-      "title": "Choose the Plan Built for Your Business",
-      "subtitle": "No hidden fees or surprises. Start free today and scale up as your volume grows.",
+      "badge": "Simple Pricing",
+      "title": "Start free, grow as your business expands",
+      "subtitle": "No hidden fees, no complicated contracts. Cancel anytime.",
       "p1Name": "Free Trial / Starter",
       "p1Price": "$0",
       "p1Period": "/ month",

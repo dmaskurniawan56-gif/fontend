@@ -49,7 +49,7 @@
     "deviceScale": "Device Capacity",
     "deviceScaleDesc": "Active sessions per node",
     "ramSavings": "Memory Efficiency",
-    "ramSavingsDesc": "95% less RAM vs Chromium",
+    "ramSavingsDesc": "95% Server Resource Savings",
     "wakeupLatency": "Webhook Latency",
     "wakeupLatencyDesc": "Real-time event dispatching",
     "antiBan": "Anti-Ban Protection",

@@ -49,7 +49,7 @@
     "deviceScale": "Skala Perangkat",
     "deviceScaleDesc": "Kapasitas sesi aktif per node",
     "ramSavings": "Efisiensi Memori",
-    "ramSavingsDesc": "Hemat 95% vs Chromium",
+    "ramSavingsDesc": "Hemat 95% Resource Server",
     "wakeupLatency": "Latensi Webhook",
     "wakeupLatencyDesc": "Pengiriman real-time event",
     "antiBan": "Sistem Anti-Ban",

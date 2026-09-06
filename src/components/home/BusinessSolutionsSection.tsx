@@ -143,7 +143,7 @@ export function BusinessSolutionsSection() {
 
                   <div>
                     <CardTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
-                      {t(item.titleKey)}
+                      <h3 className="text-inherit font-inherit inline">{t(item.titleKey)}</h3>
                     </CardTitle>
                     <CardDescription className="text-foreground-secondary mt-1.5 text-xs font-medium leading-relaxed sm:text-sm">
                       {t(item.descKey)}

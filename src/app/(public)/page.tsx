@@ -2,27 +2,28 @@ import type { Metadata } from "next";
 import { HomeView } from "@/components/home/HomeView";
 
 export const metadata: Metadata = {
-  title: "Platform WhatsApp Multi-Device SaaS & Solusi Bisnis Lengkap Skala Industri",
+  title: "WhatsApp Gateway & Platform Otomasi Bisnis",
   description:
-    "Solusi WhatsApp Multi-Device Gateway dan platform operasional bisnis terpadu: Sistem Reservasi & Booking Jadwal, Pengingat Otomatis, Formulir Dinamis Publik, Template CS, hemat RAM 95%, dan 5-Lapis Anti-Ban.",
+    "Platform WhatsApp Gateway & otomasi bisnis terpadu: kirim broadcast anti-blokir, sistem reservasi, pengingat otomatis, dan formulir web tanpa coding.",
   keywords: [
     "WhatsApp Gateway",
-    "WhatsApp Multi-Device",
+    "WhatsApp Gateway Indonesia",
+    "Broadcast WhatsApp Anti Blokir",
+    "Otomasi WhatsApp Bisnis",
     "Sistem Reservasi WhatsApp",
-    "Booking Jadwal Online",
     "Pengingat Otomatis WhatsApp",
     "Formulir Dinamis WhatsApp",
-    "Template Pesan CS",
-    "Anti Ban WhatsApp",
-    "SaaS WhatsApp",
+    "Template Pesan Bisnis",
+    "WhatsApp Multi Device",
+    "Wahide",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Wahide - Enterprise WhatsApp Multi-Tenant Gateway & Business Suite",
+    title: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
     description:
-      "Scale hingga 10.000+ perangkat WhatsApp aktif dengan modul Reservasi, Pengingat Otomatis, Formulir Dinamis, Template CS, dan 5 Lapis Anti-Ban.",
+      "Solusi WhatsApp Gateway terpadu: broadcast massal anti-blokir, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
     url: "/",
     siteName: "Wahide",
     locale: "id_ID",

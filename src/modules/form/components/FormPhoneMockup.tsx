@@ -56,7 +56,7 @@ export function FormPhoneMockup({
       : "Formulir Resmi";
 
   return (
-    <div className={cn("mx-auto flex w-full max-w-[340px] sm:max-w-[360px] flex-col", className)}>
+    <div className={cn("mx-auto flex w-full max-w-85 sm:max-w-90 flex-col", className)}>
       {/* Top Device Segmented View Mode Toggle */}
       <div className="mb-2 flex items-center justify-between px-2">
         <span className="text-[11px] font-bold uppercase tracking-wider text-foreground-muted">
@@ -225,7 +225,7 @@ export function FormPhoneMockup({
             </div>
           ) : (
             /* Success Screen View */
-            <div className="my-auto flex min-h-[440px] flex-col items-center justify-center p-3 text-center">
+            <div className="my-auto flex min-h-110 flex-col items-center justify-center p-3 text-center">
               <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-xs dark:border-neutral-800 dark:bg-neutral-900">
                 <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400">
                   <CheckCircle2 className="size-7 animate-in zoom-in-75 duration-200" />

@@ -624,11 +624,11 @@ export function FormBuilderModal({
 
           {/* Right Column: Live Smartphone Mockup Preview */}
           <div
-              className={cn(
-                "w-full xl:w-5/12 2xl:w-2/5 overflow-y-auto p-4 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-[440px]",
-                mobileTab === "preview" ? "flex" : "hidden xl:flex"
-              )}
-            >
+            className={cn(
+              "w-full xl:w-5/12 2xl:w-2/5 overflow-y-auto p-4 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-110",
+              mobileTab === "preview" ? "flex" : "hidden xl:flex"
+            )}
+          >
               <FormPhoneMockup
                 title={title}
                 slug={slug}

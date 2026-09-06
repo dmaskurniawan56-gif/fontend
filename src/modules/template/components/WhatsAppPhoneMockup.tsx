@@ -115,7 +115,7 @@ export function WhatsAppPhoneMockup({
 
   return (
     <div
-      className={`mx-auto flex w-full max-w-85 flex-col overflow-hidden rounded-[32px] border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
+      className={`mx-auto flex w-full max-w-85 flex-col overflow-hidden rounded-4xl border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
     >
       {/* Top Phone Speaker / Camera Notch */}
       <div className="flex h-5 w-full items-center justify-center bg-neutral-900 pt-1">
@@ -190,7 +190,7 @@ export function WhatsAppPhoneMockup({
             )}
 
             {/* Bubble Content Body */}
-            <div className="whitespace-pre-wrap break-words text-[13px] leading-relaxed">
+            <div className="whitespace-pre-wrap wrap-break-word text-[13px] leading-relaxed">
               {renderedContent}
             </div>
 

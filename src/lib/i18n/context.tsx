@@ -22,6 +22,8 @@ import idLegal from "@/locales/id/legal.json";
 import idOverview from "@/locales/id/overview.json";
 import idTemplate from "@/locales/id/template.json";
 import idReminder from "@/locales/id/reminder.json";
+import idReservation from "@/locales/id/reservation.json";
+import idForm from "@/locales/id/form.json";
 
 import enCommon from "@/locales/en/common.json";
 import enAuth from "@/locales/en/auth.json";
@@ -40,6 +42,8 @@ import enLegal from "@/locales/en/legal.json";
 import enOverview from "@/locales/en/overview.json";
 import enTemplate from "@/locales/en/template.json";
 import enReminder from "@/locales/en/reminder.json";
+import enReservation from "@/locales/en/reservation.json";
+import enForm from "@/locales/en/form.json";
 
 const dictionaries: Record<Locale, Record<string, unknown>> = {
   id: {
@@ -60,6 +64,8 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     overview: idOverview,
     template: idTemplate,
     reminder: idReminder,
+    reservation: idReservation,
+    form: idForm,
   },
   en: {
     common: enCommon,
@@ -79,6 +85,8 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     overview: enOverview,
     template: enTemplate,
     reminder: enReminder,
+    reservation: enReservation,
+    form: enForm,
   },
 };
 

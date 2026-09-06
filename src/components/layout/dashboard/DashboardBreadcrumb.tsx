@@ -25,6 +25,10 @@ export function DashboardBreadcrumb() {
         return t("dashboardMenu.templates");
       case "reminders":
         return t("dashboardMenu.reminders");
+      case "reservations":
+        return t("dashboardMenu.reservations");
+      case "forms":
+        return t("dashboardMenu.forms");
       case "subscription":
         return t("dashboardMenu.subscription");
       case "billing":

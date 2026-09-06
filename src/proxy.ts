@@ -9,6 +9,7 @@ const PROTECTED_PREFIXES = [
   "/contacts",
   "/templates",
   "/reminders",
+  "/reservations",
   "/billing",
   "/activities",
   "/settings",

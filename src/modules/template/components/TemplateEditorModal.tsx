@@ -12,7 +12,6 @@ import {
 import { WhatsAppPhoneMockup } from "./WhatsAppPhoneMockup";
 import { VariableQuickInsert } from "./VariableQuickInsert";
 import {
-  X,
   Plus,
   Trash2,
   Sparkles,
@@ -20,7 +19,20 @@ import {
   Smartphone,
   Check,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 interface TemplateEditorModalProps {
@@ -73,10 +85,10 @@ function TemplateEditorContent({
   const handleUpdateButton = (
     index: number,
     field: keyof TemplateButton,
-    val: string
+    value: string
   ) => {
     setButtons((prev) =>
-      prev.map((btn, i) => (i === index ? { ...btn, [field]: val } : btn))
+      prev.map((btn, i) => (i === index ? { ...btn, [field]: value } : btn))
     );
   };
 
@@ -85,7 +97,7 @@ function TemplateEditorContent({
     if (!name.trim() || !content.trim()) return;
 
     setIsSubmitting(true);
-    const payload: CreateTemplateInput = {
+    const payload = {
       name: name.trim(),
       category,
       content: content.trim(),
@@ -103,71 +115,45 @@ function TemplateEditorContent({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
-      />
-
-      {/* Modal Dialog */}
-      <div className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-border bg-surface shadow-2xl animate-in fade-in zoom-in-95">
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        showCloseButton={true}
+        className="flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-3xl p-0 ring-1 ring-border"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border/60 px-6 py-4">
+        <DialogHeader className="flex flex-row items-center justify-between border-b border-border/60 px-6 py-4">
           <div className="flex items-center gap-2.5">
             <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Sparkles className="size-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-foreground sm:text-lg">
+              <DialogTitle className="text-base font-bold text-foreground sm:text-lg">
                 {initialData ? "Edit Template Pesan" : "Buat Template Pesan Baru"}
-              </h2>
-              <p className="text-xs text-foreground-muted">
+              </DialogTitle>
+              <DialogDescription className="text-xs text-foreground-muted">
                 Didesain untuk siaran massal, balasan otomatis, dan notifikasi transaksi
-              </p>
+              </DialogDescription>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mr-6">
             {/* Mobile Tab Toggle */}
-            <div className="flex rounded-xl bg-muted p-0.5 lg:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileTab("form")}
-                className={cn(
-                  "flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium cursor-pointer",
-                  mobileTab === "form"
-                    ? "bg-background text-foreground shadow-xs"
-                    : "text-foreground-muted"
-                )}
-              >
-                <Layers className="size-3.5" />
-                <span>Form</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setMobileTab("preview")}
-                className={cn(
-                  "flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium cursor-pointer",
-                  mobileTab === "preview"
-                    ? "bg-background text-foreground shadow-xs"
-                    : "text-foreground-muted"
-                )}
-              >
-                <Smartphone className="size-3.5" />
-                <span>Pratinjau</span>
-              </button>
+            <div className="lg:hidden">
+              <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as "form" | "preview")}>
+                <TabsList className="h-8">
+                  <TabsTrigger value="form" className="text-xs gap-1">
+                    <Layers className="size-3.5" />
+                    <span>Form</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="preview" className="text-xs gap-1">
+                    <Smartphone className="size-3.5" />
+                    <span>Pratinjau</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex size-8 items-center justify-center rounded-xl text-foreground-muted transition hover:bg-muted hover:text-foreground cursor-pointer"
-            >
-              <X className="size-4" />
-            </button>
           </div>
-        </div>
+        </DialogHeader>
 
         {/* Modal Body: Split Layout */}
         <div className="flex flex-1 overflow-y-auto">
@@ -182,34 +168,36 @@ function TemplateEditorContent({
               {/* Template Name & Category */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-foreground">
-                    Nama Template <span className="text-red-500">*</span>
-                  </label>
-                  <input
+                  <Label htmlFor="template-name">
+                    Nama Template <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="template-name"
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Contoh: Notifikasi Invoice Lunas"
-                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground placeholder:text-foreground-muted/60 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+                    className="h-10 text-xs rounded-xl"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-foreground">
-                    Kategori Template <span className="text-red-500">*</span>
-                  </label>
-                  <select
+                  <Label htmlFor="template-category">
+                    Kategori Template <span className="text-destructive">*</span>
+                  </Label>
+                  <NativeSelect
+                    id="template-category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value as TemplateCategory)}
-                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+                    className="h-10 text-xs rounded-xl"
                   >
-                    <option value="MARKETING">Marketing & Promosi</option>
-                    <option value="UTILITY">Operasional / Utility</option>
-                    <option value="REMINDER">Pengingat & Tagihan</option>
-                    <option value="RESERVATION">Reservasi & Booking</option>
-                    <option value="QUICK_REPLY">Balasan Cepat (CS)</option>
-                  </select>
+                    <NativeSelectOption value="MARKETING">Marketing & Promosi</NativeSelectOption>
+                    <NativeSelectOption value="UTILITY">Operasional / Utility</NativeSelectOption>
+                    <NativeSelectOption value="REMINDER">Pengingat & Tagihan</NativeSelectOption>
+                    <NativeSelectOption value="RESERVATION">Reservasi & Booking</NativeSelectOption>
+                    <NativeSelectOption value="QUICK_REPLY">Balasan Cepat (CS)</NativeSelectOption>
+                  </NativeSelect>
                 </div>
               </div>
 
@@ -221,36 +209,34 @@ function TemplateEditorContent({
                   </span>
                   <div className="flex items-center gap-1 rounded-xl bg-muted p-0.5">
                     {(["NONE", "IMAGE", "DOCUMENT"] as TemplateMediaType[]).map((m) => (
-                      <button
+                      <Button
                         key={m}
                         type="button"
+                        variant={mediaType === m ? "default" : "ghost"}
+                        size="xs"
                         onClick={() => setMediaType(m)}
-                        className={cn(
-                          "rounded-lg px-2 py-1 text-[11px] font-medium transition cursor-pointer",
-                          mediaType === m
-                            ? "bg-background text-foreground shadow-xs"
-                            : "text-foreground-muted hover:text-foreground"
-                        )}
+                        className="rounded-lg text-[11px] cursor-pointer"
                       >
                         {m === "NONE" && "Tanpa Media"}
                         {m === "IMAGE" && "Gambar"}
                         {m === "DOCUMENT" && "Dokumen"}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
                 {mediaType !== "NONE" && (
-                  <div className="space-y-1 animate-in fade-in">
-                    <label className="text-[11px] text-foreground-muted">
+                  <div className="space-y-1.5 animate-in fade-in">
+                    <Label htmlFor="template-media-url" className="text-[11px]">
                       URL Berkas Media (HTTPS URL langsung ke gambar/PDF):
-                    </label>
-                    <input
+                    </Label>
+                    <Input
+                      id="template-media-url"
                       type="url"
                       value={mediaUrl}
                       onChange={(e) => setMediaUrl(e.target.value)}
                       placeholder="https://domain.com/assets/banner-promo.jpg"
-                      className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary focus:outline-hidden"
+                      className="h-9 text-xs rounded-xl"
                     />
                   </div>
                 )}
@@ -259,21 +245,22 @@ function TemplateEditorContent({
               {/* Message Content Area */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-foreground">
-                    Isi Konten Pesan WhatsApp <span className="text-red-500">*</span>
-                  </label>
+                  <Label htmlFor="template-content">
+                    Isi Konten Pesan WhatsApp <span className="text-destructive">*</span>
+                  </Label>
                   <span className="text-[11px] text-foreground-muted">
                     {content.length} karakter
                   </span>
                 </div>
 
-                <textarea
+                <Textarea
+                  id="template-content"
                   required
                   rows={6}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Ketik pesan Anda di sini. Gunakan {{variabel}} untuk data dinamis."
-                  className="w-full rounded-2xl border border-border bg-background p-3.5 text-xs leading-relaxed text-foreground placeholder:text-foreground-muted/60 focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+                  className="rounded-2xl p-3.5 text-xs leading-relaxed"
                 />
 
                 {/* Variable Quick Insert Chips */}
@@ -298,7 +285,7 @@ function TemplateEditorContent({
                       variant="outline"
                       size="sm"
                       onClick={handleAddButton}
-                      className="h-7 gap-1 rounded-xl text-xs"
+                      className="h-7 gap-1 rounded-xl text-xs cursor-pointer"
                     >
                       <Plus className="size-3" />
                       Tambah Tombol
@@ -313,19 +300,19 @@ function TemplateEditorContent({
                         key={idx}
                         className="flex flex-col gap-2 rounded-xl border border-border/70 bg-card p-2.5 sm:flex-row sm:items-center"
                       >
-                        <select
+                        <NativeSelect
                           value={btn.type}
                           onChange={(e) =>
                             handleUpdateButton(idx, "type", e.target.value)
                           }
-                          className="rounded-lg border border-border bg-background px-2 py-1 text-xs text-foreground"
+                          className="h-8 rounded-lg text-xs w-32"
                         >
-                          <option value="QUICK_REPLY">Quick Reply</option>
-                          <option value="URL">Buka Link URL</option>
-                          <option value="CALL">Panggilan Telepon</option>
-                        </select>
+                          <NativeSelectOption value="QUICK_REPLY">Quick Reply</NativeSelectOption>
+                          <NativeSelectOption value="URL">Buka Link URL</NativeSelectOption>
+                          <NativeSelectOption value="CALL">Panggilan Telepon</NativeSelectOption>
+                        </NativeSelect>
 
-                        <input
+                        <Input
                           type="text"
                           required
                           value={btn.text}
@@ -333,11 +320,11 @@ function TemplateEditorContent({
                             handleUpdateButton(idx, "text", e.target.value)
                           }
                           placeholder="Teks Tombol (cth: Cek Pesanan)"
-                          className="flex-1 rounded-lg border border-border bg-background px-2.5 py-1 text-xs text-foreground placeholder:text-foreground-muted/60"
+                          className="h-8 flex-1 rounded-lg text-xs"
                         />
 
                         {btn.type !== "QUICK_REPLY" && (
-                          <input
+                          <Input
                             type="text"
                             value={btn.value || ""}
                             onChange={(e) =>
@@ -348,17 +335,19 @@ function TemplateEditorContent({
                                 ? "https://link.com"
                                 : "+628123456789"
                             }
-                            className="flex-1 rounded-lg border border-border bg-background px-2.5 py-1 text-xs text-foreground"
+                            className="h-8 flex-1 rounded-lg text-xs"
                           />
                         )}
 
-                        <button
+                        <Button
                           type="button"
+                          variant="ghost"
+                          size="icon-xs"
                           onClick={() => handleRemoveButton(idx)}
-                          className="flex size-7 items-center justify-center rounded-lg text-red-500 hover:bg-red-500/10 cursor-pointer"
+                          className="text-destructive hover:bg-destructive/10 cursor-pointer self-end sm:self-auto"
                         >
                           <Trash2 className="size-3.5" />
-                        </button>
+                        </Button>
                       </div>
                     ))}
                   </div>
@@ -367,20 +356,15 @@ function TemplateEditorContent({
             </form>
           </div>
 
-          {/* Right Column: Live Phone Mockup Preview */}
+          {/* Right Column: Live Mockup Preview */}
           <div
             className={cn(
-              "flex flex-1 items-center justify-center bg-muted/20 p-6 lg:flex",
+              "flex-1 items-center justify-center p-6 bg-muted/10 lg:flex",
               mobileTab === "preview" ? "flex" : "hidden"
             )}
           >
-            <div className="flex flex-col items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-foreground-muted">
-                📱 Pratinjau Tampilan WhatsApp Penerima
-              </span>
+            <div className="w-full max-w-sm">
               <WhatsAppPhoneMockup
-                name={name || "Nama Template"}
-                category={category}
                 content={content}
                 mediaType={mediaType}
                 mediaUrl={mediaUrl}
@@ -390,14 +374,15 @@ function TemplateEditorContent({
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="flex items-center justify-end gap-3 border-t border-border/60 px-6 py-4">
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-2.5 border-t border-border/60 bg-muted/20 px-6 py-4">
           <Button
             type="button"
             variant="outline"
+            size="sm"
             onClick={onClose}
             disabled={isSubmitting}
-            className="rounded-xl"
+            className="rounded-xl cursor-pointer"
           >
             Batal
           </Button>
@@ -405,7 +390,7 @@ function TemplateEditorContent({
             type="submit"
             form="template-editor-form"
             disabled={isSubmitting || !name.trim() || !content.trim()}
-            className="rounded-xl"
+            className="rounded-xl cursor-pointer"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
@@ -420,8 +405,8 @@ function TemplateEditorContent({
             )}
           </Button>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

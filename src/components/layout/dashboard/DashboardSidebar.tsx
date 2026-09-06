@@ -17,6 +17,8 @@ import {
   ShieldAlert,
   FileText,
   BellRing,
+  CalendarDays,
+  ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
@@ -80,6 +82,18 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
         key: "dashboardMenu.reminders",
         href: "/reminders",
         icon: BellRing,
+        roles: SELLER_ROLES,
+      },
+      {
+        key: "dashboardMenu.reservations",
+        href: "/reservations",
+        icon: CalendarDays,
+        roles: SELLER_ROLES,
+      },
+      {
+        key: "dashboardMenu.forms",
+        href: "/forms",
+        icon: ClipboardList,
         roles: SELLER_ROLES,
       },
     ],

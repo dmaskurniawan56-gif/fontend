@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { TurnstileWidget } from "@/components/ui/TurnstileWidget";
+import { Alert } from "@/components/ui/alert";
+import { Spinner } from "@/components/ui/spinner";
+import { TurnstileWidget } from "@/components/shared/TurnstileWidget";
 import { TurnstileInstance } from "@marsidev/react-turnstile";
 import { resetPasswordSchema, ResetPasswordInput } from "@/modules/iam/schemas/auth.schema";
 import { authApi } from "@/modules/iam/api/auth.api";
@@ -17,7 +19,6 @@ import {
   ArrowLeft,
   CheckCircle2,
   AlertCircle,
-  Loader2,
   Mail,
   ShieldCheck,
 } from "lucide-react";
@@ -27,6 +28,15 @@ export function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const turnstileRef = useRef<TurnstileInstance>(null);
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimerRef.current !== null) {
+        clearTimeout(redirectTimerRef.current);
+      }
+    };
+  }, []);
 
   const emailParam = searchParams.get("email") || "";
   const tokenParam = searchParams.get("token") || "";
@@ -60,8 +70,11 @@ export function ResetPasswordForm() {
       const res = await authApi.resetPassword(result.data);
       setSuccessMessage(res.message || t("auth.resetPassword.successNotice"));
 
-      // Auto redirect to /login after 2 seconds
-      setTimeout(() => {
+      // Auto redirect to /login after 2 seconds with safe cleanup
+      if (redirectTimerRef.current !== null) {
+        clearTimeout(redirectTimerRef.current);
+      }
+      redirectTimerRef.current = setTimeout(() => {
         router.push("/login");
       }, 2000);
     } catch (err: unknown) {
@@ -92,7 +105,7 @@ export function ResetPasswordForm() {
 
       {/* Target Email Hint Badge */}
       {emailParam && (
-        <div className="bg-surface border-border text-foreground-secondary flex items-center gap-2.5 rounded-xl border p-3.5 text-xs font-semibold shadow-2xs dark:bg-[#161715]">
+        <div className="bg-surface border-border text-foreground-secondary flex items-center gap-2.5 rounded-xl border p-3.5 text-xs font-semibold shadow-2xs">
           <Mail className="text-wise-green size-4 shrink-0" />
           <p>
             {t("auth.resetPassword.emailHint")}:{" "}
@@ -103,17 +116,17 @@ export function ResetPasswordForm() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {successMessage && (
-          <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
-            <CheckCircle2 className="size-5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+          <Alert variant="success">
+            <CheckCircle2 className="size-5 shrink-0" />
             <span>{successMessage}</span>
-          </div>
+          </Alert>
         )}
 
         {error && (
-          <div className="flex items-center gap-3 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-300">
+          <Alert variant="destructive">
             <AlertCircle className="size-5 shrink-0" />
             <span>{error}</span>
-          </div>
+          </Alert>
         )}
 
         {/* Token Input */}
@@ -132,7 +145,7 @@ export function ResetPasswordForm() {
               }}
               placeholder={t("auth.resetPassword.tokenPlaceholder")}
               disabled={isLoading}
-              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-4 pl-12 font-mono text-xs font-semibold transition outline-none focus:ring-2 sm:text-sm dark:bg-[#161715]"
+              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-4 pl-12 font-mono text-xs font-semibold transition outline-none focus:ring-2 sm:text-sm"
             />
           </div>
         </div>
@@ -153,7 +166,7 @@ export function ResetPasswordForm() {
               }}
               placeholder={t("auth.resetPassword.newPasswordPlaceholder")}
               disabled={isLoading}
-              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-12 pl-12 text-sm font-semibold transition outline-none focus:ring-2 dark:bg-[#161715]"
+              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-12 pl-12 text-sm font-semibold transition outline-none focus:ring-2"
             />
             <button
               type="button"
@@ -182,7 +195,7 @@ export function ResetPasswordForm() {
               }}
               placeholder={t("auth.resetPassword.confirmPasswordPlaceholder")}
               disabled={isLoading}
-              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-12 pl-12 text-sm font-semibold transition outline-none focus:ring-2 dark:bg-[#161715]"
+              className="bg-surface text-foreground border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green h-12 w-full rounded-full border pr-12 pl-12 text-sm font-semibold transition outline-none focus:ring-2"
             />
             <button
               type="button"
@@ -195,7 +208,7 @@ export function ResetPasswordForm() {
           </div>
         </div>
 
-        {/* Turnstile CAPTCHA Protection */}
+        {/* Turnstile Protection */}
         <TurnstileWidget
           ref={turnstileRef}
           onVerify={(token: string) => setFormData((prev) => ({ ...prev, turnstileToken: token }))}
@@ -213,7 +226,7 @@ export function ResetPasswordForm() {
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
-              <Loader2 className="size-4 animate-spin" />
+              <Spinner className="size-4" />
               <span>{t("auth.resetPassword.loadingButton")}</span>
             </div>
           ) : (

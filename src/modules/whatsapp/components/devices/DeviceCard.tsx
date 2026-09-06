@@ -2,8 +2,12 @@
 
 import React, { useState } from "react";
 import { Device } from "@/modules/whatsapp/types/whatsapp.types";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useClipboard } from "@/hooks/useClipboard";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -29,16 +33,9 @@ import {
   Info,
   ExternalLink,
 } from "lucide-react";
+import { formatDisplayPhone } from "@/lib/phone";
 
-export function formatPhoneNumber(phone: string | null | undefined): string {
-  if (!phone) return "";
-  const clean = phone.replace(/[^0-9]/g, "");
-  if (!clean) return phone;
-  if (clean.startsWith("62") && clean.length >= 10) {
-    return `+62 ${clean.slice(2, 5)}-${clean.slice(5, 9)}-${clean.slice(9)}`;
-  }
-  return `+${clean}`;
-}
+export const formatPhoneNumber = formatDisplayPhone;
 
 interface DeviceCardProps {
   device: Device;
@@ -61,7 +58,7 @@ export function DeviceCard({
 }: DeviceCardProps) {
   const { t } = useI18n();
   const [isActionLoading, setIsActionLoading] = useState(false);
-  const [copiedId, setCopiedId] = useState(false);
+  const { isCopied: copiedId, copy } = useClipboard();
 
   const handleAction = async (e: React.MouseEvent, actionFn: (id: string) => Promise<void>) => {
     e.stopPropagation();
@@ -73,12 +70,12 @@ export function DeviceCard({
     }
   };
 
-  const handleCopyId = (e: React.MouseEvent) => {
+  const handleCopyId = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(device.id);
-    setCopiedId(true);
-    toast.success(t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!");
-    setTimeout(() => setCopiedId(false), 2000);
+    const success = await copy(device.id);
+    if (success) {
+      toast.success(t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!");
+    }
   };
 
   const renderStatusBadge = () => {
@@ -116,10 +113,9 @@ export function DeviceCard({
   };
 
   return (
-    <div
+    <Card
       onClick={() => onViewDetail?.(device)}
-      className="border-border bg-surface hover:border-wise-green/60 group relative flex cursor-pointer flex-col justify-between space-y-5 rounded-xl border p-5 transition-all hover:shadow-lg sm:p-6 dark:bg-[#161715]"
-      title={t("whatsapp.viewDetail") || "Klik untuk melihat detail perangkat"}
+      className="hover:border-wise-green/60 group relative flex cursor-pointer flex-col justify-between space-y-5 p-5 transition-all hover:shadow-lg sm:p-6"
     >
       {/* Card Header */}
       <div className="flex items-start justify-between gap-3">
@@ -218,48 +214,60 @@ export function DeviceCard({
         </div>
       </div>
 
-      {/* Device Info & Status Row (Replacing Battery with Device ID & Last Active) */}
-      <div className="border-border/60 grid grid-cols-2 gap-3 border-y py-3 text-xs font-semibold">
-        {/* Device ID */}
-        <div className="min-w-0">
-          <span className="text-foreground-muted mb-0.5 block text-[11px] tracking-wider uppercase">
-            {t("whatsapp.deviceId") || "Device ID"}
-          </span>
-          <div className="text-foreground flex items-center gap-1.5 font-mono text-xs font-bold">
-            <span className="max-w-[120px] truncate select-all" title={device.id}>
-              {device.id}
+      {/* Device Info & Status Row */}
+      <div>
+        <Separator className="mb-3" />
+        <div className="grid grid-cols-2 gap-3 text-xs font-semibold">
+          {/* Device ID */}
+          <div className="min-w-0">
+            <span className="text-foreground-muted mb-0.5 block text-[11px] tracking-wider uppercase">
+              {t("whatsapp.deviceId") || "Device ID"}
             </span>
-            <button
-              onClick={handleCopyId}
-              className="hover:text-dark-green dark:hover:text-wise-green text-foreground-muted shrink-0 cursor-pointer p-0.5 transition"
-              title={t("whatsapp.copyDeviceId") || "Salin Device ID"}
-            >
-              {copiedId ? (
-                <Check className="size-3 text-emerald-600 dark:text-emerald-400" />
-              ) : (
-                <Copy className="size-3" />
-              )}
-            </button>
+            <div className="text-foreground flex items-center gap-1.5 font-mono text-xs font-bold">
+              <span className="max-w-30 truncate select-all" title={device.id}>
+                {device.id}
+              </span>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <button
+                      onClick={handleCopyId}
+                      className="hover:text-dark-green dark:hover:text-wise-green text-foreground-muted shrink-0 cursor-pointer p-0.5 transition"
+                    />
+                  }
+                >
+                  {copiedId ? (
+                    <Check className="size-3 text-emerald-600 dark:text-emerald-400" />
+                  ) : (
+                    <Copy className="size-3" />
+                  )}
+                </TooltipTrigger>
+                <TooltipContent>
+                  {copiedId ? "Tersalin!" : (t("whatsapp.copyDeviceId") || "Salin Device ID")}
+                </TooltipContent>
+              </Tooltip>
+            </div>
           </div>
-        </div>
 
-        {/* Last Active */}
-        <div>
-          <span className="text-foreground-muted mb-0.5 block text-[11px] tracking-wider uppercase">
-            {t("whatsapp.lastActive")}
-          </span>
-          <div className="text-foreground-secondary flex items-center gap-1.5">
-            <Clock className="text-foreground-muted size-3.5 shrink-0" />
-            <span className="truncate">
-              {device.lastSeenAt
-                ? new Date(device.lastSeenAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })
-                : "Baru saja"}
+          {/* Last Active */}
+          <div>
+            <span className="text-foreground-muted mb-0.5 block text-[11px] tracking-wider uppercase">
+              {t("whatsapp.lastActive")}
             </span>
+            <div className="text-foreground-secondary flex items-center gap-1.5">
+              <Clock className="text-foreground-muted size-3.5 shrink-0" />
+              <span className="truncate">
+                {device.lastSeenAt
+                  ? new Date(device.lastSeenAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : "Baru saja"}
+              </span>
+            </div>
           </div>
         </div>
+        <Separator className="mt-3" />
       </div>
 
       {/* Card Action Footer */}
@@ -315,6 +323,6 @@ export function DeviceCard({
           </Button>
         )}
       </div>
-    </div>
+    </Card>
   );
 }

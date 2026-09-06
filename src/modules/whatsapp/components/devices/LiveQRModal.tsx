@@ -5,7 +5,9 @@ import Image from "next/image";
 import { Device } from "@/modules/whatsapp/types/whatsapp.types";
 import { useQRPairing } from "@/modules/whatsapp/hooks/useQRPairing";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
+import { useClipboard } from "@/hooks/useClipboard";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +17,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { toast } from "sonner";
 import {
   RefreshCw,
   CheckCircle2,
@@ -39,8 +43,9 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
   const { t } = useI18n();
   const authUserPhone = useAuth((s) => s.user?.phone || "");
   const [customPhone, setCustomPhone] = useState<string | null>(null);
-  const phoneNumber = customPhone !== null ? customPhone : authUserPhone;
-  const [copied, setCopied] = useState<boolean>(false);
+
+  const rawPhone = customPhone !== null ? customPhone : authUserPhone;
+  const { isCopied: copied, copy } = useClipboard();
 
   const handlePairingSuccess = () => {
     if (device) {
@@ -72,15 +77,18 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
 
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phoneNumber.trim()) return;
-    await requestPairingCode(phoneNumber);
+    if (!rawPhone.trim()) return;
+    const fullE164Phone = normalizePhoneNumber(rawPhone);
+    if (!isValidE164(fullE164Phone)) {
+      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid");
+      return;
+    }
+    await requestPairingCode(fullE164Phone);
   };
 
-  const handleCopyCode = () => {
+  const handleCopyCode = async () => {
     if (pairingCode) {
-      navigator.clipboard.writeText(pairingCode);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await copy(pairingCode);
     }
   };
 
@@ -88,7 +96,7 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-start justify-between border-b p-5 pb-4 text-left sm:p-6">
           <div className="space-y-1">
@@ -267,19 +275,19 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                 ) : (
                   <form onSubmit={handleRequestCode} className="w-full space-y-3">
                     <div className="space-y-1 text-left">
-                      <label className="text-foreground text-xs font-bold">
+                      <Label className="text-foreground text-xs font-bold">
                         {t("whatsapp.phoneLabel")}
-                      </label>
+                      </Label>
                       <div className="border-border bg-surface focus-within:ring-wise-green/40 flex overflow-hidden rounded-md border focus-within:ring-2">
-                        <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold">
-                          +62
+                        <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold font-mono">
+                          +
                         </span>
                         <input
                           type="tel"
-                          placeholder="81234567890"
-                          value={phoneNumber}
+                          placeholder="6281234567890 atau 081234567890"
+                          value={rawPhone}
                           onChange={(e) => setCustomPhone(e.target.value)}
-                          className="text-foreground flex-1 bg-transparent px-3 py-2 text-xs font-semibold focus:outline-none"
+                          className="text-foreground flex-1 bg-transparent px-3 py-2 text-xs font-semibold focus:outline-none font-mono"
                           autoFocus
                           required
                         />
@@ -290,7 +298,7 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                       type="submit"
                       variant="primaryPill"
                       size="sm"
-                      disabled={isLoadingCode || !phoneNumber.trim()}
+                      disabled={isLoadingCode || !rawPhone.trim()}
                       className="w-full gap-2 text-xs font-bold"
                     >
                       {isLoadingCode ? (

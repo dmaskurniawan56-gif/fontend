@@ -1,0 +1,38 @@
+{
+  "title": "Automated WhatsApp Reminders",
+  "subtitle": "Schedule target dates, automated drip messages (D-1, Day of, D+3), and audit delivery logs with zero duplication.",
+  "fetchFailed": "Failed to fetch reminders list",
+  "createdSuccess": "Reminder scheduled successfully",
+  "createFailed": "Failed to schedule reminder",
+  "updatedSuccess": "Reminder updated successfully",
+  "updateFailed": "Failed to update reminder",
+  "deletedSuccess": "Reminder deleted successfully",
+  "deleteFailed": "Failed to delete reminder",
+  "rulesUpdatedSuccess": "Delivery rules saved successfully",
+  "rulesUpdateFailed": "Failed to save delivery rules",
+  "logsFetchFailed": "Failed to fetch delivery logs",
+  "dispatchSuccess": "Reminder dispatch completed!",
+  "dispatchFailed": "Failed to trigger reminder dispatch",
+  "stats": {
+    "total": "Total Schedules",
+    "totalDesc": "All saved schedules",
+    "active": "Active Schedules",
+    "activeDesc": "Awaiting cron evaluation",
+    "paused": "Paused",
+    "pausedDesc": "Delivery paused",
+    "completed": "Completed",
+    "dispatched": "Total Dispatched",
+    "dispatchedDesc": "Messages successfully sent"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "dispatchNow": "Send Now",
+    "dispatchTooltip": "Send all reminders due now",
+    "refreshTooltip": "Reload Data"
+  },
+  "tabs": {
+    "schedules": "Reminder Schedules",
+    "rules": "Delivery Rules & Drip",
+    "logs": "Delivery Logs"
+  }
+}

@@ -3,13 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
-import { ExternalLink, Mail, Clock } from "lucide-react";
+import { ExternalLink, Clock } from "lucide-react";
 
 export function PublicFooter() {
   const { t } = useI18n();
 
   return (
-    <footer className="border-t border-border bg-surface dark:bg-[#161715] py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+    <footer className="border-t border-border bg-surface py-12 px-4 sm:px-6 lg:px-8 transition-colors">
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12">
         {/* Brand & Operating Hours Information */}
         <div className="space-y-3.5 sm:col-span-2 lg:col-span-1">
@@ -23,17 +23,6 @@ export function PublicFooter() {
           <div className="space-y-2 text-xs font-semibold text-foreground-secondary leading-relaxed">
             <div className="font-bold text-foreground">
               {t("footer.by")}
-            </div>
-
-            <div className="flex items-center gap-1.5 pt-0.5">
-              <Mail className="size-3.5 text-dark-green dark:text-wise-green shrink-0" />
-              <span>{t("footer.emailLabel")}</span>
-              <a
-                href={`mailto:${t("footer.emailValue")}`}
-                className="text-foreground hover:text-dark-green dark:hover:text-wise-green underline decoration-border hover:decoration-current transition font-medium"
-              >
-                {t("footer.emailValue")}
-              </a>
             </div>
 
             <div className="pt-1.5 border-t border-border/60 space-y-1">
@@ -57,6 +46,11 @@ export function PublicFooter() {
             <li>
               <Link href="/about" className="hover:text-foreground transition-colors">
                 {t("common.nav.about")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/#solutions" className="hover:text-foreground transition-colors">
+                {t("common.nav.solutions")}
               </Link>
             </li>
             <li>

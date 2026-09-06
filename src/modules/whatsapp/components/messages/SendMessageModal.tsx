@@ -6,6 +6,7 @@ import { formatPhoneNumber } from "@/modules/whatsapp/components/devices/DeviceC
 import { whatsappApi } from "@/modules/whatsapp/api/whatsapp.api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -19,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { Send, Loader2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 
 interface SendMessageModalProps {
   devices: Device[];
@@ -47,6 +49,12 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
       return;
     }
 
+    const cleanPhone = normalizePhoneNumber(recipient);
+    if (!isValidE164(cleanPhone)) {
+      toast.error(t("contact.errPhonePrefix") || t("whatsapp.recipientPhoneHint"));
+      return;
+    }
+
     if (!activeDeviceId) {
       toast.error(t("whatsapp.noConnectedDevices"));
       return;
@@ -56,7 +64,7 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
     try {
       await whatsappApi.sendMessage({
         device_id: activeDeviceId,
-        phone: recipient.trim(),
+        phone: cleanPhone,
         message: message.trim(),
       });
       toast.success(t("whatsapp.sendSuccess"), { id: "whatsapp-fast-send" });
@@ -73,7 +81,7 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !isSending && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
           <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700">
@@ -94,9 +102,9 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
           <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
             {/* Select Device */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.selectSenderDevice")}
-              </label>
+              </Label>
               <NativeSelect
                 value={activeDeviceId}
                 onChange={(e) => setUserSelectedDeviceId(e.target.value)}
@@ -117,14 +125,15 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Recipient Phone */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label htmlFor="send-msg-phone" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.recipientPhoneLabel")}
-              </label>
+              </Label>
               <Input
+                id="send-msg-phone"
                 type="tel"
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
-                placeholder="6281234567890"
+                placeholder="08123456789 atau 628123456789"
                 variant="rounded"
                 className="font-mono"
                 required
@@ -136,10 +145,11 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Message Body */}
             <div>
-              <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label htmlFor="send-msg-text" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.messageTextLabel")}
-              </label>
+              </Label>
               <Textarea
+                id="send-msg-text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={4}
@@ -152,7 +162,7 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
           </div>
 
           {/* Sticky Footer */}
-          <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6 dark:bg-[#161715]/90">
+          <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6/90">
             <Button
               type="button"
               variant="outline"

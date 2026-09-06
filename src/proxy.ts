@@ -7,6 +7,10 @@ const PROTECTED_PREFIXES = [
   "/devices",
   "/campaigns",
   "/contacts",
+  "/templates",
+  "/forms",
+  "/reminders",
+  "/reservations",
   "/billing",
   "/activities",
   "/settings",
@@ -61,6 +65,11 @@ export function proxy(request: NextRequest) {
       const redirectUrl = request.nextUrl.searchParams.get("from") || "/dashboard";
       return NextResponse.redirect(new URL(redirectUrl, request.url));
     }
+  }
+
+  // 4. Redirect root /f or /f/ to /
+  if (pathname === "/f" || pathname === "/f/") {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

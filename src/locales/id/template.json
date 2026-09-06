@@ -1,0 +1,42 @@
+{
+  "title": "Template Pesan WhatsApp",
+  "subtitle": "Koleksi template pesan siap kirim dengan variabel dinamis dan tombol aksi interaktif.",
+  "addTemplate": "Tambah Template",
+  "editTemplate": "Edit Template",
+  "duplicateTemplate": "Duplikat",
+  "deleteTemplate": "Hapus",
+  "copyContent": "Salin Pesan",
+  "contentCopied": "Pesan template berhasil disalin ke clipboard!",
+  "favorited": "Template ditambahkan ke favorit",
+  "unfavorited": "Template dihapus dari favorit",
+  "createdSuccess": "Template berhasil dibuat",
+  "updatedSuccess": "Template berhasil diperbarui",
+  "duplicatedSuccess": "Template berhasil diduplikasi",
+  "deletedSuccess": "Template berhasil dihapus",
+  "createFailed": "Gagal membuat template",
+  "updateFailed": "Gagal memperbarui template",
+  "duplicateFailed": "Gagal menduplikasi template",
+  "deleteFailed": "Gagal menghapus template",
+  "categories": {
+    "all": "Semua Kategori",
+    "marketing": "Marketing & Promosi",
+    "utility": "Operasional & Utilitas",
+    "reminder": "Pengingat & Tagihan",
+    "reservation": "Reservasi & Janji Temu",
+    "quickReply": "Balasan Cepat (CS)"
+  },
+  "mediaTypes": {
+    "none": "Tanpa Media",
+    "image": "Gambar",
+    "document": "Dokumen"
+  },
+  "stats": {
+    "total": "Total Template",
+    "marketing": "Marketing & Promo",
+    "utility": "Operasional",
+    "reminder": "Pengingat",
+    "reservation": "Reservasi",
+    "quickReply": "Balasan Cepat",
+    "favorites": "Template Favorit"
+  }
+}

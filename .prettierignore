@@ -1,9 +1,0 @@
-.next
-node_modules
-out
-build
-dist
-bun.lock
-bun.lockb
-public
-*.md

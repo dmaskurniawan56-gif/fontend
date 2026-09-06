@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { CreateContactInput } from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +14,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { UploadCloud, FileSpreadsheet, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface ImportCsvModalProps {
@@ -69,14 +72,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
           const rawTags = tagsIndex !== -1 ? cols[tagsIndex] : "";
 
           if (rawName && rawPhone) {
-            let cleanPhone = rawPhone.replace(/[^0-9]/g, "");
-            if (cleanPhone.startsWith("08")) {
-              cleanPhone = "62" + cleanPhone.slice(1);
-            } else if (cleanPhone.startsWith("8")) {
-              cleanPhone = "62" + cleanPhone;
-            }
+            const cleanPhone = normalizePhoneNumber(rawPhone);
 
-            if (cleanPhone.startsWith("62") && cleanPhone.length >= 10) {
+            if (isValidE164(cleanPhone)) {
               const tags = rawTags
                 ? rawTags
                     .split(";")
@@ -93,7 +91,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
         }
 
         if (validContacts.length === 0) {
-          setError("Tidak ada nomor kontak valid yang diawali kode 62.");
+          setError(t("contact.errNoValidContacts") || "Tidak ada nomor kontak WhatsApp yang valid dalam file CSV.");
           return;
         }
 
@@ -124,7 +122,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Modal Header */}
         <DialogHeader className="border-border/80 flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
           <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700">
@@ -160,8 +158,8 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                 </code>
               </li>
               <li>
-                Format nomor WhatsApp: diawali <code className="font-bold">628xxx</code> atau{" "}
-                <code className="font-bold">08xxx</code> (otomatis dinormalisasi).
+                Format nomor WhatsApp: diawali <code className="font-bold">08xxx</code>,{" "}
+                <code className="font-bold">628xxx</code>, atau nomor internasional dengan kode negara (otomatis dinormalisasi).
               </li>
               <li>
                 Kolom <code className="font-bold">tags</code> bersifat opsional, pisahkan tag dengan
@@ -192,8 +190,8 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
 
           {/* Preview Parsed Contacts */}
           {parsedData.length > 0 && (
-            <div className="border-border bg-surface rounded-md border p-3.5 text-xs dark:bg-[#10110e]">
-              <div className="border-border/60 flex items-center justify-between border-b pb-2">
+            <Card className="border-border bg-surface rounded-md border p-3.5 text-xs dark:bg-[#10110e]">
+              <div className="flex items-center justify-between pb-1">
                 <span className="text-foreground flex items-center gap-1.5 font-bold">
                   <CheckCircle2 className="dark:text-wise-green size-4 text-emerald-600" />
                   <span>Pratinjau Data CSV Terbaca</span>
@@ -202,6 +200,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                   {parsedData.length} Kontak Siap Impor
                 </span>
               </div>
+              <Separator className="my-1.5" />
 
               <div className="divide-border/40 mt-2 max-h-32 divide-y overflow-y-auto font-mono">
                 {parsedData.slice(0, 5).map((c, idx) => (
@@ -216,12 +215,12 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                   </div>
                 )}
               </div>
-            </div>
+            </Card>
           )}
         </div>
 
         {/* Sticky Modal Footer */}
-        <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6 dark:bg-[#161715]/90">
+        <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6/90">
           <Button
             type="button"
             variant="outline"

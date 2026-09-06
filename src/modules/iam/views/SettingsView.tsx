@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { authApi } from "@/modules/iam/api/auth.api";
 import { userApi } from "@/modules/iam/api/user.api";
-import { generateSecureRandomString } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ApiKeyConfirmModal } from "@/modules/iam/components/settings/ApiKeyConfirmModal";
@@ -28,7 +27,7 @@ import {
 export function SettingsView() {
   const { t } = useI18n();
   const { user, tenant, updateProfileName, fetchProfile } = useAuth();
-  const [apiKey, setApiKey] = useState<string>("hide_live_984f8812a3b04c89b27658df2026");
+  const [apiKey, setApiKey] = useState<string>(user?.token || "");
   const [showKey, setShowKey] = useState(false);
   const [isKeyLoading, setIsKeyLoading] = useState(false);
   const [confirmModal, setConfirmModal] = useState<{
@@ -43,6 +42,13 @@ export function SettingsView() {
   useEffect(() => {
     fetchProfile().catch(() => null);
   }, [fetchProfile]);
+
+  // Keep apiKey in sync with user profile whenever user data updates
+  useEffect(() => {
+    if (user?.token) {
+      setApiKey(user.token);
+    }
+  }, [user?.token]);
 
   // Password Form state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -59,6 +65,7 @@ export function SettingsView() {
   }>({});
 
   const handleCopyKey = async () => {
+    if (!apiKey) return;
     await navigator.clipboard.writeText(apiKey);
     toast.success(t("settings.keyCopied"), { id: "apikey-copy" });
   };
@@ -76,12 +83,18 @@ export function SettingsView() {
     try {
       if (confirmModal.mode === "REGENERATE") {
         const res = await authApi.generateApiKey();
-        setApiKey(res.token || generateSecureRandomString("hide_live_", 24));
-        toast.success(t("settings.keyRegenerated"), { id: "apikey-action" });
+        if (res?.token) {
+          setApiKey(res.token);
+          toast.success(t("settings.keyRegenerated"), { id: "apikey-action" });
+          await fetchProfile().catch(() => null);
+        } else {
+          toast.error("Gagal mendapatkan API Key dari server.", { id: "apikey-action" });
+        }
       } else {
         await authApi.revokeApiKey();
         setApiKey("");
         toast.success("API Key berhasil dicabut.", { id: "apikey-action" });
+        await fetchProfile().catch(() => null);
       }
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } catch (err: unknown) {
@@ -154,7 +167,7 @@ export function SettingsView() {
       </div>
 
       {/* API Key Fast-Path Card */}
-      <div className="border-border bg-surface space-y-6 rounded-xl border p-6 shadow-sm sm:p-8 dark:bg-[#161715]">
+      <div className="border-border bg-surface space-y-6 rounded-xl border p-6 shadow-sm sm:p-8">
         <div className="border-border flex flex-col justify-between gap-3 border-b pb-4 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-10 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700">
@@ -174,12 +187,12 @@ export function SettingsView() {
             <Button
               variant="outline"
               size="sm"
-              disabled={isKeyLoading || !apiKey}
+              disabled={isKeyLoading}
               onClick={handleOpenRegenerateModal}
               className="border-border hover:border-foreground-muted gap-1.5 rounded-full text-xs font-bold"
             >
               <RefreshCw className={`size-3.5 ${isKeyLoading ? "animate-spin" : ""}`} />
-              <span>Buat Ulang Kunci</span>
+              <span>{apiKey ? "Buat Ulang Kunci" : "Buat Kunci"}</span>
             </Button>
             {apiKey && (
               <Button
@@ -198,14 +211,20 @@ export function SettingsView() {
 
         {apiKey ? (
           <div className="border-border bg-muted/30 space-y-3 rounded-md border p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-foreground text-xs font-bold">
-                Token Aktif (Header:{" "}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-foreground text-xs font-bold">
+                  Token Aktif (Header:
+                </span>
+                <code className="dark:bg-wise-green/10 dark:text-wise-green dark:border-wise-green/20 rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-xs font-bold text-emerald-700">
+                  X-API-Key
+                </code>
+                <span className="text-foreground-secondary text-xs">atau</span>
                 <code className="dark:bg-wise-green/10 dark:text-wise-green dark:border-wise-green/20 rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-xs font-bold text-emerald-700">
                   X-Wahide-API-Key
                 </code>
-                )
-              </span>
+                <span className="text-foreground text-xs font-bold">)</span>
+              </div>
               <div className="flex items-center gap-1.5">
                 <Button
                   variant="outline"
@@ -228,8 +247,8 @@ export function SettingsView() {
               </div>
             </div>
 
-            <div className="bg-surface border-border text-foreground rounded border p-3 font-mono text-xs font-semibold break-all dark:bg-[#10110e]">
-              {showKey ? apiKey : "hide_live_••••••••••••••••••••••••••••••••"}
+            <div className="bg-surface border-border text-foreground rounded border p-3 font-mono text-xs font-semibold break-all select-all dark:bg-[#10110e]">
+              {showKey ? apiKey : `${apiKey.slice(0, 5)}••••••••••••••••••••••••••••••••`}
             </div>
 
             <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
@@ -269,7 +288,7 @@ export function SettingsView() {
         />
 
         {/* Security & Password Form */}
-        <div className="border-border bg-surface space-y-5 rounded-xl border p-6 shadow-sm sm:p-8 dark:bg-[#161715]">
+        <div className="border-border bg-surface space-y-5 rounded-xl border p-6 shadow-sm sm:p-8">
           <div className="border-border flex items-center gap-3 border-b pb-4">
             <div className="bg-muted text-foreground-secondary flex size-9 items-center justify-center rounded-full">
               <Lock className="size-4" />

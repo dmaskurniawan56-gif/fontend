@@ -6,6 +6,9 @@ import { Campaign, CampaignStatus } from "@/modules/campaign/types/campaign.type
 import { useCampaigns } from "@/modules/campaign/hooks/useCampaigns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { EmptyState } from "@/components/ui/empty";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -169,7 +172,7 @@ export function CampaignList() {
   return (
     <div className="space-y-6">
       {/* Top Action Bar */}
-      <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4 dark:bg-[#161715]">
+      <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4">
         <div className="flex items-center gap-3">
           <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-8 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700 sm:size-10">
             <Zap className="size-4 sm:size-5" />
@@ -255,10 +258,10 @@ export function CampaignList() {
                 : 0;
 
             return (
-              <div
+              <Card
                 key={campaign.id}
                 onClick={() => setSelectedCampaignForDetail(campaign)}
-                className="border-border bg-surface hover:border-wise-green/60 group flex cursor-pointer flex-col justify-between space-y-4 rounded-md border p-5 transition hover:shadow-md sm:p-6 dark:bg-[#161715]"
+                className="border-border bg-surface hover:border-wise-green/60 group flex cursor-pointer flex-col justify-between space-y-4 rounded-md border p-5 transition hover:shadow-md sm:p-6"
                 title={t("campaign.cardClickHint")}
               >
                 {/* Header */}
@@ -273,7 +276,13 @@ export function CampaignList() {
                     <div className="text-foreground-muted flex flex-wrap items-center gap-2 text-xs font-semibold">
                       <div className="flex items-center gap-1">
                         <Smartphone className="size-3.5" />
-                        <span>{campaign.deviceName || "Perangkat Utama"}</span>
+                        {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
+                          <span className="font-bold text-emerald-700 dark:text-wise-green">
+                            {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                          </span>
+                        ) : (
+                          <span>{campaign.deviceName || "Perangkat Utama"}</span>
+                        )}
                       </div>
                       <span>•</span>
                       <div className="flex items-center gap-1">
@@ -310,6 +319,22 @@ export function CampaignList() {
                   </div>
                 )}
 
+                {/* Partial Dispatch Warm-up auto-paused banner */}
+                {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
+                  <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                    <Pause className="size-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+                    <div>
+                      <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
+                      <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                        {t("campaign.warmupPausedDesc", {
+                          offset: String(campaign.processedOffset),
+                          total: String(totalRecipients),
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Template preview */}
                 <div className="bg-muted/40 border-border/50 text-foreground-secondary line-clamp-2 rounded-md border p-3 text-xs leading-relaxed font-semibold">
                   {campaign.messageTemplate || "-"}
@@ -332,8 +357,10 @@ export function CampaignList() {
                   <Progress value={percent} className="h-2 w-full" />
                 </div>
 
+                <Separator />
+
                 {/* Action Footer */}
-                <div className="border-border/60 flex items-center justify-between border-t pt-2">
+                <div className="flex items-center justify-between pt-0.5">
                   <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
@@ -387,21 +414,28 @@ export function CampaignList() {
                       </Button>
                     )}
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCampaignToDelete(campaign);
-                      }}
-                      className="size-8 rounded-full border-rose-500/20 p-0 text-rose-500 hover:bg-rose-500/10"
-                      aria-label={t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
-                    >
-                      <Trash2 className="size-3.5" />
-                    </Button>
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCampaignToDelete(campaign);
+                            }}
+                            className="size-8 cursor-pointer rounded-full border-rose-500/20 p-0 text-rose-500 hover:bg-rose-500/10"
+                            aria-label={t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </Button>
+                        }
+                      />
+                      <TooltipContent>{t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}</TooltipContent>
+                    </Tooltip>
                   </div>
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>

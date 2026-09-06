@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { AdminDeviceItem } from "@/modules/admin/types/admin.types";
 import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
+import { useClipboard } from "@/hooks/useClipboard";
 import {
   Dialog,
   DialogContent,
@@ -79,17 +80,15 @@ function getDeviceStatusVisual(status: string, t: (key: string, params?: Record<
 
 export function DeviceDetailModal({ device, isOpen, onClose }: DeviceDetailModalProps) {
   const { t, locale } = useI18n();
-  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const { copied: copiedField, copy } = useClipboard<string>();
 
   if (!device) return null;
 
   const handleCopy = async (text: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopiedField(label);
+    const success = await copy(text, label);
+    if (success) {
       toast.success(t("admin.devices.copiedToast", { field: label }), { id: "clipboard-copy" });
-      setTimeout(() => setCopiedField(null), 2000);
-    } catch {
+    } else {
       toast.error(t("admin.devices.copyFailedToast"), { id: "clipboard-copy" });
     }
   };
@@ -110,7 +109,7 @@ export function DeviceDetailModal({ device, isOpen, onClose }: DeviceDetailModal
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-2.5 border-b p-5 pb-3.5 text-left sm:p-6">
           <div className="dark:text-wise-green flex size-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">

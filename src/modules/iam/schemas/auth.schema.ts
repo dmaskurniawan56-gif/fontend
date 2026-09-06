@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 
 export const loginSchema = z.object({
   email: z.string().email("Format email tidak valid"),
@@ -15,9 +16,11 @@ export const registerSchema = z
     email: z.string().email("Format email tidak valid"),
     phone: z
       .string()
-      .min(10, "Nomor WhatsApp minimal 10 digit")
-      .max(16, "Nomor WhatsApp maksimal 16 digit")
-      .regex(/^62[0-9]+$/, "Nomor WhatsApp wajib diawali dengan 62 (contoh: 6281234567890)"),
+      .transform((val) => normalizePhoneNumber(val))
+      .refine((val) => isValidE164(val), {
+        message:
+          "Format nomor WhatsApp tidak valid (contoh: 081234567890 atau format internasional 6281234567890)",
+      }),
     password: z.string().min(8, "Password minimal 8 karakter"),
     confirmPassword: z.string(),
     agreeTerms: z.boolean().refine((val) => val === true, {

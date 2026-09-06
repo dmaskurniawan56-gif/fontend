@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +22,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import {
   Send,
   Smartphone,
@@ -32,6 +34,7 @@ import {
   ArrowLeft,
   Loader2,
   CheckCircle2,
+  Zap,
 } from "lucide-react";
 
 interface CampaignWizardModalProps {
@@ -40,22 +43,12 @@ interface CampaignWizardModalProps {
   onSubmit: (data: CreateCampaignInput) => Promise<unknown>;
 }
 
-const normalizePhoneNumber = (raw: string): string => {
-  let cleaned = raw.trim().replace(/[^0-9]/g, "");
-  if (cleaned.startsWith("08")) {
-    cleaned = "628" + cleaned.slice(2);
-  } else if (cleaned.startsWith("8") && !cleaned.startsWith("800")) {
-    cleaned = "62" + cleaned;
-  }
-  return cleaned;
-};
-
 const parseCustomNumbers = (raw: string): string[] => {
   const seen = new Set<string>();
   const result: string[] = [];
   for (const line of raw.split("\n")) {
     const normalized = normalizePhoneNumber(line);
-    if (normalized.length >= 9 && normalized.length <= 16 && !seen.has(normalized)) {
+    if (isValidE164(normalized) && !seen.has(normalized)) {
       seen.add(normalized);
       result.push(normalized);
     }
@@ -71,12 +64,13 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [name, setName] = useState("");
-  const [selectedDeviceId, setSelectedDeviceId] = useState("");
+  const [selectedDeviceIds, setSelectedDeviceIds] = useState<string[]>([]);
   const [targetType, setTargetType] = useState<"ALL" | "TAGS" | "CUSTOM">("ALL");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [customNumbersStr, setCustomNumbersStr] = useState("");
   const [jitterDelaySeconds, setJitterDelaySeconds] = useState(4);
   const [enableHumanTyping, setEnableHumanTyping] = useState(true);
+  const [autoScrubDeadNumbers, setAutoScrubDeadNumbers] = useState(true);
   const [isScheduled, setIsScheduled] = useState(false);
   const [scheduledAt, setScheduledAt] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -92,6 +86,20 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
   if (!isOpen) return null;
 
+  const handleToggleDevice = (id: string) => {
+    setSelectedDeviceIds((prev) =>
+      prev.includes(id) ? prev.filter((dId) => dId !== id) : [...prev, id]
+    );
+  };
+
+  const handleToggleAllDevices = () => {
+    if (selectedDeviceIds.length === connectedDevices.length) {
+      setSelectedDeviceIds([]);
+    } else {
+      setSelectedDeviceIds(connectedDevices.map((d) => d.id));
+    }
+  };
+
   const handleNext = () => {
     setError(null);
     if (step === 1) {
@@ -105,8 +113,8 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
         setError("Nama kampanye wajib diisi.");
         return;
       }
-      if (!selectedDeviceId) {
-        setError("Silakan pilih salah satu slot perangkat WhatsApp pengirim.");
+      if (selectedDeviceIds.length === 0) {
+        setError("Silakan pilih minimal satu slot perangkat WhatsApp pengirim.");
         return;
       }
     } else if (step === 2) {
@@ -161,7 +169,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
       const payload: CreateCampaignInput = {
         name: name.trim(),
-        deviceId: selectedDeviceId,
+        deviceId: selectedDeviceIds[0] || "",
+        deviceIds: selectedDeviceIds,
+        autoScrubDeadNumbers,
         messageTemplate: template.trim(),
         jitterDelaySeconds,
         enableHumanTyping,
@@ -194,7 +204,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
         {/* Sticky Header with Step Tracker */}
         <DialogHeader className="border-border/80 shrink-0 space-y-3 border-b p-4 pb-3 text-left sm:p-6">
           <div>
@@ -256,9 +266,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
           {step === 1 && (
             <div className="space-y-4 text-xs font-semibold">
               <div>
-                <label className="text-foreground-secondary mb-1.5 block font-bold tracking-wider uppercase">
+                <Label className="text-foreground-secondary mb-1.5 block font-bold tracking-wider uppercase">
                   {t("campaign.campaignNameLabel")}
-                </label>
+                </Label>
                 <Input
                   type="text"
                   value={name}
@@ -272,12 +282,25 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-foreground-secondary font-bold tracking-wider uppercase">
+                  <Label className="text-foreground-secondary font-bold tracking-wider uppercase">
                     {t("campaign.senderDeviceLabel")}
-                  </label>
-                  <span className="text-foreground-muted text-[11px]">
-                    {connectedDevices.length} {t("campaign.connectedDevicesCount")}
-                  </span>
+                  </Label>
+                  <div className="flex items-center gap-2">
+                    {connectedDevices.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={handleToggleAllDevices}
+                        className="text-dark-green dark:text-wise-green hover:underline cursor-pointer text-[11px] font-bold"
+                      >
+                        {selectedDeviceIds.length === connectedDevices.length
+                          ? t("campaign.deselectAllDevices")
+                          : t("campaign.selectAllDevices")}
+                      </button>
+                    )}
+                    <span className="text-foreground-muted text-[11px]">
+                      {selectedDeviceIds.length}/{connectedDevices.length} {t("campaign.connectedDevicesCount")}
+                    </span>
+                  </div>
                 </div>
 
                 {connectedDevices.length === 0 ? (
@@ -303,35 +326,63 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                     </Button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    {connectedDevices.map((d) => (
-                      <div
-                        key={d.id}
-                        onClick={() => setSelectedDeviceId(d.id)}
-                        className={`border-border bg-surface hover:border-foreground-muted flex cursor-pointer items-center justify-between rounded-md border p-3.5 transition dark:bg-[#10110e] ${
-                          selectedDeviceId === d.id
-                            ? "border-wise-green ring-wise-green bg-light-mint/30 dark:bg-wise-green/10 ring-1"
-                            : ""
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div className="bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex size-8 shrink-0 items-center justify-center rounded-full">
-                            <Smartphone className="size-4" />
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      {connectedDevices.map((d) => {
+                        const isSelected = selectedDeviceIds.includes(d.id);
+                        return (
+                          <div
+                            key={d.id}
+                            onClick={() => handleToggleDevice(d.id)}
+                            className={`border-border bg-surface hover:border-foreground-muted flex cursor-pointer items-center justify-between rounded-md border p-3.5 transition dark:bg-[#10110e] ${
+                              isSelected
+                                ? "border-wise-green ring-wise-green bg-light-mint/30 dark:bg-wise-green/10 ring-1"
+                                : ""
+                            }`}
+                          >
+                            <div className="flex items-center gap-2.5">
+                              <div
+                                className={`flex size-8 shrink-0 items-center justify-center rounded-full transition ${
+                                  isSelected
+                                    ? "bg-dark-green text-light-mint dark:bg-wise-green dark:text-dark-green"
+                                    : "bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green"
+                                }`}
+                              >
+                                <Smartphone className="size-4" />
+                              </div>
+                              <div>
+                                <span className="text-foreground block font-bold">
+                                  {d.push_name || d.name}
+                                </span>
+                                <span className="text-foreground-muted font-mono text-[11px]">
+                                  {d.phone ? `+${d.phone}` : "WhatsApp MD"}
+                                </span>
+                              </div>
+                            </div>
+                            {isSelected && (
+                              <CheckCircle2 className="dark:text-wise-green size-4 shrink-0 text-emerald-700" />
+                            )}
                           </div>
-                          <div>
-                            <span className="text-foreground block font-bold">
-                              {d.push_name || d.name}
-                            </span>
-                            <span className="text-foreground-muted font-mono text-[11px]">
-                              {d.phone ? `+${d.phone}` : "WhatsApp MD"}
-                            </span>
-                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {selectedDeviceIds.length > 1 && (
+                      <div className="flex items-start gap-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs text-emerald-800 dark:border-emerald-500/30 dark:text-emerald-300">
+                        <Zap className="dark:text-wise-green size-4 shrink-0 text-emerald-600 mt-0.5" />
+                        <div>
+                          <span className="font-bold">
+                            {t("campaign.multiDeviceBannerTitle", { count: String(selectedDeviceIds.length) })}
+                          </span>
+                          <p className="text-foreground-secondary mt-0.5 text-[11px] leading-relaxed">
+                            {t("campaign.multiDeviceBannerDesc", {
+                              count: String(selectedDeviceIds.length),
+                              percent: String(Math.min(80, Math.round((1 - 1 / selectedDeviceIds.length) * 100))),
+                            })}
+                          </p>
                         </div>
-                        {selectedDeviceId === d.id && (
-                          <CheckCircle2 className="dark:text-wise-green size-4 shrink-0 text-emerald-700" />
-                        )}
                       </div>
-                    ))}
+                    )}
                   </div>
                 )}
               </div>
@@ -341,9 +392,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
           {/* STEP 2: Target Audience */}
           {step === 2 && (
             <div className="space-y-4 text-xs font-semibold">
-              <label className="text-foreground-secondary block font-bold tracking-wider uppercase">
+              <Label className="text-foreground-secondary block font-bold tracking-wider uppercase">
                 {t("campaign.audienceScopeLabel")}
-              </label>
+              </Label>
 
               <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
                 {[
@@ -419,20 +470,20 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
               {/* Custom Numbers Box */}
               {targetType === "CUSTOM" && (
                 <div className="space-y-1.5 pt-2">
-                  <label className="text-foreground-secondary block text-[11px] font-bold uppercase">
+                  <Label className="text-foreground-secondary block text-[11px] font-bold uppercase">
                     {t("campaign.customNumbersLabel")}
-                  </label>
+                  </Label>
                   <Textarea
                     rows={4}
                     value={customNumbersStr}
                     onChange={(e) => setCustomNumbersStr(e.target.value)}
-                    placeholder={"6281234567890\n6289876543210"}
+                    placeholder={"081234567890\n6289876543210\n+60123456789"}
                     variant="rounded"
                     className="font-mono"
                   />
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-foreground-muted">
-                      {t("campaign.customNumbersHint")} (otomatis normalisasi 08xx → 628xx)
+                      {t("campaign.customNumbersHint")} (otomatis normalisasi 08xx → 628xx & format internasional)
                     </span>
                     {parseCustomNumbers(customNumbersStr).length > 0 && (
                       <span className="dark:text-wise-green font-bold text-emerald-700">
@@ -460,9 +511,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
             <div className="space-y-4 text-xs font-semibold">
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-foreground-secondary font-bold tracking-wider uppercase">
+                  <Label className="text-foreground-secondary font-bold tracking-wider uppercase">
                     {t("campaign.spintaxTemplateLabel")}
-                  </label>
+                  </Label>
                   <button
                     type="button"
                     onClick={insertSpintaxSample}
@@ -504,9 +555,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                 <div className="space-y-3">
                   <div>
                     <div className="flex items-center justify-between">
-                      <label className="text-foreground-secondary font-semibold">
+                      <Label className="text-foreground-secondary font-semibold">
                         {t("campaign.jitterDelayLabel")}
-                      </label>
+                      </Label>
                       <span className="dark:text-wise-green font-mono font-black text-emerald-700">
                         {jitterDelaySeconds} {t("campaign.secondsUnit")}
                       </span>
@@ -539,6 +590,34 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                       aria-label={t("campaign.simulateTypingLabel")}
                     />
                   </div>
+
+                  {/* Pre-Blast USync Validation Switch */}
+                  <div className="border-border/50 flex items-center justify-between border-t pt-2.5">
+                    <div className="pr-4">
+                      <span className="text-foreground block font-bold">
+                        {t("campaign.autoScrubDeadNumbersLabel")}
+                      </span>
+                      <span className="text-foreground-muted text-[11px] leading-relaxed">
+                        {t("campaign.autoScrubDeadNumbersHint")}
+                      </span>
+                    </div>
+                    <Switch
+                      checked={autoScrubDeadNumbers}
+                      onCheckedChange={setAutoScrubDeadNumbers}
+                      aria-label={t("campaign.autoScrubDeadNumbersLabel")}
+                    />
+                  </div>
+
+                  {/* Smart Anti-Ban Warmup Engine Note */}
+                  <div className="border-border/50 border-t pt-2.5">
+                    <div className="flex items-center gap-1.5 text-foreground-secondary">
+                      <ShieldCheck className="dark:text-wise-green size-3.5 text-emerald-600" />
+                      <span className="font-bold text-[11px]">{t("campaign.warmupEngineTitle")}</span>
+                    </div>
+                    <p className="text-foreground-muted text-[11px] mt-1 leading-relaxed">
+                      {t("campaign.warmupEngineDesc")}
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -560,9 +639,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
                 {isScheduled && (
                   <div className="pt-1">
-                    <label className="text-foreground-secondary mb-1 block text-[11px]">
+                    <Label className="text-foreground-secondary mb-1 block text-[11px]">
                       {t("campaign.selectDateTimeLabel")}
-                    </label>
+                    </Label>
                     <Input
                       type="datetime-local"
                       value={scheduledAt}
@@ -578,7 +657,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
         </div>
 
         {/* Sticky Footer Navigation */}
-        <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-between gap-2.5 rounded-none border-t p-3.5 backdrop-blur-sm sm:p-5 dark:bg-[#161715]/90">
+        <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-between gap-2.5 rounded-none border-t p-3.5 backdrop-blur-sm sm:p-5/90">
           {step > 1 ? (
             <Button
               type="button"

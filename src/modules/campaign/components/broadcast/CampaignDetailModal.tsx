@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Campaign } from "../../types/campaign.types";
 import { Button } from "@/components/ui/button";
+import { useClipboard } from "@/hooks/useClipboard";
 import {
   Dialog,
   DialogContent,
@@ -49,16 +50,14 @@ export function CampaignDetailModal({
   onResumeCampaign,
 }: CampaignDetailModalProps) {
   const { t, locale } = useI18n();
-  const [copied, setCopied] = useState(false);
+  const { isCopied: copied, copy } = useClipboard();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!campaign) return null;
 
   const handleCopyMessage = async () => {
     if (!campaign.messageTemplate) return;
-    await navigator.clipboard.writeText(campaign.messageTemplate);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    await copy(campaign.messageTemplate);
   };
 
   const formatDateTime = (dateStr?: string) => {
@@ -148,7 +147,7 @@ export function CampaignDetailModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-2xl dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-2xl">
         <DialogHeader className="border-border/80 shrink-0 space-y-2 border-b p-5 pr-12 text-left sm:p-6">
           <div className="flex items-start gap-3">
             <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700">
@@ -206,9 +205,20 @@ export function CampaignDetailModal({
                 <span className="text-foreground-muted block text-[11px]">
                   {t("campaign.deviceInfoLabel")}
                 </span>
-                <span className="text-foreground font-bold">
-                  {campaign.deviceName || "Perangkat Utama"}
-                </span>
+                {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
+                  <div>
+                    <span className="text-foreground font-bold block">
+                      {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                    </span>
+                    <span className="text-foreground-muted text-[10px] font-mono">
+                      Round-Robin load balancing
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-foreground font-bold">
+                    {campaign.deviceName || "Perangkat Utama"}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -269,13 +279,21 @@ export function CampaignDetailModal({
                 <span className="text-foreground-muted block text-[11px]">
                   {t("campaign.antiBanProtection")}
                 </span>
-                <div className="text-foreground flex items-center gap-2 pt-0.5 text-[11px] font-bold">
+                <div className="text-foreground flex flex-wrap items-center gap-2 pt-0.5 text-[11px] font-bold">
                   <span>Jitter: {campaign.jitterDelaySeconds ?? 3}s</span>
                   <span>•</span>
                   <span className="inline-flex items-center gap-1">
                     <Sparkles className="size-3 text-amber-500" />
                     Typing:{" "}
                     {campaign.enableHumanTyping ? t("campaign.active") : t("campaign.inactive")}
+                  </span>
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-1">
+                    <ShieldCheck className="size-3 text-emerald-500" />
+                    USync:{" "}
+                    {campaign.autoScrubDeadNumbers !== false
+                      ? t("campaign.active")
+                      : t("campaign.inactive")}
                   </span>
                 </div>
               </div>
@@ -311,6 +329,18 @@ export function CampaignDetailModal({
                 <span className="font-bold text-rose-500">{failedCount}</span>
               </div>
             </div>
+
+            {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
+              <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
+                <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                  {t("campaign.warmupPausedDesc", {
+                    offset: String(campaign.processedOffset),
+                    total: String(totalRecipients),
+                  })}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Message Template Preview */}

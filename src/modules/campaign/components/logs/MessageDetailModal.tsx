@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { MessageLogItem } from "./MessageLogsTable";
 import { Button } from "@/components/ui/button";
+import { useClipboard } from "@/hooks/useClipboard";
 import {
   Dialog,
   DialogContent,
@@ -31,15 +32,13 @@ interface MessageDetailModalProps {
 
 export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalProps) {
   const { t } = useI18n();
-  const [copied, setCopied] = useState(false);
+  const { isCopied: copied, copy } = useClipboard();
 
   if (!log) return null;
 
   const handleCopyMessage = async () => {
     if (!log.messageSnippet) return;
-    await navigator.clipboard.writeText(log.messageSnippet);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    await copy(log.messageSnippet);
   };
 
   const renderBadge = (status: MessageLogItem["status"]) => {
@@ -94,7 +93,7 @@ export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl border p-0 shadow-2xl sm:max-w-lg dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl border p-0 shadow-2xl sm:max-w-lg">
         <DialogHeader className="border-border shrink-0 border-b p-5 pb-4 sm:p-6">
           <div className="flex items-center justify-between gap-3 pr-6">
             <DialogTitle className="text-foreground text-lg font-bold">

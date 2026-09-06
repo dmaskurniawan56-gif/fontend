@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Contact, CreateContactInput, Tag } from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { UserPlus, Loader2, Save, Tag as TagIcon, Plus } from "lucide-react";
 
 interface ContactModalProps {
@@ -68,14 +70,9 @@ function ContactForm({
       return;
     }
 
-    const cleanPhone = phone.replace(/[^0-9]/g, "");
-    if (!cleanPhone.startsWith("62")) {
+    const cleanPhone = normalizePhoneNumber(phone);
+    if (!isValidE164(cleanPhone)) {
       setError(t("contact.errPhonePrefix"));
-      return;
-    }
-
-    if (cleanPhone.length < 10) {
-      setError(t("contact.errPhoneTooShort"));
       return;
     }
 
@@ -108,9 +105,9 @@ function ContactForm({
         )}
 
         <div>
-          <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("contact.nameLabel")}
-          </label>
+          </Label>
           <Input
             type="text"
             value={name}
@@ -123,9 +120,9 @@ function ContactForm({
         </div>
 
         <div>
-          <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("contact.phoneLabel")}
-          </label>
+          </Label>
           <Input
             type="text"
             value={phone}
@@ -140,10 +137,10 @@ function ContactForm({
         {/* Tag / Category Selector */}
         <div className="space-y-2 pt-1">
           <div className="flex items-center justify-between">
-            <label className="text-foreground-secondary flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase">
+            <Label className="text-foreground-secondary flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase">
               <TagIcon className="dark:text-wise-green size-3 text-emerald-600" />
               <span>{t("contact.tagSegmentationLabel")}</span>
-            </label>
+            </Label>
             <span className="text-foreground-muted text-[11px]">{t("contact.optional")}</span>
           </div>
 
@@ -222,7 +219,7 @@ function ContactForm({
       </div>
 
       {/* Sticky Modal Footer */}
-      <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6 dark:bg-[#161715]/90">
+      <DialogFooter className="border-border/80 bg-surface/90 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 pt-3 backdrop-blur-sm sm:p-6/90">
         <Button
           type="button"
           variant="outline"
@@ -269,7 +266,7 @@ export function ContactModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md dark:bg-[#161715]">
+      <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         {/* Sticky Modal Header */}
         <DialogHeader className="border-border/80 flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
           <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-700">

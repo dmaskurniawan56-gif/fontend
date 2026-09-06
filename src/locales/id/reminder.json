@@ -1,0 +1,38 @@
+{
+  "title": "Pengingat Otomatis WhatsApp",
+  "subtitle": "Jadwalkan pesan berkala, pengingat janji temu, dan aturan drip follow-up WhatsApp otomatis dengan sistem anti-duplikasi.",
+  "fetchFailed": "Gagal memuat daftar pengingat",
+  "createdSuccess": "Pengingat berhasil dijadwalkan",
+  "createFailed": "Gagal membuat pengingat",
+  "updatedSuccess": "Pengingat berhasil diperbarui",
+  "updateFailed": "Gagal memperbarui pengingat",
+  "deletedSuccess": "Pengingat berhasil dihapus",
+  "deleteFailed": "Gagal menghapus pengingat",
+  "rulesUpdatedSuccess": "Aturan pengiriman berhasil disimpan",
+  "rulesUpdateFailed": "Gagal menyimpan aturan pengiriman",
+  "logsFetchFailed": "Gagal memuat riwayat pengiriman",
+  "dispatchSuccess": "Evaluasi pengingat selesai!",
+  "dispatchFailed": "Gagal memicu evaluasi pengingat",
+  "stats": {
+    "total": "Total Jadwal",
+    "totalDesc": "Semua jadwal tersimpan",
+    "active": "Jadwal Aktif",
+    "activeDesc": "Menunggu evaluasi cron",
+    "paused": "Ditunda",
+    "pausedDesc": "Pengiriman dinonaktifkan",
+    "completed": "Selesai",
+    "dispatched": "Total Terkirim",
+    "dispatchedDesc": "Pesan berhasil dikirim"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "dispatchNow": "Kirim Sekarang",
+    "dispatchTooltip": "Kirim semua pengingat yang jatuh tempo sekarang",
+    "refreshTooltip": "Muat Ulang Data"
+  },
+  "tabs": {
+    "schedules": "Jadwal Pengingat",
+    "rules": "Aturan Pengiriman & Drip",
+    "logs": "Riwayat Pengiriman"
+  }
+}

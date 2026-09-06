@@ -15,6 +15,10 @@ import {
   LifeBuoy,
   Settings,
   ShieldAlert,
+  FileText,
+  BellRing,
+  CalendarDays,
+  ClipboardList,
 } from "lucide-react";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
@@ -48,7 +52,7 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
     ],
   },
   {
-    // WhatsApp Engine
+    // WhatsApp & Pesan (Core Messaging)
     groupKey: "dashboardMenu.groupWhatsapp",
     items: [
       {
@@ -64,9 +68,39 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
         roles: SELLER_ROLES,
       },
       {
+        key: "dashboardMenu.templates",
+        href: "/templates",
+        icon: FileText,
+        roles: SELLER_ROLES,
+      },
+      {
         key: "dashboardMenu.contacts",
         href: "/contacts",
         icon: Users,
+      },
+    ],
+  },
+  {
+    // Otomasi Solusi Bisnis
+    groupKey: "dashboardMenu.groupBusiness",
+    items: [
+      {
+        key: "dashboardMenu.reservations",
+        href: "/reservations",
+        icon: CalendarDays,
+        roles: SELLER_ROLES,
+      },
+      {
+        key: "dashboardMenu.reminders",
+        href: "/reminders",
+        icon: BellRing,
+        roles: SELLER_ROLES,
+      },
+      {
+        key: "dashboardMenu.forms",
+        href: "/forms",
+        icon: ClipboardList,
+        roles: SELLER_ROLES,
       },
     ],
   },

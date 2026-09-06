@@ -212,7 +212,7 @@ export function TemplatesView() {
           </Button>
         </div>
       ) : templates.length === 0 ? (
-        <div className="flex min-h-[320px] flex-col items-center justify-center rounded-3xl border border-dashed border-border/80 bg-muted/20 p-8 text-center">
+        <div className="flex min-h-80 flex-col items-center justify-center rounded-3xl border border-dashed border-border/80 bg-muted/20 p-8 text-center">
           <div className="flex size-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
             <FileText className="size-7" />
           </div>

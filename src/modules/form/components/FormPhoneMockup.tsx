@@ -116,11 +116,11 @@ export function FormPhoneMockup({
                     <Calendar className="size-2.5" />
                     <span>{typeBadgeLabel}</span>
                   </div>
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug break-words">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 leading-snug wrap-break-word">
                     {title || "Judul Formulir Anda"}
                   </h3>
                   {description ? (
-                    <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 break-words">
+                    <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 wrap-break-word">
                       {description}
                     </p>
                   ) : (

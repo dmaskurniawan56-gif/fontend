@@ -22,6 +22,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import {
   Send,
   Smartphone,
@@ -42,22 +43,12 @@ interface CampaignWizardModalProps {
   onSubmit: (data: CreateCampaignInput) => Promise<unknown>;
 }
 
-const normalizePhoneNumber = (raw: string): string => {
-  let cleaned = raw.trim().replace(/[^0-9]/g, "");
-  if (cleaned.startsWith("08")) {
-    cleaned = "628" + cleaned.slice(2);
-  } else if (cleaned.startsWith("8") && !cleaned.startsWith("800")) {
-    cleaned = "62" + cleaned;
-  }
-  return cleaned;
-};
-
 const parseCustomNumbers = (raw: string): string[] => {
   const seen = new Set<string>();
   const result: string[] = [];
   for (const line of raw.split("\n")) {
     const normalized = normalizePhoneNumber(line);
-    if (normalized.length >= 9 && normalized.length <= 16 && !seen.has(normalized)) {
+    if (isValidE164(normalized) && !seen.has(normalized)) {
       seen.add(normalized);
       result.push(normalized);
     }
@@ -486,13 +477,13 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                     rows={4}
                     value={customNumbersStr}
                     onChange={(e) => setCustomNumbersStr(e.target.value)}
-                    placeholder={"6281234567890\n6289876543210"}
+                    placeholder={"081234567890\n6289876543210\n+60123456789"}
                     variant="rounded"
                     className="font-mono"
                   />
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-foreground-muted">
-                      {t("campaign.customNumbersHint")} (otomatis normalisasi 08xx → 628xx)
+                      {t("campaign.customNumbersHint")} (otomatis normalisasi 08xx → 628xx & format internasional)
                     </span>
                     {parseCustomNumbers(customNumbersStr).length > 0 && (
                       <span className="dark:text-wise-green font-bold text-emerald-700">

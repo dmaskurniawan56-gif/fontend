@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { Send, Loader2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 
 interface SendMessageModalProps {
   devices: Device[];
@@ -48,6 +49,12 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
       return;
     }
 
+    const cleanPhone = normalizePhoneNumber(recipient);
+    if (!isValidE164(cleanPhone)) {
+      toast.error(t("contact.errPhonePrefix") || t("whatsapp.recipientPhoneHint"));
+      return;
+    }
+
     if (!activeDeviceId) {
       toast.error(t("whatsapp.noConnectedDevices"));
       return;
@@ -57,7 +64,7 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
     try {
       await whatsappApi.sendMessage({
         device_id: activeDeviceId,
-        phone: recipient.trim(),
+        phone: cleanPhone,
         message: message.trim(),
       });
       toast.success(t("whatsapp.sendSuccess"), { id: "whatsapp-fast-send" });
@@ -126,7 +133,7 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
                 type="tel"
                 value={recipient}
                 onChange={(e) => setRecipient(e.target.value)}
-                placeholder="6281234567890"
+                placeholder="08123456789 atau 628123456789"
                 variant="rounded"
                 className="font-mono"
                 required

@@ -14,6 +14,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { UserPlus, Loader2, Save, Tag as TagIcon, Plus } from "lucide-react";
 
 interface ContactModalProps {
@@ -69,14 +70,9 @@ function ContactForm({
       return;
     }
 
-    const cleanPhone = phone.replace(/[^0-9]/g, "");
-    if (!cleanPhone.startsWith("62")) {
+    const cleanPhone = normalizePhoneNumber(phone);
+    if (!isValidE164(cleanPhone)) {
       setError(t("contact.errPhonePrefix"));
-      return;
-    }
-
-    if (cleanPhone.length < 10) {
-      setError(t("contact.errPhoneTooShort"));
       return;
     }
 

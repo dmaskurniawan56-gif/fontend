@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber } from "@/lib/phone";
 import { Form, FormSubmission, SubmissionStatus } from "../types/form.types";
 import { useFormSubmissions } from "../hooks/useFormSubmissions";
 
@@ -88,9 +89,7 @@ export function SubmissionsDrawer({
   };
 
   const getCleanPhone = (raw: string) => {
-    let clean = raw.replace(/\D/g, "");
-    if (clean.startsWith("0")) clean = "62" + clean.slice(1);
-    return clean;
+    return normalizePhoneNumber(raw);
   };
 
   return (

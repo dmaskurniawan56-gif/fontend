@@ -33,16 +33,9 @@ import {
   Info,
   ExternalLink,
 } from "lucide-react";
+import { formatDisplayPhone } from "@/lib/phone";
 
-export function formatPhoneNumber(phone: string | null | undefined): string {
-  if (!phone) return "";
-  const clean = phone.replace(/[^0-9]/g, "");
-  if (!clean) return phone;
-  if (clean.startsWith("62") && clean.length >= 10) {
-    return `+62 ${clean.slice(2, 5)}-${clean.slice(5, 9)}-${clean.slice(9)}`;
-  }
-  return `+${clean}`;
-}
+export const formatPhoneNumber = formatDisplayPhone;
 
 interface DeviceCardProps {
   device: Device;

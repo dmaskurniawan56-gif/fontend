@@ -14,6 +14,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { UploadCloud, FileSpreadsheet, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface ImportCsvModalProps {
@@ -71,14 +72,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
           const rawTags = tagsIndex !== -1 ? cols[tagsIndex] : "";
 
           if (rawName && rawPhone) {
-            let cleanPhone = rawPhone.replace(/[^0-9]/g, "");
-            if (cleanPhone.startsWith("08")) {
-              cleanPhone = "62" + cleanPhone.slice(1);
-            } else if (cleanPhone.startsWith("8")) {
-              cleanPhone = "62" + cleanPhone;
-            }
+            const cleanPhone = normalizePhoneNumber(rawPhone);
 
-            if (cleanPhone.startsWith("62") && cleanPhone.length >= 10) {
+            if (isValidE164(cleanPhone)) {
               const tags = rawTags
                 ? rawTags
                     .split(";")
@@ -95,7 +91,7 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
         }
 
         if (validContacts.length === 0) {
-          setError("Tidak ada nomor kontak valid yang diawali kode 62.");
+          setError(t("contact.errNoValidContacts") || "Tidak ada nomor kontak WhatsApp yang valid dalam file CSV.");
           return;
         }
 
@@ -162,8 +158,8 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                 </code>
               </li>
               <li>
-                Format nomor WhatsApp: diawali <code className="font-bold">628xxx</code> atau{" "}
-                <code className="font-bold">08xxx</code> (otomatis dinormalisasi).
+                Format nomor WhatsApp: diawali <code className="font-bold">08xxx</code>,{" "}
+                <code className="font-bold">628xxx</code>, atau nomor internasional dengan kode negara (otomatis dinormalisasi).
               </li>
               <li>
                 Kolom <code className="font-bold">tags</code> bersifat opsional, pisahkan tag dengan

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { CalendarPlus, User, Phone, Calendar, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 
 interface QuickScheduleCardProps {
   onSchedule: (input: CreateReminderInput) => Promise<boolean>;
@@ -44,6 +45,12 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
       return;
     }
 
+    const cleanPhone = normalizePhoneNumber(phone);
+    if (!isValidE164(cleanPhone)) {
+      toast.error("Format nomor WhatsApp tidak valid (contoh: 08123456789 atau 628123456789)");
+      return;
+    }
+
     if (!targetDate) {
       toast.error("Tanggal target jadwal wajib dipilih");
       return;
@@ -53,7 +60,7 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
     try {
       const success = await onSchedule({
         recipientName: recipientName.trim(),
-        phone: phone.trim(),
+        phone: cleanPhone,
         targetDate,
         notes: notes.trim(),
       });
@@ -115,7 +122,7 @@ export function QuickScheduleCard({ onSchedule }: QuickScheduleCardProps) {
               id="rem-phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="08123456789 atau 628..."
+              placeholder="08123456789 atau 628123456789"
               className="h-10 text-xs rounded-xl"
               disabled={isSubmitting}
               required

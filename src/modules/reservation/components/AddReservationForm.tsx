@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { toast } from "sonner";
 import { CreateReservationInput } from "../types/reservation.types";
 
 interface AddReservationFormProps {
@@ -57,10 +59,16 @@ export function AddReservationForm({
       return;
     }
 
+    const cleanPhone = normalizePhoneNumber(phone);
+    if (!isValidE164(cleanPhone)) {
+      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid");
+      return;
+    }
+
     setIsSubmitting(true);
     const success = await onSubmit({
       customerName: customerName.trim(),
-      phone: phone.trim(),
+      phone: cleanPhone,
       bookingDate: bookingDate.trim(),
       bookingTime: bookingTime.trim() || undefined,
       serviceName: serviceName.trim() || undefined,
@@ -115,7 +123,7 @@ export function AddReservationForm({
             <Input
               id="res-phone"
               required
-              placeholder="081234567890"
+              placeholder="08123456789 atau 628123456789"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               className="h-9 text-xs rounded-xl"

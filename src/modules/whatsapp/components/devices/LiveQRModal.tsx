@@ -17,6 +17,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { toast } from "sonner";
 import {
   RefreshCw,
   CheckCircle2,
@@ -42,19 +44,7 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
   const authUserPhone = useAuth((s) => s.user?.phone || "");
   const [customPhone, setCustomPhone] = useState<string | null>(null);
 
-  // Normalisasi nomor lokal: hapus karakter non-digit dan buang awalan 62 / +62 / 0
-  const cleanSubscriberNumber = (val: string): string => {
-    let clean = val.replace(/\D/g, "");
-    if (clean.startsWith("62")) {
-      clean = clean.slice(2);
-    } else if (clean.startsWith("0")) {
-      clean = clean.slice(1);
-    }
-    return clean;
-  };
-
   const rawPhone = customPhone !== null ? customPhone : authUserPhone;
-  const subscriberPhone = cleanSubscriberNumber(rawPhone);
   const { isCopied: copied, copy } = useClipboard();
 
   const handlePairingSuccess = () => {
@@ -87,8 +77,12 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
 
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!subscriberPhone.trim()) return;
-    const fullE164Phone = `62${subscriberPhone.trim()}`;
+    if (!rawPhone.trim()) return;
+    const fullE164Phone = normalizePhoneNumber(rawPhone);
+    if (!isValidE164(fullE164Phone)) {
+      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid");
+      return;
+    }
     await requestPairingCode(fullE164Phone);
   };
 
@@ -285,15 +279,15 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                         {t("whatsapp.phoneLabel")}
                       </Label>
                       <div className="border-border bg-surface focus-within:ring-wise-green/40 flex overflow-hidden rounded-md border focus-within:ring-2">
-                        <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold">
-                          +62
+                        <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold font-mono">
+                          +
                         </span>
                         <input
                           type="tel"
-                          placeholder="81234567890"
-                          value={subscriberPhone}
-                          onChange={(e) => setCustomPhone(cleanSubscriberNumber(e.target.value))}
-                          className="text-foreground flex-1 bg-transparent px-3 py-2 text-xs font-semibold focus:outline-none"
+                          placeholder="6281234567890 atau 081234567890"
+                          value={rawPhone}
+                          onChange={(e) => setCustomPhone(e.target.value)}
+                          className="text-foreground flex-1 bg-transparent px-3 py-2 text-xs font-semibold focus:outline-none font-mono"
                           autoFocus
                           required
                         />
@@ -304,7 +298,7 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                       type="submit"
                       variant="primaryPill"
                       size="sm"
-                      disabled={isLoadingCode || !subscriberPhone.trim()}
+                      disabled={isLoadingCode || !rawPhone.trim()}
                       className="w-full gap-2 text-xs font-bold"
                     >
                       {isLoadingCode ? (

@@ -8,6 +8,7 @@ import { TemplateCard } from "../components/TemplateCard";
 import { Template, CreateTemplateInput, UpdateTemplateInput } from "../types/template.types";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n } from "@/lib/i18n/context";
 import {
   Plus,
   RefreshCw,
@@ -33,6 +34,7 @@ const DeleteTemplateModal = dynamic(
 );
 
 export function TemplatesView() {
+  const { t } = useI18n();
   const {
     templates,
     isLoading,
@@ -93,10 +95,11 @@ export function TemplatesView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            Template Pesan WhatsApp
+            {t("template.title") || "Template Pesan WhatsApp"}
           </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            Buat pesan terstandarisasi dengan variabel dinamis, format tombol cepat, dan gambar header.
+            {t("template.subtitle") ||
+              "Buat pesan terstandarisasi dengan variabel dinamis, format tombol cepat, dan gambar header."}
           </p>
         </div>
 
@@ -106,7 +109,7 @@ export function TemplatesView() {
             size="sm"
             onClick={reload}
             disabled={isLoading}
-            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs"
+            className="h-9 gap-1.5 rounded-full border-border/70 text-xs"
             title="Muat Ulang"
           >
             <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
@@ -114,12 +117,13 @@ export function TemplatesView() {
           </Button>
 
           <Button
+            variant="primaryPill"
             size="sm"
             onClick={handleOpenCreate}
-            className="h-9 gap-1.5 rounded-xl bg-primary text-xs font-semibold shadow-xs shadow-primary/25"
+            className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>Tambah Template</span>
+            <span>{t("template.addTemplate") || "Tambah Template"}</span>
           </Button>
         </div>
       </div>
@@ -223,12 +227,13 @@ export function TemplatesView() {
               : "Buat template pesan pertama Anda untuk mempermudah siaran massal dan komunikasi WhatsApp yang konsisten."}
           </p>
           <Button
+            variant="primaryPill"
             onClick={handleOpenCreate}
             size="sm"
-            className="mt-5 gap-1.5 rounded-xl text-xs font-semibold"
+            className="mt-5 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>Buat Template Sekarang</span>
+            <span>{t("template.addTemplate") || "Buat Template Sekarang"}</span>
           </Button>
         </div>
       ) : (

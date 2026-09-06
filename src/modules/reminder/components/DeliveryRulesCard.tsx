@@ -129,9 +129,10 @@ export function DeliveryRulesCard({
 
         <Button
           type="button"
+          variant="primaryPill"
           onClick={handleFormSubmit}
           disabled={isSaving}
-          className="h-9 gap-1.5 rounded-xl px-4 text-xs font-semibold self-start sm:self-auto shadow-xs cursor-pointer"
+          className="h-9 gap-1.5 px-4 text-xs font-bold self-start sm:self-auto shadow-xs cursor-pointer"
         >
           {isSaving ? (
             <>

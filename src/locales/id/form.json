@@ -41,5 +41,26 @@
   "statusUpdated": "Status respons berhasil diperbarui",
   "statusUpdateFailed": "Gagal memperbarui status respons",
   "submissionDeleted": "Respons formulir berhasil dihapus",
-  "submissionDeleteFailed": "Gagal menghapus respons"
+  "submissionDeleteFailed": "Gagal menghapus respons",
+  "stats": {
+    "totalForms": "Total Formulir",
+    "totalViews": "Total Dilihat (Views)",
+    "totalSubmissions": "Respons Terkumpul",
+    "avgConversion": "Rata-rata Konversi"
+  },
+  "preview": {
+    "badge": "Pratinjau Smartphone",
+    "tabForm": "Isian Formulir",
+    "tabSuccess": "Layar Sukses",
+    "officialBadge": "Formulir Resmi",
+    "fullName": "Nama Lengkap",
+    "whatsappNumber": "Nomor WhatsApp",
+    "submitButton": "Kirim Formulir Sekarang",
+    "waNotice": "Notifikasi konfirmasi WhatsApp akan otomatis dikirimkan ke nomor Anda.",
+    "successTitle": "Berhasil Terkirim!",
+    "poweredBy": "Ditenagai oleh Wahide WhatsApp Gateway",
+    "continueNow": "Lanjutkan Sekarang",
+    "liveSyncHint": "Pratinjau otomatis tersinkronisasi secara real-time"
+  }
 }
+

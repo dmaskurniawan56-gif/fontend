@@ -325,11 +325,12 @@ export function QuickScheduleCard({
           <div className="sm:col-span-2 lg:col-span-4 flex justify-end pt-1">
             <Button
               type="submit"
+              variant={hasConfiguredDevice ? "primaryPill" : "default"}
               disabled={isSubmitting}
               className={cn(
-                "h-10 rounded-xl px-5 text-xs font-semibold gap-2 shadow-xs cursor-pointer transition-all",
+                "h-10 px-5 text-xs font-bold gap-2 shadow-xs cursor-pointer transition-all",
                 !hasConfiguredDevice
-                  ? "bg-amber-600 hover:bg-amber-700 text-white"
+                  ? "bg-amber-600 hover:bg-amber-700 text-white rounded-full"
                   : ""
               )}
             >

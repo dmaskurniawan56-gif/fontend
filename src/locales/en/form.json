@@ -41,5 +41,26 @@
   "statusUpdated": "Submission status updated",
   "statusUpdateFailed": "Failed to update submission status",
   "submissionDeleted": "Submission deleted successfully",
-  "submissionDeleteFailed": "Failed to delete submission"
+  "submissionDeleteFailed": "Failed to delete submission",
+  "stats": {
+    "totalForms": "Total Forms",
+    "totalViews": "Total Views",
+    "totalSubmissions": "Submissions Collected",
+    "avgConversion": "Avg Conversion Rate"
+  },
+  "preview": {
+    "badge": "Smartphone Preview",
+    "tabForm": "Form Fields",
+    "tabSuccess": "Success Screen",
+    "officialBadge": "Official Form",
+    "fullName": "Full Name",
+    "whatsappNumber": "WhatsApp Number",
+    "submitButton": "Submit Form Now",
+    "waNotice": "A WhatsApp confirmation notification will be automatically sent to your number.",
+    "successTitle": "Successfully Submitted!",
+    "poweredBy": "Powered by Wahide WhatsApp Gateway",
+    "continueNow": "Continue Now",
+    "liveSyncHint": "Preview automatically syncs in real-time"
+  }
 }
+

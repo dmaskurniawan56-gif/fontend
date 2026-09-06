@@ -13,6 +13,7 @@ import { Reminder } from "../types/reminder.types";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import {
   RefreshCw,
@@ -36,6 +37,7 @@ const DeleteReminderModal = dynamic(
 type ActiveTab = "schedules" | "rules" | "logs";
 
 export function RemindersView() {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<ActiveTab>("schedules");
 
   // Reminders hook
@@ -98,10 +100,10 @@ export function RemindersView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            Pengingat Otomatis WhatsApp
+            {t("reminder.title")}
           </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            Jadwalkan pengingat tanggal target, automasi pesan drip (H-1, Hari H, H+3), dan pantau audit pengiriman.
+            {t("reminder.subtitle")}
           </p>
         </div>
 
@@ -112,26 +114,27 @@ export function RemindersView() {
             onClick={handleGlobalRefresh}
             disabled={isRemindersLoading || isLogsLoading}
             className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
-            title="Muat Ulang Data"
+            title={t("reminder.actions.refreshTooltip") || "Muat Ulang Data"}
           >
             <RefreshCw
               className={`size-3.5 ${
                 isRemindersLoading || isLogsLoading ? "animate-spin" : ""
               }`}
             />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{t("reminder.actions.refresh") || "Refresh"}</span>
           </Button>
 
           <Button
             type="button"
+            variant="primaryPill"
             size="sm"
             onClick={dispatchNow}
             disabled={isDispatching}
-            className="h-9 gap-1.5 rounded-xl px-4 text-xs font-semibold shadow-xs cursor-pointer"
-            title="Kirim semua pengingat yang jatuh tempo sekarang"
+            className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
+            title={t("reminder.actions.dispatchTooltip") || "Kirim semua pengingat yang jatuh tempo sekarang"}
           >
             <Send className="size-3.5" />
-            <span className="hidden sm:inline">Kirim Sekarang</span>
+            <span className="hidden sm:inline">{t("reminder.actions.dispatchNow") || "Kirim Sekarang"}</span>
           </Button>
         </div>
       </div>
@@ -141,47 +144,47 @@ export function RemindersView() {
         {/* Total Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">Total Jadwal</span>
+            <span className="text-xs font-medium">{t("reminder.stats.total")}</span>
             <Calendar className="size-4 text-primary" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-foreground">{stats.total}</div>
-          <div className="mt-1 text-[11px] text-foreground-muted">Semua jadwal tersimpan</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.totalDesc")}</div>
         </Card>
 
         {/* Active Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">Jadwal Aktif</span>
+            <span className="text-xs font-medium">{t("reminder.stats.active")}</span>
             <CheckCircle2 className="size-4 text-emerald-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
             {stats.active}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">Menunggu evaluasi cron</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.activeDesc")}</div>
         </Card>
 
         {/* Paused Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">Ditunda</span>
+            <span className="text-xs font-medium">{t("reminder.stats.paused")}</span>
             <Pause className="size-4 text-amber-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-amber-600 dark:text-amber-400">
             {stats.paused}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">Pengiriman dinonaktifkan</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.pausedDesc")}</div>
         </Card>
 
         {/* Total Logs Dispatched */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">Total Terkirim</span>
+            <span className="text-xs font-medium">{t("reminder.stats.dispatched")}</span>
             <Clock className="size-4 text-purple-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-purple-600 dark:text-purple-400">
             {logsTotal}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">Pesan berhasil dikirim</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.dispatchedDesc")}</div>
         </Card>
       </div>
 
@@ -194,7 +197,7 @@ export function RemindersView() {
               className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
             >
               <Calendar className="size-4 sm:size-4.5 text-primary shrink-0" />
-              <span>Jadwal Pengingat</span>
+              <span>{t("reminder.tabs.schedules")}</span>
               <span
                 className={cn(
                   "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",
@@ -212,7 +215,7 @@ export function RemindersView() {
               className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
             >
               <Layers className="size-4 sm:size-4.5 text-amber-500 shrink-0" />
-              <span>Aturan Pengiriman & Drip</span>
+              <span>{t("reminder.tabs.rules")}</span>
             </TabsTrigger>
 
             <TabsTrigger
@@ -220,7 +223,7 @@ export function RemindersView() {
               className="h-9.5 sm:h-10 px-4 sm:px-5 text-xs sm:text-sm font-semibold gap-2.5 rounded-xl cursor-pointer transition-all data-active:bg-card data-active:text-foreground data-active:shadow-xs data-active:font-bold border border-transparent data-active:border-border/60 shrink-0"
             >
               <History className="size-4 sm:size-4.5 text-purple-500 shrink-0" />
-              <span>Riwayat Pengiriman</span>
+              <span>{t("reminder.tabs.logs")}</span>
               <span
                 className={cn(
                   "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",

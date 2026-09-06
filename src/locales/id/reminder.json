@@ -15,8 +15,24 @@
   "dispatchFailed": "Gagal memicu evaluasi pengingat",
   "stats": {
     "total": "Total Jadwal",
+    "totalDesc": "Semua jadwal tersimpan",
     "active": "Jadwal Aktif",
+    "activeDesc": "Menunggu evaluasi cron",
     "paused": "Ditunda",
-    "completed": "Selesai"
+    "pausedDesc": "Pengiriman dinonaktifkan",
+    "completed": "Selesai",
+    "dispatched": "Total Terkirim",
+    "dispatchedDesc": "Pesan berhasil dikirim"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "dispatchNow": "Kirim Sekarang",
+    "dispatchTooltip": "Kirim semua pengingat yang jatuh tempo sekarang",
+    "refreshTooltip": "Muat Ulang Data"
+  },
+  "tabs": {
+    "schedules": "Jadwal Pengingat",
+    "rules": "Aturan Pengiriman & Drip",
+    "logs": "Riwayat Pengiriman"
   }
 }

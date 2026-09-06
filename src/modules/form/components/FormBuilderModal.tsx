@@ -8,6 +8,9 @@ import {
   Calendar,
   UserPlus,
   FileText,
+  Smartphone,
+  Layers,
+  Sparkles,
 } from "lucide-react";
 import {
   Dialog,
@@ -22,6 +25,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
@@ -32,6 +36,8 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select";
 import { useI18n } from "@/lib/i18n/context";
+import { cn } from "@/lib/utils";
+import { FormPhoneMockup } from "./FormPhoneMockup";
 import {
   Form,
   FormField,
@@ -79,6 +85,7 @@ export function FormBuilderModal({
   const [redirectUrl, setRedirectUrl] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"form" | "preview">("form");
 
   // Initialize or reset form state on open/change
   useEffect(() => {
@@ -265,46 +272,80 @@ export function FormBuilderModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-175 max-h-[90vh] overflow-y-auto">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader className="mb-4">
-            <DialogTitle className="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">
-              {isEdit
-                ? (t("form.editTitle") || "Edit Formulir")
-                : (t("form.createTitle") || "Buat Formulir Baru")}
-            </DialogTitle>
+      <DialogContent className="border-border/70 bg-surface flex max-h-[92dvh] w-[96vw] sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl flex-col gap-0 overflow-hidden rounded-3xl p-0 shadow-2xl">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full min-h-0 flex-1">
+          <DialogHeader className="border-border/70 flex shrink-0 flex-row items-center justify-between border-b px-5 py-4 text-left sm:px-6">
+            <div className="flex items-center gap-2.5">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <FileText className="size-5" />
+              </div>
+              <div>
+                <DialogTitle className="text-base font-bold text-foreground sm:text-lg">
+                  {isEdit
+                    ? (t("form.editTitle") || "Edit Formulir")
+                    : (t("form.createTitle") || "Buat Formulir Baru")}
+                </DialogTitle>
+                <p className="text-xs text-foreground-muted">
+                  {t("form.viewSubtitle") || "Landing page formulir publik untuk reservasi dan penangkapan leads WhatsApp."}
+                </p>
+              </div>
+            </div>
+
+            {/* Mobile Tab Toggle (Visible only on < xl screens) */}
+            <div className="xl:hidden mr-6">
+              <Tabs value={mobileTab} onValueChange={(v) => setMobileTab(v as "form" | "preview")}>
+                <TabsList className="h-8 p-0.5 bg-muted rounded-lg border border-border/60">
+                  <TabsTrigger value="form" className="text-xs gap-1 px-2.5 py-1">
+                    <Layers className="size-3.5" />
+                    <span>Form</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="preview" className="text-xs gap-1 px-2.5 py-1">
+                    <Smartphone className="size-3.5" />
+                    <span>Pratinjau</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
           </DialogHeader>
 
-          {/* Quick Preset Buttons (Create only) */}
-          {!isEdit && (
-            <div className="flex flex-wrap items-center gap-2 mb-4 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
-              <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Preset Cepat:
-              </span>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-7 text-xs gap-1.5"
-                onClick={applyReservationPreset}
-              >
-                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                Form Reservasi
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-7 text-xs gap-1.5"
-                onClick={applyLeadPreset}
-              >
-                <UserPlus className="w-3.5 h-3.5 text-amber-600" />
-                Form Lead & Kontak
-              </Button>
-            </div>
-          )}
+          {/* Modal Body: Split Layout */}
+          <div className="flex flex-1 min-h-0 flex-col xl:flex-row overflow-hidden">
+            {/* Left Column: Form Editor Controls */}
+            <div
+              className={cn(
+                "w-full xl:w-7/12 2xl:w-3/5 overflow-y-auto p-5 sm:p-6 space-y-5 border-border/60 xl:border-r flex flex-col",
+                mobileTab === "form" ? "block" : "hidden xl:block"
+              )}
+            >
+            {/* Quick Preset Buttons (Create only) */}
+            {!isEdit && (
+              <div className="flex flex-wrap items-center gap-2 p-3.5 rounded-2xl bg-muted/30 border border-border/70">
+                <span className="text-xs font-semibold text-foreground-muted">
+                  Preset Cepat:
+                </span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7.5 rounded-xl text-xs gap-1.5 cursor-pointer"
+                  onClick={applyReservationPreset}
+                >
+                  <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                  Form Reservasi
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7.5 rounded-xl text-xs gap-1.5 cursor-pointer"
+                  onClick={applyLeadPreset}
+                >
+                  <UserPlus className="w-3.5 h-3.5 text-amber-600" />
+                  Form Lead & Kontak
+                </Button>
+              </div>
+            )}
 
-          <div className="space-y-4">
             {/* Title & Slug */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
@@ -581,24 +622,55 @@ export function FormBuilderModal({
             </div>
           </div>
 
-          <DialogFooter className="mt-6 flex items-center justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={onClose}
-              disabled={isSubmitting}
-              className="text-xs"
+          {/* Right Column: Live Smartphone Mockup Preview */}
+          <div
+              className={cn(
+                "w-full xl:w-5/12 2xl:w-2/5 overflow-y-auto p-4 sm:p-6 bg-slate-50/70 dark:bg-zinc-950/40 flex flex-col items-center justify-center min-h-[440px]",
+                mobileTab === "preview" ? "flex" : "hidden xl:flex"
+              )}
             >
-              {t("common.cancel") || "Batal"}
-            </Button>
-            <Button type="submit" size="sm" disabled={isSubmitting} className="text-xs font-semibold">
-              {isSubmitting
-                ? (t("common.saving") || "Menyimpan...")
-                : isEdit
-                ? (t("form.saveChanges") || "Simpan Perubahan")
-                : (t("form.createSubmit") || "Buat Formulir")}
-            </Button>
+              <FormPhoneMockup
+                title={title}
+                slug={slug}
+                description={description}
+                type={type}
+                fields={fields}
+                successMessage={successMessage}
+                redirectUrl={redirectUrl}
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="border-border/70 bg-muted/20 flex shrink-0 items-center justify-between border-t p-4 sm:px-6">
+            <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
+              <Sparkles className="size-3.5 text-primary" />
+              <span>{t("form.preview.liveSyncHint") || "Pratinjau otomatis tersinkronisasi secara real-time"}</span>
+            </div>
+            <div className="flex items-center gap-2 ml-auto">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onClose}
+                disabled={isSubmitting}
+                className="h-9 rounded-xl border-border/70 px-4 text-xs cursor-pointer"
+              >
+                {t("common.cancel") || "Batal"}
+              </Button>
+              <Button
+                type="submit"
+                variant="primaryPill"
+                size="sm"
+                disabled={isSubmitting}
+                className="h-9 px-5 text-xs font-bold shadow-xs cursor-pointer"
+              >
+                {isSubmitting
+                  ? (t("common.saving") || "Menyimpan...")
+                  : isEdit
+                  ? (t("form.saveChanges") || "Simpan Perubahan")
+                  : (t("form.createSubmit") || "Buat Formulir")}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

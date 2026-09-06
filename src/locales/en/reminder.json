@@ -15,8 +15,24 @@
   "dispatchFailed": "Failed to trigger reminder dispatch",
   "stats": {
     "total": "Total Schedules",
+    "totalDesc": "All saved schedules",
     "active": "Active Schedules",
+    "activeDesc": "Awaiting cron evaluation",
     "paused": "Paused",
-    "completed": "Completed"
+    "pausedDesc": "Delivery paused",
+    "completed": "Completed",
+    "dispatched": "Total Dispatched",
+    "dispatchedDesc": "Messages successfully sent"
+  },
+  "actions": {
+    "refresh": "Refresh",
+    "dispatchNow": "Send Now",
+    "dispatchTooltip": "Send all reminders due now",
+    "refreshTooltip": "Reload Data"
+  },
+  "tabs": {
+    "schedules": "Reminder Schedules",
+    "rules": "Delivery Rules & Drip",
+    "logs": "Delivery Logs"
   }
 }

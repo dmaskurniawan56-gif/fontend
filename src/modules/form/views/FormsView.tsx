@@ -126,9 +126,10 @@ export function FormsView() {
           </Button>
 
           <Button
+            variant="primaryPill"
             onClick={handleCreateNew}
             size="sm"
-            className="h-9 gap-1.5 rounded-xl bg-primary text-xs font-semibold shadow-xs shadow-primary/25 w-full sm:w-auto cursor-pointer"
+            className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer"
           >
             <Plus className="size-4" />
             <span>{t("form.createNewButton") || "Buat Formulir Baru"}</span>
@@ -143,7 +144,9 @@ export function FormsView() {
             <FileSpreadsheet className="size-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">Total Formulir</p>
+            <p className="truncate text-[11px] font-medium text-foreground-muted">
+              {t("form.stats.totalForms") || "Total Formulir"}
+            </p>
             <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalForms}</p>
           </div>
         </div>
@@ -153,7 +156,9 @@ export function FormsView() {
             <Eye className="size-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">Total Dilihat (Views)</p>
+            <p className="truncate text-[11px] font-medium text-foreground-muted">
+              {t("form.stats.totalViews") || "Total Dilihat (Views)"}
+            </p>
             <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalViews.toLocaleString()}</p>
           </div>
         </div>
@@ -163,7 +168,9 @@ export function FormsView() {
             <FileCheck2 className="size-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">Respons Terkumpul</p>
+            <p className="truncate text-[11px] font-medium text-foreground-muted">
+              {t("form.stats.totalSubmissions") || "Respons Terkumpul"}
+            </p>
             <p className="text-lg font-bold text-primary sm:text-xl">{stats.totalSubmissions.toLocaleString()}</p>
           </div>
         </div>
@@ -173,7 +180,9 @@ export function FormsView() {
             <TrendingUp className="size-4" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">Rata-rata Konversi</p>
+            <p className="truncate text-[11px] font-medium text-foreground-muted">
+              {t("form.stats.avgConversion") || "Rata-rata Konversi"}
+            </p>
             <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400 sm:text-xl">{stats.avgConversion}%</p>
           </div>
         </div>
@@ -275,9 +284,14 @@ export function FormsView() {
             {t("form.emptyDescription") ||
               "Buat formulir pertama Anda untuk mulai mengumpulkan leads, pesanan, atau pendaftaran otomatis via WhatsApp."}
           </p>
-          <Button onClick={handleCreateNew} size="sm" className="gap-2 w-full sm:w-auto">
+          <Button
+            variant="primaryPill"
+            onClick={handleCreateNew}
+            size="sm"
+            className="gap-2 px-5 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer"
+          >
             <Plus className="w-4 h-4" />
-            {t("form.createNewButton") || "Buat Formulir Sekarang"}
+            <span>{t("form.createNewButton") || "Buat Formulir Sekarang"}</span>
           </Button>
         </Card>
       ) : (

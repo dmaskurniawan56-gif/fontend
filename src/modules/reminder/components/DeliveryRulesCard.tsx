@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ReminderRule, DripRuleItem, UpdateReminderRuleInput } from "../types/reminder.types";
 import { VariableInsertChips } from "./VariableInsertChips";
+import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -216,37 +217,82 @@ export function DeliveryRulesCard({
           </div>
 
           {/* Drip Rules Tabs & Editor */}
-          <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-muted/20 p-4">
-            <div className="flex items-center justify-between border-b border-border/40 pb-3">
-              <div className="flex items-center gap-2">
-                <Layers className="size-4 text-primary" />
-                <span className="text-xs font-bold text-foreground">Fase Drip Pengingat</span>
+          <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-muted/20 p-4 sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border/40 pb-3.5">
+              <div className="flex items-center gap-2.5">
+                <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                  <Layers className="size-4" />
+                </div>
+                <div>
+                  <span className="text-xs sm:text-sm font-bold text-foreground block">
+                    Fase Drip Pengingat
+                  </span>
+                  <span className="text-[11px] text-foreground-muted">
+                    Pilih tahapan pesan yang ingin dikonfigurasi
+                  </span>
+                </div>
               </div>
               <Tabs
                 value={String(activeTabOffset)}
                 onValueChange={(v) => setActiveTabOffset(Number(v))}
+                className="w-full sm:w-auto"
               >
-                <TabsList className="h-8">
-                  {rules.map((r) => (
-                    <TabsTrigger
-                      key={r.daysOffset}
-                      value={String(r.daysOffset)}
-                      className="text-xs gap-1.5"
-                    >
-                      <span
-                        className={`size-2 rounded-full ${
-                          r.isEnabled ? "bg-emerald-500" : "bg-muted-foreground/40"
-                        }`}
-                      />
-                      <span>
-                        {r.daysOffset < 0
-                          ? `H${r.daysOffset}`
-                          : r.daysOffset === 0
-                          ? "Hari H"
-                          : `H+${r.daysOffset}`}
-                      </span>
-                    </TabsTrigger>
-                  ))}
+                <TabsList className="h-10 sm:h-11 p-1 rounded-xl bg-slate-200/80 dark:bg-muted/60 border border-border/70 shadow-2xs flex items-center gap-1 w-full sm:w-auto justify-between sm:justify-start">
+                  {rules.map((r) => {
+                    const isCurrentActive = activeTabOffset === r.daysOffset;
+                    return (
+                      <TabsTrigger
+                        key={r.daysOffset}
+                        value={String(r.daysOffset)}
+                        className={cn(
+                          "h-8 sm:h-9 px-3 sm:px-4 text-xs sm:text-sm font-medium gap-2 rounded-lg cursor-pointer transition-all shrink-0 flex-1 sm:flex-initial justify-center",
+                          "text-muted-foreground hover:text-foreground",
+                          "data-active:bg-white dark:data-active:bg-card data-active:text-foreground data-active:font-bold data-active:shadow-xs",
+                          "border border-transparent data-active:border-border/80 data-active:ring-1 data-active:ring-black/5 dark:data-active:ring-white/10"
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "size-2 rounded-full transition-all shrink-0",
+                            r.isEnabled
+                              ? "bg-emerald-500 ring-2 ring-emerald-500/25"
+                              : "bg-muted-foreground/30"
+                          )}
+                          title={r.isEnabled ? "Fase ini aktif" : "Fase ini nonaktif"}
+                        />
+                        <span>
+                          {r.daysOffset < 0
+                            ? `H${r.daysOffset}`
+                            : r.daysOffset === 0
+                            ? "Hari H"
+                            : `H+${r.daysOffset}`}
+                        </span>
+                        {r.isEnabled ? (
+                          <span
+                            className={cn(
+                              "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
+                              isCurrentActive
+                                ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400"
+                                : "bg-muted text-muted-foreground"
+                            )}
+                          >
+                            ON
+                          </span>
+                        ) : (
+                          <span
+                            className={cn(
+                              "text-[10px] font-bold px-1.5 py-0.5 rounded-md transition-colors hidden sm:inline-block",
+                              isCurrentActive
+                                ? "bg-muted text-muted-foreground"
+                                : "bg-muted/50 text-muted-foreground/60"
+                            )}
+                          >
+                            OFF
+                          </span>
+                        )}
+                      </TabsTrigger>
+                    );
+                  })}
                 </TabsList>
               </Tabs>
             </div>

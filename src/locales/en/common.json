@@ -236,7 +236,8 @@
   "dashboardMenu": {
     "businessMenu": "Business Menu",
     "groupGeneral": "General",
-    "groupWhatsapp": "WhatsApp Engine",
+    "groupWhatsapp": "WhatsApp & Messaging",
+    "groupBusiness": "Business Automation",
     "groupAccount": "Account & Billing",
     "groupSupport": "Helpdesk & Support",
     "overview": "Overview",

@@ -236,7 +236,8 @@
   "dashboardMenu": {
     "businessMenu": "Menu Bisnis",
     "groupGeneral": "Menu Utama",
-    "groupWhatsapp": "WhatsApp Engine",
+    "groupWhatsapp": "WhatsApp & Pesan",
+    "groupBusiness": "Otomasi Bisnis",
     "groupAccount": "Manajemen & Akun",
     "groupSupport": "Pusat Bantuan",
     "overview": "Overview",

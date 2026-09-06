@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
-import { ExternalLink, Mail, Clock } from "lucide-react";
+import { ExternalLink, Clock } from "lucide-react";
 
 export function PublicFooter() {
   const { t } = useI18n();
@@ -23,17 +23,6 @@ export function PublicFooter() {
           <div className="space-y-2 text-xs font-semibold text-foreground-secondary leading-relaxed">
             <div className="font-bold text-foreground">
               {t("footer.by")}
-            </div>
-
-            <div className="flex items-center gap-1.5 pt-0.5">
-              <Mail className="size-3.5 text-dark-green dark:text-wise-green shrink-0" />
-              <span>{t("footer.emailLabel")}</span>
-              <a
-                href={`mailto:${t("footer.emailValue")}`}
-                className="text-foreground hover:text-dark-green dark:hover:text-wise-green underline decoration-border hover:decoration-current transition font-medium"
-              >
-                {t("footer.emailValue")}
-              </a>
             </div>
 
             <div className="pt-1.5 border-t border-border/60 space-y-1">

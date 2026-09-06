@@ -34,19 +34,18 @@ const ApiCodeSandbox = dynamic(() => import("./ApiCodeSandbox").then((mod) => mo
 });
 import {
   Zap,
-  Layers,
   ArrowRight,
   RefreshCw,
-  Cpu,
-  Activity,
-  Bot,
-  Users,
   FileSpreadsheet,
-  Clock,
   CheckCircle2,
   Check,
   CreditCard,
-  Sliders,
+  Cloud,
+  ShieldCheck,
+  Calendar,
+  Bell,
+  FileText,
+  LayoutTemplate,
 } from "lucide-react";
 
 export function HomeView() {
@@ -182,47 +181,47 @@ export function HomeView() {
         <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
           {[
             {
-              icon: Cpu,
+              icon: Cloud,
               title: t("common.landing.features.f1Title"),
               desc: t("common.landing.features.f1Desc"),
             },
             {
-              icon: RefreshCw,
+              icon: ShieldCheck,
               title: t("common.landing.features.f2Title"),
               desc: t("common.landing.features.f2Desc"),
             },
             {
-              icon: Activity,
+              icon: Calendar,
               title: t("common.landing.features.f3Title"),
               desc: t("common.landing.features.f3Desc"),
             },
             {
-              icon: Bot,
+              icon: Bell,
               title: t("common.landing.features.f4Title"),
               desc: t("common.landing.features.f4Desc"),
             },
             {
-              icon: FileSpreadsheet,
+              icon: FileText,
               title: t("common.landing.features.f5Title"),
               desc: t("common.landing.features.f5Desc"),
             },
             {
-              icon: Clock,
+              icon: LayoutTemplate,
               title: t("common.landing.features.f6Title"),
               desc: t("common.landing.features.f6Desc"),
             },
             {
-              icon: Users,
+              icon: RefreshCw,
               title: t("common.landing.features.f7Title"),
               desc: t("common.landing.features.f7Desc"),
             },
             {
-              icon: Layers,
+              icon: FileSpreadsheet,
               title: t("common.landing.features.f8Title"),
               desc: t("common.landing.features.f8Desc"),
             },
             {
-              icon: Sliders,
+              icon: Zap,
               title: t("common.landing.features.f9Title"),
               desc: t("common.landing.features.f9Desc"),
             },

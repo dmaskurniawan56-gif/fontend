@@ -185,6 +185,6 @@ graph TD
 | Tahapan | Lingkup Modul | Estimasi Waktu | Target Hasil |
 | :--- | :--- | :---: | :--- |
 | **Fase 1 (Selesai)** | `template`, `reminder`, `reservation`, `form` | Selesai | 22 file distandarisasikan, `tsc` & `lint` exit code 0 |
-| **Fase 2** | `whatsapp`, `campaign`, `contact`, `overview` | 1 Sesi Pengerjaan | Modul operasional harian 100% standar shadcn |
+| **Fase 2 (Selesai)** | `whatsapp`, `campaign`, `contact`, `overview` | Selesai | Modul operasional harian 100% standar shadcn, `tsc` & `lint` exit code 0 |
 | **Fase 3** | `iam`, `finance`, `subscription` | 1 Sesi Pengerjaan | Modul akun dan transaksi 100% standar shadcn |
 | **Fase 4** | `admin`, `team`, `support` | 1 Sesi Pengerjaan | Modul manajerial & helpdesk 100% standar shadcn |

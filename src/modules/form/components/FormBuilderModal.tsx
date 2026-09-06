@@ -265,7 +265,7 @@ export function FormBuilderModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-175 max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader className="mb-4">
             <DialogTitle className="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">

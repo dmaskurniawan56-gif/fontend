@@ -151,7 +151,7 @@ export function DailyAgendaList({
       </div>
 
       {/* Reservation List */}
-      <div className="flex flex-col gap-3 min-h-[250px]">
+      <div className="flex flex-col gap-3 min-h-62.5">
         {isLoading ? (
           <div className="flex flex-col gap-2">
             {[1, 2, 3].map((i) => (

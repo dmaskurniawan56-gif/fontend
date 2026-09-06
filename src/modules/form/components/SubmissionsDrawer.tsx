@@ -95,7 +95,7 @@ export function SubmissionsDrawer({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[850px] max-h-[90vh] flex flex-col p-6">
+      <DialogContent className="sm:max-w-212.5 max-h-[90vh] flex flex-col p-6">
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -290,7 +290,7 @@ export function SubmissionsDrawer({
                                 <span className="font-semibold text-slate-700 dark:text-slate-300 block mb-0.5">
                                   {label}
                                 </span>
-                                <span className="text-slate-900 dark:text-slate-100 font-mono text-[11px] break-words">
+                                <span className="text-slate-900 dark:text-slate-100 font-mono text-[11px] wrap-break-word">
                                   {value !== null && value !== undefined
                                     ? String(value)
                                     : "-"}

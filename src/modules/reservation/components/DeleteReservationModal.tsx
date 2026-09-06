@@ -45,7 +45,7 @@ export function DeleteReservationModal({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <AlertDialogContent className="sm:max-w-[420px]">
+      <AlertDialogContent className="sm:max-w-105">
         <AlertDialogHeader>
           <div className="flex items-center gap-2.5 text-destructive mb-1">
             <div className="p-2 rounded-full bg-destructive/10">

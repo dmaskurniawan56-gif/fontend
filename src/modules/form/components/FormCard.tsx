@@ -98,7 +98,7 @@ export function FormCard({
         <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-base line-clamp-1 mb-1" title={form.title}>
           {form.title}
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-[32px] mb-3">
+        <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-8 mb-3">
           {form.description || (t("form.noDescription") || "Tidak ada deskripsi.")}
         </p>
 

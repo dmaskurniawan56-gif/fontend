@@ -235,7 +235,7 @@ export function MonthlyCalendar({
               type="button"
               onClick={() => onSelectDate(item.dateStr)}
               className={cn(
-                "min-h-[48px] sm:min-h-[56px] p-1 sm:p-1.5 rounded-lg border text-left flex flex-col justify-between transition-all duration-150 relative",
+                "min-h-12 sm:min-h-14 p-1 sm:p-1.5 rounded-lg border text-left flex flex-col justify-between transition-all duration-150 relative",
                 item.isCurrentMonth
                   ? "bg-slate-50/50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200/80 dark:border-slate-800"
                   : "bg-slate-100/30 dark:bg-slate-950/30 text-slate-400 dark:text-slate-600 border-transparent hover:border-slate-200 dark:hover:border-slate-800",

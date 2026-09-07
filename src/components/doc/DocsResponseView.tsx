@@ -114,7 +114,7 @@ export function DocsResponseView({
           </button>
         </div>
 
-        <div className="p-4 overflow-x-auto max-h-[420px] scrollbar-thin">
+        <div className="p-4 overflow-x-auto max-h-105 scrollbar-thin">
           <pre className="font-mono text-xs leading-relaxed text-[#c9d1d9] selection:bg-wise-green/30 selection:text-white">
             <code>{activeResponse.json}</code>
           </pre>

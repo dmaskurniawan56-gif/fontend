@@ -79,6 +79,16 @@ Seluruh komentar placeholder (seperti `// Pair device in Python`, `// List devic
 
 ---
 
+### D. Redireksi Bagian "Developer First & REST API" Landing Page ke Docs API
+- **Berkas**: [`src/components/home/ApiCodeSandbox.tsx`](file:///G:/WEB2026/fontwahide/src/components/home/ApiCodeSandbox.tsx)
+- **Status**: Tautan eksternal lama ke Postman telah diganti dengan navigasi internal Next.js `<Link href="/docs/intro">`:
+  - **Badge `</> Developer First & REST API`**: Kini berupa `<Link href="/docs/intro">` interaktif dengan efek hover.
+  - **Tombol `Buka Dokumentasi REST API`**: Menggunakan `<Link href="/docs/intro">` yang langsung membuka panduan resmi WhatsApp REST API internal.
+- **Berkas Terkait**: [`src/components/layout/public/PublicFooter.tsx`](file:///G:/WEB2026/fontwahide/src/components/layout/public/PublicFooter.tsx)
+  - Menambahkan tautan resmi "Buka Dokumentasi REST API" (`/docs/intro`) di kolom navigasi pengembang footer.
+
+---
+
 ## 2. Hasil Verifikasi & Uji Sistem
 
 1. **Type Checking TypeScript**:
@@ -91,3 +101,5 @@ Seluruh komentar placeholder (seperti `// Pair device in Python`, `// List devic
 3. **Uji Live Server Dev**:
    - `GET /robots.txt` -> **200 OK** (memuat `Allow: /docs` & `Allow: /docs/*`).
    - `GET /docs/devices/pair` -> **200 OK** (kode contoh cURL, Node.js, PHP, Python, Go tampil utuh tanpa placeholder).
+   - `GET /` -> Tombol & badge "Developer First & REST API" berhasil terhubung ke `/docs/intro`.
+

@@ -16,6 +16,7 @@ import {
   Sparkles,
   CheckCircle2,
   Activity,
+  Clock,
 } from "lucide-react";
 
 export function AboutView() {
@@ -41,7 +42,7 @@ export function AboutView() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         {[
           { label: t("about.statsUptime"), value: "99.9%", icon: Activity },
-          { label: t("about.statsRam"), value: "< 150 MB", icon: Cpu },
+          { label: t("about.statsRam"), value: "< 0.4s", icon: Clock },
           { label: t("about.statsMessages"), value: "1.000.000+", icon: Zap },
           { label: t("about.statsTenants"), value: "500+", icon: ShieldCheck },
         ].map((s, idx) => {

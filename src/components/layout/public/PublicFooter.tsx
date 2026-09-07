@@ -10,9 +10,9 @@ export function PublicFooter() {
 
   return (
     <footer className="border-t border-border bg-surface py-12 px-4 sm:px-6 lg:px-8 transition-colors">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 mb-12">
         {/* Brand & Operating Hours Information */}
-        <div className="space-y-3.5 sm:col-span-2 lg:col-span-1">
+        <div className="space-y-3.5 md:col-span-6">
           <Link href="/" className="flex items-center gap-2.5 group">
             <span className="h-3.5 w-3.5 rounded-full bg-wise-green shadow-xs transition-transform group-hover:scale-110" />
             <span className="font-black text-xl sm:text-2xl tracking-tight text-foreground">
@@ -20,7 +20,7 @@ export function PublicFooter() {
             </span>
           </Link>
 
-          <div className="space-y-2 text-xs font-semibold text-foreground-secondary leading-relaxed">
+          <div className="space-y-2 text-xs font-semibold text-foreground-secondary leading-relaxed max-w-sm">
             <div className="font-bold text-foreground">
               {t("footer.by")}
             </div>
@@ -37,47 +37,8 @@ export function PublicFooter() {
           </div>
         </div>
 
-        {/* Product Column */}
-        <div className="space-y-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted">
-            {t("footer.product")}
-          </p>
-          <ul className="space-y-2 text-xs font-semibold text-foreground-secondary">
-            <li>
-              <Link href="/about" className="hover:text-foreground transition-colors">
-                {t("common.nav.about")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/#solutions" className="hover:text-foreground transition-colors">
-                {t("common.nav.solutions")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/#features" className="hover:text-foreground transition-colors">
-                {t("common.nav.features")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/#spintax" className="hover:text-foreground transition-colors">
-                Anti-Ban Spintax
-              </Link>
-            </li>
-            <li>
-              <Link href="/#pricing" className="hover:text-foreground transition-colors">
-                {t("common.nav.pricing")}
-              </Link>
-            </li>
-            <li>
-              <Link href="/#faq" className="hover:text-foreground transition-colors">
-                {t("common.nav.faq")}
-              </Link>
-            </li>
-          </ul>
-        </div>
-
         {/* Developer Column */}
-        <div className="space-y-3">
+        <div className="space-y-3 md:col-span-3">
           <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted">
             {t("footer.developer")}
           </p>
@@ -94,12 +55,17 @@ export function PublicFooter() {
           </ul>
         </div>
 
-        {/* Legal Column */}
-        <div className="space-y-3">
+        {/* Legal & Support Column */}
+        <div className="space-y-3 md:col-span-3">
           <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted">
             {t("footer.legal")}
           </p>
           <ul className="space-y-2 text-xs font-semibold text-foreground-secondary">
+            <li>
+              <Link href="/about" className="hover:text-foreground transition-colors">
+                {t("common.nav.about")}
+              </Link>
+            </li>
             <li>
               <Link href="/contact" className="hover:text-foreground transition-colors">
                 {t("common.nav.contact")}
@@ -107,12 +73,12 @@ export function PublicFooter() {
             </li>
             <li>
               <Link href="/terms" className="hover:text-foreground transition-colors">
-                Syarat &amp; Ketentuan
+                {t("footer.terms")}
               </Link>
             </li>
             <li>
               <Link href="/privacy" className="hover:text-foreground transition-colors">
-                Kebijakan Privasi
+                {t("footer.privacy")}
               </Link>
             </li>
           </ul>

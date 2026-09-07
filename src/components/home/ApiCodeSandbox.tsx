@@ -7,7 +7,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { Code2, Copy, Check, ExternalLink, ArrowRight, Workflow } from "lucide-react";
+import { Code2, Copy, Check, ArrowRight, Workflow } from "lucide-react";
 import { useClipboard } from "@/hooks/useClipboard";
 
 type LangType = "curl" | "nodejs" | "go" | "php" | "python";

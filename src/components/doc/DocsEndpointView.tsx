@@ -8,7 +8,6 @@ import { DocsCodeTabs } from "./DocsCodeTabs";
 import { DocsResponseView } from "./DocsResponseView";
 import { getApiHost } from "./data";
 import {
-  Globe,
   Lock,
   Copy,
   Check,

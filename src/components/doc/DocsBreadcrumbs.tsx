@@ -8,7 +8,7 @@ interface DocsBreadcrumbsProps {
   title: string;
 }
 
-export function DocsBreadcrumbs({ category, categorySlug, title }: DocsBreadcrumbsProps) {
+export function DocsBreadcrumbs({ category, categorySlug: _categorySlug, title }: DocsBreadcrumbsProps) {
   return (
     <nav
       aria-label="Breadcrumb"

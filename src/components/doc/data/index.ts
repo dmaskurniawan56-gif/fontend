@@ -1,5 +1,4 @@
 import { DocItem, EndpointDoc, GuideDoc } from "../types";
-import { docNavigation } from "./navigation";
 import { introDoc } from "./intro";
 import { authenticationDoc } from "./authentication";
 import { errorsDoc } from "./errors";

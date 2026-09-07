@@ -10,7 +10,6 @@ import {
   MessageSquare,
   Users,
   Megaphone,
-  ChevronDown,
 } from "lucide-react";
 
 interface DocsSidebarProps {

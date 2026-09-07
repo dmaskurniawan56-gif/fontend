@@ -16,6 +16,7 @@ export { devicesEndpoints } from "./devices";
 export { messagingEndpoints } from "./messaging";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
+export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
 
 export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc];
 

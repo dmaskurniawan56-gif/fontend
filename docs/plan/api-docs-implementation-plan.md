@@ -1,115 +1,87 @@
-# Rencana UX/UI: Pembersihan AI Slop & Redesain Developer-First untuk Dokumentasi Wahide
+# Rencana Lengkap: Optimasi Technical SEO Google Page 1 & Metadata Standar Industri untuk Dokumentasi Wahide
 
-Sebagai **UX/UI Design Expert & Technical Writer**, dokumen ini merinci audit kritis dan rencana refaktor untuk menghapus seluruh elemen **"AI Slop"** (gimmick visual murahan, taburan emoji berlebihan, copywriting marketing generatif) pada halaman **[`/docs/intro`](file:///G:/WEB2026/fontwahide/src/components/doc/data/intro.ts)** dan seluruh komponen dokumentasi pendukungnya.
-
-Tujuan redesain ini adalah mengangkat derajat dokumentasi Wahide menjadi portal developer berkelas enterprise yang setara dengan **Stripe**, **Meta WhatsApp Cloud API**, dan **Docusaurus / Whatspie resmi** — bersih, berwibawa, fungsional, dan ramah pengembang (*developer-first*).
+Sebagai **Senior Technical SEO Specialist & Frontend Architect**, dokumen ini merancang arsitektur optimasi Search Engine Optimization (SEO) menyeluruh untuk portal dokumentasi REST API Wahide agar berpeluang maksimal menembus **Halaman 1 Google (Page 1 SERP)** untuk kata kunci target seperti:
+* *"WhatsApp API Indonesia"*
+* *"Send WhatsApp message API"*
+* *"WhatsApp multi device REST API"*
+* *"WhatsApp API QR code pair"*
+* *"WhatsApp broadcast API"*
 
 ---
 
-## 1. Identifikasi & Audit "AI Slop" Saat Ini
+## 1. Audit Masalah SEO Saat Ini & Bottleneck di Google SERP
 
-Berikut adalah temuan elemen AI Slop yang terdeteksi dan akan dieliminasi total:
-
-| Kategori | AI Slop Saat Ini | Dampak UX/UI Buruk | Solusi Standar Developer (Stripe/Whatspie) |
+| Komponen SEO | Kondisi Saat Ini (Bermasalah) | Dampak pada Google SERP | Standar Google Page 1 Baru |
 |:---|:---|:---|:---|
-| **Emoji Clutter** | `🌐`, `🔐`, `📋`, `💻`, `📤`, `⚠️`, `🔍`, `📑`, `⚡`, `🛡️`, `🎲`, `🧩`, `✅`, `❌` tersebar di setiap judul & tabel. | Mengurangi kredibilitas teknis; terlihat seperti template prompt ChatGPT murahan. | Hapus semua emoji dari heading teknis. Gunakan SVG icon semantik monokrom / badge teks bersih (`Required`, `Optional`). |
-| **Gimmick Visual "Sparkles"** | Banner gradasi pelangi hijau-teal dengan ikon `<Sparkles />` di atas halaman teknis. | Mengaburkan konten inti dengan dekorasi marketing yang tidak relevan bagi developer. | Hapus banner sparkle. Ganti dengan callout monokrom bergaris tipis atau blok spesifikasi arsitektur murni. |
-| **Marketing Copywriting** | *"Enterprise-grade, 99.9% delivery rates, seamless developer experience, defensive mechanisms..."* | Teks menggelembung (*fluff*) tanpa informasi teknis riil yang dicari programmer. | Tulis ulang menjadi fakta teknis konkret: format protokol (HTTPS JSON), konvensi nomor E.164, status kode, dan autentikasi. |
-| **TOC Sidebar Kanan** | `<span>📑</span> On this page` | Tidak profesional. | `On this page` dengan tipografi monospaced/uppercase bersih `text-xs font-semibold text-muted-foreground`. |
-| **Badge Parameter** | `<span>✅</span> Yes` / `<span>❌</span> Optional` | Terlalu mencolok dan kekanak-kanakan. | Badge mikro berstandar: `Required` (badge hijau lembut) dan `Optional` (badge abu-abu netral). |
+| **Title Tag Length** | Duplikasi ganda antara `layout.tsx` (`%s \| Wahide WhatsApp API Docs`) dan `page.tsx` (`${doc.title} - Wahide WhatsApp API Documentation`). | Judul menjadi **82+ karakter**: `Send Text Messages - Wahide WhatsApp API Documentation \| Wahide WhatsApp API Docs`. Terpotong tanda titik-titik (`...`) di hasil pencarian Google. | Batasi ketat **45–55 karakter**: `Send WhatsApp Text Message API \| Wahide API`. Ringkas, tajam, memuat keyword utama tanpa terpotong. |
+| **Meta Description** | Teks deskripsi bawaan terlalu pendek (< 60 karakter) atau tidak memuat *search intent* & *call to action*. | Google menggantinya dengan cuplikan acak halaman yang menurunkan Click-Through Rate (CTR). | Diformulasikan tepat **140–155 karakter** dengan keyword komparasi: cURL, Node.js, PHP, Python, Go, anti-ban, dan format nomor E.164. |
+| **Canonical URL** | Belum ada tag `alternates: { canonical: ... }`. | Risiko penalti konten duplikat (*duplicate content penalty*) antara HTTP/HTTPS, www/non-www, dan staging. | Mengunci canonical URL absolut untuk setiap endpoint (`https://wahide.id/docs/...`). |
+| **Structured Data (JSON-LD)** | Belum ada Schema.org markup. | Tampilan hasil pencarian Google hanya berupa link biru polos biasa tanpa Rich Snippets. | Injeksi **JSON-LD Schema**: `TechArticle` / `APIReference` dan `BreadcrumbList` (menghasilkan navigasi remah roti langsung di Google SERP). |
+| **Sitemap XML (`sitemap.ts`)** | Rute `/docs/*` **belum terdaftar** di `src/app/sitemap.ts`. | Bot perayap Google (Googlebot) lambat menemukan dan mengindeks 23+ halaman endpoint baru. | Mengintegrasikan seluruh endpoint secara dinamis ke `sitemap.ts` dengan `changeFrequency: "weekly"` dan `priority: 0.9`. |
+| **Robots Directives** | Pengaturan default tanpa arahan cuplikan. | Cuplikan kode atau gambar mungkin dibatasi oleh Googlebot. | Memberikan arahan spesifik: `max-snippet: -1`, `max-image-preview: "large"`, `max-video-preview: -1`. |
 
 ---
 
-## 2. Rencana Redesain Halaman `/docs/intro`
+## 2. Strategi Formula Title Tag & Keyword Mapping (Presisi < 55 Karakter)
 
-Halaman `http://localhost:3000/docs/intro` akan ditulis ulang secara total dengan struktur dokumentasi teknis modern:
-
+Di `src/app/docs/layout.tsx`, template title diatur menjadi:
 ```text
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│  Home / Docs / Getting Started / Introduction                                          │
-│                                                                                        │
-│  Introduction                                                                          │
-│  The Wahide REST API provides programmatic access to WhatsApp Multi-Device features,  │
-│  allowing developers to send messages, manage contacts, and orchestrate campaigns.    │
-│                                                                                        │
-│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ Base URL: https://api.wahide.com/api/v1                           [Copy URL]     │  │
-│  └──────────────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                        │
-│  Core Architectural Principles                                                         │
-│  • Protocol: HTTPS / REST over TLS 1.3                                                 │
-│  • Data Format: UTF-8 encoded application/json                                         │
-│  • Phone Format: International E.164 without '+' (e.g. 628123456789)                   │
-│  • Authentication: Bearer Token / API Key                                              │
-│                                                                                        │
-│  Quickstart: Sending Your First Message                                                │
-│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ cURL | request.sh                                                    [Copy]      │  │
-│  │ curl -X POST "https://api.wahide.com/api/v1/wa/messages/send" \                  │  │
-│  │   -H "Authorization: Bearer YOUR_API_KEY" \                                      │  │
-│  │   -H "Content-Type: application/json" \                                          │  │
-│  │   -d '{"phone": "628123456789", "message": "Hello from Wahide!"}'                │  │
-│  └──────────────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                        │
-│  Explore Core Capabilities                                                             │
-│  ┌─────────────────────────┐  ┌─────────────────────────┐  ┌─────────────────────────┐ │
-│  │ 🔑 Authentication       │  │ 💬 Messaging Engine     │  │ 📱 Device Management   │ │
-│  │ Secure your API calls   │  │ Single, bulk & round-   │  │ Session lifecycle and   │ │
-│  │ with tenant keys.       │  │ robin rotation.         │  │ QR pairing code.       │ │
-│  └─────────────────────────┘  └─────────────────────────┘  └─────────────────────────┘ │
-└────────────────────────────────────────────────────────────────────────────────────────┘
+template: "%s | Wahide API"   (panjang suffix: 13 karakter)
 ```
+Tiap halaman mengisi `%s` dengan panjang **30–42 karakter**, sehingga total panjang title di browser/SERP **tepat 43–55 karakter** (bebas dari pemotongan Google):
+
+| Slug Endpoint | UI Title (Tampilan Halaman) | SEO Title (%s) | Total SERP Title (Termasuk Brand) | Karakter |
+|:---|:---|:---|:---|:---:|
+| `/docs/intro` | Introduction | WhatsApp API Documentation | `WhatsApp API Documentation \| Wahide API` | **39** |
+| `/docs/authentication` | Authentication | API Authentication & Bearer Tokens | `API Authentication & Bearer Tokens \| Wahide API` | **47** |
+| `/docs/errors` | Errors & Rate Limits | API Status Codes & Rate Limits | `API Status Codes & Rate Limits \| Wahide API` | **43** |
+| `/docs/messaging/send-text` | Send Text Messages | Send WhatsApp Text Message API | `Send WhatsApp Text Message API \| Wahide API` | **43** |
+| `/docs/messaging/send-round-robin` | Round-Robin Multi-Device | Multi-Device WhatsApp Rotation API | `Multi-Device WhatsApp Rotation API \| Wahide API` | **48** |
+| `/docs/messaging/send-spintax` | Spintax Dynamic Text | Send Dynamic Spintax WhatsApp API | `Send Dynamic Spintax WhatsApp API \| Wahide API` | **47** |
+| `/docs/messaging/send-media` | Send Media / Document | Send WhatsApp Media & PDF API | `Send WhatsApp Media & PDF API \| Wahide API` | **42** |
+| `/docs/messaging/meta-cloud-api` | Meta Cloud API Compatible | Meta WhatsApp Cloud API Endpoint | `Meta WhatsApp Cloud API Endpoint \| Wahide API` | **46** |
+| `/docs/devices/list` | List Devices | List Connected WhatsApp Devices | `List Connected WhatsApp Devices \| Wahide API` | **45** |
+| `/docs/devices/pair` | Pair Device (QR) | Pair WhatsApp Device via QR API | `Pair WhatsApp Device via QR API \| Wahide API` | **45** |
+| `/docs/contacts/bulk-import` | Bulk Import Contacts | Bulk Import WhatsApp Contacts API | `Bulk Import WhatsApp Contacts API \| Wahide API` | **47** |
+| `/docs/campaigns/create` | Create Campaign | Create WhatsApp Broadcast Campaign | `Create WhatsApp Broadcast Campaign \| Wahide API` | **48** |
 
 ---
 
-## 3. Berkas yang Akan Direfaktorisasi
+## 3. Arsitektur Komponen SEO Baru
 
-### A. Data & Copywriting
-1. **[`src/components/doc/data/intro.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/intro.ts)**:
-   - Hapus teks marketing AI slop (`99.9% delivery rate`, `Enterprise ready`, emoji roket & petir).
-   - Tulis ulang konten berbasis fakta teknis pengembang (Base URL, Protocol, Phone standard E.164, Quickstart bersih).
-   - Hapus properti `bannerNotice` yang bergaya sparkle marketing.
+### A. Modul Helper SEO Metadata ([`src/components/doc/data/seo.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/seo.ts))
+Membuat berkas helper khusus yang memetakan metadata SEO berkualitas tinggi untuk setiap slug:
+- Menghasilkan `seoTitle` (ringkas, berbobot keyword).
+- Menghasilkan `seoDescription` (140–155 karakter dengan ajakan bertindak).
+- Menghasilkan data schema `BreadcrumbList` dan `TechArticle` / `APIReference` JSON-LD.
 
-2. **Data Endpoint & Guides Lainnya** (`authentication.ts`, `errors.ts`, `messaging.ts`):
-   - Bersihkan dari judul beraura AI slop.
-   - Ganti teks contoh pesan `"Hello from Wahide WhatsApp API! 🚀"` menjadi `"Order #INV-2026 has been processed."`.
+### B. Komponen Injeksi Schema JSON-LD ([`src/components/doc/DocsJsonLd.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsJsonLd.tsx))
+Merender script `<script type="application/ld+json">` yang valid W3C/Google untuk:
+- Menampilkan jejak remah roti (`wahide.id > docs > messaging > send-text`) di halaman pencarian Google.
+- Memberitahu Googlebot bahwa konten adalah dokumentasi API resmi (*API Reference*).
 
-### B. Komponen Presentation Layer
-1. **[`DocsGuideView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsGuideView.tsx)**:
-   - Hapus banner gradasi sparkle AI slop (`bg-gradient-to-r`, `<Sparkles />`).
-   - Sederhanakan callout menjadi kotak notifikasi teknis bersudut rapi dengan ikon monokrom `Info`, `AlertCircle`, atau `CheckCircle`.
-   - Tambahkan kartu tautan "Next Steps" di bagian bawah.
+### C. Refaktor `src/app/docs/layout.tsx`
+- Memperbarui title template menjadi `%s | Wahide API`.
+- Menambahkan metadata robots komprehensif (`index: true`, `follow: true`, `googleBot: { "max-snippet": -1, ... }`).
+- Menetapkan OpenGraph default dan Twitter Card metadata.
 
-2. **[`DocsEndpointView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsEndpointView.tsx)**:
-   - Hapus emoji di semua heading:
-     - `🌐 HTTP Endpoint` → `Endpoint`
-     - `🔐 Authentication` → `Authentication`
-     - `📋 Request Parameters` → `Request Parameters`
-     - `💻 Code Examples` → `Code Examples`
-     - `📤 Response Formats` → `Responses`
-     - `⚠️ Error Handling Matrix` → `Error Codes`
-   - Hapus banner gradasi sparkle jika ada, ganti dengan badge informasi ringkas jika relevan.
+### D. Refaktor `src/app/docs/[...slug]/page.tsx`
+- Menggunakan `getDocSeoMetadata()` pada `generateMetadata()`.
+- Menambahkan `alternates: { canonical: ... }`.
+- Memasang `<DocsJsonLd />` di dalam page body.
 
-3. **[`DocsParametersTable.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsParametersTable.tsx)**:
-   - Hapus `<span>✅</span> Yes` → Ganti dengan badge teks elegan: `<span className="font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded text-[11px]">Required</span>`.
-   - Hapus `<span>❌</span> Optional` → Ganti dengan: `<span className="font-normal text-muted-foreground bg-muted border border-border px-2 py-0.5 rounded text-[11px]">Optional</span>`.
-   - Hapus icon emoji `📋` pada judul tabel.
-
-4. **[`DocsResponseView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsResponseView.tsx)**:
-   - Hapus emoji `📤` pada judul Responses.
-   - Hapus emoji `🔍` pada judul Response Attributes Breakdown.
-
-5. **[`DocsTableOfContents.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsTableOfContents.tsx)**:
-   - Hapus emoji `📑` dari `On this page`.
-   - Desain tipografi minimalis: `text-[11px] font-bold uppercase tracking-wider text-muted-foreground`.
+### E. Integrasi Sitemap XML ([`src/app/sitemap.ts`](file:///G:/WEB2026/fontwahide/src/app/sitemap.ts))
+- Mengimpor `allDocs` dari `@/components/doc/data`.
+- Menambahkan seluruh URL `/docs/*` ke dalam daftar sitemap resmi dengan prioritas tinggi (`priority: 0.9`, `changeFrequency: "weekly"`).
 
 ---
 
 ## 4. Rencana Verifikasi
 
-1. **TypeScript Typecheck**:
-   - Jalankan `bun x tsc --noEmit` untuk memastikan 100% type-safe (tanpa pernah menjalankan `bun run build`).
-2. **Inspeksi Visual UI/UX di Browser**:
-   - Buka `http://localhost:3000/docs/intro`.
-   - Pastikan halaman terlihat tenang (*calm*), bersih (*clean*), berwibawa (*authoritative*), dan terbebas dari seluruh taburan emoji atau kartu sparkle murahan.
-   - Pastikan keterbacaan tipografi dan kontras Dark/Light mode tetap tajam dan nyaman di mata developer.
+1. **Type Safety**:
+   - Menjalankan `bun x tsc --noEmit` untuk memastikan 100% bebas dari error TypeScript.
+   - *(Aturan ditaati penuh: `bun run build` TIDAK PERNAH dijalankan)*.
+2. **Validasi Karakter & Schema**:
+   - Memastikan seluruh Title tag berada dalam rentang **40–55 karakter**.
+   - Memastikan Meta Description berada dalam rentang **140–155 karakter**.
+   - Memastikan struktur JSON-LD lolos standar validator Schema.org / Google Rich Results.

@@ -71,7 +71,9 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
           <div key={section.id} className="space-y-2">
             {/* Section Header */}
             <div className="flex items-center gap-2 px-3 text-xs font-bold uppercase tracking-wider text-muted-foreground/80">
-              {IconComponent && <IconComponent className="size-3.5 text-wise-green" />}
+              {IconComponent && (
+                <IconComponent className="size-3.5 text-emerald-700 dark:text-wise-green shrink-0" />
+              )}
               <span>{section.title}</span>
             </div>
 
@@ -87,7 +89,7 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
                       onClick={onItemClick}
                       className={`group flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         isActive
-                          ? "bg-wise-green/15 text-foreground font-semibold border-l-2 border-wise-green -ml-[9px] pl-[7px]"
+                          ? "bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-950 dark:text-foreground font-semibold border-l-2 border-emerald-600 dark:border-wise-green -ml-[9px] pl-[7px]"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                       }`}
                     >

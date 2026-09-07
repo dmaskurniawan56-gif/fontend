@@ -1,0 +1,346 @@
+import { DocItem } from "../types";
+
+export interface DocSeoMetadata {
+  seoTitle: string;
+  seoDescription: string;
+  keywords: string[];
+}
+
+const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
+  intro: {
+    seoTitle: "WhatsApp API Documentation",
+    seoDescription:
+      "Official developer guide for Wahide WhatsApp Multi-Device REST API. Explore architecture, base URLs, phone number formats, and cURL quickstart.",
+    keywords: [
+      "WhatsApp API",
+      "WhatsApp REST API",
+      "WhatsApp Multi Device API",
+      "WhatsApp Developer Docs",
+      "WhatsApp Gateway Indonesia",
+    ],
+  },
+  authentication: {
+    seoTitle: "API Authentication & Bearer Tokens",
+    seoDescription:
+      "Learn how to authenticate requests to the Wahide REST API using Bearer tokens and API keys. Best practices for secure WhatsApp integration.",
+    keywords: [
+      "WhatsApp API Authentication",
+      "Bearer Token API",
+      "Wahide API Keys",
+      "WhatsApp API Security",
+    ],
+  },
+  errors: {
+    seoTitle: "API Status Codes & Rate Limits",
+    seoDescription:
+      "Complete reference for Wahide WhatsApp REST API HTTP status codes, JSON error schemas, troubleshooting solutions, and rate limit policies.",
+    keywords: [
+      "WhatsApp API Error Codes",
+      "WhatsApp Rate Limits",
+      "REST API HTTP Status Codes",
+      "WhatsApp Error Handling",
+    ],
+  },
+  "messaging/send-text": {
+    seoTitle: "Send WhatsApp Text Message API",
+    seoDescription:
+      "Dispatch instant WhatsApp text messages with typing indicators and multi-device rotation. Ready code examples in cURL, Node.js, PHP, Python, and Go.",
+    keywords: [
+      "Send WhatsApp Message API",
+      "WhatsApp Text Message REST API",
+      "Kirim Pesan WhatsApp API",
+      "WhatsApp cURL Node PHP",
+      "WhatsApp Anti Ban API",
+    ],
+  },
+  "messaging/send-round-robin": {
+    seoTitle: "Multi-Device WhatsApp Rotation API",
+    seoDescription:
+      "Distribute outbound WhatsApp messages across multiple active devices automatically. Eliminate single-number limits and prevent account restrictions.",
+    keywords: [
+      "WhatsApp Round Robin API",
+      "WhatsApp Multi Device Rotation",
+      "Load Balancing WhatsApp",
+      "High Volume WhatsApp API",
+    ],
+  },
+  "messaging/send-spintax": {
+    seoTitle: "Send Dynamic Spintax WhatsApp API",
+    seoDescription:
+      "Randomize message variations using nested Spintax tags to create unique message copies. Prevent automated WhatsApp spam heuristics.",
+    keywords: [
+      "WhatsApp Spintax API",
+      "Dynamic Message Variations",
+      "WhatsApp Anti Spam",
+      "Spintax Formatting WhatsApp",
+    ],
+  },
+  "messaging/send-media": {
+    seoTitle: "Send WhatsApp Media & PDF API",
+    seoDescription:
+      "Send images, PDF invoices, documents, audio, and video files to WhatsApp contacts via REST API with custom filenames and captions.",
+    keywords: [
+      "Send WhatsApp PDF API",
+      "Send WhatsApp Image API",
+      "WhatsApp Media REST API",
+      "Kirim Gambar WhatsApp API",
+    ],
+  },
+  "messaging/meta-cloud-api": {
+    seoTitle: "Meta WhatsApp Cloud API Endpoint",
+    seoDescription:
+      "Drop-in compatibility route for Meta WhatsApp Cloud API v18.0 SDKs. Connect your existing Meta applications to Wahide without rewriting schemas.",
+    keywords: [
+      "Meta Cloud API Compatible",
+      "WhatsApp Cloud API v18",
+      "Meta SDK WhatsApp Alternative",
+      "WhatsApp Cloud API Migration",
+    ],
+  },
+  "devices/list": {
+    seoTitle: "List Connected WhatsApp Devices",
+    seoDescription:
+      "Retrieve all WhatsApp device slots, live connection states, trust scores, and anti-ban warmup limits via Wahide REST API.",
+    keywords: [
+      "List WhatsApp Devices API",
+      "WhatsApp Device Status",
+      "WhatsApp Session Monitor",
+      "WhatsApp Multi-Device Pool",
+    ],
+  },
+  "devices/create": {
+    seoTitle: "Register WhatsApp Device Slot API",
+    seoDescription:
+      "Create and allocate a new WhatsApp device slot for your organization ready for QR code pairing and automated messaging.",
+    keywords: [
+      "Create WhatsApp Device API",
+      "Add WhatsApp Device Slot",
+      "WhatsApp Slot Registration",
+    ],
+  },
+  "devices/pair": {
+    seoTitle: "Pair WhatsApp Device via QR API",
+    seoDescription:
+      "Generate Base64 QR code streams for instant Multi-Device WhatsApp Web pairing directly from your backend application.",
+    keywords: [
+      "WhatsApp QR Code API",
+      "Pair WhatsApp Web API",
+      "Scan QR WhatsApp API",
+      "WhatsApp Session Connect",
+    ],
+  },
+  "devices/disconnect": {
+    seoTitle: "Disconnect WhatsApp Device Session",
+    seoDescription:
+      "Safely terminate an active WhatsApp session without losing historic message analytics or contact associations.",
+    keywords: [
+      "Disconnect WhatsApp API",
+      "Logout WhatsApp Session",
+      "Unlink WhatsApp Web",
+    ],
+  },
+  "devices/delete": {
+    seoTitle: "Delete WhatsApp Device Slot API",
+    seoDescription:
+      "Permanently delete a WhatsApp device slot from your tenant organization through the Wahide REST API.",
+    keywords: [
+      "Delete WhatsApp Device API",
+      "Remove WhatsApp Slot",
+    ],
+  },
+  "contacts/list": {
+    seoTitle: "List & Search WhatsApp Contacts API",
+    seoDescription:
+      "Search, filter, and paginate through your stored WhatsApp contact address book with tag-based queries and custom field attributes.",
+    keywords: [
+      "WhatsApp Contacts API",
+      "Search WhatsApp Contacts",
+      "WhatsApp Address Book REST",
+    ],
+  },
+  "contacts/create": {
+    seoTitle: "Create WhatsApp Contact API",
+    seoDescription:
+      "Add individual WhatsApp contact records with custom attributes and tags for broadcast personalization and CRM integration.",
+    keywords: [
+      "Create WhatsApp Contact API",
+      "Add Contact WhatsApp CRM",
+    ],
+  },
+  "contacts/bulk-import": {
+    seoTitle: "Bulk Import WhatsApp Contacts API",
+    seoDescription:
+      "Import up to 5,000 WhatsApp contacts in a single high-throughput batch operation with automatic validation and tag assignment.",
+    keywords: [
+      "Bulk Import WhatsApp Contacts",
+      "Import Kontak WhatsApp API",
+      "Mass Contact Upload WhatsApp",
+    ],
+  },
+  "contacts/bulk-delete": {
+    seoTitle: "Bulk Delete WhatsApp Contacts API",
+    seoDescription:
+      "Delete multiple WhatsApp contact records simultaneously by ID array for efficient contact database hygiene.",
+    keywords: [
+      "Bulk Delete WhatsApp Contacts",
+      "Hapus Kontak WhatsApp API",
+    ],
+  },
+  "contacts/tags": {
+    seoTitle: "Manage WhatsApp Contact Tags API",
+    seoDescription:
+      "Retrieve user tags and audience counts to segment WhatsApp contacts for targeted marketing and automated broadcast campaigns.",
+    keywords: [
+      "WhatsApp Contact Tags API",
+      "Tag Kontak WhatsApp",
+      "Audience Segmentation WhatsApp",
+    ],
+  },
+  "campaigns/list": {
+    seoTitle: "List WhatsApp Broadcast Campaigns",
+    seoDescription:
+      "Fetch broadcast campaigns, real-time message delivery progress, queue counts, and schedule states via Wahide REST API.",
+    keywords: [
+      "List WhatsApp Campaigns",
+      "WhatsApp Broadcast Status",
+      "Broadcast Monitor WhatsApp",
+    ],
+  },
+  "campaigns/create": {
+    seoTitle: "Create WhatsApp Broadcast Campaign",
+    seoDescription:
+      "Configure automated WhatsApp broadcast queues with rate limits, randomized jitter backoff, and targeted contact tags.",
+    keywords: [
+      "Create WhatsApp Broadcast API",
+      "Kirim Broadcast WhatsApp API",
+      "WhatsApp Blast API",
+    ],
+  },
+  "campaigns/start": {
+    seoTitle: "Start WhatsApp Broadcast Campaign",
+    seoDescription:
+      "Trigger the Redis Streams queue worker to initiate dispatching queued WhatsApp broadcast messages across active devices.",
+    keywords: [
+      "Start WhatsApp Campaign API",
+      "Dispatch WhatsApp Broadcast",
+    ],
+  },
+  "campaigns/pause": {
+    seoTitle: "Pause WhatsApp Broadcast Campaign",
+    seoDescription:
+      "Temporarily halt active WhatsApp broadcast message dispatching without losing current queue positions or campaign logs.",
+    keywords: [
+      "Pause WhatsApp Broadcast",
+      "Hentikan Sementara Broadcast",
+    ],
+  },
+  "campaigns/logs": {
+    seoTitle: "WhatsApp Campaign Delivery Logs API",
+    seoDescription:
+      "Inspect message-level delivery statuses (PENDING, SENT, DELIVERED, READ, FAILED), timestamps, and error codes for any broadcast campaign.",
+    keywords: [
+      "WhatsApp Campaign Logs API",
+      "Message Delivery Status Tracking",
+      "Laporan Pengiriman WhatsApp",
+    ],
+  },
+};
+
+/**
+ * Get highly optimized SEO metadata for a document item
+ */
+export function getDocSeoMetadata(
+  slug: string,
+  fallbackTitle: string,
+  fallbackDesc: string
+): DocSeoMetadata {
+  const custom = SEO_DIRECTORY[slug];
+  if (custom) {
+    return custom;
+  }
+
+  // Smart fallback adhering strictly to 45 chars title & 150 chars description
+  const cleanTitle = fallbackTitle.length > 40 ? `${fallbackTitle.slice(0, 37)}...` : fallbackTitle;
+  const cleanDesc =
+    fallbackDesc.length > 155
+      ? `${fallbackDesc.slice(0, 150).trim()}...`
+      : fallbackDesc;
+
+  return {
+    seoTitle: `${cleanTitle} API`,
+    seoDescription: cleanDesc,
+    keywords: ["WhatsApp API", "Wahide API Docs", "REST API"],
+  };
+}
+
+/**
+ * Generate Schema.org JSON-LD structured data for Google Rich Results
+ */
+export function generateDocJsonLd(doc: DocItem, baseUrl: string) {
+  const seo = getDocSeoMetadata(doc.slug, doc.title, doc.description);
+  const pageUrl = `${baseUrl}/docs/${doc.slug}`;
+
+  // 1. BreadcrumbList Schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: baseUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Docs",
+        item: `${baseUrl}/docs/intro`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: doc.category,
+        item: `${baseUrl}/docs/${doc.categorySlug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: doc.title,
+        item: pageUrl,
+      },
+    ],
+  };
+
+  // 2. TechArticle / APIReference Schema
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: `${seo.seoTitle} | Wahide API`,
+    description: seo.seoDescription,
+    url: pageUrl,
+    inLanguage: "en-US",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Wahide WhatsApp API Docs",
+      url: `${baseUrl}/docs`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Wahide",
+      url: baseUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/icon.png`,
+      },
+    },
+    about: {
+      "@type": "SoftwareApplication",
+      name: "Wahide WhatsApp REST API",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Cloud / All",
+    },
+  };
+
+  return [breadcrumbSchema, articleSchema];
+}

@@ -87,7 +87,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
       {doc.bannerNotice && (
         <div className="rounded-xl border border-border bg-muted/30 p-4 shadow-xs">
           <div className="flex items-start gap-3">
-            <Info className="size-4 text-wise-green shrink-0 mt-0.5" />
+            <Info className="size-4 text-emerald-600 dark:text-wise-green shrink-0 mt-0.5" />
             <div className="space-y-0.5">
               <h4 className="text-xs font-bold text-foreground">
                 {doc.bannerNotice.title}

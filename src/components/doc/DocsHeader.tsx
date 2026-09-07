@@ -100,7 +100,7 @@ export function DocsHeader({ onOpenMobileMenu }: DocsHeaderProps) {
 
             <Link
               href="/dashboard"
-              className="hidden sm:inline-flex items-center text-xs font-bold text-foreground hover:text-wise-green px-3 py-1.5 rounded-lg border border-border/80 hover:border-wise-green/50 transition-colors"
+              className="hidden sm:inline-flex items-center text-xs font-bold text-foreground hover:text-emerald-700 dark:hover:text-wise-green px-3 py-1.5 rounded-lg border border-border/80 hover:border-emerald-500/50 dark:hover:border-wise-green/50 transition-colors"
             >
               Dashboard
             </Link>

@@ -119,7 +119,7 @@ export function AddReservationForm({
 
     const cleanPhone = normalizePhoneNumber(phone);
     if (!isValidE164(cleanPhone)) {
-      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid");
+      toast.error(t("contact.errPhonePrefix"));
       return;
     }
 
@@ -145,11 +145,10 @@ export function AddReservationForm({
         <DialogHeader className="border-b border-border/70 p-4 sm:p-5 shrink-0 text-left">
           <DialogTitle className="flex items-center gap-2 text-base sm:text-lg font-bold">
             <CalendarIcon className="size-5 text-primary" />
-            <span>{t("reservation.addReservationTitle") || "Jadwalkan Reservasi Baru"}</span>
+            <span>{t("reservation.addReservationTitle")}</span>
           </DialogTitle>
           <DialogDescription className="text-xs text-foreground-muted">
-            {t("reservation.addReservationDesc") ||
-              "Daftarkan jadwal janji temu pelanggan. Sistem otomatis mengirim konfirmasi instan dan sinkronisasi pengingat WhatsApp."}
+            {t("reservation.addReservationDesc")}
           </DialogDescription>
         </DialogHeader>
 
@@ -159,7 +158,7 @@ export function AddReservationForm({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="res-customer-name" className="text-xs">
               <User className="size-3.5 text-foreground-muted" />
-              <span>{t("reservation.customerName") || "Nama Pelanggan / Pasien"}</span>
+              <span>{t("reservation.customerName")}</span>
               <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -176,7 +175,7 @@ export function AddReservationForm({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="res-phone" className="text-xs">
               <Phone className="size-3.5 text-foreground-muted" />
-              <span>{t("reservation.phone") || "Nomor WhatsApp"}</span>
+              <span>{t("reservation.phone")}</span>
               <span className="text-destructive">*</span>
             </Label>
             <Input
@@ -195,7 +194,7 @@ export function AddReservationForm({
               <div className="flex items-center justify-between">
                 <Label htmlFor="res-booking-date" className="text-xs">
                   <CalendarIcon className="size-3.5 text-foreground-muted" />
-                  <span>{t("reservation.bookingDate") || "Tanggal Kedatangan"}</span>
+                  <span>{t("reservation.bookingDate")}</span>
                   <span className="text-destructive">*</span>
                 </Label>
                 <span className="text-[10px] font-mono text-foreground-muted">
@@ -235,14 +234,14 @@ export function AddReservationForm({
                   }}
                   disabled={isSubmitting}
                   className="absolute right-1 size-7 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg cursor-pointer"
-                  title="Pilih Tanggal dari Kalender"
+                  title={t("reservation.pickCalendar")}
                 >
                   <CalendarIcon className="size-3.5" />
                 </Button>
               </div>
               {getDatePreview() && (
                 <div className="text-[11px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200/50 dark:border-blue-900/50 rounded-lg px-2.5 py-1 flex items-center gap-1.5 animate-in fade-in duration-200">
-                  <span>🗓️</span>
+                  <CalendarIcon className="size-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>{getDatePreview()}</span>
                 </div>
               )}
@@ -251,7 +250,7 @@ export function AddReservationForm({
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="res-booking-time" className="text-xs">
                 <Clock className="size-3.5 text-foreground-muted" />
-                <span>{t("reservation.bookingTime") || "Jam Kedatangan"}</span>
+                <span>{t("reservation.bookingTime")}</span>
               </Label>
               <Input
                 id="res-booking-time"
@@ -267,11 +266,11 @@ export function AddReservationForm({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="res-service" className="text-xs">
               <Tag className="size-3.5 text-foreground-muted" />
-              <span>{t("reservation.serviceName") || "Nama Layanan / Keperluan"}</span>
+              <span>{t("reservation.serviceName")}</span>
             </Label>
             <Input
               id="res-service"
-              placeholder="Contoh: Konsultasi Dokter Gigi / Potong Rambut"
+              placeholder={t("reservation.servicePlaceholder")}
               value={serviceName}
               onChange={(e) => setServiceName(e.target.value)}
               className="h-9 text-xs rounded-xl"
@@ -282,12 +281,12 @@ export function AddReservationForm({
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="res-notes" className="text-xs">
               <FileText className="size-3.5 text-foreground-muted" />
-              <span>{t("reservation.notes") || "Catatan Tambahan"}</span>
+              <span>{t("reservation.notes")}</span>
             </Label>
             <Textarea
               id="res-notes"
               rows={2}
-              placeholder="Catatan khusus atau permintaan pelanggan..."
+              placeholder={t("reservation.notesPlaceholder")}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="text-xs resize-none rounded-xl"
@@ -298,8 +297,7 @@ export function AddReservationForm({
           <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 flex items-start gap-2.5 text-foreground">
             <Info className="size-4 shrink-0 mt-0.5 text-primary" />
             <p className="text-[11px] leading-relaxed text-foreground-secondary">
-              {t("reservation.syncNote") ||
-                "Jadwal ini akan otomatis didaftarkan ke modul Pengingat (Reminder H-1 & Hari H) dan konfirmasi instan dikirim via WhatsApp."}
+              {t("reservation.syncNote")}
             </p>
           </div>
         </div>
@@ -313,7 +311,7 @@ export function AddReservationForm({
             disabled={isSubmitting}
             className="rounded-full cursor-pointer px-4"
           >
-            {t("common.cancel") || "Batal"}
+            {t("common.cancel")}
           </Button>
           <Button
             type="submit"
@@ -325,10 +323,10 @@ export function AddReservationForm({
             {isSubmitting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                <span>{t("common.saving") || "Menyimpan..."}</span>
+                <span>{t("common.saving")}</span>
               </>
             ) : (
-              <span>{t("reservation.saveReservation") || "Konfirmasi Jadwal"}</span>
+              <span>{t("reservation.saveReservation")}</span>
             )}
           </Button>
         </DialogFooter>

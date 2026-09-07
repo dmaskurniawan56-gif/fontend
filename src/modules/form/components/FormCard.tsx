@@ -27,23 +27,23 @@ interface FormCardProps {
   onViewSubmissions: (form: Form) => void;
 }
 
-const getTypeBadge = (type: FormType) => {
+const getTypeBadge = (type: FormType, t: (key: string) => string) => {
   switch (type) {
     case "RESERVATION":
       return {
-        label: "Reservasi",
+        label: t("form.typeReservation"),
         icon: <Calendar className="w-3 h-3 mr-1" />,
         variant: "success" as const,
       };
     case "LEAD":
       return {
-        label: "Lead Capture",
+        label: t("form.typeLead"),
         icon: <UserPlus className="w-3 h-3 mr-1" />,
         variant: "warning" as const,
       };
     default:
       return {
-        label: "Standard",
+        label: t("form.typeStandard"),
         icon: <FileText className="w-3 h-3 mr-1" />,
         variant: "info" as const,
       };
@@ -57,7 +57,7 @@ export function FormCard({
   onViewSubmissions,
 }: FormCardProps) {
   const { t } = useI18n();
-  const typeBadge = getTypeBadge(form.type);
+  const typeBadge = getTypeBadge(form.type, t);
 
   return (
     <Card className="flex flex-col justify-between p-5 hover:shadow-md transition-shadow duration-200">
@@ -74,7 +74,7 @@ export function FormCard({
             className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/30 gap-1 px-2 py-0.5"
           >
             <Lock className="size-3" />
-            <span>Privat Internal</span>
+            <span>{t("form.preview.officialBadge")}</span>
           </Badge>
         </div>
 
@@ -83,7 +83,7 @@ export function FormCard({
           {form.title}
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-8 mb-3">
-          {form.description || (t("form.noDescription") || "Tidak ada deskripsi.")}
+          {form.description || t("form.noDescription")}
         </p>
 
         {/* Identifier Internal Box */}
@@ -94,7 +94,7 @@ export function FormCard({
           </div>
           <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Akses Terproteksi</span>
+            <span>{t("form.protectedAccess")}</span>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export function FormCard({
           <div>
             <div className="flex items-center justify-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 mb-0.5">
               <FileCheck2 className="w-3 h-3 text-primary" />
-              <span>Total Respons</span>
+              <span>{t("form.stats.totalSubmissions")}</span>
             </div>
             <span className="font-bold text-primary text-sm">
               {form.submissionCount.toLocaleString()}
@@ -113,10 +113,10 @@ export function FormCard({
           <div>
             <div className="flex items-center justify-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 mb-0.5">
               <FileSpreadsheet className="w-3 h-3 text-slate-500" />
-              <span>Pertanyaan</span>
+              <span>{t("form.cardQuestions")}</span>
             </div>
             <span className="font-bold text-slate-800 dark:text-slate-100 text-sm">
-              {form.fields?.length || 0} Bidang
+              {form.fields?.length || 0} {t("form.cardFields")}
             </span>
           </div>
         </div>
@@ -134,7 +134,7 @@ export function FormCard({
             onClick={() => onViewSubmissions(form)}
           >
             <Inbox className="h-3.5 w-3.5 mr-1.5 shrink-0" />
-            <span className="truncate">{t("form.viewSubmissions") || "Lihat Respons"}</span>
+            <span className="truncate">{t("form.viewSubmissions")}</span>
             {form.submissionCount > 0 && (
               <Badge variant="outline" className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary shrink-0">
                 {form.submissionCount}
@@ -148,7 +148,7 @@ export function FormCard({
             size="icon"
             className="h-8 w-8 shrink-0 text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 cursor-pointer"
             onClick={() => onEdit(form)}
-            title={t("common.edit") || "Edit"}
+            title={t("common.edit")}
           >
             <Pencil className="h-3.5 w-3.5" />
           </Button>
@@ -159,7 +159,7 @@ export function FormCard({
             size="icon"
             className="h-8 w-8 shrink-0 text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 cursor-pointer"
             onClick={() => onDelete(form)}
-            title={t("common.delete") || "Hapus"}
+            title={t("common.delete")}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>

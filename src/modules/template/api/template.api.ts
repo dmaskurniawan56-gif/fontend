@@ -12,7 +12,7 @@ import {
   ListTemplatesQuery,
 } from "../types/template.types";
 
-const TEMPLATE_BASE = env.NEXT_PUBLIC_API_BASE_URL;
+const TEMPLATE_BASE = env.NEXT_PUBLIC_TEMPLATE_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendTemplate = (t: any): Template => {

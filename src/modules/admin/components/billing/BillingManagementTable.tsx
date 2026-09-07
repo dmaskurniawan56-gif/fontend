@@ -237,11 +237,11 @@ export function BillingManagementTable() {
               wrapperClassName="flex-1 sm:flex-initial"
             >
               <option value="ALL">{t("admin.devices.filterAll")}</option>
-              <option value="PAID">🟢 {t("admin.billing.statusPaid")}</option>
-              <option value="PENDING">🟡 {t("admin.billing.statusPending")}</option>
-              <option value="PROCESSING">🔵 {t("admin.billing.statusProcessing")}</option>
-              <option value="EXPIRED">⚪ {t("admin.billing.statusExpired")}</option>
-              <option value="CANCELLED">🔴 {t("admin.billing.statusCancelled")}</option>
+              <option value="PAID">{t("admin.billing.statusPaid")}</option>
+              <option value="PENDING">{t("admin.billing.statusPending")}</option>
+              <option value="PROCESSING">{t("admin.billing.statusProcessing")}</option>
+              <option value="EXPIRED">{t("admin.billing.statusExpired")}</option>
+              <option value="CANCELLED">{t("admin.billing.statusCancelled")}</option>
             </NativeSelect>
 
             {/* Refresh Button */}

@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { Code2, Copy, Check, ExternalLink, Workflow } from "lucide-react";
+import { Code2, Copy, Check, ArrowRight, Workflow } from "lucide-react";
 import { useClipboard } from "@/hooks/useClipboard";
 
 type LangType = "curl" | "nodejs" | "go" | "php" | "python";
 
-const POSTMAN_DOCS_URL = "https://documenter.getpostman.com/view/26294023/2sBYAuSqz3";
+const DOCS_URL = "/docs/intro";
 
 export function ApiCodeSandbox() {
   const { t } = useI18n();
@@ -131,10 +132,13 @@ print(response.json())`,
       {/* Header */}
       <div className="border-border flex flex-col justify-between gap-4 border-b pb-6 md:flex-row md:items-end">
         <div className="max-w-xl space-y-2">
-          <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
+          <Link
+            href={DOCS_URL}
+            className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold hover:bg-wise-green/30 transition-colors"
+          >
             <Code2 className="size-3.5" />
             <span>{t("common.landing.apiSandbox.badge")}</span>
-          </div>
+          </Link>
           <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl">
             {t("common.landing.apiSandbox.title")}
           </h2>
@@ -143,18 +147,16 @@ print(response.json())`,
           </p>
         </div>
 
-        <a
-          href={POSTMAN_DOCS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href={DOCS_URL}
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
             "border-border hover:border-foreground-muted min-h-9 shrink-0 gap-1.5 rounded-full text-xs font-bold"
           )}
         >
           <span>{t("common.landing.apiSandbox.docsBtn")}</span>
-          <ExternalLink className="size-3.5" />
-        </a>
+          <ArrowRight className="size-3.5" />
+        </Link>
       </div>
 
       {/* Code Container */}

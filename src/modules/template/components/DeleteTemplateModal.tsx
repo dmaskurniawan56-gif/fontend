@@ -12,6 +12,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/context";
 
 interface DeleteTemplateModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export function DeleteTemplateModal({
   onConfirm,
   templateName,
 }: DeleteTemplateModalProps) {
+  const { t } = useI18n();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleConfirm = async (e: React.MouseEvent) => {
@@ -48,9 +50,9 @@ export function DeleteTemplateModal({
             </div>
             <div>
               <AlertDialogTitle className="text-base font-bold text-foreground">
-                Hapus Template Pesan
+                {t("template.deleteTemplate")}
               </AlertDialogTitle>
-              <p className="text-xs text-foreground-muted">Tindakan ini bersifat permanen</p>
+              <p className="text-xs text-foreground-muted">{t("template.deleteIrreversible")}</p>
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
@@ -67,7 +69,7 @@ export function DeleteTemplateModal({
             size="sm"
             className="rounded-xl cursor-pointer"
           >
-            Batal
+            {t("cancel")}
           </AlertDialogCancel>
           <Button
             type="button"
@@ -80,12 +82,12 @@ export function DeleteTemplateModal({
             {isDeleting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                Menghapus...
+                {t("deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="size-3.5" />
-                Ya, Hapus
+                {t("delete")}
               </>
             )}
           </Button>

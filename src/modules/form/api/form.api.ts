@@ -18,7 +18,7 @@ import {
   SubmissionStatus,
 } from "../types/form.types";
 
-const API_BASE = env.NEXT_PUBLIC_API_BASE_URL;
+const FORM_BASE = env.NEXT_PUBLIC_FORM_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendForm = (f: any): Form => {
@@ -117,7 +117,7 @@ export const formApi = {
     if (params?.isActive !== undefined) query.set("is_active", params.isActive ? "true" : "false");
 
     const qs = query.toString();
-    const endpoint = `${API_BASE}/forms${qs ? `?${qs}` : ""}`;
+    const endpoint = `${FORM_BASE}/forms${qs ? `?${qs}` : ""}`;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
@@ -139,7 +139,7 @@ export const formApi = {
   // Seller: Get Form by ID
   getForm: async (id: string): Promise<Form> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${API_BASE}/forms/${id}`);
+    const res = await httpClient.get<any>(`${FORM_BASE}/forms/${id}`);
     return mapBackendForm(res.payload || res);
   },
 
@@ -165,7 +165,7 @@ export const formApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${API_BASE}/forms`, payload);
+    const res = await httpClient.post<any>(`${FORM_BASE}/forms`, payload);
     return mapBackendForm(res.payload || res);
   },
 
@@ -192,19 +192,19 @@ export const formApi = {
     if (input.isActive !== undefined) payload.is_active = input.isActive;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${API_BASE}/forms/${id}`, payload);
+    const res = await httpClient.put<any>(`${FORM_BASE}/forms/${id}`, payload);
     return mapBackendForm(res.payload || res);
   },
 
   // Seller: Delete Form
   deleteForm: async (id: string): Promise<void> => {
-    await httpClient.delete(`${API_BASE}/forms/${id}`);
+    await httpClient.delete(`${FORM_BASE}/forms/${id}`);
   },
 
   // Public: Get Form Schema by Slug
   getPublicForm: async (slug: string): Promise<PublicForm> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${API_BASE}/forms/public/${encodeURIComponent(slug)}`);
+    const res = await httpClient.get<any>(`${FORM_BASE}/forms/public/${encodeURIComponent(slug)}`);
     const p = res.payload || res;
     const rawFields = Array.isArray(p.fields) ? p.fields : [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -240,7 +240,7 @@ export const formApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${API_BASE}/forms/public/${encodeURIComponent(slug)}/submit`, payload);
+    const res = await httpClient.post<any>(`${FORM_BASE}/forms/public/${encodeURIComponent(slug)}/submit`, payload);
     return mapBackendSubmission(res.payload || res);
   },
 
@@ -253,7 +253,7 @@ export const formApi = {
     if (params?.status && params.status !== "ALL") query.set("status", params.status);
 
     const qs = query.toString();
-    const endpoint = `${API_BASE}/forms/${formId}/submissions${qs ? `?${qs}` : ""}`;
+    const endpoint = `${FORM_BASE}/forms/${formId}/submissions${qs ? `?${qs}` : ""}`;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
@@ -275,12 +275,12 @@ export const formApi = {
   // Seller: Update Submission Status
   updateSubmissionStatus: async (id: string, status: SubmissionStatus): Promise<FormSubmission> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.patch<any>(`${API_BASE}/forms/submissions/${id}/status`, { status });
+    const res = await httpClient.patch<any>(`${FORM_BASE}/forms/submissions/${id}/status`, { status });
     return mapBackendSubmission(res.payload || res);
   },
 
   // Seller: Delete Submission
   deleteSubmission: async (id: string): Promise<void> => {
-    await httpClient.delete(`${API_BASE}/forms/submissions/${id}`);
+    await httpClient.delete(`${FORM_BASE}/forms/submissions/${id}`);
   },
 };

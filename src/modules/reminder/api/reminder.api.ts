@@ -17,7 +17,7 @@ import {
   DispatchResult,
 } from "../types/reminder.types";
 
-const REMINDER_BASE = env.NEXT_PUBLIC_API_BASE_URL;
+const REMINDER_BASE = env.NEXT_PUBLIC_REMINDER_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendReminder = (r: any): Reminder => {

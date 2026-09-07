@@ -35,7 +35,7 @@
   "deleteModalTitle": "Delete Team Member",
   "deleteModalSubtitle": "Confirm removal of agent staff access.",
   "deleteConfirmDesc": "Are you sure you want to permanently remove this team member's access from your account?",
-  "deleteWarning": "⚠️ This action cannot be undone. The staff member will no longer be able to manage customer chats or reply to messages.",
+  "deleteWarning": "This action cannot be undone. The staff member will no longer be able to manage customer chats or reply to messages.",
   "confirmDeleteBtn": "Yes, Remove Member",
   "deletingBtn": "Removing..."
 }

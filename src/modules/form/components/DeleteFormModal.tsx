@@ -53,16 +53,15 @@ export function DeleteFormModal({
             </div>
             <div>
               <AlertDialogTitle className="text-base font-bold text-foreground">
-                {t("form.deleteTitle") || "Hapus Formulir"}
+                {t("form.deleteTitle")}
               </AlertDialogTitle>
               <p className="text-xs text-foreground-muted">
-                {t("form.deleteIrreversible") || "Tindakan ini tidak dapat dibatalkan"}
+                {t("form.deleteIrreversible")}
               </p>
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
-            {t("form.deleteConfirmPrompt") ||
-              "Apakah Anda yakin ingin menghapus formulir"}{" "}
+            {t("form.deleteConfirmPrompt")}{" "}
             <strong className="font-semibold text-foreground">
               &ldquo;{form.title}&rdquo;
             </strong>{" "}
@@ -70,8 +69,7 @@ export function DeleteFormModal({
             <br />
             <br />
             <span className="text-destructive font-medium">
-              {t("form.deleteWarning") ||
-                "Perhatian: Data respons formulir yang tersimpan akan ikut terhapus secara permanen."}
+              {t("form.deleteWarning")}
             </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -83,7 +81,7 @@ export function DeleteFormModal({
             size="sm"
             className="rounded-xl cursor-pointer"
           >
-            {t("common.cancel") || "Batal"}
+            {t("common.cancel")}
           </AlertDialogCancel>
           <Button
             type="button"
@@ -96,12 +94,12 @@ export function DeleteFormModal({
             {isDeleting ? (
               <>
                 <Loader2 className="size-3.5 animate-spin" />
-                {t("common.deleting") || "Menghapus..."}
+                {t("common.deleting")}
               </>
             ) : (
               <>
                 <Trash2 className="size-3.5" />
-                {t("common.delete") || "Hapus Formulir"}
+                {t("common.delete")}
               </>
             )}
           </Button>

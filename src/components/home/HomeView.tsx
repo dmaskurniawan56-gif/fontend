@@ -31,7 +31,8 @@ import {
   Check,
   CreditCard,
   QrCode,
-  Sparkles,
+  Workflow,
+  Sliders,
 } from "lucide-react";
 
 export function HomeView() {
@@ -140,7 +141,7 @@ export function HomeView() {
       <section id="features" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
-            <Sparkles className="size-3.5" />
+            <Workflow className="size-3.5" />
             <span>{t("common.landing.howItWorks.badge")}</span>
           </div>
           <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl">
@@ -166,7 +167,7 @@ export function HomeView() {
 
           <div className="border-border bg-surface flex flex-col justify-between space-y-3.5 rounded-2xl border p-6 shadow-xs transition hover:border-border/90">
             <div className="bg-wise-green/15 text-dark-green dark:text-wise-green flex size-11 items-center justify-center rounded-xl">
-              <Sparkles className="size-5" />
+              <Sliders className="size-5" />
             </div>
             <div>
               <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step2Title")}</h3>

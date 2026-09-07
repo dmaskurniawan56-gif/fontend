@@ -44,5 +44,11 @@
   "statusUpdateFailed": "Gagal memperbarui status reservasi",
   "deletedSuccess": "Jadwal reservasi berhasil dihapus",
   "deleteFailed": "Gagal menghapus reservasi",
-  "fetchFailed": "Gagal memuat data reservasi"
+  "fetchFailed": "Gagal memuat data reservasi",
+  "pickCalendar": "Pilih Tanggal dari Kalender",
+  "notesPlaceholder": "Catatan khusus atau permintaan pelanggan...",
+  "thisMonth": "Bulan Ini",
+  "servicePlaceholder": "Contoh: Konsultasi Dokter Gigi / Potong Rambut",
+  "prevMonth": "Bulan Sebelumnya",
+  "nextMonth": "Bulan Berikutnya"
 }

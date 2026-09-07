@@ -187,11 +187,11 @@ export function DevicesManagementTable({
               variant="pill"
             >
               <option value="ALL">{t("admin.devices.filterAll")}</option>
-              <option value="ONLINE">🟢 {t("admin.devices.statusOnline")}</option>
-              <option value="OFFLINE">⚪ {t("admin.devices.statusOffline")}</option>
-              <option value="QR_PENDING">🟡 {t("admin.devices.statusQrPending")}</option>
-              <option value="HIBERNATED">🔵 {t("admin.devices.statusHibernated")}</option>
-              <option value="BANNED">🔴 {t("admin.devices.statusBanned")}</option>
+              <option value="ONLINE">{t("admin.devices.statusOnline")}</option>
+              <option value="OFFLINE">{t("admin.devices.statusOffline")}</option>
+              <option value="QR_PENDING">{t("admin.devices.statusQrPending")}</option>
+              <option value="HIBERNATED">{t("admin.devices.statusHibernated")}</option>
+              <option value="BANNED">{t("admin.devices.statusBanned")}</option>
             </NativeSelect>
 
             <Button

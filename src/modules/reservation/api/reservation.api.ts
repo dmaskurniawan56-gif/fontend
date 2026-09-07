@@ -14,7 +14,7 @@ import {
   ReservationStatus,
 } from "../types/reservation.types";
 
-const RESERVATION_BASE = env.NEXT_PUBLIC_API_BASE_URL;
+const RESERVATION_BASE = env.NEXT_PUBLIC_RESERVATION_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendReservation = (r: any): Reservation => {

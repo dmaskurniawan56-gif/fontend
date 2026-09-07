@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Plus,
   Trash2,
@@ -10,8 +10,8 @@ import {
   FileText,
   Smartphone,
   Layers,
-  Sparkles,
   Lock,
+  RefreshCw,
 } from "lucide-react";
 import {
   Dialog,
@@ -56,17 +56,6 @@ interface FormBuilderModalProps {
   onSubmitUpdate: (id: string, input: UpdateFormInput) => Promise<Form | null>;
 }
 
-const FIELD_TYPES: { value: FormFieldType; label: string }[] = [
-  { value: "text", label: "Teks Pendek (Text)" },
-  { value: "textarea", label: "Teks Panjang (Textarea)" },
-  { value: "number", label: "Angka (Number)" },
-  { value: "email", label: "Alamat Email" },
-  { value: "phone", label: "Nomor Telepon Tambahan" },
-  { value: "date", label: "Tanggal (Date Picker)" },
-  { value: "time", label: "Jam (Time Picker)" },
-  { value: "select", label: "Pilihan Dropdown (Select)" },
-];
-
 export function FormBuilderModal({
   form,
   isOpen,
@@ -76,6 +65,20 @@ export function FormBuilderModal({
 }: FormBuilderModalProps) {
   const { t } = useI18n();
   const isEdit = Boolean(form);
+
+  const fieldTypes: { value: FormFieldType; label: string }[] = useMemo(
+    () => [
+      { value: "text", label: t("form.fieldTypeText") },
+      { value: "textarea", label: t("form.fieldTypeTextarea") },
+      { value: "number", label: t("form.fieldTypeNumber") },
+      { value: "email", label: t("form.fieldTypeEmail") },
+      { value: "phone", label: t("form.fieldTypePhone") },
+      { value: "date", label: t("form.fieldTypeDate") },
+      { value: "time", label: t("form.fieldTypeTime") },
+      { value: "select", label: t("form.fieldTypeSelect") },
+    ],
+    [t]
+  );
 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -105,17 +108,17 @@ export function FormBuilderModal({
       setFields([
         {
           id: "f_notes",
-          label: "Pesan / Catatan Tambahan",
+          label: t("form.defaultFields.complaintNotes"),
           name: "notes",
           fieldType: "textarea",
           required: false,
-          placeholder: "Tuliskan catatan Anda di sini...",
+          placeholder: t("form.defaultFields.notesPlaceholder"),
         },
       ]);
-      setSuccessMessage("Terima kasih! Formulir Anda telah berhasil kami terima.");
+      setSuccessMessage(t("form.defaultFields.successPlaceholder"));
       setRedirectUrl("");
     }
-  }, [form, isOpen]);
+  }, [form, isOpen, t]);
 
   // Generate slug automatically when creating new form
   const handleTitleChange = (val: string) => {
@@ -134,7 +137,7 @@ export function FormBuilderModal({
     const newId = "f_" + Date.now().toString(36);
     const newField: FormField = {
       id: newId,
-      label: `Pertanyaan Baru`,
+      label: t("form.newQuestion"),
       name: `field_${fields.length + 1}`,
       fieldType: "text",
       required: false,
@@ -163,19 +166,19 @@ export function FormBuilderModal({
   // Quick preset templates
   const applyReservationPreset = () => {
     setType("RESERVATION");
-    if (!title) setTitle("Booking Janji Temu");
+    if (!title) setTitle(t("form.presetReservationTitle"));
     if (!slug && !isEdit) setSlug("booking-jadwal");
     setFields([
       {
         id: "f_date",
-        label: "Tanggal Booking",
+        label: t("form.defaultFields.bookingDate"),
         name: "booking_date",
         fieldType: "date",
         required: true,
       },
       {
         id: "f_time",
-        label: "Jam Booking",
+        label: t("form.presetBookingTime"),
         name: "booking_time",
         fieldType: "time",
         required: false,
@@ -183,7 +186,7 @@ export function FormBuilderModal({
       },
       {
         id: "f_service",
-        label: "Pilihan Layanan / Jasa",
+        label: t("form.presetService"),
         name: "service",
         fieldType: "select",
         required: true,
@@ -191,23 +194,23 @@ export function FormBuilderModal({
       },
       {
         id: "f_notes",
-        label: "Catatan atau Keluhan",
+        label: t("form.defaultFields.complaintNotes"),
         name: "notes",
         fieldType: "textarea",
         required: false,
-        placeholder: "Tulis catatan tambahan Anda...",
+        placeholder: t("form.defaultFields.notesPlaceholder"),
       },
     ]);
   };
 
   const applyLeadPreset = () => {
     setType("LEAD");
-    if (!title) setTitle("Daftar Informasi & Penawaran");
+    if (!title) setTitle(t("form.presetLeadTitle"));
     if (!slug && !isEdit) setSlug("daftar-penawaran");
     setFields([
       {
         id: "f_email",
-        label: "Alamat Email",
+        label: t("form.presetEmail"),
         name: "email",
         fieldType: "email",
         required: true,
@@ -215,7 +218,7 @@ export function FormBuilderModal({
       },
       {
         id: "f_company",
-        label: "Nama Perusahaan / Usaha",
+        label: t("form.presetCompany"),
         name: "company",
         fieldType: "text",
         required: false,
@@ -223,11 +226,11 @@ export function FormBuilderModal({
       },
       {
         id: "f_needs",
-        label: "Kebutuhan Anda",
+        label: t("form.presetNeeds"),
         name: "needs",
         fieldType: "textarea",
         required: false,
-        placeholder: "Ceritakan kebutuhan atau produk yang dicari...",
+        placeholder: t("form.presetNeedsPlaceholder"),
       },
     ]);
   };
@@ -280,11 +283,11 @@ export function FormBuilderModal({
               <div>
                 <DialogTitle className="text-base font-bold text-foreground sm:text-lg">
                   {isEdit
-                    ? (t("form.editTitle") || "Edit Formulir")
-                    : (t("form.createTitle") || "Buat Formulir Baru")}
+                    ? t("form.editTitle")
+                    : t("form.createTitle")}
                 </DialogTitle>
                 <p className="text-xs text-foreground-muted">
-                  {t("form.viewSubtitle") || "Landing page formulir publik untuk reservasi dan penangkapan leads WhatsApp."}
+                  {t("form.viewSubtitle")}
                 </p>
               </div>
             </div>
@@ -295,11 +298,11 @@ export function FormBuilderModal({
                 <TabsList className="h-8 p-0.5 bg-muted rounded-lg border border-border/60">
                   <TabsTrigger value="form" className="text-xs gap-1 px-2.5 py-1">
                     <Layers className="size-3.5" />
-                    <span>Form</span>
+                    <span>{t("form.preview.tabForm")}</span>
                   </TabsTrigger>
                   <TabsTrigger value="preview" className="text-xs gap-1 px-2.5 py-1">
                     <Smartphone className="size-3.5" />
-                    <span>Pratinjau</span>
+                    <span>{t("form.tabPreview")}</span>
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -319,7 +322,7 @@ export function FormBuilderModal({
             {!isEdit && (
               <div className="flex flex-wrap items-center gap-2 p-3.5 rounded-2xl bg-muted/30 border border-border/70">
                 <span className="text-xs font-semibold text-foreground-muted">
-                  Preset Cepat:
+                  {t("form.quickPresets")}
                 </span>
                 <Button
                   type="button"
@@ -329,7 +332,7 @@ export function FormBuilderModal({
                   onClick={applyReservationPreset}
                 >
                   <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                  Form Reservasi
+                  {t("form.presetReservation")}
                 </Button>
                 <Button
                   type="button"
@@ -339,7 +342,7 @@ export function FormBuilderModal({
                   onClick={applyLeadPreset}
                 >
                   <UserPlus className="w-3.5 h-3.5 text-amber-600" />
-                  Form Lead & Kontak
+                  {t("form.presetLead")}
                 </Button>
               </div>
             )}
@@ -348,11 +351,11 @@ export function FormBuilderModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="form-title" className="text-xs font-medium">
-                  {t("form.fieldTitle") || "Judul Formulir"} *
+                  {t("form.fieldTitle")} *
                 </Label>
                 <Input
                   id="form-title"
-                  placeholder="Contoh: Pendaftaran Workshop Bisnis"
+                  placeholder={t("form.titlePlaceholder")}
                   value={title}
                   onChange={(e) => handleTitleChange(e.target.value)}
                   required
@@ -362,7 +365,7 @@ export function FormBuilderModal({
 
               <div className="space-y-1.5">
                 <Label htmlFor="form-slug" className="text-xs font-medium">
-                  {t("form.fieldSlug") || "Identifier Kode Internal"} *
+                  {t("form.fieldSlug")} *
                 </Label>
                 <div className="flex items-center rounded-xl border border-border/70 px-3 bg-muted/40">
                   <span className="text-xs text-foreground-muted select-none font-mono">internal/</span>
@@ -384,7 +387,7 @@ export function FormBuilderModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
               <div className="space-y-1.5">
                 <Label htmlFor="form-type" className="text-xs font-medium">
-                  {t("form.fieldType") || "Tipe / Tujuan Formulir"}
+                  {t("form.fieldType")}
                 </Label>
                 <NativeSelect
                   id="form-type"
@@ -395,13 +398,13 @@ export function FormBuilderModal({
                   className="text-sm h-9"
                 >
                   <NativeSelectOption value="STANDARD">
-                    Standard (Formulir Umum)
+                    {t("form.typeStandardFull")}
                   </NativeSelectOption>
                   <NativeSelectOption value="RESERVATION">
-                    Reservasi (Otomatis Masuk Kalender Reservasi)
+                    {t("form.typeReservationFull")}
                   </NativeSelectOption>
                   <NativeSelectOption value="LEAD">
-                    Lead Capture (Otomatis Simpan Buku Kontak)
+                    {t("form.typeLeadFull")}
                   </NativeSelectOption>
                 </NativeSelect>
               </div>
@@ -412,13 +415,13 @@ export function FormBuilderModal({
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-                    <span>Akses: Privat Internal</span>
+                    <span>{t("form.accessPrivateInternal")}</span>
                     <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400">
-                      Wajib Privat
+                      {t("form.mustBePrivate")}
                     </span>
                   </div>
                   <div className="text-[11px] text-foreground-muted">
-                    Hanya dapat dikelola di dashboard internal. Akses publik luar dinonaktifkan.
+                    {t("form.privateNotice")}
                   </div>
                 </div>
               </div>
@@ -427,11 +430,11 @@ export function FormBuilderModal({
             {/* Description */}
             <div className="space-y-1.5">
               <Label htmlFor="form-desc" className="text-xs font-medium">
-                {t("form.fieldDescription") || "Deskripsi Singkat (Opsional)"}
+                {t("form.fieldDescription")}
               </Label>
               <Textarea
                 id="form-desc"
-                placeholder="Penjelasan ringkas tentang formulir ini..."
+                placeholder={t("form.descPlaceholder")}
                 rows={2}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -446,10 +449,10 @@ export function FormBuilderModal({
                 <div>
                   <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                     <FileText className="w-4 h-4 text-primary" />
-                    {t("form.fieldBuilderTitle") || "Pertanyaan Formulir"}
+                    {t("form.fieldBuilderTitle")}
                   </h4>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Nama dan Nomor WhatsApp responden selalu otomatis dikumpulkan oleh sistem.
+                    {t("form.systemAutoFieldsNotice")}
                   </p>
                 </div>
                 <Button
@@ -460,7 +463,7 @@ export function FormBuilderModal({
                   className="text-xs gap-1.5"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  Tambah Pertanyaan
+                  {t("form.addQuestion")}
                 </Button>
               </div>
 
@@ -489,20 +492,20 @@ export function FormBuilderModal({
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <div className="sm:col-span-2 space-y-1">
                         <Label htmlFor={`f-label-${idx}`} className="text-[11px] font-medium">
-                          Label Pertanyaan
+                          {t("form.questionLabel")}
                         </Label>
                         <Input
                           id={`f-label-${idx}`}
                           value={f.label}
                           onChange={(e) => handleUpdateField(idx, "label", e.target.value)}
-                          placeholder="Contoh: Pilih Lokasi"
+                          placeholder={t("form.defaultFields.locationPlaceholder")}
                           className="text-xs h-8"
                           required
                         />
                       </div>
                       <div className="space-y-1">
                         <Label htmlFor={`f-type-${idx}`} className="text-[11px] font-medium">
-                          Tipe Input
+                          {t("form.inputType")}
                         </Label>
                         <NativeSelect
                           id={`f-type-${idx}`}
@@ -512,7 +515,7 @@ export function FormBuilderModal({
                           }
                           className="text-xs h-8"
                         >
-                          {FIELD_TYPES.map((ft) => (
+                          {fieldTypes.map((ft) => (
                             <NativeSelectOption key={ft.value} value={ft.value}>
                               {ft.label}
                             </NativeSelectOption>
@@ -525,7 +528,7 @@ export function FormBuilderModal({
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
                       <div className="sm:col-span-2 space-y-1">
                         <Label htmlFor={`f-name-${idx}`} className="text-[11px] font-medium flex items-center gap-1">
-                          Kunci Data (Field Name)
+                          {t("form.fieldName")}
                           <Tooltip>
                             <TooltipTrigger
                               render={<span className="cursor-help inline-flex items-center" />}
@@ -533,7 +536,7 @@ export function FormBuilderModal({
                               <HelpCircle className="w-3 h-3 text-slate-400" />
                             </TooltipTrigger>
                             <TooltipContent>
-                              Kunci data dipakai untuk otomatisasi kalender / integrasi webhook
+                              {t("form.fieldNameTooltip")}
                             </TooltipContent>
                           </Tooltip>
                         </Label>
@@ -559,7 +562,7 @@ export function FormBuilderModal({
                           id={`req-${idx}`}
                         />
                         <Label htmlFor={`req-${idx}`} className="text-xs font-medium cursor-pointer">
-                          Wajib Diisi
+                          {t("form.requiredField")}
                         </Label>
                       </div>
                     </div>
@@ -568,7 +571,7 @@ export function FormBuilderModal({
                     {f.fieldType === "select" && (
                       <div className="space-y-1 pt-1">
                         <Label htmlFor={`f-opts-${idx}`} className="text-[11px] font-medium">
-                          Pilihan Dropdown (Pisahkan dengan koma)
+                          {t("form.selectOptionsLabel")}
                         </Label>
                         <Input
                           id={`f-opts-${idx}`}
@@ -580,7 +583,7 @@ export function FormBuilderModal({
                               e.target.value.split(",").map((s) => s.trim())
                             )
                           }
-                          placeholder="Pilihan A, Pilihan B, Pilihan C"
+                          placeholder={t("form.selectOptionsPlaceholder")}
                           className="text-xs h-8"
                         />
                       </div>
@@ -596,20 +599,20 @@ export function FormBuilderModal({
               <div className="space-y-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="success-msg" className="text-xs font-medium">
-                    {t("form.fieldSuccessMsg") || "Pesan Sukses Setelah Kirim"}
+                    {t("form.fieldSuccessMsg")}
                   </Label>
                   <Input
                     id="success-msg"
                     value={successMessage}
                     onChange={(e) => setSuccessMessage(e.target.value)}
-                    placeholder="Terima kasih, data Anda telah berhasil terkirim!"
+                    placeholder={t("form.defaultFields.successPlaceholder")}
                     className="text-sm"
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <Label htmlFor="redirect-url" className="text-xs font-medium">
-                    {t("form.fieldRedirectUrl") || "URL Pengalihan / Redirect (Opsional)"}
+                    {t("form.fieldRedirectUrl")}
                   </Label>
                   <Input
                     id="redirect-url"
@@ -644,8 +647,8 @@ export function FormBuilderModal({
 
           <DialogFooter className="border-border/70 bg-muted/20 flex shrink-0 items-center justify-between border-t p-4 sm:px-6">
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-foreground-muted">
-              <Sparkles className="size-3.5 text-primary" />
-              <span>{t("form.preview.liveSyncHint") || "Pratinjau otomatis tersinkronisasi secara real-time"}</span>
+              <RefreshCw className="size-3.5 text-foreground-muted" />
+              <span>{t("form.preview.liveSyncHint")}</span>
             </div>
             <div className="flex items-center gap-2 ml-auto">
               <Button
@@ -656,7 +659,7 @@ export function FormBuilderModal({
                 disabled={isSubmitting}
                 className="h-9 rounded-xl border-border/70 px-4 text-xs cursor-pointer"
               >
-                {t("common.cancel") || "Batal"}
+                {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
@@ -666,10 +669,10 @@ export function FormBuilderModal({
                 className="h-9 px-5 text-xs font-bold shadow-xs cursor-pointer"
               >
                 {isSubmitting
-                  ? (t("common.saving") || "Menyimpan...")
+                  ? t("common.saving")
                   : isEdit
-                  ? (t("form.saveChanges") || "Simpan Perubahan")
-                  : (t("form.createSubmit") || "Buat Formulir")}
+                  ? t("form.saveChanges")
+                  : t("form.createSubmit")}
               </Button>
             </div>
           </DialogFooter>

@@ -7,7 +7,7 @@ import {
 } from "@/modules/subscription/types/subscription.types";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
-import { Check, Sparkles, Loader2, ArrowUpRight, Lock, Calendar } from "lucide-react";
+import { Check, Sparkles, Loader2, ArrowUpRight, Lock, Calendar, Info } from "lucide-react";
 import { ConfirmUpgradeModal } from "./ConfirmUpgradeModal";
 
 interface PlanCardGridProps {
@@ -91,8 +91,9 @@ export function PlanCardGrid({
                 </strong>
               </div>
             </div>
-            <span className="text-foreground-muted text-[11px] font-medium">
-              💡 Anda dapat melakukan upgrade ke paket yang lebih tinggi kapan saja.
+            <span className="inline-flex items-center gap-1.5 text-foreground-muted text-[11px] font-medium">
+              <Info className="size-3.5 text-amber-500 shrink-0" />
+              <span>Anda dapat melakukan upgrade ke paket yang lebih tinggi kapan saja.</span>
             </span>
           </div>
         )}

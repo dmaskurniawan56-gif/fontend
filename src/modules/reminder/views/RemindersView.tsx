@@ -114,14 +114,14 @@ export function RemindersView() {
             onClick={handleGlobalRefresh}
             disabled={isRemindersLoading || isLogsLoading}
             className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
-            title={t("reminder.actions.refreshTooltip") || "Muat Ulang Data"}
+            title={t("reminder.actions.refreshTooltip")}
           >
             <RefreshCw
               className={`size-3.5 ${
                 isRemindersLoading || isLogsLoading ? "animate-spin" : ""
               }`}
             />
-            <span className="hidden sm:inline">{t("reminder.actions.refresh") || "Refresh"}</span>
+            <span className="hidden sm:inline">{t("reminder.actions.refresh")}</span>
           </Button>
 
           <Button
@@ -131,10 +131,10 @@ export function RemindersView() {
             onClick={dispatchNow}
             disabled={isDispatching}
             className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
-            title={t("reminder.actions.dispatchTooltip") || "Kirim semua pengingat yang jatuh tempo sekarang"}
+            title={t("reminder.actions.dispatchTooltip")}
           >
             <Send className="size-3.5" />
-            <span className="hidden sm:inline">{t("reminder.actions.dispatchNow") || "Kirim Sekarang"}</span>
+            <span className="hidden sm:inline">{t("reminder.actions.dispatchNow")}</span>
           </Button>
         </div>
       </div>

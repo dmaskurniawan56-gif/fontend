@@ -95,7 +95,7 @@ export function useReservations() {
         const msg =
           err instanceof Error
             ? err.message
-            : t("reservation.fetchFailed") || "Gagal memuat daftar reservasi";
+            : t("reservation.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -179,11 +179,8 @@ export function useReservations() {
   // CRUD Actions
   const createReservation = async (input: CreateReservationInput): Promise<boolean> => {
     try {
-      const created = await reservationApi.createReservation(input);
-      toast.success(
-        t("reservation.createdSuccess") ||
-          `Reservasi untuk "${created.customerName}" berhasil dijadwalkan`
-      );
+      await reservationApi.createReservation(input);
+      toast.success(t("reservation.createdSuccess"));
       await Promise.all([
         fetchReservations({ page: 1 }),
         fetchCalendarSummary(currentMonth),
@@ -193,7 +190,7 @@ export function useReservations() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reservation.createFailed") || "Gagal membuat reservasi";
+          : t("reservation.createFailed");
       toast.error(msg);
       return false;
     }
@@ -205,10 +202,7 @@ export function useReservations() {
   ): Promise<boolean> => {
     try {
       const updated = await reservationApi.updateReservation(id, input);
-      toast.success(
-        t("reservation.updatedSuccess") ||
-          `Reservasi untuk "${updated.customerName}" berhasil diperbarui`
-      );
+      toast.success(t("reservation.updatedSuccess"));
       setReservations((prev) => prev.map((r) => (r.id === id ? updated : r)));
       fetchCalendarSummary(currentMonth);
       return true;
@@ -216,7 +210,7 @@ export function useReservations() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reservation.updateFailed") || "Gagal memperbarui reservasi";
+          : t("reservation.updateFailed");
       toast.error(msg);
       return false;
     }
@@ -228,10 +222,7 @@ export function useReservations() {
   ): Promise<boolean> => {
     try {
       const updated = await reservationApi.updateReservationStatus(id, nextStatus);
-      toast.success(
-        t("reservation.statusUpdated") ||
-          `Status reservasi diperbarui menjadi ${nextStatus}`
-      );
+      toast.success(t("reservation.statusUpdated"));
       setReservations((prev) => prev.map((r) => (r.id === id ? updated : r)));
       fetchCalendarSummary(currentMonth);
       return true;
@@ -239,19 +230,16 @@ export function useReservations() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reservation.statusUpdateFailed") || "Gagal memperbarui status";
+          : t("reservation.statusUpdateFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const deleteReservation = async (id: string, name?: string): Promise<boolean> => {
+  const deleteReservation = async (id: string, _name?: string): Promise<boolean> => {
     try {
       await reservationApi.deleteReservation(id);
-      toast.success(
-        t("reservation.deletedSuccess") ||
-          `Reservasi untuk "${name || id}" berhasil dihapus`
-      );
+      toast.success(t("reservation.deletedSuccess"));
       setReservations((prev) => prev.filter((r) => r.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
       fetchCalendarSummary(currentMonth);
@@ -260,7 +248,7 @@ export function useReservations() {
       const msg =
         err instanceof Error
           ? err.message
-          : t("reservation.deleteFailed") || "Gagal menghapus reservasi";
+          : t("reservation.deleteFailed");
       toast.error(msg);
       return false;
     }

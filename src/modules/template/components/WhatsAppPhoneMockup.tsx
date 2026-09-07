@@ -19,6 +19,7 @@ import {
   Flame,
   Info,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 interface WhatsAppPhoneMockupProps {
   name: string;
@@ -48,9 +49,11 @@ export function WhatsAppPhoneMockup({
   },
   className = "",
 }: WhatsAppPhoneMockupProps) {
+  const { t } = useI18n();
+
   // Render content replacing {{variable}} with colored spans
   const renderedContent = useMemo(() => {
-    if (!content) return "Tulis isi pesan template di sini...";
+    if (!content) return t("template.editor.contentPlaceholder");
 
     // Split text by {{variable}}
     const parts = content.split(/(\{\{[a-zA-Z0-9_]+\}\})/g);
@@ -72,47 +75,47 @@ export function WhatsAppPhoneMockup({
       }
       return <span key={idx}>{part}</span>;
     });
-  }, [content, sampleData]);
+  }, [content, sampleData, t]);
 
   const categoryBadge = useMemo(() => {
     switch (category) {
       case "MARKETING":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-amber-500">
-            <Flame className="size-3" /> Marketing
+            <Flame className="size-3" /> {t("template.stats.marketing")}
           </span>
         );
       case "REMINDER":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-purple-400">
-            <Bell className="size-3" /> Pengingat
+            <Bell className="size-3" /> {t("template.stats.reminder")}
           </span>
         );
       case "RESERVATION":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-blue-400">
-            <CalendarCheck className="size-3" /> Reservasi
+            <CalendarCheck className="size-3" /> {t("template.stats.reservation")}
           </span>
         );
       case "QUICK_REPLY":
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-cyan-400">
-            <MessageSquareReply className="size-3" /> Balasan Cepat
+            <MessageSquareReply className="size-3" /> {t("template.stats.quickReply")}
           </span>
         );
       case "UTILITY":
       default:
         return (
           <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-500">
-            <Info className="size-3" /> Utility
+            <Info className="size-3" /> {t("template.stats.utility")}
           </span>
         );
     }
-  }, [category]);
+  }, [category, t]);
 
   return (
     <div
-      className={`mx-auto flex w-full max-w-[340px] flex-col overflow-hidden rounded-[32px] border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
+      className={`mx-auto flex w-full max-w-85 flex-col overflow-hidden rounded-4xl border-[6px] border-neutral-800 bg-neutral-900 shadow-2xl ${className}`}
     >
       {/* Top Phone Speaker / Camera Notch */}
       <div className="flex h-5 w-full items-center justify-center bg-neutral-900 pt-1">
@@ -127,10 +130,10 @@ export function WhatsAppPhoneMockup({
         </div>
         <div className="flex flex-1 flex-col overflow-hidden">
           <span className="truncate text-sm font-semibold leading-tight">
-            {name || "Pratinjau Template"}
+            {name || t("template.editor.interactivePreview")}
           </span>
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-emerald-200">Online</span>
+            <span className="text-[10px] text-emerald-200">{t("template.editor.previewOnline")}</span>
             <span className="text-[10px] text-white/40">•</span>
             {categoryBadge}
           </div>
@@ -138,7 +141,7 @@ export function WhatsAppPhoneMockup({
       </div>
 
       {/* WhatsApp Chat Body Wallpaper */}
-      <div className="relative flex min-h-[360px] flex-1 flex-col justify-end bg-[#EFEAE2] p-3 dark:bg-[#0b141a]">
+      <div className="relative flex min-h-90 flex-1 flex-col justify-end bg-[#EFEAE2] p-3 dark:bg-[#0b141a]">
         {/* Subtle Chat Pattern Overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-15"
@@ -168,7 +171,7 @@ export function WhatsAppPhoneMockup({
                 ) : (
                   <div className="flex h-28 flex-col items-center justify-center gap-1 text-neutral-500">
                     <ImageIcon className="size-8 opacity-60" />
-                    <span className="text-[11px]">Header Gambar</span>
+                    <span className="text-[11px]">{t("template.mediaTypes.image")}</span>
                   </div>
                 )}
               </div>
@@ -179,15 +182,15 @@ export function WhatsAppPhoneMockup({
                 <FileText className="size-7 text-red-500" />
                 <div className="flex flex-1 flex-col overflow-hidden">
                   <span className="truncate text-xs font-semibold">
-                    {mediaUrl ? mediaUrl.split("/").pop() : "Dokumen.pdf"}
+                    {mediaUrl ? mediaUrl.split("/").pop() : t("template.editor.previewDocName")}
                   </span>
-                  <span className="text-[10px] opacity-70">Dokumen PDF • 240 KB</span>
+                  <span className="text-[10px] opacity-70">{t("template.editor.previewDocType")}</span>
                 </div>
               </div>
             )}
 
             {/* Bubble Content Body */}
-            <div className="whitespace-pre-wrap break-words text-[13px] leading-relaxed">
+            <div className="whitespace-pre-wrap wrap-break-word text-[13px] leading-relaxed">
               {renderedContent}
             </div>
 
@@ -209,7 +212,7 @@ export function WhatsAppPhoneMockup({
                   {btn.type === "URL" && <ExternalLink className="size-3.5" />}
                   {btn.type === "CALL" && <Phone className="size-3.5" />}
                   {btn.type === "QUICK_REPLY" && <CornerDownLeft className="size-3.5" />}
-                  <span className="truncate">{btn.text || "Tombol Aksi"}</span>
+                  <span className="truncate">{btn.text || t("template.editor.addButton")}</span>
                 </div>
               ))}
             </div>
@@ -220,7 +223,7 @@ export function WhatsAppPhoneMockup({
       {/* WhatsApp Input Mock Bar */}
       <div className="flex items-center gap-2 bg-[#F0F2F5] px-3 py-2 text-neutral-500 dark:bg-[#1f2c34]">
         <div className="flex h-7 flex-1 items-center rounded-full bg-white px-3 text-[11px] text-neutral-400 dark:bg-[#2a3942]">
-          Ketik pesan
+          {t("template.editor.previewTypeMessage")}
         </div>
         <div className="size-7 rounded-full bg-[#00a884]" />
       </div>

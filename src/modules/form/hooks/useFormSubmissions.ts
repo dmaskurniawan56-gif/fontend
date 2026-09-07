@@ -52,7 +52,7 @@ export function useFormSubmissions(formId: string | null) {
         const msg =
           err instanceof Error
             ? err.message
-            : t("form.submissionsFetchFailed") || "Gagal memuat respons formulir";
+            : t("form.submissionsFetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
@@ -77,13 +77,13 @@ export function useFormSubmissions(formId: string | null) {
       setSubmissions((prev) =>
         prev.map((s) => (s.id === id ? updated : s))
       );
-      toast.success(t("form.statusUpdated") || "Status respons diperbarui");
+      toast.success(t("form.statusUpdated"));
       return true;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.statusUpdateFailed") || "Gagal memperbarui status respons";
+          : t("form.statusUpdateFailed");
       toast.error(msg);
       return false;
     }
@@ -95,13 +95,13 @@ export function useFormSubmissions(formId: string | null) {
       await formApi.deleteSubmission(id);
       setSubmissions((prev) => prev.filter((s) => s.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
-      toast.success(t("form.submissionDeleted") || "Respons formulir dihapus");
+      toast.success(t("form.submissionDeleted"));
       return true;
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : t("form.submissionDeleteFailed") || "Gagal menghapus respons";
+          : t("form.submissionDeleteFailed");
       toast.error(msg);
       return false;
     }

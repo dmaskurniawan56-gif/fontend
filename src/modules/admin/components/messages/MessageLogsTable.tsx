@@ -212,11 +212,11 @@ export function MessageLogsTable({
               variant="pill"
             >
               <option value="ALL">{t("admin.messages.filterAllStatus")}</option>
-              <option value="READ">🔵 {t("admin.messages.statusRead")}</option>
-              <option value="DELIVERED">🟢 {t("admin.messages.statusDelivered")}</option>
-              <option value="SENT">🟢 {t("admin.messages.statusSent")}</option>
-              <option value="PENDING">🟡 {t("admin.messages.statusPending")}</option>
-              <option value="FAILED">🔴 {t("admin.messages.statusFailed")}</option>
+              <option value="READ">{t("admin.messages.statusRead")}</option>
+              <option value="DELIVERED">{t("admin.messages.statusDelivered")}</option>
+              <option value="SENT">{t("admin.messages.statusSent")}</option>
+              <option value="PENDING">{t("admin.messages.statusPending")}</option>
+              <option value="FAILED">{t("admin.messages.statusFailed")}</option>
             </NativeSelect>
 
             <Button

@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   FileText,
   Send,
+  MousePointerClick,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { useI18n } from "@/lib/i18n/context";
 
 interface TemplateCardProps {
   template: Template;
@@ -50,6 +52,7 @@ export function TemplateCard({
   onToggleFavorite,
   onSelectForCampaign,
 }: TemplateCardProps) {
+  const { t } = useI18n();
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async (e: React.MouseEvent) => {
@@ -57,10 +60,10 @@ export function TemplateCard({
     try {
       await navigator.clipboard.writeText(template.content);
       setIsCopied(true);
-      toast.success("Pesan template berhasil disalin ke clipboard!");
+      toast.success(t("template.contentCopied"));
       setTimeout(() => setIsCopied(false), 2000);
     } catch {
-      toast.error("Gagal menyalin teks");
+      toast.error(t("template.copyFailed"));
     }
   };
 
@@ -68,32 +71,32 @@ export function TemplateCard({
     switch (template.category) {
       case "MARKETING":
         return {
-          label: "Marketing",
+          label: t("template.categories.marketing"),
           icon: Flame,
           variant: "warning" as const,
         };
       case "REMINDER":
         return {
-          label: "Pengingat",
+          label: t("template.categories.reminder"),
           icon: Bell,
           variant: "secondary" as const,
         };
       case "RESERVATION":
         return {
-          label: "Reservasi",
+          label: t("template.categories.reservation"),
           icon: CalendarCheck,
           variant: "info" as const,
         };
       case "QUICK_REPLY":
         return {
-          label: "Balasan Cepat",
+          label: t("template.categories.quickReply"),
           icon: MessageSquareReply,
           variant: "neutral" as const,
         };
       case "UTILITY":
       default:
         return {
-          label: "Operasional",
+          label: t("template.categories.utility"),
           icon: Info,
           variant: "success" as const,
         };
@@ -150,7 +153,7 @@ export function TemplateCard({
                 />
               </TooltipTrigger>
               <TooltipContent>
-                {template.isFavorite ? "Hapus dari favorit" : "Tandai sebagai favorit"}
+                {template.isFavorite ? t("template.removeFromFavorites") : t("template.addToFavorites")}
               </TooltipContent>
             </Tooltip>
 
@@ -171,11 +174,11 @@ export function TemplateCard({
               <DropdownMenuContent align="end" className="w-36">
                 <DropdownMenuItem onClick={() => onEdit(template)} className="cursor-pointer gap-2">
                   <Edit2 className="size-3.5 text-foreground-muted" />
-                  <span>Edit</span>
+                  <span>{t("actions.edit") || t("template.editTemplate")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onDuplicate(template.id)} className="cursor-pointer gap-2">
                   <CopyPlus className="size-3.5 text-foreground-muted" />
-                  <span>Duplikat</span>
+                  <span>{t("template.duplicateTemplate")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -183,7 +186,7 @@ export function TemplateCard({
                   className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive"
                 >
                   <Trash2 className="size-3.5" />
-                  <span>Hapus</span>
+                  <span>{t("actions.delete") || t("template.deleteTemplate")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -196,7 +199,7 @@ export function TemplateCard({
         </h3>
 
         {/* Content Preview Box */}
-        <div className="mt-2 min-h-[72px] rounded-xl bg-muted/40 p-3 text-xs leading-relaxed text-foreground-secondary line-clamp-4">
+        <div className="mt-2 min-h-18 rounded-xl bg-muted/40 p-3 text-xs leading-relaxed text-foreground-secondary line-clamp-4">
           {previewParts.map((part, idx) => {
             const isVar = part.startsWith("{{") && part.endsWith("}}");
             return isVar ? (
@@ -219,9 +222,10 @@ export function TemplateCard({
               <Badge
                 key={bIdx}
                 variant="neutral"
-                className="rounded-md text-[10px] font-medium"
+                className="inline-flex items-center gap-1 rounded-md text-[10px] font-medium"
               >
-                🔘 {btn.text}
+                <MousePointerClick className="size-2.5 shrink-0 text-foreground-muted" />
+                <span>{btn.text}</span>
               </Badge>
             ))}
           </div>
@@ -231,7 +235,7 @@ export function TemplateCard({
       {/* Footer Meta & Quick Action */}
       <div className="mt-4 flex items-center justify-between border-t border-border/50 pt-2.5 text-xs text-foreground-muted">
         <div className="flex items-center gap-2">
-          <span>Dipakai {template.usageCount}x</span>
+          <span>{t("template.usedCount", { count: template.usageCount })}</span>
           {template.variables && template.variables.length > 0 && (
             <Badge variant="outline" className="text-[10px]">
               {template.variables.length} var
@@ -250,12 +254,12 @@ export function TemplateCard({
             {isCopied ? (
               <>
                 <Check className="size-3 text-emerald-500" />
-                <span className="text-emerald-600 dark:text-emerald-400">Tersalin</span>
+                <span className="text-emerald-600 dark:text-emerald-400">{t("copied")}</span>
               </>
             ) : (
               <>
                 <Copy className="size-3" />
-                <span>Salin</span>
+                <span>{t("template.copyBtn")}</span>
               </>
             )}
           </Button>
@@ -269,7 +273,7 @@ export function TemplateCard({
               className="gap-1 rounded-lg text-[11px] cursor-pointer"
             >
               <Send className="size-3" />
-              <span>Gunakan</span>
+              <span>{t("template.useBtn")}</span>
             </Button>
           )}
         </div>

@@ -157,7 +157,7 @@ export function MonthlyCalendar({
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {calendarSummary?.totalBookings ?? 0}{" "}
-              {t("reservation.totalBookingsThisMonth") || "reservasi bulan ini"}
+              {t("reservation.totalBookingsThisMonth")}
             </p>
           </div>
         </div>
@@ -168,16 +168,16 @@ export function MonthlyCalendar({
             size="sm"
             onClick={handleCurrentMonth}
             className="text-xs h-8 px-2.5"
-            title="Bulan Ini"
+            title={t("reservation.thisMonth")}
           >
-            {t("reservation.todayBtn") || "Hari Ini"}
+            {t("reservation.todayBtn")}
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={handlePrevMonth}
             className="h-8 w-8"
-            aria-label="Previous Month"
+            aria-label={t("reservation.prevMonth")}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -186,7 +186,7 @@ export function MonthlyCalendar({
             size="icon"
             onClick={handleNextMonth}
             className="h-8 w-8"
-            aria-label="Next Month"
+            aria-label={t("reservation.nextMonth")}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -197,7 +197,7 @@ export function MonthlyCalendar({
       {selectedDate && (
         <div className="flex items-center justify-between bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 px-3 py-1.5 rounded-lg text-xs text-emerald-800 dark:text-emerald-300">
           <span>
-            {t("reservation.filteringByDate") || "Filter tanggal:"}{" "}
+            {t("reservation.filteringByDate")}{" "}
             <strong>{selectedDate}</strong>
           </span>
           <Button
@@ -207,7 +207,7 @@ export function MonthlyCalendar({
             className="h-6 px-2 text-xs text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40"
           >
             <RotateCcw className="h-3 w-3 mr-1" />
-            {t("reservation.clearFilter") || "Tampilkan Semua"}
+            {t("reservation.clearFilter")}
           </Button>
         </div>
       )}
@@ -287,7 +287,7 @@ export function MonthlyCalendar({
 
       {isLoading && (
         <div className="text-center py-2 text-xs text-slate-400 animate-pulse">
-          {t("common.loading") || "Memuat kalender..."}
+          {t("common.loading")}
         </div>
       )}
     </Card>

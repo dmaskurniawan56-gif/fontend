@@ -95,11 +95,10 @@ export function TemplatesView() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            {t("template.title") || "Template Pesan WhatsApp"}
+            {t("template.title")}
           </h1>
           <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            {t("template.subtitle") ||
-              "Buat pesan terstandarisasi dengan variabel dinamis, format tombol cepat, dan gambar header."}
+            {t("template.subtitle")}
           </p>
         </div>
 
@@ -123,7 +122,7 @@ export function TemplatesView() {
             className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>{t("template.addTemplate") || "Tambah Template"}</span>
+            <span>{t("template.addTemplate")}</span>
           </Button>
         </div>
       </div>
@@ -135,7 +134,7 @@ export function TemplatesView() {
             <Layers className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Total Template</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.total")}</p>
             <p className="text-lg font-bold text-foreground">{stats.total}</p>
           </div>
         </div>
@@ -145,7 +144,7 @@ export function TemplatesView() {
             <Flame className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Marketing & Promo</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.marketing")}</p>
             <p className="text-lg font-bold text-foreground">{stats.marketing}</p>
           </div>
         </div>
@@ -155,7 +154,7 @@ export function TemplatesView() {
             <Info className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Operasional & Utilitas</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.utility")}</p>
             <p className="text-lg font-bold text-foreground">{stats.utility}</p>
           </div>
         </div>
@@ -165,7 +164,7 @@ export function TemplatesView() {
             <Star className="size-4 fill-yellow-500" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">Template Favorit</p>
+            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.favorites")}</p>
             <p className="text-lg font-bold text-foreground">{stats.favorites}</p>
           </div>
         </div>
@@ -208,7 +207,7 @@ export function TemplatesView() {
             onClick={reload}
             className="mt-3 rounded-xl border-red-500/30 text-xs"
           >
-            Coba Lagi
+            {t("common.retry")}
           </Button>
         </div>
       ) : templates.length === 0 ? (
@@ -218,13 +217,13 @@ export function TemplatesView() {
           </div>
           <h3 className="mt-4 text-base font-bold text-foreground">
             {search || category !== "ALL" || favoriteOnly
-              ? "Tidak ada template yang cocok"
-              : "Belum ada template pesan"}
+              ? t("template.noMatching")
+              : t("template.emptyTitle")}
           </h3>
           <p className="mt-1.5 max-w-sm text-xs text-foreground-muted">
             {search || category !== "ALL" || favoriteOnly
-              ? "Coba ubah kata kunci pencarian atau bersihkan filter kategori Anda."
-              : "Buat template pesan pertama Anda untuk mempermudah siaran massal dan komunikasi WhatsApp yang konsisten."}
+              ? t("template.noMatchingDesc")
+              : t("template.emptyDesc")}
           </p>
           <Button
             variant="primaryPill"
@@ -233,7 +232,7 @@ export function TemplatesView() {
             className="mt-5 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
           >
             <Plus className="size-4" />
-            <span>{t("template.addTemplate") || "Buat Template Sekarang"}</span>
+            <span>{t("template.addTemplate")}</span>
           </Button>
         </div>
       ) : (

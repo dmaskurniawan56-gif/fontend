@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
-import { ExternalLink, Clock } from "lucide-react";
+import { Clock, ArrowRight } from "lucide-react";
 
 export function PublicFooter() {
   const { t } = useI18n();
@@ -83,15 +83,13 @@ export function PublicFooter() {
           </p>
           <ul className="space-y-2 text-xs font-semibold text-foreground-secondary">
             <li>
-              <a
-                href="https://documenter.getpostman.com/view/26294023/2sBYAuSqz3"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/docs/intro"
                 className="inline-flex items-center gap-1.5 hover:text-foreground text-dark-green dark:text-wise-green font-bold transition-colors group"
               >
-                <span>{t("footer.postmanDocs")}</span>
-                <ExternalLink className="size-3.5 opacity-80 group-hover:opacity-100 transition-opacity" />
-              </a>
+                <span>{t("common.landing.apiSandbox.docsBtn")}</span>
+                <ArrowRight className="size-3.5 opacity-80 group-hover:opacity-100 transition-opacity" />
+              </Link>
             </li>
           </ul>
         </div>

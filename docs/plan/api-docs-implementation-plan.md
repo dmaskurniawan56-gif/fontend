@@ -1,87 +1,103 @@
-# Rencana Lengkap: Optimasi Technical SEO Google Page 1 & Metadata Standar Industri untuk Dokumentasi Wahide
+# Rencana Implementasi: Update robots.txt, Dinamisasi Base URL dari `NEXT_PUBLIC_API_BASE_URL`, dan Pengisian Penuh Seluruh Contoh Kode (cURL, Node.js, PHP, Python, Go)
 
-Sebagai **Senior Technical SEO Specialist & Frontend Architect**, dokumen ini merancang arsitektur optimasi Search Engine Optimization (SEO) menyeluruh untuk portal dokumentasi REST API Wahide agar berpeluang maksimal menembus **Halaman 1 Google (Page 1 SERP)** untuk kata kunci target seperti:
-* *"WhatsApp API Indonesia"*
-* *"Send WhatsApp message API"*
-* *"WhatsApp multi device REST API"*
-* *"WhatsApp API QR code pair"*
-* *"WhatsApp broadcast API"*
+Dokumen ini merancang perbaikan menyeluruh terhadap 3 kebutuhan teknis yang diminta oleh pengguna:
+1. **Pembaruan `robots.txt`**: Memberikan izin perayapan (*allow*) bagi Googlebot dan web crawler ke rute `/docs` dan `/docs/*`.
+2. **Dinamisasi Base URL**: Mengambil Base URL endpoint dan contoh kode langsung dari variabel lingkungan `NEXT_PUBLIC_API_BASE_URL` (bukan hardcode `api.wahide.com`), sehingga otomatis menyesuaikan antara lokal (`http://localhost:3030/api/v1`) dan produksi.
+3. **Pengisian Penuh Contoh Kode 5 Bahasa**: Mengeliminasi seluruh komentar kosong (`// Pair device in Python`, dll.) dan menggantinya dengan kode program lengkap, idiomatik, dan siap jalan (*copy-paste ready*) untuk **cURL**, **Node.js**, **PHP**, **Python**, dan **Go** di seluruh 19+ endpoint API.
 
 ---
 
-## 1. Audit Masalah SEO Saat Ini & Bottleneck di Google SERP
+## 1. Rencana Pembaruan `robots.txt` ([`src/app/robots.ts`](file:///G:/WEB2026/fontwahide/src/app/robots.ts))
 
-| Komponen SEO | Kondisi Saat Ini (Bermasalah) | Dampak pada Google SERP | Standar Google Page 1 Baru |
-|:---|:---|:---|:---|
-| **Title Tag Length** | Duplikasi ganda antara `layout.tsx` (`%s \| Wahide WhatsApp API Docs`) dan `page.tsx` (`${doc.title} - Wahide WhatsApp API Documentation`). | Judul menjadi **82+ karakter**: `Send Text Messages - Wahide WhatsApp API Documentation \| Wahide WhatsApp API Docs`. Terpotong tanda titik-titik (`...`) di hasil pencarian Google. | Batasi ketat **45–55 karakter**: `Send WhatsApp Text Message API \| Wahide API`. Ringkas, tajam, memuat keyword utama tanpa terpotong. |
-| **Meta Description** | Teks deskripsi bawaan terlalu pendek (< 60 karakter) atau tidak memuat *search intent* & *call to action*. | Google menggantinya dengan cuplikan acak halaman yang menurunkan Click-Through Rate (CTR). | Diformulasikan tepat **140–155 karakter** dengan keyword komparasi: cURL, Node.js, PHP, Python, Go, anti-ban, dan format nomor E.164. |
-| **Canonical URL** | Belum ada tag `alternates: { canonical: ... }`. | Risiko penalti konten duplikat (*duplicate content penalty*) antara HTTP/HTTPS, www/non-www, dan staging. | Mengunci canonical URL absolut untuk setiap endpoint (`https://wahide.id/docs/...`). |
-| **Structured Data (JSON-LD)** | Belum ada Schema.org markup. | Tampilan hasil pencarian Google hanya berupa link biru polos biasa tanpa Rich Snippets. | Injeksi **JSON-LD Schema**: `TechArticle` / `APIReference` dan `BreadcrumbList` (menghasilkan navigasi remah roti langsung di Google SERP). |
-| **Sitemap XML (`sitemap.ts`)** | Rute `/docs/*` **belum terdaftar** di `src/app/sitemap.ts`. | Bot perayap Google (Googlebot) lambat menemukan dan mengindeks 23+ halaman endpoint baru. | Mengintegrasikan seluruh endpoint secara dinamis ke `sitemap.ts` dengan `changeFrequency: "weekly"` dan `priority: 0.9`. |
-| **Robots Directives** | Pengaturan default tanpa arahan cuplikan. | Cuplikan kode atau gambar mungkin dibatasi oleh Googlebot. | Memberikan arahan spesifik: `max-snippet: -1`, `max-image-preview: "large"`, `max-video-preview: -1`. |
-
----
-
-## 2. Strategi Formula Title Tag & Keyword Mapping (Presisi < 55 Karakter)
-
-Di `src/app/docs/layout.tsx`, template title diatur menjadi:
-```text
-template: "%s | Wahide API"   (panjang suffix: 13 karakter)
+### Kondisi Saat Ini
+```typescript
+allow: ["/", "/about", "/contact", "/blog", "/privacy", "/terms"],
 ```
-Tiap halaman mengisi `%s` dengan panjang **30–42 karakter**, sehingga total panjang title di browser/SERP **tepat 43–55 karakter** (bebas dari pemotongan Google):
+Rute `/docs` dan `/docs/*` belum terdaftar di dalam daftar `allow`, sehingga ada risiko bot mengabaikan dokumentasi atau menganggapnya sebagai rute private.
 
-| Slug Endpoint | UI Title (Tampilan Halaman) | SEO Title (%s) | Total SERP Title (Termasuk Brand) | Karakter |
-|:---|:---|:---|:---|:---:|
-| `/docs/intro` | Introduction | WhatsApp API Documentation | `WhatsApp API Documentation \| Wahide API` | **39** |
-| `/docs/authentication` | Authentication | API Authentication & Bearer Tokens | `API Authentication & Bearer Tokens \| Wahide API` | **47** |
-| `/docs/errors` | Errors & Rate Limits | API Status Codes & Rate Limits | `API Status Codes & Rate Limits \| Wahide API` | **43** |
-| `/docs/messaging/send-text` | Send Text Messages | Send WhatsApp Text Message API | `Send WhatsApp Text Message API \| Wahide API` | **43** |
-| `/docs/messaging/send-round-robin` | Round-Robin Multi-Device | Multi-Device WhatsApp Rotation API | `Multi-Device WhatsApp Rotation API \| Wahide API` | **48** |
-| `/docs/messaging/send-spintax` | Spintax Dynamic Text | Send Dynamic Spintax WhatsApp API | `Send Dynamic Spintax WhatsApp API \| Wahide API` | **47** |
-| `/docs/messaging/send-media` | Send Media / Document | Send WhatsApp Media & PDF API | `Send WhatsApp Media & PDF API \| Wahide API` | **42** |
-| `/docs/messaging/meta-cloud-api` | Meta Cloud API Compatible | Meta WhatsApp Cloud API Endpoint | `Meta WhatsApp Cloud API Endpoint \| Wahide API` | **46** |
-| `/docs/devices/list` | List Devices | List Connected WhatsApp Devices | `List Connected WhatsApp Devices \| Wahide API` | **45** |
-| `/docs/devices/pair` | Pair Device (QR) | Pair WhatsApp Device via QR API | `Pair WhatsApp Device via QR API \| Wahide API` | **45** |
-| `/docs/contacts/bulk-import` | Bulk Import Contacts | Bulk Import WhatsApp Contacts API | `Bulk Import WhatsApp Contacts API \| Wahide API` | **47** |
-| `/docs/campaigns/create` | Create Campaign | Create WhatsApp Broadcast Campaign | `Create WhatsApp Broadcast Campaign \| Wahide API` | **48** |
+### Solusi Perbaikan
+Menambahkan `/docs` dan `/docs/*` secara eksplisit ke dalam aturan `allow`:
+```typescript
+allow: [
+  "/",
+  "/about",
+  "/contact",
+  "/blog",
+  "/blog/*",
+  "/docs",
+  "/docs/*",
+  "/privacy",
+  "/terms"
+],
+```
 
 ---
 
-## 3. Arsitektur Komponen SEO Baru
+## 2. Dinamisasi Base URL dari `NEXT_PUBLIC_API_BASE_URL`
 
-### A. Modul Helper SEO Metadata ([`src/components/doc/data/seo.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/seo.ts))
-Membuat berkas helper khusus yang memetakan metadata SEO berkualitas tinggi untuk setiap slug:
-- Menghasilkan `seoTitle` (ringkas, berbobot keyword).
-- Menghasilkan `seoDescription` (140–155 karakter dengan ajakan bertindak).
-- Menghasilkan data schema `BreadcrumbList` dan `TechArticle` / `APIReference` JSON-LD.
+### Kondisi Saat Ini
+Komponen `DocsEndpointView.tsx` dan cuplikan kode masih memuat domain hardcode `https://api.wahide.com`. Padahal di `.env.local` dan `env.ts`:
+```env
+NEXT_PUBLIC_API_BASE_URL="http://localhost:3030/api/v1"
+```
 
-### B. Komponen Injeksi Schema JSON-LD ([`src/components/doc/DocsJsonLd.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsJsonLd.tsx))
-Merender script `<script type="application/ld+json">` yang valid W3C/Google untuk:
-- Menampilkan jejak remah roti (`wahide.id > docs > messaging > send-text`) di halaman pencarian Google.
-- Memberitahu Googlebot bahwa konten adalah dokumentasi API resmi (*API Reference*).
+### Solusi Perbaikan
+1. **Helper Utility**: Mengambil host/origin dari `env.NEXT_PUBLIC_API_BASE_URL` (contoh: `http://localhost:3030` saat di lokal, atau `https://api.wahide.com` saat di server produksi).
+2. **Endpoint Box ([`DocsEndpointView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsEndpointView.tsx))**:
+   - Menampilkan host dinamis yang bersumber dari `NEXT_PUBLIC_API_BASE_URL`.
+   - Tombol "Copy URL" menyalin URL dinamis lengkap yang sesuai dengan environment aktif.
+3. **Dinamisasi Cuplikan Kode ([`DocsCodeTabs.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsCodeTabs.tsx))**:
+   - Menyisipkan base URL aktif ke dalam seluruh template kode cURL, Node.js, PHP, Python, dan Go secara otomatis.
 
-### C. Refaktor `src/app/docs/layout.tsx`
-- Memperbarui title template menjadi `%s | Wahide API`.
-- Menambahkan metadata robots komprehensif (`index: true`, `follow: true`, `googleBot: { "max-snippet": -1, ... }`).
-- Menetapkan OpenGraph default dan Twitter Card metadata.
+---
 
-### D. Refaktor `src/app/docs/[...slug]/page.tsx`
-- Menggunakan `getDocSeoMetadata()` pada `generateMetadata()`.
-- Menambahkan `alternates: { canonical: ... }`.
-- Memasang `<DocsJsonLd />` di dalam page body.
+## 3. Penulisan Ulang Seluruh Contoh Kode yang Kosong / Placeholder
 
-### E. Integrasi Sitemap XML ([`src/app/sitemap.ts`](file:///G:/WEB2026/fontwahide/src/app/sitemap.ts))
-- Mengimpor `allDocs` dari `@/components/doc/data`.
-- Menambahkan seluruh URL `/docs/*` ke dalam daftar sitemap resmi dengan prioritas tinggi (`priority: 0.9`, `changeFrequency: "weekly"`).
+Berdasarkan audit, terdapat placeholder komentar kosong seperti `// Pair device in Python`, `// Create contact in Node.js`, dll. di beberapa file data endpoint. Seluruhnya akan diganti dengan **kode program nyata yang dapat langsung dieksekusi**:
+
+### Standar Kualitas Kode Per Bahasa:
+
+| Bahasa | Library / Runtime Standar | Fitur Kode yang Disajikan |
+|:---|:---|:---|
+| **cURL** | Bash / Terminal | Flag `-X`, `-H "Authorization: Bearer YOUR_API_KEY"`, `-H "Content-Type: application/json"`, `-d '{...}'`. |
+| **Node.js** | Modern ES Module / `axios` & `fetch` | Async/await, headers bearer token, payload JSON parsing, dan `console.log(response.data)`. |
+| **PHP** | Native `curl_init` / Guzzle | Inisialisasi cURL lengkap dengan `CURLOPT_POSTFIELDS`, `CURLOPT_HTTPHEADER`, error check, dan `curl_close`. |
+| **Python** | Library `requests` | Sintaks Python murni menggunakan `import requests`, `headers={"Authorization": "Bearer ..."}`, `json={...}`, dan `print(response.json())`. |
+| **Go** | Package `net/http` murni | `package main`, `http.NewRequest`, buffer JSON `bytes.NewBuffer`, `req.Header.Set`, client execution, dan `io.ReadAll`. |
+
+### Daftar Berkas Endpoint yang Akan Dilengkapi 100%:
+1. **[`devices.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/devices.ts)**:
+   - `devices-list`: Kode cURL, Node.js, PHP, Python, Go lengkap dengan parameter query `page` & `size`.
+   - `devices-create`: Kode lengkap untuk mendaftarkan slot device baru dengan `push_name`.
+   - `devices-pair`: Kode lengkap untuk meminta QR Code pairing (memperbaiki screenshot pengguna!).
+   - `devices-disconnect`: Kode lengkap untuk memutus sesi WhatsApp session.
+   - `devices-delete`: Kode lengkap `DELETE` request untuk menghapus slot device.
+2. **[`contacts.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/contacts.ts)**:
+   - `contacts-list`: Kode lengkap filter kontak dan pagination.
+   - `contacts-create`: Kode lengkap pembuatan kontak dengan nama, nomor, dan tag.
+   - `contacts-bulk-import`: Kode lengkap batch import array kontak.
+   - `contacts-bulk-delete`: Kode lengkap batch delete array ID kontak.
+   - `contacts-tags`: Kode lengkap pengambilan daftar tag.
+3. **[`campaigns.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/campaigns.ts)**:
+   - `campaigns-list`: Kode lengkap daftar broadcast campaign.
+   - `campaigns-create`: Kode lengkap pembuatan broadcast queue.
+   - `campaigns-start`: Kode lengkap memicu start campaign.
+   - `campaigns-pause`: Kode lengkap pause campaign.
+   - `campaigns-logs`: Kode lengkap pengambilan log delivery broadcast.
+4. **[`messaging.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/messaging.ts)**:
+   - `messaging-round-robin`, `messaging-spintax`, `messaging-media`, `messaging-meta-cloud`: Lengkapi seluruh 5 bahasa tanpa ada satu pun yang hanya berupa baris komentar.
 
 ---
 
 ## 4. Rencana Verifikasi
 
 1. **Type Safety**:
-   - Menjalankan `bun x tsc --noEmit` untuk memastikan 100% bebas dari error TypeScript.
-   - *(Aturan ditaati penuh: `bun run build` TIDAK PERNAH dijalankan)*.
-2. **Validasi Karakter & Schema**:
-   - Memastikan seluruh Title tag berada dalam rentang **40–55 karakter**.
-   - Memastikan Meta Description berada dalam rentang **140–155 karakter**.
-   - Memastikan struktur JSON-LD lolos standar validator Schema.org / Google Rich Results.
+   - Menjalankan `bun x tsc --noEmit` untuk menjamin tidak ada kesalahan sintaks TypeScript maupun escaping tanda kutip (*backticks*).
+   - *(Aturan mutlak: `bun run build` TIDAK AKAN PERNAH dijalankan)*.
+2. **Verifikasi Tampilan UI**:
+   - Membuka halaman `http://localhost:3000/docs/devices/pair`.
+   - Memeriksa tab **Python**: memastikan yang muncul adalah script Python `import requests` asli, bukan lagi teks komentar `// Pair device in Python`.
+   - Memeriksa tab **PHP**, **Node.js**, dan **Go**: memastikan semua terisi kode lengkap.
+   - Memeriksa Base URL pada endpoint bar dan kode: memastikan mengambil nilai dari `NEXT_PUBLIC_API_BASE_URL` (`http://localhost:3030`).
+3. **Verifikasi `robots.txt`**:
+   - Membuka `http://localhost:3000/robots.txt` dan memastikan direktori `/docs` dan `/docs/*` terdaftar di bagian `Allow`.

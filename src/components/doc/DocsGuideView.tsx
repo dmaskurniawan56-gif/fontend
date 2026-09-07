@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { GuideDoc } from "./types";
 import { DocsBreadcrumbs } from "./DocsBreadcrumbs";
+import { getApiBaseUrl, getApiHost } from "./data";
 import {
   Copy,
   Check,
@@ -23,10 +24,17 @@ interface DocsGuideViewProps {
 
 export function DocsGuideView({ doc }: DocsGuideViewProps) {
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
+  const apiBaseUrl = getApiBaseUrl();
+  const apiHost = getApiHost();
+
+  const interpolateEnv = (text: string) =>
+    text
+      .replaceAll("https://api.wahide.com/api/v1", apiBaseUrl)
+      .replaceAll("https://api.wahide.com", apiHost);
 
   const handleCopy = async (id: string, text: string) => {
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(interpolateEnv(text));
       setCopiedSection(id);
       setTimeout(() => setCopiedSection(null), 2000);
     } catch {
@@ -126,7 +134,7 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
                       {section.callout.title}
                     </h5>
                     <div className="text-foreground-secondary leading-relaxed whitespace-pre-line">
-                      {section.callout.content}
+                      {interpolateEnv(section.callout.content)}
                     </div>
                   </div>
                 </div>
@@ -168,7 +176,7 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
 
                 <div className="p-4 overflow-x-auto">
                   <pre className="font-mono text-xs leading-relaxed text-[#c9d1d9] selection:bg-wise-green/30 selection:text-white">
-                    <code>{section.code.content}</code>
+                    <code>{interpolateEnv(section.code.content)}</code>
                   </pre>
                 </div>
               </div>

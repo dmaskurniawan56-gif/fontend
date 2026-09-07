@@ -6,6 +6,7 @@ import { DocsBreadcrumbs } from "./DocsBreadcrumbs";
 import { DocsParametersTable } from "./DocsParametersTable";
 import { DocsCodeTabs } from "./DocsCodeTabs";
 import { DocsResponseView } from "./DocsResponseView";
+import { getApiHost } from "./data";
 import {
   Globe,
   Lock,
@@ -20,8 +21,9 @@ interface DocsEndpointViewProps {
 
 export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
   const [copiedUrl, setCopiedUrl] = useState(false);
+  const apiHost = getApiHost();
 
-  const fullUrl = `https://api.wahide.com${doc.path}`;
+  const fullUrl = `${apiHost}${doc.path}`;
 
   const handleCopyUrl = async () => {
     try {
@@ -116,7 +118,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
               {doc.method}
             </span>
             <span className="text-muted-foreground shrink-0 select-none">
-              https://api.wahide.com
+              {apiHost}
             </span>
             <span className="font-semibold text-foreground truncate">
               {doc.path}

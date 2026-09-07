@@ -17,6 +17,7 @@ export { messagingEndpoints } from "./messaging";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
+export { getApiBaseUrl, getApiHost } from "./env";
 
 export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc];
 

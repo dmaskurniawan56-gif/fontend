@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { CodeSnippetDoc } from "./types";
+import { getApiHost } from "./data";
 import { Copy, Check, Terminal } from "lucide-react";
 
 interface DocsCodeTabsProps {
@@ -25,8 +26,10 @@ export function DocsCodeTabs({
 }: DocsCodeTabsProps) {
   const [activeLang, setActiveLang] = useState<SupportedLanguage>("curl");
   const [copied, setCopied] = useState(false);
+  const apiHost = getApiHost();
 
-  const activeSnippet = snippets[activeLang] || snippets.curl || "";
+  const rawSnippet = snippets[activeLang] || snippets.curl || "";
+  const activeSnippet = rawSnippet.replaceAll("https://api.wahide.com", apiHost);
 
   const handleCopy = async () => {
     try {

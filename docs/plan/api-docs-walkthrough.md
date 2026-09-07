@@ -89,6 +89,21 @@ Seluruh komentar placeholder (seperti `// Pair device in Python`, `// List devic
 
 ---
 
+### E. Standarisasi Skala Kelas Tailwind CSS (Menghilangkan Nilai Arbitrary `min-w-[...]`)
+- **Berkas**: [`src/components/doc/DocsEndpointView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsEndpointView.tsx), [`DocsParametersTable.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsParametersTable.tsx), [`DocsResponseView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsResponseView.tsx)
+- **Status**: Seluruh kelas arbitrary lebar minimum telah dikonversi ke skala resmi Tailwind CSS v4 ($1 = 4px$):
+  - `min-w-[90px]` -> `min-w-22.5` ($22.5 \times 4 = 90px$)
+  - `min-w-[140px]` -> `min-w-35` ($35 \times 4 = 140px$)
+  - `min-w-[220px]` -> `min-w-55` ($55 \times 4 = 220px$)
+  - `min-w-[240px]` -> `min-w-60` ($60 \times 4 = 240px$)
+  - `min-w-[180px]` -> `min-w-45` ($45 \times 4 = 180px$)
+  - `min-w-[100px]` -> `min-w-25` ($25 \times 4 = 100px$)
+  - `min-w-[110px]` -> `min-w-27.5` ($27.5 \times 4 = 110px$)
+  - `min-w-[260px]` -> `min-w-65` ($65 \times 4 = 260px$)
+  - `min-w-[280px]` -> `min-w-70` ($70 \times 4 = 280px$)
+
+---
+
 ## 2. Hasil Verifikasi & Uji Sistem
 
 1. **Type Checking TypeScript**:

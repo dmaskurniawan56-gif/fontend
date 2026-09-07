@@ -40,7 +40,7 @@ export function DocsParametersTable({
             <tr className="border-b border-border bg-muted/30 text-xs font-bold uppercase tracking-wider text-muted-foreground">
               <th className="py-3 px-4 min-w-45">Parameter</th>
               <th className="py-3 px-3 min-w-25">Type</th>
-              <th className="py-3 px-3 min-w-[110px]">Required</th>
+              <th className="py-3 px-3 min-w-27.5">Required</th>
               <th className="py-3 px-4 min-w-70">Description</th>
             </tr>
           </thead>

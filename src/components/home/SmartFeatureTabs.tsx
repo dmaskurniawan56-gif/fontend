@@ -20,9 +20,9 @@ import {
 type TabType = "developer" | "marketing" | "business";
 
 export function SmartFeatureTabs() {
-  const { lang } = useI18n();
+  const { locale } = useI18n();
   const [activeTab, setActiveTab] = useState<TabType>("developer");
-  const isId = lang !== "en";
+  const isId = locale !== "en";
 
   return (
     <section id="features" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
@@ -201,16 +201,16 @@ export function SmartFeatureTabs() {
                   </div>
                 </div>
 
-                {/* Stabilitas Native Socket Box */}
+                {/* Enterprise Cloud Stability Box */}
                 <div className="rounded-xl border border-border/80 bg-muted/20 p-3 text-xs space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-foreground">
                     <Server className="size-3.5 text-emerald-600 dark:text-wise-green" />
-                    <span>{isId ? "Arsitektur Go Socket Native" : "Go Native Socket Architecture"}</span>
+                    <span>{isId ? "Infrastruktur Cloud Berkinerja Tinggi" : "High-Performance Cloud Infrastructure"}</span>
                   </div>
                   <p className="text-foreground-secondary text-[11px]">
                     {isId
-                      ? "Konsumsi RAM < 150MB per 1.000 sesi. Bebas dari crash OOM Puppeteer."
-                      : "Consumes < 150MB RAM per 1,000 sessions. Zero Chromium crash risks."}
+                      ? "Stabilitas 99.9% uptime dengan arsitektur cloud terisolasi. Pengiriman pesan berjalan lancar, instan, dan bebas gangguan."
+                      : "Enterprise 99.9% uptime with isolated cloud architecture. Fast, reliable, and uninterrupted message delivery."}
                   </p>
                 </div>
               </div>

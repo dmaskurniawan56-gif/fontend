@@ -22,23 +22,28 @@ import {
 import { useI18n } from "@/lib/i18n/context";
 
 /**
- * Strict protocol sanitizer for media URLs (img src and a href)
- * Prevents DOM-based XSS (CodeQL js/xss-through-dom) and rejects dangerous schemes (javascript:, vbscript:, data:text/html)
+ * Strict URL sanitizer for media URLs (img src and document previews).
+ * Uses standard WHATWG URL parser to prevent DOM-based XSS (CodeQL js/xss-through-dom)
+ * and strictly whitelists only safe protocols (http:, https:, blob:).
  */
-function getSafeMediaUrl(url: string | null | undefined): string | null {
+export function getSafeMediaUrl(url: string | null | undefined): string | null {
   if (!url || typeof url !== "string") return null;
   const trimmed = url.trim();
+  if (!trimmed) return null;
 
-  if (
-    trimmed.startsWith("blob:") ||
-    trimmed.startsWith("https://") ||
-    trimmed.startsWith("http://")
-  ) {
-    if (/^(javascript|vbscript|data:(?!image\/)):/i.test(trimmed)) {
-      return null;
+  try {
+    const parsed = new URL(trimmed);
+    if (
+      parsed.protocol === "https:" ||
+      parsed.protocol === "http:" ||
+      parsed.protocol === "blob:"
+    ) {
+      return parsed.href;
     }
-    return trimmed;
+  } catch {
+    return null;
   }
+
   return null;
 }
 
@@ -78,6 +83,17 @@ export function WhatsAppPhoneMockup({
   }, [mediaUrl]);
 
   const safeMediaUrl = useMemo(() => getSafeMediaUrl(mediaUrl), [mediaUrl]);
+
+  const docFileName = useMemo(() => {
+    if (!safeMediaUrl) return t("template.editor.previewDocName");
+    try {
+      const pathname = new URL(safeMediaUrl).pathname;
+      const name = pathname.split("/").filter(Boolean).pop();
+      return name ? decodeURIComponent(name) : t("template.editor.previewDocName");
+    } catch {
+      return t("template.editor.previewDocName");
+    }
+  }, [safeMediaUrl, t]);
 
   // Render content replacing {{variable}} with colored spans
   const renderedContent = useMemo(() => {
@@ -208,7 +224,7 @@ export function WhatsAppPhoneMockup({
                 <FileText className="size-7 text-red-500" />
                 <div className="flex flex-1 flex-col overflow-hidden">
                   <span className="truncate text-xs font-semibold">
-                    {safeMediaUrl ? safeMediaUrl.split("/").pop() : t("template.editor.previewDocName")}
+                    {docFileName}
                   </span>
                   <span className="text-[10px] opacity-70">{t("template.editor.previewDocType")}</span>
                 </div>

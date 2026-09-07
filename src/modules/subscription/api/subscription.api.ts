@@ -151,6 +151,14 @@ function normalizeSubscription(
   const status = String(raw.status || "ACTIVE").toUpperCase();
   const isActive = status === "ACTIVE";
 
+  const isLifetime = Boolean(
+    raw.is_lifetime ||
+      raw.isLifetime ||
+      planPrice === 0 ||
+      planName.toUpperCase() === "FREE" ||
+      planName.toUpperCase() === "STARTER"
+  );
+
   return {
     planId,
     planName,
@@ -161,6 +169,7 @@ function normalizeSubscription(
     deviceSlotsMax,
     hasWatermark,
     expiresAt,
+    isLifetime,
     status,
     isActive,
   };

@@ -38,6 +38,12 @@ export function QuotaDialCard({ subscription }: QuotaDialCardProps) {
       })
     : "-";
 
+  const isFreeForever =
+    Boolean(subscription.isLifetime) ||
+    subscription.planPrice === 0 ||
+    subscription.planName?.toUpperCase() === "FREE" ||
+    subscription.planName?.toUpperCase() === "STARTER";
+
   return (
     <div className="border-border bg-surface space-y-6 rounded-md border p-6 shadow-sm sm:p-8">
       {/* Header Row */}
@@ -45,21 +51,35 @@ export function QuotaDialCard({ subscription }: QuotaDialCardProps) {
         <div>
           <div className="bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green border-wise-green/30 mb-1 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold">
             <Zap className="size-3.5" />
-            <span>Paket Aktif: {subscription.planName || "Free Trial"}</span>
+            <span>Paket Aktif: {subscription.planName || "Free"}</span>
           </div>
           <h2 className="text-foreground text-xl font-black tracking-tight sm:text-2xl">
             {t("subscription.quotaRemaining")}
           </h2>
         </div>
 
-        <div className="text-foreground-secondary flex items-center gap-2 text-xs font-semibold">
-          <Calendar className="text-foreground-muted size-4" />
-          <span>
-            {t("subscription.planExpires", {
-              date: expiresDateStr,
-            })}
-          </span>
-        </div>
+        {isFreeForever ? (
+          <div className="text-foreground-secondary flex flex-col items-start gap-0.5 sm:items-end text-xs font-semibold">
+            <div className="dark:text-wise-green flex items-center gap-1.5 text-emerald-700">
+              <ShieldCheck className="size-4 shrink-0" />
+              <span>
+                Masa Aktif: <strong>Selamanya (Free Forever)</strong>
+              </span>
+            </div>
+            <span className="text-foreground-muted text-[11px] font-medium">
+              Kuota direset otomatis setiap tanggal 1
+            </span>
+          </div>
+        ) : (
+          <div className="text-foreground-secondary flex items-center gap-2 text-xs font-semibold">
+            <Calendar className="text-foreground-muted size-4 shrink-0" />
+            <span>
+              {t("subscription.planExpires", {
+                date: expiresDateStr,
+              })}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Main Meter & Metric Indicators */}

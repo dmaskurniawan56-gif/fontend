@@ -29,6 +29,7 @@ export interface TenantSubscription {
   deviceSlotsMax: number;
   hasWatermark: boolean;
   expiresAt: string;
+  isLifetime?: boolean;
   status: string;
   isActive: boolean;
 }

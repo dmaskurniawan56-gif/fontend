@@ -106,16 +106,16 @@ export function SmartFeatureTabs() {
                   </span>
                 </div>
 
-                <div>
+                  <div>
                   <h3 className="text-foreground text-lg font-black sm:text-xl">
                     {isId
-                      ? "WhatsApp OTP & Verifikasi Tanpa Database"
-                      : "WhatsApp OTP & Zero-Database Verification"}
+                      ? "WhatsApp OTP & Verifikasi Instan"
+                      : "WhatsApp OTP & Instant Verification"}
                   </h3>
                   <p className="text-foreground-secondary mt-1.5 text-xs leading-relaxed font-medium sm:text-sm">
                     {isId
-                      ? "Kirim dan verifikasi kode OTP 6-digit via WhatsApp pelanggan secara instan. State disimpan di Redis (TTL 5 menit) dengan proteksi cooldown 60 detik dan auto-burn sekali pakai tanpa repot membuat tabel database."
-                      : "Dispatch and verify 6-digit OTP codes via WhatsApp instantly. Managed in Redis (5-min TTL) with single-use auto-burn and 60s cooldown without creating custom DB tables."}
+                      ? "Kirim dan verifikasi kode OTP 6-digit via WhatsApp pelanggan secara instan. Kode otomatis berlaku 5 menit, langsung hangus setelah digunakan, dan dilindungi batas kirim ulang 60 detik tanpa perlu repot setup server database."
+                      : "Dispatch and verify 6-digit OTP codes via WhatsApp instantly. Codes expire automatically in 5 minutes, burn after single use, and include a 60s cooldown without creating custom DB tables."}
                   </p>
                 </div>
 
@@ -130,24 +130,24 @@ export function SmartFeatureTabs() {
                       849 - 201
                     </span>
                     <span className="rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
-                      Auto-Burn
+                      {isId ? "Sekali Pakai" : "Single-Use"}
                     </span>
                   </div>
                   <p className="text-[10px] text-white/60">
                     {isId
-                      ? "Proteksi: 60s cooldown • 5x salah input langsung lock"
-                      : "Protected by 60s cooldown & 5-attempt brute force lock"}
+                      ? "Proteksi Keamanan: Jeda kirim 60 detik • Kunci otomatis jika 5x salah input"
+                      : "Security Protection: 60s resend cooldown • Auto-lock on 5 failed attempts"}
                   </p>
                 </div>
 
                 <div className="space-y-2 text-xs font-semibold text-foreground">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="size-4 text-dark-green dark:text-wise-green shrink-0" />
-                    <span>{isId ? "Otentikasi API Key siap pakai (X-API-Key: hide_...)" : "Instant API Key header authentication"}</span>
+                    <span>{isId ? "Kunci API siap pakai untuk integrasi instan ke aplikasi Anda" : "Instant API Key authentication for rapid integration"}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="size-4 text-dark-green dark:text-wise-green shrink-0" />
-                    <span>{isId ? "VIP Express Queue memotong antrean pesan massal" : "VIP stream bypasses bulk broadcast queues"}</span>
+                    <span>{isId ? "Jalur Cepat Prioritas VIP — OTP sampai kilat tanpa antre" : "VIP Priority Stream bypasses bulk promotional queues"}</span>
                   </div>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export function SmartFeatureTabs() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="bg-muted text-foreground rounded-full px-3 py-0.5 text-[10px] font-bold">
-                    {isId ? "Drop-in Replacement" : "Drop-in Replacement"}
+                    {isId ? "Migrasi Mudah" : "Easy Migration"}
                   </span>
                   <span className="text-foreground-muted font-mono text-xs font-semibold">
                     v18.0 – v20.0
@@ -179,11 +179,11 @@ export function SmartFeatureTabs() {
                   <h3 className="text-foreground text-lg font-black sm:text-xl">
                     {isId
                       ? "Kompatibel Meta WhatsApp Cloud API"
-                      : "Meta WhatsApp Cloud API Drop-in"}
+                      : "Meta WhatsApp Cloud API Compatible"}
                   </h3>
                   <p className="text-foreground-secondary mt-1.5 text-xs leading-relaxed font-medium sm:text-sm">
                     {isId
-                      ? "Pindahkan aplikasi Anda dari WhatsApp Cloud API resmi tanpa mengubah kode atau skema JSON. Cukup ganti Base URL ke Wahide dan nikmati pengiriman pesan tanpa biaya percakapan."
+                      ? "Pindahkan aplikasi Anda dari WhatsApp Cloud API resmi tanpa mengubah kode atau format data. Cukup ganti Base URL ke Wahide dan nikmati pengiriman pesan tanpa biaya percakapan."
                       : "Migrate your existing Meta WhatsApp Cloud API code without rewriting payloads. Simply swap the Base URL to Wahide."}
                   </p>
                 </div>
@@ -245,31 +245,31 @@ export function SmartFeatureTabs() {
 
                 <div>
                   <h3 className="text-foreground text-lg font-black sm:text-xl">
-                    {isId ? "5-Lapis Proteksi Anti-Ban Otomatis" : "5-Layer Automated Anti-Ban Shield"}
+                    {isId ? "5 Sistem Proteksi Pintar Anti-Blokir" : "5-Layer Automated Anti-Ban Shield"}
                   </h3>
                   <p className="text-foreground-secondary mt-1.5 text-xs leading-relaxed font-medium sm:text-sm">
                     {isId
-                      ? "Nomor WhatsApp Anda tetap aman saat mengirim pesan promosi berkat simulasi pengetikan alami manusia, Spintax acak, dan jeda pintar antar pengiriman."
-                      : "Protect your WhatsApp account while broadcasting marketing updates with natural typing presence, dynamic spintax, and adaptive jitter."}
+                      ? "Nomor WhatsApp Anda tetap aman saat mengirim pesan promosi berkat simulasi pengetikan alami manusia, variasi kata otomatis, dan jeda pintar antar pengiriman."
+                      : "Protect your WhatsApp account while broadcasting marketing updates with natural typing presence, dynamic word variations, and adaptive timing."}
                   </p>
                 </div>
 
                 <div className="space-y-2.5 rounded-xl border border-border/80 bg-muted/30 p-4 text-xs">
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                    <span><strong>ChatPresence Typing:</strong> Simulasi pengetikan manusia 40ms/karakter</span>
+                    <span><strong>{isId ? "Simulasi Sedang Mengetik:" : "Natural Typing Simulation:"}</strong> {isId ? "Tampil status mengetik alami seperti chat manusia asli" : "Displays natural 'typing...' presence on recipient screens"}</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                    <span><strong>Dynamic Spintax:</strong> Acak sinonim kata otomatis &#123;Halo|Hai|Pagi&#125;</span>
+                    <span><strong>{isId ? "Variasi Kata Otomatis:" : "Automated Word Variations:"}</strong> {isId ? "Acak kata sapaan otomatis {Halo|Hai|Selamat Pagi} agar setiap pesan unik" : "Rotates greetings {Hello|Hi|Greetings} so every message is unique"}</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                    <span><strong>Jitter Delays:</strong> Jeda acak 3–15 detik menghindari deteksi pola bot</span>
+                    <span><strong>{isId ? "Jeda Acak Antar Pesan:" : "Adaptive Random Delays:"}</strong> {isId ? "Selang kirim acak 3–15 detik agar wajar dan terhindar dari pemblokiran" : "Random 3–15s delays to mimic human cadence and prevent spam detection"}</span>
                   </div>
                   <div className="flex items-center gap-2.5">
                     <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                    <span><strong>Auto-Hibernation:</strong> Mode tidur saat idle untuk hemat baterai & koneksi</span>
+                    <span><strong>{isId ? "Proteksi Akun Siaga:" : "Smart Standby Protection:"}</strong> {isId ? "Istirahatkan koneksi otomatis agar baterai awet dan akun tetap stabil" : "Smart idle sleep to conserve device battery and maintain connection health"}</span>
                   </div>
                 </div>
               </div>
@@ -293,26 +293,26 @@ export function SmartFeatureTabs() {
                     {isId ? "Kapasitas Tinggi" : "High Capacity"}
                   </span>
                   <span className="text-foreground-muted font-mono text-xs font-semibold">
-                    Redis Streams Pipeline
+                    {isId ? "Kapasitas Ribuan Pesan / Menit" : "High-Speed Message Pipeline"}
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-foreground text-lg font-black sm:text-xl">
-                    {isId ? "Multi-Device Pool & Rotasi Cerdas" : "Multi-Device Pool & Smart Rotation"}
+                    {isId ? "Kirim Bareng dengan Banyak Nomor (Multi-Nomor)" : "Multi-Number Pool & Smart Distribution"}
                   </h3>
                   <p className="text-foreground-secondary mt-1.5 text-xs leading-relaxed font-medium sm:text-sm">
                     {isId
-                      ? "Sambungkan beberapa nomor WhatsApp sekaligus. Sistem otomatis merotasi pengiriman pesan keluar ke nomor yang sehat sehingga tidak melebihi batasan harian per nomor."
-                      : "Connect multiple numbers under one dashboard. Messages are automatically distributed across healthy devices to bypass single-number limits."}
+                      ? "Sambungkan beberapa nomor WhatsApp sekaligus. Sistem otomatis membagi beban pengiriman pesan keluar ke nomor-nomor Anda secara bergantian agar aman dari limit harian."
+                      : "Connect multiple numbers under one dashboard. Messages are automatically distributed across active devices to stay within safe daily limits."}
                   </p>
                 </div>
 
                 {/* Device Pool Visualizer */}
                 <div className="rounded-xl border border-border/80 bg-muted/40 p-3.5 space-y-2 text-xs">
                   <div className="flex items-center justify-between font-bold text-foreground">
-                    <span>Status Rotasi Antrean:</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-mono">Round-Robin Active</span>
+                    <span>{isId ? "Status Pembagian Beban:" : "Load Distribution Status:"}</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-mono">{isId ? "Rotasi Otomatis Aktif" : "Auto-Rotation Active"}</span>
                   </div>
                   <div className="flex items-center justify-between text-foreground-secondary font-mono text-[11px]">
                     <span className="flex items-center gap-1.5">

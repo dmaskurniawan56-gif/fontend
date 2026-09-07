@@ -212,7 +212,7 @@ export function CampaignDetailModal({
                       {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
                     </span>
                     <span className="text-foreground-muted text-[10px] font-mono">
-                      Round-Robin load balancing
+                      Multi-device auto distribution
                     </span>
                   </div>
                 ) : (

@@ -100,6 +100,27 @@ export const docNavigation: NavSection[] = [
     ],
   },
   {
+    id: "otp",
+    title: "OTP & Verification",
+    icon: "ShieldCheck",
+    items: [
+      {
+        id: "otp-send",
+        title: "Send OTP Code",
+        path: "/docs/otp/send",
+        method: "POST",
+        badge: "Instant VIP",
+      },
+      {
+        id: "otp-verify",
+        title: "Verify OTP Code",
+        path: "/docs/otp/verify",
+        method: "POST",
+        badge: "Secure",
+      },
+    ],
+  },
+  {
     id: "contacts",
     title: "Contacts Management",
     icon: "Users",

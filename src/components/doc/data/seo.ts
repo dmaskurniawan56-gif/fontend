@@ -97,6 +97,30 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "WhatsApp Cloud API Migration",
     ],
   },
+  "otp/send": {
+    seoTitle: "Send WhatsApp OTP API | Wahide",
+    seoDescription:
+      "Instant WhatsApp OTP code delivery with automatic 6-digit cryptographic generation, Redis 5-minute TTL, 60s cooldown, and VIP stream priority.",
+    keywords: [
+      "Send WhatsApp OTP API",
+      "WhatsApp OTP REST API",
+      "Kirim OTP WhatsApp",
+      "WhatsApp Verification Code API",
+      "WhatsApp OTP Gateway Indonesia",
+    ],
+  },
+  "otp/verify": {
+    seoTitle: "Verify WhatsApp OTP API | Wahide",
+    seoDescription:
+      "Atomic WhatsApp OTP verification API. Features single-use auto-burn against replay attacks, 5-attempt brute-force protection, and constant-time validation.",
+    keywords: [
+      "Verify WhatsApp OTP API",
+      "Validasi OTP WhatsApp",
+      "WhatsApp OTP Verification API",
+      "Single Use OTP API",
+      "WhatsApp Secure Auth API",
+    ],
+  },
   "devices/list": {
     seoTitle: "List Connected WhatsApp Devices",
     seoDescription:

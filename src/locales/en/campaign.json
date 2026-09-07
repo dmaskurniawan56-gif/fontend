@@ -31,6 +31,8 @@
   "selectDeviceDesc": "Only devices with 'Connected' status can be selected.",
   "noConnectedDevices": "No connected devices found. Please link a device first in WhatsApp menu.",
   "noActiveDeviceRedirect": "No online WhatsApp devices. Redirecting to Devices menu...",
+  "noContactsRedirect": "Your contact book is empty. Please add or import contacts first.",
+  "noTargetContactsSelected": "Target audience is empty (0 recipients). Please add contacts first or use custom manual input.",
   "goToDevicesBtn": "Go to Devices Menu",
   "selectAudienceLabel": "Select Audience Segment",
   "allContactsOption": "Send to All Contacts ({count} numbers)",

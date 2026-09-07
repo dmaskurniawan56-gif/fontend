@@ -31,6 +31,8 @@
   "selectDeviceDesc": "Hanya perangkat dengan status 'Terhubung' yang dapat digunakan.",
   "noConnectedDevices": "Tidak ada perangkat terhubung. Silakan tautkan perangkat terlebih dahulu di menu WhatsApp.",
   "noActiveDeviceRedirect": "Tidak ada perangkat WhatsApp online. Mengalihkan ke menu Perangkat...",
+  "noContactsRedirect": "Buku kontak Anda masih kosong. Silakan tambah atau impor kontak terlebih dahulu.",
+  "noTargetContactsSelected": "Target audiens kosong (0 penerima). Silakan tambahkan kontak terlebih dahulu atau gunakan input nomor manual.",
   "goToDevicesBtn": "Buka Menu Perangkat (Devices)",
   "selectAudienceLabel": "Pilih Segmen Tag Kontak",
   "allContactsOption": "Kirim ke Semua Kontak ({count} nomor)",

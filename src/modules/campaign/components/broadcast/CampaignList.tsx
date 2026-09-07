@@ -31,6 +31,7 @@ const CampaignDetailModal = dynamic(
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { whatsappApi } from "@/modules/whatsapp/api/whatsapp.api";
+import { contactApi } from "@/modules/contact/api/contact.api";
 import {
   Send,
   Plus,
@@ -65,7 +66,7 @@ export function CampaignList() {
   } = useCampaigns();
 
   const [isWizardOpen, setIsWizardOpen] = useState(false);
-  const [isCheckingDevices, setIsCheckingDevices] = useState(false);
+  const [isCheckingPreflight, setIsCheckingPreflight] = useState(false);
   const [campaignToDelete, setCampaignToDelete] = useState<Campaign | null>(null);
   const [selectedCampaignForDetail, setSelectedCampaignForDetail] = useState<Campaign | null>(null);
 
@@ -90,9 +91,10 @@ export function CampaignList() {
   };
 
   const handleCreateCampaignClick = async () => {
-    if (isCheckingDevices) return;
-    setIsCheckingDevices(true);
+    if (isCheckingPreflight) return;
+    setIsCheckingPreflight(true);
     try {
+      // 1. Cek Ketersediaan Perangkat WhatsApp Aktif
       const devices = await whatsappApi.getDevices();
       const onlineDevices = devices.filter(
         (d) => d.status === "CONNECTED" || (d.status as string) === "ONLINE"
@@ -104,12 +106,20 @@ export function CampaignList() {
         return;
       }
 
+      // 2. Cek Ketersediaan Data Kontak (Pre-flight Validation)
+      const contactRes = await contactApi.getContacts({ page: 1, pageSize: 1 });
+      if (contactRes.total === 0) {
+        toast.warning(t("campaign.noContactsRedirect") || "Buku kontak Anda masih kosong. Silakan tambah atau impor kontak terlebih dahulu.");
+        router.push("/contacts");
+        return;
+      }
+
       setIsWizardOpen(true);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memeriksa status perangkat";
+      const msg = err instanceof Error ? err.message : "Gagal memeriksa status prasyarat kampanye";
       toast.error(msg);
     } finally {
-      setIsCheckingDevices(false);
+      setIsCheckingPreflight(false);
     }
   };
 
@@ -205,10 +215,10 @@ export function CampaignList() {
             variant="primaryPill"
             size="sm"
             onClick={handleCreateCampaignClick}
-            disabled={isLoading || isCheckingDevices}
+            disabled={isLoading || isCheckingPreflight}
             className="h-10 shrink-0 cursor-pointer gap-2 px-4 text-xs font-bold shadow-sm"
           >
-            {isCheckingDevices ? (
+            {isCheckingPreflight ? (
               <Loader2 className="size-4 animate-spin" />
             ) : (
               <Plus className="size-4" />
@@ -235,10 +245,10 @@ export function CampaignList() {
               variant="primaryPill"
               size="sm"
               onClick={handleCreateCampaignClick}
-              disabled={isLoading || isCheckingDevices}
+              disabled={isLoading || isCheckingPreflight}
               className="mt-2 h-9 gap-2 px-4 text-xs font-bold shadow-sm"
             >
-              {isCheckingDevices ? (
+              {isCheckingPreflight ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
                 <Plus className="size-4" />

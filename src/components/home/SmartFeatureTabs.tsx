@@ -94,7 +94,7 @@ export function SmartFeatureTabs() {
         {activeTab === "developer" && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* OTP Hero Card */}
-            <div className="border-wise-green/50 bg-gradient-to-br from-wise-green/10 via-surface to-surface dark:from-wise-green/15 flex flex-col justify-between rounded-2xl border p-6 shadow-xs sm:p-7">
+            <div className="border-wise-green/50 bg-linear-to-br from-wise-green/10 via-surface to-surface dark:from-wise-green/15 flex flex-col justify-between rounded-2xl border p-6 shadow-xs sm:p-7">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="bg-wise-green text-near-black rounded-full px-3 py-0.5 text-[10px] font-black uppercase tracking-wider">
@@ -232,7 +232,7 @@ export function SmartFeatureTabs() {
         {activeTab === "marketing" && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* 5-Layer Anti-Ban Shield Card */}
-            <div className="border-wise-green/50 bg-gradient-to-br from-wise-green/10 via-surface to-surface dark:from-wise-green/15 flex flex-col justify-between rounded-2xl border p-6 shadow-xs sm:p-7">
+            <div className="border-wise-green/50 bg-linear-to-br from-wise-green/10 via-surface to-surface dark:from-wise-green/15 flex flex-col justify-between rounded-2xl border p-6 shadow-xs sm:p-7">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="bg-wise-green text-near-black rounded-full px-3 py-0.5 text-[10px] font-black uppercase tracking-wider">

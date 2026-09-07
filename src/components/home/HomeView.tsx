@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import dynamic from "next/dynamic";
 import { FaqAccordion } from "./FaqAccordion";
-import { BusinessSolutionsSection } from "./BusinessSolutionsSection";
+import { SmartFeatureTabs } from "./SmartFeatureTabs";
 
 const MessageSimulator = dynamic(
   () => import("./MessageSimulator").then((mod) => mod.MessageSimulator),
@@ -19,12 +19,6 @@ const MessageSimulator = dynamic(
   }
 );
 
-const ApiCodeSandbox = dynamic(() => import("./ApiCodeSandbox").then((mod) => mod.ApiCodeSandbox), {
-  ssr: false,
-  loading: () => (
-    <div className="border-border bg-muted/30 h-96 w-full animate-pulse rounded-2xl border" />
-  ),
-});
 import {
   ArrowRight,
   CheckCircle2,
@@ -33,6 +27,8 @@ import {
   QrCode,
   Workflow,
   Sliders,
+  Zap,
+  ShieldCheck,
 } from "lucide-react";
 
 export function HomeView() {
@@ -82,52 +78,23 @@ export function HomeView() {
             <CheckCircle2 className="text-dark-green dark:text-wise-green size-3.5" />
             <span>{t("common.hero.trustBadge")}</span>
           </div>
-        </div>
-
-        {/* Key Metrics Bento Grid */}
-        <div className="border-border/80 mt-12 grid grid-cols-2 gap-3.5 border-t pt-8 sm:gap-4 lg:grid-cols-4">
-          <div className="bg-surface border-border space-y-1 rounded-lg border p-4 shadow-xs sm:p-5">
-            <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
-              {t("common.metrics.deviceScale")}
-            </p>
-            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">100%</p>
-            <p className="text-foreground-secondary text-xs font-semibold">
-              {t("common.metrics.deviceScaleDesc")}
-            </p>
-          </div>
-
-          <div className="bg-surface border-border space-y-1 rounded-lg border p-4 shadow-xs sm:p-5">
-            <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
-              {t("common.metrics.ramSavings")}
-            </p>
-            <p className="text-dark-green dark:text-wise-green font-mono text-2xl font-black sm:text-3xl">
-              Alami
-            </p>
-            <p className="text-foreground-secondary text-xs font-semibold">
-              {t("common.metrics.ramSavingsDesc")}
-            </p>
-          </div>
-
-          <div className="bg-surface border-border space-y-1 rounded-lg border p-4 shadow-xs sm:p-5">
-            <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
-              {t("common.metrics.wakeupLatency")}
-            </p>
-            <p className="text-foreground font-mono text-2xl font-black sm:text-3xl">2 Menit</p>
-            <p className="text-foreground-secondary text-xs font-semibold">
-              {t("common.metrics.wakeupLatencyDesc")}
-            </p>
-          </div>
-
-          <div className="bg-surface border-border space-y-1 rounded-lg border p-4 shadow-xs sm:p-5">
-            <p className="text-foreground-muted text-[11px] font-bold tracking-wider uppercase">
-              {t("common.metrics.antiBan")}
-            </p>
-            <p className="text-dark-green dark:text-wise-green font-mono text-2xl font-black sm:text-3xl">
-              4-in-1
-            </p>
-            <p className="text-foreground-secondary text-xs font-semibold">
-              {t("common.metrics.antiBanDesc")}
-            </p>
+          {/* High-Impact Trust Strip */}
+          <div className="border-border/60 flex flex-wrap items-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary">
+            <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="size-3.5" /> 99.9% Uptime Delivery
+            </span>
+            <span className="text-border hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5 text-amber-500">
+              <Zap className="size-3.5" /> &lt; 0.4s OTP Kilat
+            </span>
+            <span className="text-border hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
+              <ShieldCheck className="size-3.5" /> 5-Lapis Anti-Ban
+            </span>
+            <span className="text-border hidden sm:inline">•</span>
+            <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
+              <Check className="size-3.5" /> Tanpa Biaya Meta
+            </span>
           </div>
         </div>
       </section>
@@ -137,8 +104,11 @@ export function HomeView() {
         <MessageSimulator />
       </section>
 
-      {/* 3. How It Works (3 Steps) */}
-      <section id="features" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+      {/* 3. Smart Interactive Solution Tabs (OTP API, Broadcast Anti-Ban, Business Tools) */}
+      <SmartFeatureTabs />
+
+      {/* 4. How It Works (3 Steps) */}
+      <section id="how-it-works" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
             <Workflow className="size-3.5" />
@@ -191,14 +161,6 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 4. Ready-to-Use Business Solutions Showcase */}
-      <BusinessSolutionsSection />
-
-      {/* 5. Developer REST API & Webhooks Code Sandbox */}
-      <section id="api" className="mx-auto max-w-4xl px-4 sm:px-6">
-        <ApiCodeSandbox />
-      </section>
-
       {/* 7. Transparent 3-Tier Pricing Grid */}
       <section id="pricing" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
@@ -212,6 +174,12 @@ export function HomeView() {
           <p className="text-foreground-secondary text-xs leading-relaxed font-semibold sm:text-sm">
             {t("common.landing.pricing.subtitle")}
           </p>
+        </div>
+
+        {/* Cost Comparison Callout Banner */}
+        <div className="mx-auto max-w-2xl rounded-xl border border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 p-3.5 text-center text-xs font-bold text-foreground sm:text-sm shadow-xs">
+          <span className="text-dark-green dark:text-wise-green mr-1.5">⚡ Bandingkan Biaya:</span>
+          Hemat hingga 98% dibanding Meta WhatsApp Cloud API resmi (~Rp 500/chat). Di Wahide, kirim 25.000 pesan mulai Rp 10.000/bulan!
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">

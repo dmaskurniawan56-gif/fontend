@@ -85,7 +85,7 @@ Seluruh komentar placeholder (seperti `// Pair device in Python`, `// List devic
   - **Badge `</> Developer First & REST API`**: Kini berupa `<Link href="/docs/intro">` interaktif dengan efek hover.
   - **Tombol `Buka Dokumentasi REST API`**: Menggunakan `<Link href="/docs/intro">` yang langsung membuka panduan resmi WhatsApp REST API internal.
 - **Berkas Terkait**: [`src/components/layout/public/PublicFooter.tsx`](file:///G:/WEB2026/fontwahide/src/components/layout/public/PublicFooter.tsx)
-  - Menambahkan tautan resmi "Buka Dokumentasi REST API" (`/docs/intro`) di kolom navigasi pengembang footer.
+  - Menggantikan tautan lama Postman dengan tautan resmi "Buka Dokumentasi REST API" (`/docs/intro`). Seluruh tautan eksternal ke Postman telah dihapus total dari kode sumber dan kamus i18n (`common.json`).
 
 ---
 

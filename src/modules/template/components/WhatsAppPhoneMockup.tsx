@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   TemplateCategory,
   TemplateMediaType,
@@ -20,6 +20,27 @@ import {
   Info,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
+
+/**
+ * Strict protocol sanitizer for media URLs (img src and a href)
+ * Prevents DOM-based XSS (CodeQL js/xss-through-dom) and rejects dangerous schemes (javascript:, vbscript:, data:text/html)
+ */
+function getSafeMediaUrl(url: string | null | undefined): string | null {
+  if (!url || typeof url !== "string") return null;
+  const trimmed = url.trim();
+
+  if (
+    trimmed.startsWith("blob:") ||
+    trimmed.startsWith("https://") ||
+    trimmed.startsWith("http://")
+  ) {
+    if (/^(javascript|vbscript|data:(?!image\/)):/i.test(trimmed)) {
+      return null;
+    }
+    return trimmed;
+  }
+  return null;
+}
 
 interface WhatsAppPhoneMockupProps {
   name: string;
@@ -50,6 +71,13 @@ export function WhatsAppPhoneMockup({
   className = "",
 }: WhatsAppPhoneMockupProps) {
   const { t } = useI18n();
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [mediaUrl]);
+
+  const safeMediaUrl = useMemo(() => getSafeMediaUrl(mediaUrl), [mediaUrl]);
 
   // Render content replacing {{variable}} with colored spans
   const renderedContent = useMemo(() => {
@@ -158,15 +186,13 @@ export function WhatsAppPhoneMockup({
             {/* Optional Media Header */}
             {mediaType === "IMAGE" && (
               <div className="mb-2 overflow-hidden rounded-lg bg-neutral-200 dark:bg-neutral-800">
-                {mediaUrl ? (
+                {safeMediaUrl && !imageError ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={mediaUrl}
+                    src={safeMediaUrl}
                     alt="Media Header"
                     className="max-h-36 w-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLElement).style.display = "none";
-                    }}
+                    onError={() => setImageError(true)}
                   />
                 ) : (
                   <div className="flex h-28 flex-col items-center justify-center gap-1 text-neutral-500">
@@ -182,7 +208,7 @@ export function WhatsAppPhoneMockup({
                 <FileText className="size-7 text-red-500" />
                 <div className="flex flex-1 flex-col overflow-hidden">
                   <span className="truncate text-xs font-semibold">
-                    {mediaUrl ? mediaUrl.split("/").pop() : t("template.editor.previewDocName")}
+                    {safeMediaUrl ? safeMediaUrl.split("/").pop() : t("template.editor.previewDocName")}
                   </span>
                   <span className="text-[10px] opacity-70">{t("template.editor.previewDocType")}</span>
                 </div>

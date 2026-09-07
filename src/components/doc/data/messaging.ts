@@ -386,13 +386,30 @@ const res = await axios.post("https://api.wahide.com/api/v1/wa/messages/send", {
   headers: { Authorization: "Bearer YOUR_API_KEY" }
 });`,
       php: `<?php
-$data = [
+$curl = curl_init();
+
+$payload = [
   "phone" => "628987654321",
   "message" => "Your automated report is ready for viewing.",
   "device_id" => "auto",
-  "simulate_typing" => true
+  "simulate_typing" => true,
 ];
-// Dispatch via cURL or Guzzle`,
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/wa/messages/send",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode($payload),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
       python: `import requests
 
 requests.post(
@@ -405,7 +422,41 @@ requests.post(
     },
     headers={"Authorization": "Bearer YOUR_API_KEY"}
 )`,
-      go: `// Send via Go net/http with "device_id": "auto"`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/wa/messages/send"
+
+	payload := map[string]interface{}{
+		"phone":           "628987654321",
+		"message":         "Your automated report is ready for viewing.",
+		"device_id":       "auto",
+		"simulate_typing": true,
+	}
+
+	jsonData, _ := json.Marshal(payload)
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -461,10 +512,88 @@ requests.post(
     "phone": "628123456789",
     "message": "{Hello|Hi|Greetings} {John|Partner}, {hope you have a great week|wishing you high productivity}!"
   }'`,
-      nodejs: `// Send Spintax message with Node.js axios`,
-      php: `// Send Spintax message with PHP`,
-      python: `// Send Spintax message with Python`,
-      go: `// Send Spintax message with Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/wa/messages/send", {
+  phone: "628123456789",
+  message: "{Hello|Hi|Greetings} {John|Partner}, {hope you have a great week|wishing you high productivity}!",
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+$payload = [
+  "phone" => "628123456789",
+  "message" => "{Hello|Hi|Greetings} {John|Partner}, {hope you have a great week|wishing you high productivity}!",
+];
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/wa/messages/send",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode($payload),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/wa/messages/send"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "phone": "628123456789",
+    "message": "{Hello|Hi|Greetings} {John|Partner}, {hope you have a great week|wishing you high productivity}!",
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/wa/messages/send"
+
+	payload := map[string]interface{}{
+		"phone":   "628123456789",
+		"message": "{Hello|Hi|Greetings} {John|Partner}, {hope you have a great week|wishing you high productivity}!",
+	}
+
+	jsonData, _ := json.Marshal(payload)
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -531,10 +660,96 @@ requests.post(
     "caption": "Your official invoice",
     "filename": "Invoice-INV2026.pdf"
   }'`,
-      nodejs: `// Media send using Node.js`,
-      php: `// Media send using PHP`,
-      python: `// Media send using Python`,
-      go: `// Media send using Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/wa/messages/send", {
+  phone: "628123456789",
+  media_url: "https://cdn.wahide.com/invoices/INV-2026.pdf",
+  caption: "Your official invoice",
+  filename: "Invoice-INV2026.pdf",
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+$payload = [
+  "phone" => "628123456789",
+  "media_url" => "https://cdn.wahide.com/invoices/INV-2026.pdf",
+  "caption" => "Your official invoice",
+  "filename" => "Invoice-INV2026.pdf",
+];
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/wa/messages/send",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode($payload),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/wa/messages/send"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "phone": "628123456789",
+    "media_url": "https://cdn.wahide.com/invoices/INV-2026.pdf",
+    "caption": "Your official invoice",
+    "filename": "Invoice-INV2026.pdf",
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/wa/messages/send"
+
+	payload := map[string]interface{}{
+		"phone":     "628123456789",
+		"media_url": "https://cdn.wahide.com/invoices/INV-2026.pdf",
+		"caption":   "Your official invoice",
+		"filename":  "Invoice-INV2026.pdf",
+	}
+
+	jsonData, _ := json.Marshal(payload)
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -638,9 +853,94 @@ const res = await axios.post(
   },
   { headers: { Authorization: "Bearer YOUR_API_KEY" } }
 );`,
-      php: `// PHP Meta compatible payload`,
-      python: `// Python Meta compatible payload`,
-      go: `// Go Meta compatible payload`,
+      php: `<?php
+$deviceId = "01M1WW3FKR1JS7CW4KGY78Q5ND";
+$curl = curl_init();
+
+$payload = [
+  "messaging_product" => "whatsapp",
+  "recipient_type" => "individual",
+  "to" => "628123456789",
+  "type" => "text",
+  "text" => [
+    "body" => "Hello from Meta SDK compatible format!",
+  ],
+];
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/v18.0/{$deviceId}/messages",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode($payload),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+device_id = "01M1WW3FKR1JS7CW4KGY78Q5ND"
+url = f"https://api.wahide.com/api/v1/v18.0/{device_id}/messages"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "messaging_product": "whatsapp",
+    "recipient_type": "individual",
+    "to": "628123456789",
+    "type": "text",
+    "text": {
+        "body": "Hello from Meta SDK compatible format!"
+    }
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	deviceID := "01M1WW3FKR1JS7CW4KGY78Q5ND"
+	url := fmt.Sprintf("https://api.wahide.com/api/v1/v18.0/%s/messages", deviceID)
+
+	payload := map[string]interface{}{
+		"messaging_product": "whatsapp",
+		"recipient_type":    "individual",
+		"to":                "628123456789",
+		"type":              "text",
+		"text": map[string]string{
+			"body": "Hello from Meta SDK compatible format!",
+		},
+	}
+
+	jsonData, _ := json.Marshal(payload)
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {

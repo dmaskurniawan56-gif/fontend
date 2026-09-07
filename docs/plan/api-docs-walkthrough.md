@@ -1,66 +1,93 @@
-# Walkthrough: Optimasi Technical SEO Google Page 1 & Metadata Standar Industri pada Dokumentasi Wahide
+# Walkthrough: Pembaruan robots.txt, Dynamic Base URL, dan Kode Contoh Lengkap 5 Bahasa
 
-Seluruh komponen dokumentasi API Wahide (`/docs/*`) telah dioptimasi secara komprehensif mengikuti standar **Google Search Essentials (Googlebot 2026)** untuk memaksimalkan potensi tembus ke **Halaman 1 Google (Page 1 SERP)** dengan CTR (*Click-Through Rate*) tinggi.
-
----
-
-## 1. Ringkasan Optimasi SEO yang Diterapkan
-
-| Parameter SEO | Sebelum Optimasi | Sesudah Optimasi (Standar Google Page 1) | Dampak pada Google SERP |
-|:---|:---|:---|:---|
-| **Panjang Title Tag** | **82+ karakter** (terjadi duplikasi suffix ganda: `${doc.title} - Wahide WhatsApp API Documentation \| Wahide WhatsApp API Docs`). | **43–52 karakter** (ringkas, padat keyword, formula: `%s \| Wahide API`). | Judul **100% utuh tanpa terpotong** tanda titik-titik (`...`) baik di smartphone maupun desktop. |
-| **Meta Description** | Terlalu pendek (< 60 karakter) atau generic tanpa *search intent*. | Diformulasikan presisi **140–155 karakter** dengan keyword komparasi (cURL, Node.js, PHP, Python, Go, anti-ban, E.164) & ajakan bertindak (*CTA*). | Menghasilkan cuplikan pencarian (*snippet*) resmi di Google, mencegah Google mengambil teks acak halaman. |
-| **Canonical URL** | Belum ada tag `alternates: { canonical }`. | Injeksi URL kanonikal absolut resmi di setiap endpoint (`https://wahide.id/docs/${doc.slug}`). | Mencegah penalti konten duplikat (*duplicate content penalty*) antar subdomain dan staging. |
-| **Structured Data (JSON-LD)** | Belum ada markup Schema.org. | Injeksi ganda **`BreadcrumbList`** dan **`TechArticle` / `APIReference`** via [`DocsJsonLd.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsJsonLd.tsx). | Google menampilkan jejak navigasi remah roti (`wahide.id > docs > messaging > send-text`) langsung di bawah judul pencarian. |
-| **Google XML Sitemap** | Rute `/docs/*` belum terdaftar di sitemap. | Seluruh 23+ endpoint dokumentasi otomatis terdaftar di [`sitemap.ts`](file:///G:/WEB2026/fontwahide/src/app/sitemap.ts) dengan `priority: 0.9` dan `changeFrequency: "weekly"`. | Bot Google (Googlebot) langsung mengindeks seluruh halaman baru secara kilat. |
-| **Robots Directives** | Pengaturan bawaan standar. | Dilengkapi arahan: `max-snippet: -1`, `max-image-preview: "large"`, `max-video-preview: -1`. | Googlebot leluasa menampilkan cuplikan teks penuh dan preview gambar kaya. |
+Pembaruan teknis untuk dokumentasi API Wahide telah selesai diimplementasikan secara menyeluruh dengan pengujian tipe data 100% lulus (`bun x tsc --noEmit` exit code 0) dan kepatuhan penuh terhadap instruksi (**perintah `bun run build` tidak pernah dijalankan**).
 
 ---
 
-## 2. Contoh Title Tag Hasil Optimasi (< 55 Karakter)
+## 1. Ringkasan Perubahan Utama
 
-* `/docs/intro`:
-  - **Title Google**: `WhatsApp API Documentation | Wahide API` (**39 karakter**)
-* `/docs/authentication`:
-  - **Title Google**: `API Authentication & Bearer Tokens | Wahide API` (**47 karakter**)
-* `/docs/errors`:
-  - **Title Google**: `API Status Codes & Rate Limits | Wahide API` (**43 karakter**)
-* `/docs/messaging/send-text`:
-  - **Title Google**: `Send WhatsApp Text Message API | Wahide API` (**43 karakter**)
-* `/docs/messaging/send-round-robin`:
-  - **Title Google**: `Multi-Device WhatsApp Rotation API | Wahide API` (**48 karakter**)
-* `/docs/messaging/send-spintax`:
-  - **Title Google**: `Send Dynamic Spintax WhatsApp API | Wahide API` (**47 karakter**)
-* `/docs/messaging/send-media`:
-  - **Title Google**: `Send WhatsApp Media & PDF API | Wahide API` (**42 karakter**)
-* `/docs/devices/pair`:
-  - **Title Google**: `Pair WhatsApp Device via QR API | Wahide API` (**45 karakter**)
-* `/docs/contacts/bulk-import`:
-  - **Title Google**: `Bulk Import WhatsApp Contacts API | Wahide API` (**47 karakter**)
-* `/docs/campaigns/create`:
-  - **Title Google**: `Create WhatsApp Broadcast Campaign | Wahide API` (**48 karakter**)
-
----
-
-## 3. Berkas yang Dibuat & Diperbarui
-
-1. **[`src/components/doc/data/seo.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/seo.ts)** *(BARU)*:
-   - Kamus metadata SEO berisi mapping judul ringkas, deskripsi 140–155 karakter, kata kunci intents tinggi, dan generator Schema.org JSON-LD.
-2. **[`src/components/doc/DocsJsonLd.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsJsonLd.tsx)** *(BARU)*:
-   - Komponen Server Component untuk merender `<script type="application/ld+json">` W3C/Google compliant.
-3. **[`src/components/doc/data/index.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/index.ts)**:
-   - Mengekspor helper `getDocSeoMetadata` dan `generateDocJsonLd`.
-4. **[`src/app/docs/layout.tsx`](file:///G:/WEB2026/fontwahide/src/app/docs/layout.tsx)**:
-   - Mengatur template title `%s | Wahide API`, robots directives, dan default OpenGraph/Twitter card.
-5. **[`src/app/docs/[...slug]/page.tsx`](file:///G:/WEB2026/fontwahide/src/app/docs/[...slug]/page.tsx)**:
-   - Menggunakan `getDocSeoMetadata()` pada `generateMetadata()`, mengunci canonical URL, dan menginjeksi komponen `<DocsJsonLd />`.
-6. **[`src/app/sitemap.ts`](file:///G:/WEB2026/fontwahide/src/app/sitemap.ts)**:
-   - Menghubungkan seluruh 23+ halaman dokumentasi ke XML sitemap dengan prioritas 0.9.
+### A. Update `robots.txt` (Pengindeksan Googlebot Terbuka untuk Docs & Blog)
+- **Berkas**: [`src/app/robots.ts`](file:///G:/WEB2026/fontwahide/src/app/robots.ts)
+- **Status**: Berhasil ditambahkan arahan izin crawling Googlebot dengan `userAgent: "*"`:
+  - `Allow: /docs`
+  - `Allow: /docs/*`
+  - `Allow: /blog`
+  - `Allow: /blog/*`
+- **Verifikasi HTTP Live**:
+  ```http
+  GET http://localhost:3000/robots.txt -> 200 OK
+  User-Agent: *
+  Allow: /
+  Allow: /about
+  Allow: /contact
+  Allow: /blog
+  Allow: /blog/*
+  Allow: /docs
+  Allow: /docs/*
+  Allow: /privacy
+  Allow: /terms
+  ```
 
 ---
 
-## 4. Hasil Pengujian Tipe Data
+### B. Dynamic API Base URL dari `NEXT_PUBLIC_API_BASE_URL`
+- **Berkas Dibuat**: [`src/components/doc/data/env.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/env.ts)
+- **Fungsi**:
+  - `getApiBaseUrl()`: Membaca `process.env.NEXT_PUBLIC_API_BASE_URL` (pada `.env.local`: `http://localhost:3030/api/v1`) dengan fallback aman ke `http://localhost:3030/api/v1`.
+  - `getApiHost()`: Mengekstrak origin host (`http://localhost:3030` di dev, atau `https://api.wahide.com` di prod).
+- **Integrasi Komponen UI**:
+  - [`DocsEndpointView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsEndpointView.tsx): Menampilkan dan menyalin URL endpoint HTTP secara dinamis menggunakan `{apiHost}` dan `fullUrl = ${apiHost}${doc.path}`.
+  - [`DocsCodeTabs.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsCodeTabs.tsx): Menginterpolasi `https://api.wahide.com` pada setiap tab bahasa secara reaktif menjadi URL host aktif saat tombol copy atau tampilan kode dirender.
+  - [`DocsGuideView.tsx`](file:///G:/WEB2026/fontwahide/src/components/doc/DocsGuideView.tsx): Menginterpolasi base URL dan host aktif pada callout panduan dan code box cuplikan quickstart cURL.
+  - [`intro.ts`](file:///G:/WEB2026/fontwahide/src/components/doc/data/intro.ts): Memperjelas informasi base URL dinamis dari `NEXT_PUBLIC_API_BASE_URL`.
 
-- **Command**: `bun x tsc --noEmit`
-- **Result**: **Exit Code 0 (0 errors)**.
-- **Rule Verification**: Perintah `bun run build` **TIDAK PERNAH dijalankan**.
+---
+
+### C. Pembuatan Kode Contoh Lengkap 5 Bahasa (Zero Placeholder)
+Seluruh komentar placeholder (seperti `// Pair device in Python`, `// List devices in Go`, dll.) telah diganti dengan kode nyata, fungsional, dan idiomatik untuk **5 bahasa**:
+1. **cURL**: Lengkap dengan flag `-X`, header `Authorization: Bearer YOUR_API_KEY`, `Content-Type: application/json`, dan flag `-d` payload JSON.
+2. **Node.js**: Menggunakan modern ES Modules `axios` dengan `async/await`, config headers, dan query params.
+3. **PHP**: Menggunakan native `curl_init()`, `curl_setopt_array()`, `json_encode()`, `curl_exec()`, dan `curl_close()` tanpa dependensi eksternal.
+4. **Python**: Menggunakan pustaka standar `requests` dengan header dict, `json=payload`, dan `print(response.json())`.
+5. **Go**: Menggunakan pustaka standar `net/http`, `bytes.NewBuffer(jsonData)`, `encoding/json`, `http.NewRequest()`, dan `client.Do(req)`.
+
+#### Rincian Modul yang Diperbarui:
+- **`src/components/doc/data/devices.ts`**:
+  - `devices-list` (`GET /api/v1/wa/devices`): 5 bahasa lengkap dengan pagination query (`page`, `size`).
+  - `devices-create` (`POST /api/v1/wa/devices`): 5 bahasa lengkap dengan payload `push_name`.
+  - `devices-pair` (`POST /api/v1/wa/devices/{deviceId}/pair`): 5 bahasa lengkap dengan penanganan URL parameter `deviceId`.
+  - `devices-disconnect` (`POST /api/v1/wa/devices/{deviceId}/disconnect`): 5 bahasa lengkap.
+  - `devices-delete` (`DELETE /api/v1/wa/devices/{deviceId}`): 5 bahasa lengkap menggunakan HTTP method `DELETE`.
+- **`src/components/doc/data/contacts.ts`**:
+  - `contacts-list` (`GET /api/v1/contacts`): 5 bahasa lengkap dengan filtering `search` dan `size`.
+  - `contacts-create` (`POST /api/v1/contacts`): 5 bahasa lengkap dengan atribut kontak (`name`, `phone`, `tags`).
+  - `contacts-bulk-import` (`POST /api/v1/contacts/bulk`): 5 bahasa lengkap dengan batch array 5.000 kontak.
+  - `contacts-bulk-delete` (`POST /api/v1/contacts/bulk-delete`): 5 bahasa lengkap dengan array ID ULID.
+  - `contacts-tags` (`GET /api/v1/contacts/tags`): 5 bahasa lengkap.
+- **`src/components/doc/data/campaigns.ts`**:
+  - `campaigns-list` (`GET /api/v1/campaigns`): 5 bahasa lengkap dengan filter status broadcast.
+  - `campaigns-create` (`POST /api/v1/campaigns`): 5 bahasa lengkap dengan parameter Spintax, tag targeting, dan jitter delay anti-ban (`min_delay_seconds`, `max_delay_seconds`).
+  - `campaigns-start` (`POST /api/v1/campaigns/{campaignId}/start`): 5 bahasa lengkap pemicu antrean Redis Streams.
+  - `campaigns-pause` (`POST /api/v1/campaigns/{campaignId}/pause`): 5 bahasa lengkap.
+  - `campaigns-logs` (`GET /api/v1/campaigns/logs`): 5 bahasa lengkap untuk audit pengiriman pesan.
+- **`src/components/doc/data/messaging.ts`**:
+  - `messaging-send-text` (`POST /api/v1/wa/messages/send`): 5 bahasa lengkap dengan simulasi typing.
+  - `messaging-round-robin` (`POST /api/v1/wa/messages/send`): 5 bahasa lengkap dengan `device_id: "auto"`.
+  - `messaging-spintax` (`POST /api/v1/wa/messages/send`): 5 bahasa lengkap dengan sintaks spintax `{Hello|Hi|Greetings}`.
+  - `messaging-media` (`POST /api/v1/wa/messages/send`): 5 bahasa lengkap dengan pengiriman file PDF/dokumen (`media_url`, `filename`, `caption`).
+  - `messaging-meta-cloud` (`POST /api/v1/v18.0/{deviceId}/messages`): 5 bahasa lengkap dengan format kompatibel Meta Cloud API v18.0.
+
+---
+
+## 2. Hasil Verifikasi & Uji Sistem
+
+1. **Type Checking TypeScript**:
+   ```bash
+   bun x tsc --noEmit
+   # Exit code: 0 (0 error across entire project)
+   ```
+2. **Kepatuhan Larangan Build**:
+   - `bun run build` **TIDAK PERNAH dijalankan**.
+3. **Uji Live Server Dev**:
+   - `GET /robots.txt` -> **200 OK** (memuat `Allow: /docs` & `Allow: /docs/*`).
+   - `GET /docs/devices/pair` -> **200 OK** (kode contoh cURL, Node.js, PHP, Python, Go tampil utuh tanpa placeholder).

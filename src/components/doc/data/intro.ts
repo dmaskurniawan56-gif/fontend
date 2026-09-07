@@ -17,9 +17,9 @@ export const introDoc: GuideDoc = {
         "The Wahide API is organized around RESTful principles. All requests are communicated over HTTPS using standard HTTP verbs (GET, POST, PUT, DELETE) and expect/return UTF-8 encoded JSON payloads.\n\nAll endpoints require authentication using a Bearer token or API key in the request headers.",
       callout: {
         type: "info",
-        title: "Base URL",
+        title: "API Base URL",
         content:
-          "Production Base URL:\n`https://api.wahide.com/api/v1`\n\nAll endpoint paths documented in this reference are relative to this root URL.",
+          "Active API Base URL:\n`https://api.wahide.com/api/v1`\n\nAll endpoint paths documented in this reference are relative to this root URL. In local development or staging, this dynamically adapts from `NEXT_PUBLIC_API_BASE_URL`.",
       },
     },
     {

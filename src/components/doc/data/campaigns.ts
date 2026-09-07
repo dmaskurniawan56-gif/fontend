@@ -38,12 +38,68 @@ export const campaignsEndpoints: EndpointDoc[] = [
       curl: `curl -X GET "https://api.wahide.com/api/v1/campaigns?status=RUNNING" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
       nodejs: `import axios from "axios";
+
 const res = await axios.get("https://api.wahide.com/api/v1/campaigns", {
-  headers: { Authorization: "Bearer YOUR_API_KEY" }
-});`,
-      php: `// List campaigns in PHP`,
-      python: `// List campaigns in Python`,
-      go: `// List campaigns in Go`,
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+  params: {
+    status: "RUNNING",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/campaigns?status=RUNNING",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/campaigns"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+params = {
+    "status": "RUNNING",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/campaigns?status=RUNNING"
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -121,12 +177,100 @@ const res = await axios.get("https://api.wahide.com/api/v1/campaigns", {
   -d '{
     "name": "Weekend Flash Sale",
     "message_template": "Hello {{name}}, sale is active!",
-    "tag_ids": ["01M1TAG01"]
+    "tag_ids": ["01M1TAG01"],
+    "min_delay_seconds": 5,
+    "max_delay_seconds": 15
   }'`,
-      nodejs: `// Create campaign in Node.js`,
-      php: `// Create campaign in PHP`,
-      python: `// Create campaign in Python`,
-      go: `// Create campaign in Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/campaigns", {
+  name: "Weekend Flash Sale",
+  message_template: "Hello {{name}}, sale is active!",
+  tag_ids: ["01M1TAG01"],
+  min_delay_seconds: 5,
+  max_delay_seconds: 15,
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/campaigns",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode([
+    "name" => "Weekend Flash Sale",
+    "message_template" => "Hello {{name}}, sale is active!",
+    "tag_ids" => ["01M1TAG01"],
+    "min_delay_seconds" => 5,
+    "max_delay_seconds" => 15,
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/campaigns"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "name": "Weekend Flash Sale",
+    "message_template": "Hello {{name}}, sale is active!",
+    "tag_ids": ["01M1TAG01"],
+    "min_delay_seconds": 5,
+    "max_delay_seconds": 15,
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/campaigns"
+	payload, _ := json.Marshal(map[string]interface{}{
+		"name":              "Weekend Flash Sale",
+		"message_template":  "Hello {{name}}, sale is active!",
+		"tag_ids":           []string{"01M1TAG01"},
+		"min_delay_seconds": 5,
+		"max_delay_seconds": 15,
+	})
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -167,10 +311,69 @@ const res = await axios.get("https://api.wahide.com/api/v1/campaigns", {
     snippets: {
       curl: `curl -X POST "https://api.wahide.com/api/v1/campaigns/01M1CP002/start" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
-      nodejs: `// Start campaign in Node.js`,
-      php: `// Start campaign in PHP`,
-      python: `// Start campaign in Python`,
-      go: `// Start campaign in Go`,
+      nodejs: `import axios from "axios";
+
+const campaignId = "01M1CP002";
+const res = await axios.post(
+  \`https://api.wahide.com/api/v1/campaigns/\${campaignId}/start\`,
+  {},
+  {
+    headers: { Authorization: "Bearer YOUR_API_KEY" },
+  }
+);
+console.log(res.data);`,
+      php: `<?php
+$campaignId = "01M1CP002";
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/campaigns/{$campaignId}/start",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+campaign_id = "01M1CP002"
+url = f"https://api.wahide.com/api/v1/campaigns/{campaign_id}/start"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+
+response = requests.post(url, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	campaignID := "01M1CP002"
+	url := fmt.Sprintf("https://api.wahide.com/api/v1/campaigns/%s/start", campaignID)
+
+	req, _ := http.NewRequest("POST", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -203,10 +406,69 @@ const res = await axios.get("https://api.wahide.com/api/v1/campaigns", {
     snippets: {
       curl: `curl -X POST "https://api.wahide.com/api/v1/campaigns/01M1CP002/pause" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
-      nodejs: `// Pause campaign in Node.js`,
-      php: `// Pause campaign in PHP`,
-      python: `// Pause campaign in Python`,
-      go: `// Pause campaign in Go`,
+      nodejs: `import axios from "axios";
+
+const campaignId = "01M1CP002";
+const res = await axios.post(
+  \`https://api.wahide.com/api/v1/campaigns/\${campaignId}/pause\`,
+  {},
+  {
+    headers: { Authorization: "Bearer YOUR_API_KEY" },
+  }
+);
+console.log(res.data);`,
+      php: `<?php
+$campaignId = "01M1CP002";
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/campaigns/{$campaignId}/pause",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+campaign_id = "01M1CP002"
+url = f"https://api.wahide.com/api/v1/campaigns/{campaign_id}/pause"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+
+response = requests.post(url, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	campaignID := "01M1CP002"
+	url := fmt.Sprintf("https://api.wahide.com/api/v1/campaigns/%s/pause", campaignID)
+
+	req, _ := http.NewRequest("POST", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -239,10 +501,69 @@ const res = await axios.get("https://api.wahide.com/api/v1/campaigns", {
     snippets: {
       curl: `curl -X GET "https://api.wahide.com/api/v1/campaigns/logs?campaign_id=01M1CP001" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
-      nodejs: `// Get campaign logs in Node.js`,
-      php: `// Get campaign logs in PHP`,
-      python: `// Get campaign logs in Python`,
-      go: `// Get campaign logs in Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.get("https://api.wahide.com/api/v1/campaigns/logs", {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+  params: {
+    campaign_id: "01M1CP001",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/campaigns/logs?campaign_id=01M1CP001",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/campaigns/logs"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+params = {
+    "campaign_id": "01M1CP001",
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/campaigns/logs?campaign_id=01M1CP001"
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {

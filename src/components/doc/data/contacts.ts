@@ -42,16 +42,75 @@ export const contactsEndpoints: EndpointDoc[] = [
       },
     ],
     snippets: {
-      curl: `curl -X GET "https://api.wahide.com/api/v1/contacts?search=Budi&page=1" \\
+      curl: `curl -X GET "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
       nodejs: `import axios from "axios";
+
 const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
-  headers: { Authorization: "Bearer YOUR_API_KEY" },
-  params: { search: "Budi" }
-});`,
-      php: `// List contacts in PHP`,
-      python: `// List contacts in Python`,
-      go: `// List contacts in Go`,
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+  params: {
+    search: "Budi",
+    page: 1,
+    size: 20,
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/contacts"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+params = {
+    "search": "Budi",
+    "page": 1,
+    "size": 20,
+}
+
+response = requests.get(url, headers=headers, params=params)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20"
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -123,10 +182,88 @@ const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
     "phone": "628123456789",
     "tags": ["VIP"]
   }'`,
-      nodejs: `// Create contact in Node.js`,
-      php: `// Create contact in PHP`,
-      python: `// Create contact in Python`,
-      go: `// Create contact in Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/contacts", {
+  name: "Budi Santoso",
+  phone: "628123456789",
+  tags: ["VIP"],
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode([
+    "name" => "Budi Santoso",
+    "phone" => "628123456789",
+    "tags" => ["VIP"],
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/contacts"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "name": "Budi Santoso",
+    "phone": "628123456789",
+    "tags": ["VIP"],
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/contacts"
+	payload, _ := json.Marshal(map[string]interface{}{
+		"name":  "Budi Santoso",
+		"phone": "628123456789",
+		"tags":  []string{"VIP"},
+	})
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -191,10 +328,92 @@ const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
       { "name": "Bob", "phone": "628222222222" }
     ]
   }'`,
-      nodejs: `// Bulk import in Node.js`,
-      php: `// Bulk import in PHP`,
-      python: `// Bulk import in Python`,
-      go: `// Bulk import in Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/contacts/bulk", {
+  contacts: [
+    { name: "Alice", phone: "628111111111" },
+    { name: "Bob", phone: "628222222222" },
+  ],
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts/bulk",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode([
+    "contacts" => [
+      ["name" => "Alice", "phone" => "628111111111"],
+      ["name" => "Bob", "phone" => "628222222222"],
+    ],
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/contacts/bulk"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "contacts": [
+        {"name": "Alice", "phone": "628111111111"},
+        {"name": "Bob", "phone": "628222222222"},
+    ],
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/contacts/bulk"
+	payload, _ := json.Marshal(map[string]interface{}{
+		"contacts": []map[string]string{
+			{"name": "Alice", "phone": "628111111111"},
+			{"name": "Bob", "phone": "628222222222"},
+		},
+	})
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -231,11 +450,81 @@ const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
       curl: `curl -X POST "https://api.wahide.com/api/v1/contacts/bulk-delete" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{ "ids": ["01M1CT001"] }'`,
-      nodejs: `// Bulk delete in Node.js`,
-      php: `// Bulk delete in PHP`,
-      python: `// Bulk delete in Python`,
-      go: `// Bulk delete in Go`,
+  -d '{ "ids": ["01M1CT001", "01M1CT002"] }'`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.post("https://api.wahide.com/api/v1/contacts/bulk-delete", {
+  ids: ["01M1CT001", "01M1CT002"],
+}, {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts/bulk-delete",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode([
+    "ids" => ["01M1CT001", "01M1CT002"],
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+    "Content-Type: application/json",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/contacts/bulk-delete"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
+}
+payload = {
+    "ids": ["01M1CT001", "01M1CT002"],
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/contacts/bulk-delete"
+	payload, _ := json.Marshal(map[string]interface{}{
+		"ids": []string{"01M1CT001", "01M1CT002"},
+	})
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {
@@ -260,10 +549,63 @@ const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
     snippets: {
       curl: `curl -X GET "https://api.wahide.com/api/v1/contacts/tags" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
-      nodejs: `// Get tags in Node.js`,
-      php: `// Get tags in PHP`,
-      python: `// Get tags in Python`,
-      go: `// Get tags in Go`,
+      nodejs: `import axios from "axios";
+
+const res = await axios.get("https://api.wahide.com/api/v1/contacts/tags", {
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+console.log(res.data);`,
+      php: `<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts/tags",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer YOUR_API_KEY",
+  ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+echo $response;`,
+      python: `import requests
+
+url = "https://api.wahide.com/api/v1/contacts/tags"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+}
+
+response = requests.get(url, headers=headers)
+print(response.json())`,
+      go: `package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.wahide.com/api/v1/contacts/tags"
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}`,
     },
     responses: [
       {

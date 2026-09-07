@@ -8,6 +8,10 @@ const envSchema = z.object({
   NEXT_PUBLIC_WHATSAPP_API_URL: z.string().default("http://localhost:3030/api/v1"),
   NEXT_PUBLIC_CAMPAIGN_API_URL: z.string().default("http://localhost:3030/api/v1"),
   NEXT_PUBLIC_FINANCE_API_URL: z.string().default("http://localhost:3030/api/v1"),
+  NEXT_PUBLIC_TEMPLATE_API_URL: z.string().default("http://localhost:3030/api/v1"),
+  NEXT_PUBLIC_REMINDER_API_URL: z.string().default("http://localhost:3030/api/v1"),
+  NEXT_PUBLIC_RESERVATION_API_URL: z.string().default("http://localhost:3030/api/v1"),
+  NEXT_PUBLIC_FORM_API_URL: z.string().default("http://localhost:3030/api/v1"),
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().default("0x4AAAAAADOgaNLRGt1f6A6-"),
 });
 
@@ -19,5 +23,9 @@ export const env = envSchema.parse({
   NEXT_PUBLIC_WHATSAPP_API_URL: process.env.NEXT_PUBLIC_WHATSAPP_API_URL,
   NEXT_PUBLIC_CAMPAIGN_API_URL: process.env.NEXT_PUBLIC_CAMPAIGN_API_URL,
   NEXT_PUBLIC_FINANCE_API_URL: process.env.NEXT_PUBLIC_FINANCE_API_URL,
+  NEXT_PUBLIC_TEMPLATE_API_URL: process.env.NEXT_PUBLIC_TEMPLATE_API_URL,
+  NEXT_PUBLIC_REMINDER_API_URL: process.env.NEXT_PUBLIC_REMINDER_API_URL,
+  NEXT_PUBLIC_RESERVATION_API_URL: process.env.NEXT_PUBLIC_RESERVATION_API_URL,
+  NEXT_PUBLIC_FORM_API_URL: process.env.NEXT_PUBLIC_FORM_API_URL,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 });

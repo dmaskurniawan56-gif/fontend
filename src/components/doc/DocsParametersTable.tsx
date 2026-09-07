@@ -38,10 +38,10 @@ export function DocsParametersTable({
         <table className="w-full text-left text-sm border-collapse">
           <thead>
             <tr className="border-b border-border bg-muted/30 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              <th className="py-3 px-4 min-w-[180px]">Parameter</th>
-              <th className="py-3 px-3 min-w-[100px]">Type</th>
+              <th className="py-3 px-4 min-w-45">Parameter</th>
+              <th className="py-3 px-3 min-w-25">Type</th>
               <th className="py-3 px-3 min-w-[110px]">Required</th>
-              <th className="py-3 px-4 min-w-[280px]">Description</th>
+              <th className="py-3 px-4 min-w-70">Description</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/60 font-normal text-foreground">

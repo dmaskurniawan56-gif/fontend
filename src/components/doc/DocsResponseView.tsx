@@ -132,9 +132,9 @@ export function DocsResponseView({
             <table className="w-full text-left text-sm border-collapse">
               <thead>
                 <tr className="border-b border-border bg-muted/30 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  <th className="py-2.5 px-4 min-w-[180px]">Attribute</th>
+                  <th className="py-2.5 px-4 min-w-45">Attribute</th>
                   <th className="py-2.5 px-3 min-w-[90px]">Type</th>
-                  <th className="py-2.5 px-4 min-w-[260px]">Description</th>
+                  <th className="py-2.5 px-4 min-w-65">Description</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 text-xs text-foreground">

@@ -228,10 +228,10 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
             <table className="w-full text-left text-sm border-collapse">
               <thead>
                 <tr className="border-b border-border bg-muted/30 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  <th className="py-2.5 px-4 min-w-[90px]">Status</th>
-                  <th className="py-2.5 px-3 min-w-[140px]">Error Code</th>
-                  <th className="py-2.5 px-4 min-w-[220px]">Description</th>
-                  <th className="py-2.5 px-4 min-w-[240px]">Recommended Action</th>
+                  <th className="py-2.5 px-4 min-w-22.5">Status</th>
+                  <th className="py-2.5 px-3 min-w-35">Error Code</th>
+                  <th className="py-2.5 px-4 min-w-55">Description</th>
+                  <th className="py-2.5 px-4 min-w-60">Recommended Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 text-xs">

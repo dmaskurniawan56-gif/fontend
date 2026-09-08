@@ -65,6 +65,8 @@ export function DeviceCard({
     setIsActionLoading(true);
     try {
       await actionFn(device.id);
+    } catch (err: unknown) {
+      console.warn("Device action handled:", err);
     } finally {
       setIsActionLoading(false);
     }

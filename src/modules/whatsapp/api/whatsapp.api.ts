@@ -19,11 +19,9 @@ const mapBackendDevice = (d: any): Device => {
   } else if (mappedStatus === "HIBERNATED") {
     mappedStatus = "HIBERNATED";
   } else if (mappedStatus === "PAIRING" || mappedStatus === "QR_PENDING") {
-    mappedStatus = rawJid ? "HIBERNATED" : "PAIRING";
-  } else if (mappedStatus === "OFFLINE" || mappedStatus === "DISCONNECTED") {
-    mappedStatus = rawJid ? "HIBERNATED" : "DISCONNECTED";
+    mappedStatus = "PAIRING";
   } else {
-    mappedStatus = rawJid ? "HIBERNATED" : "DISCONNECTED";
+    mappedStatus = "DISCONNECTED";
   }
 
   // Extract clean phone number from JID (e.g., "6282151743688:80@s.whatsapp.net" -> "6282151743688")

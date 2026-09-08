@@ -10,6 +10,7 @@ import {
   MessageSquare,
   Users,
   Megaphone,
+  ShieldCheck,
 } from "lucide-react";
 
 interface DocsSidebarProps {
@@ -23,6 +24,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   MessageSquare,
   Users,
   Megaphone,
+  ShieldCheck,
 };
 
 export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {

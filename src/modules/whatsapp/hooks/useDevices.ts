@@ -81,7 +81,6 @@ export function useDevices() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal menghapus perangkat";
       toast.error(msg);
-      throw err;
     }
   };
 
@@ -93,7 +92,6 @@ export function useDevices() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal memutuskan koneksi";
       toast.error(msg);
-      throw err;
     }
   };
 
@@ -105,7 +103,6 @@ export function useDevices() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal menghibernasi sesi";
       toast.error(msg);
-      throw err;
     }
   };
 
@@ -117,7 +114,19 @@ export function useDevices() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal membangunkan sesi";
       toast.error(msg);
-      throw err;
+      // Auto-transition device state in UI to DISCONNECTED and clear JID/phone when wake fails (e.g. session expired)
+      setDevices((prev) =>
+        prev.map((d) =>
+          d.id === id ? { ...d, status: "DISCONNECTED", phone: null, jid: null } : d
+        )
+      );
+      // Background sync with backend
+      void whatsappApi
+        .getDevices()
+        .then((latest) => {
+          if (latest && latest.length > 0) setDevices(latest);
+        })
+        .catch(() => {});
     }
   };
 

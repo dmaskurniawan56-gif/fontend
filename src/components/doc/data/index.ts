@@ -6,6 +6,7 @@ import { devicesEndpoints } from "./devices";
 import { messagingEndpoints } from "./messaging";
 import { contactsEndpoints } from "./contacts";
 import { campaignsEndpoints } from "./campaigns";
+import { otpEndpoints } from "./otp";
 
 export { docNavigation } from "./navigation";
 export { introDoc } from "./intro";
@@ -13,6 +14,7 @@ export { authenticationDoc } from "./authentication";
 export { errorsDoc } from "./errors";
 export { devicesEndpoints } from "./devices";
 export { messagingEndpoints } from "./messaging";
+export { otpEndpoints } from "./otp";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
@@ -23,6 +25,7 @@ export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc];
 export const allEndpoints: EndpointDoc[] = [
   ...devicesEndpoints,
   ...messagingEndpoints,
+  ...otpEndpoints,
   ...contactsEndpoints,
   ...campaignsEndpoints,
 ];

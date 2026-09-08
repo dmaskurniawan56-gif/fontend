@@ -272,7 +272,27 @@ export function RegisterForm() {
               className="accent-wise-green mt-0.5 size-4 cursor-pointer rounded"
             />
             <span className="text-foreground-secondary text-xs leading-relaxed font-semibold">
-              {t("auth.register.agreeTerms")}
+              {t("auth.register.agreeTermsPrefix")}
+              <Link
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-dark-green dark:text-wise-green font-bold hover:underline"
+              >
+                {t("auth.register.termsLink")}
+              </Link>
+              {t("auth.register.agreeTermsAnd")}
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-dark-green dark:text-wise-green font-bold hover:underline"
+              >
+                {t("auth.register.privacyLink")}
+              </Link>
+              {t("auth.register.agreeTermsSuffix")}
             </span>
           </label>
           {fieldErrors.agreeTerms && (

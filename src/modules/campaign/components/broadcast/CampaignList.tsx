@@ -97,7 +97,10 @@ export function CampaignList() {
       // 1. Cek Ketersediaan Perangkat WhatsApp Aktif
       const devices = await whatsappApi.getDevices();
       const onlineDevices = devices.filter(
-        (d) => d.status === "CONNECTED" || (d.status as string) === "ONLINE"
+        (d) =>
+          (d.status === "CONNECTED" || (d.status as string) === "ONLINE") &&
+          !d.is_over_limit &&
+          !d.isOverLimit
       );
 
       if (onlineDevices.length === 0) {

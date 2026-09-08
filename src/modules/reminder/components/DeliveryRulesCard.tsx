@@ -64,9 +64,11 @@ export function DeliveryRulesCard({
         const list = await whatsappApi.getDevices();
         if (isMounted) {
           setDevices(list);
-          // If no device selected and list has devices, auto select first connected device
+          // If no device selected and list has devices, auto select first connected device that is within limit
           if (!deviceId && list.length > 0) {
-            const connected = list.find((d) => d.status === "CONNECTED");
+            const connected = list.find(
+              (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit
+            );
             setDeviceId(connected?.id || list[0].id);
           }
         }
@@ -170,11 +172,14 @@ export function DeliveryRulesCard({
                 className="h-10 text-xs rounded-xl"
               >
                 <NativeSelectOption value="">{t("reminder.rules.selectDevice")}</NativeSelectOption>
-                {devices.map((d) => (
-                  <NativeSelectOption key={d.id} value={d.id}>
-                    {d.name} {d.phone ? `(${d.phone})` : ""} - [{d.status}]
-                  </NativeSelectOption>
-                ))}
+                {devices.map((d) => {
+                  const isOver = Boolean(d.is_over_limit || d.isOverLimit);
+                  return (
+                    <NativeSelectOption key={d.id} value={d.id} disabled={isOver}>
+                      {d.name} {d.phone ? `(${d.phone})` : ""} - [{isOver ? "OVER LIMIT" : d.status}]
+                    </NativeSelectOption>
+                  );
+                })}
               </NativeSelect>
               {devices.length === 0 && !isLoadingDevices && (
                 <p className="text-[11px] text-amber-500 flex items-center gap-1">

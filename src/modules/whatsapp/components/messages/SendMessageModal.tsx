@@ -30,7 +30,9 @@ interface SendMessageModalProps {
 
 export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalProps) {
   const { t } = useI18n();
-  const connectedDevices = devices.filter((d) => d.status === "CONNECTED");
+  const connectedDevices = devices.filter(
+    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit
+  );
   const [userSelectedDeviceId, setUserSelectedDeviceId] = useState<string>("");
   const [recipient, setRecipient] = useState("");
   const [message, setMessage] = useState("");

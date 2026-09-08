@@ -25,7 +25,7 @@ export function SmartFeatureTabs() {
   const isId = locale !== "en";
 
   return (
-    <section id="features" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
+    <section id="features" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
       {/* Section Header */}
       <div className="mx-auto max-w-2xl space-y-3 text-center">
         <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-bold shadow-xs">

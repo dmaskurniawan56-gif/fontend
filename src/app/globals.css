@@ -143,6 +143,7 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
     font-feature-settings:
       "calt" 1,
       "tnum" 1;

@@ -2,6 +2,7 @@
 
 import React, { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { LocaleSwitcher } from "@/components/layout/shared/LocaleSwitcher";
@@ -15,10 +16,34 @@ const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
 
 export function PublicHeader() {
+  const pathname = usePathname();
   const { user, isAuthenticated } = useAuth();
   const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isClient = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
+
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", `/#${targetId}`);
+      }
+    }
+  };
+
+  const handleMobileAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    setMobileMenuOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", `/#${targetId}`);
+      }
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur-md transition-colors">
@@ -31,25 +56,35 @@ export function PublicHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation: Solusi, Fitur, Harga, FAQ, Tentang Kami, Hubungi Kami */}
+        {/* Desktop Navigation: Solusi, Fitur, Harga, FAQ */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-bold text-foreground-secondary">
-          <Link href="/#solutions" className="hover:text-foreground transition-colors">
+          <Link
+            href="/#solutions"
+            onClick={(e) => handleAnchorClick(e, "solutions")}
+            className="hover:text-foreground transition-colors"
+          >
             {t("common.nav.solutions")}
           </Link>
-          <Link href="/#features" className="hover:text-foreground transition-colors">
+          <Link
+            href="/#features"
+            onClick={(e) => handleAnchorClick(e, "features")}
+            className="hover:text-foreground transition-colors"
+          >
             {t("common.nav.features")}
           </Link>
-          <Link href="/#pricing" className="hover:text-foreground transition-colors">
+          <Link
+            href="/#pricing"
+            onClick={(e) => handleAnchorClick(e, "pricing")}
+            className="hover:text-foreground transition-colors"
+          >
             {t("common.nav.pricing")}
           </Link>
-          <Link href="/#faq" className="hover:text-foreground transition-colors">
+          <Link
+            href="/#faq"
+            onClick={(e) => handleAnchorClick(e, "faq")}
+            className="hover:text-foreground transition-colors"
+          >
             {t("common.nav.faq")}
-          </Link>
-          <Link href="/about" className="hover:text-foreground transition-colors">
-            {t("common.nav.about")}
-          </Link>
-          <Link href="/contact" className="hover:text-foreground transition-colors">
-            {t("common.nav.contact")}
           </Link>
         </nav>
 
@@ -114,45 +149,31 @@ export function PublicHeader() {
           <nav className="flex flex-col gap-1 text-sm font-bold text-foreground">
             <Link
               href="/#solutions"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleMobileAnchorClick(e, "solutions")}
               className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
             >
               {t("common.nav.solutions")}
             </Link>
             <Link
               href="/#features"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleMobileAnchorClick(e, "features")}
               className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
             >
               {t("common.nav.features")}
             </Link>
             <Link
               href="/#pricing"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleMobileAnchorClick(e, "pricing")}
               className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
             >
               {t("common.nav.pricing")}
             </Link>
             <Link
               href="/#faq"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleMobileAnchorClick(e, "faq")}
               className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
             >
               {t("common.nav.faq")}
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
-            >
-              {t("common.nav.about")}
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
-            >
-              {t("common.nav.contact")}
             </Link>
           </nav>
 

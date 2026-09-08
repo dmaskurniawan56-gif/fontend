@@ -8,6 +8,7 @@ import { useI18n } from "@/lib/i18n/context";
 import dynamic from "next/dynamic";
 import { FaqAccordion } from "./FaqAccordion";
 import { SmartFeatureTabs } from "./SmartFeatureTabs";
+import { BusinessSolutionsSection } from "./BusinessSolutionsSection";
 
 const MessageSimulator = dynamic(
   () => import("./MessageSimulator").then((mod) => mod.MessageSimulator),
@@ -104,11 +105,14 @@ export function HomeView() {
         <MessageSimulator />
       </section>
 
-      {/* 3. Smart Interactive Solution Tabs (OTP API, Broadcast Anti-Ban, Business Tools) */}
+      {/* 3. Dedicated Business Solutions (Reservasi, Pengingat, Form, Template) */}
+      <BusinessSolutionsSection />
+
+      {/* 4. Smart Interactive Solution Tabs (OTP API, Broadcast, Business Tools) */}
       <SmartFeatureTabs />
 
-      {/* 4. How It Works (3 Steps) */}
-      <section id="how-it-works" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+      {/* 5. How It Works (3 Steps) */}
+      <section id="how-it-works" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
             <Workflow className="size-3.5" />
@@ -161,8 +165,8 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 7. Transparent 3-Tier Pricing Grid */}
-      <section id="pricing" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
+      {/* 6. Transparent 3-Tier Pricing Grid */}
+      <section id="pricing" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
             <CreditCard className="size-3.5" />
@@ -341,8 +345,8 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 8. FAQ Accordion */}
-      <section id="faq" className="content-visibility-auto mx-auto max-w-3xl px-4 sm:px-6">
+      {/* 7. FAQ Accordion */}
+      <section id="faq" className="scroll-mt-20 sm:scroll-mt-24 content-visibility-auto mx-auto max-w-3xl px-4 sm:px-6">
         <FaqAccordion />
       </section>
 

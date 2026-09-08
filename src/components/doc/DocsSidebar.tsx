@@ -11,6 +11,7 @@ import {
   Users,
   Megaphone,
   ShieldCheck,
+  Webhook,
 } from "lucide-react";
 
 interface DocsSidebarProps {
@@ -25,6 +26,7 @@ const ICON_MAP: Record<string, React.ElementType> = {
   Users,
   Megaphone,
   ShieldCheck,
+  Webhook,
 };
 
 export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {

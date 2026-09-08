@@ -74,7 +74,7 @@
       "otpF1": "Zero Database Setup — Just call our clean REST API",
       "otpF2": "Anti Brute-Force lockout after 5 consecutive failed attempts",
       "otpF3": "VIP Priority Stream — Instant delivery without queue delays",
-      "otpF4": "Instant API Key authentication (X-API-Key: hide_...)",
+      "otpF4": "Instant API Key authentication (Authorization: Bearer hide_...)",
       "otpCta": "Explore OTP Documentation",
       "multiDeviceBadge": "High Availability",
       "multiDeviceTitle": "Smart Multi-Number Distribution",

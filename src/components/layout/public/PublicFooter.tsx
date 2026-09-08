@@ -88,13 +88,8 @@ export function PublicFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="hover:text-foreground transition-colors">
+                <Link href="/docs/webhooks" className="hover:text-foreground transition-colors">
                   {t("footer.devWebhook")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/#spintax" className="hover:text-foreground transition-colors">
-                  {t("footer.devSpintax")}
                 </Link>
               </li>
             </ul>

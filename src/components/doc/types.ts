@@ -82,6 +82,8 @@ export interface GuideSection {
     content: string;
     title?: string;
   };
+  codeTabs?: CodeSnippetDoc;
+  codeTabsTitle?: string;
 }
 
 export interface GuideDoc {

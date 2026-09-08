@@ -21,11 +21,11 @@ export const otpEndpoints: EndpointDoc[] = [
     },
     headers: [
       {
-        key: "X-API-Key",
-        value: "hide_<your_api_key>",
+        key: "Authorization",
+        value: "Bearer hide_<your_api_key>",
         required: true,
         description:
-          "Your secret Wahide API Key. Alternatively pass via 'Authorization: Bearer <api_key>'.",
+          "Your secret Wahide API Key prefixed with Bearer.",
       },
       {
         key: "Content-Type",
@@ -91,7 +91,7 @@ export const otpEndpoints: EndpointDoc[] = [
     ],
     snippets: {
       curl: `curl -X POST "https://api.wahide.com/api/v1/otp/send" \\
-  -H "X-API-Key: hide_YOUR_API_KEY" \\
+  -H "Authorization: Bearer hide_YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "phone": "628123456789",
@@ -113,7 +113,7 @@ const response = await axios.post(
   },
   {
     headers: {
-      "X-API-Key": "hide_YOUR_API_KEY",
+      "Authorization": "Bearer hide_YOUR_API_KEY",
       "Content-Type": "application/json",
     },
   }
@@ -138,7 +138,7 @@ curl_setopt_array($curl, [
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => json_encode($payload),
     CURLOPT_HTTPHEADER => [
-        "X-API-Key: hide_YOUR_API_KEY",
+        "Authorization: Bearer hide_YOUR_API_KEY",
         "Content-Type: application/json",
     ],
 ]);
@@ -150,7 +150,7 @@ echo $response;`,
 
 url = "https://api.wahide.com/api/v1/otp/send"
 headers = {
-    "X-API-Key": "hide_YOUR_API_KEY",
+    "Authorization": "Bearer hide_YOUR_API_KEY",
     "Content-Type": "application/json",
 }
 payload = {
@@ -183,7 +183,7 @@ func main() {
 	})
 
 	req, _ := http.NewRequest("POST", "https://api.wahide.com/api/v1/otp/send", bytes.NewBuffer(payload))
-	req.Header.Set("X-API-Key", "hide_YOUR_API_KEY")
+	req.Header.Set("Authorization", "Bearer hide_YOUR_API_KEY")
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
@@ -300,10 +300,10 @@ func main() {
     },
     headers: [
       {
-        key: "X-API-Key",
-        value: "hide_<your_api_key>",
+        key: "Authorization",
+        value: "Bearer hide_<your_api_key>",
         required: true,
-        description: "Your secret Wahide API Key prefixed with hide_.",
+        description: "Your secret Wahide API Key prefixed with Bearer.",
       },
       {
         key: "Content-Type",
@@ -331,7 +331,7 @@ func main() {
     ],
     snippets: {
       curl: `curl -X POST "https://api.wahide.com/api/v1/otp/verify" \\
-  -H "X-API-Key: hide_YOUR_API_KEY" \\
+  -H "Authorization: Bearer hide_YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "phone": "628123456789",
@@ -347,7 +347,7 @@ const response = await axios.post(
   },
   {
     headers: {
-      "X-API-Key": "hide_YOUR_API_KEY",
+      "Authorization": "Bearer hide_YOUR_API_KEY",
       "Content-Type": "application/json",
     },
   }
@@ -369,7 +369,7 @@ curl_setopt_array($curl, [
     CURLOPT_POST => true,
     CURLOPT_POSTFIELDS => json_encode($payload),
     CURLOPT_HTTPHEADER => [
-        "X-API-Key: hide_YOUR_API_KEY",
+        "Authorization: Bearer hide_YOUR_API_KEY",
         "Content-Type: application/json",
     ],
 ]);
@@ -381,7 +381,7 @@ echo $response;`,
 
 url = "https://api.wahide.com/api/v1/otp/verify"
 headers = {
-    "X-API-Key": "hide_YOUR_API_KEY",
+    "Authorization": "Bearer hide_YOUR_API_KEY",
     "Content-Type": "application/json",
 }
 payload = {
@@ -408,7 +408,7 @@ func main() {
 	})
 
 	req, _ := http.NewRequest("POST", "https://api.wahide.com/api/v1/otp/verify", bytes.NewBuffer(payload))
-	req.Header.Set("X-API-Key", "hide_YOUR_API_KEY")
+	req.Header.Set("Authorization", "Bearer hide_YOUR_API_KEY")
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}

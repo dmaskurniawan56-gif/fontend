@@ -74,7 +74,7 @@
       "otpF1": "Langsung Pakai Tanpa Setup Server — Siap untuk verifikasi login & transaksi",
       "otpF2": "Proteksi Brute-Force 5x percobaan salah langsung lock",
       "otpF3": "Jalur Prioritas Khusus VIP — Kode OTP sampai kilat tanpa antre",
-      "otpF4": "Otentikasi API Key (X-API-Key: hide_...) siap integrasi",
+      "otpF4": "Otentikasi API Key (Authorization: Bearer hide_...) siap integrasi",
       "otpCta": "Buka Dokumentasi OTP",
       "multiDeviceBadge": "High Availability",
       "multiDeviceTitle": "Bagi Beban Kirim Otomatis (Multi-Nomor WhatsApp)",

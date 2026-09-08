@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { WebhookConfig } from "@/modules/subscription/types/subscription.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { toast } from "sonner";
 import {
   Webhook,
   Key,
@@ -27,6 +29,9 @@ import {
   Loader2,
   ShieldCheck,
   AlertTriangle,
+  BookOpen,
+  ExternalLink,
+  Radio,
 } from "lucide-react";
 
 interface WebhookConfigCardProps {
@@ -49,6 +54,52 @@ export function WebhookConfigCard({
   const [isSaving, setIsSaving] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isPinging, setIsPinging] = useState(false);
+  const [pingResult, setPingResult] = useState<{ success: boolean; latency?: number; error?: string } | null>(null);
+
+  const handleTestPing = async () => {
+    if (!url) {
+      toast.error("Masukkan URL endpoint webhook terlebih dahulu");
+      return;
+    }
+    setIsPinging(true);
+    setPingResult(null);
+    const startTime = performance.now();
+    try {
+      toast.info("Mengirim simulasi test.ping ke endpoint...", { id: "webhook-ping" });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 7000);
+
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${config?.secret || ""}`,
+          "User-Agent": "Wahide-WhatsApp-Webhook-Engine/2.0-TestPing",
+        },
+        body: JSON.stringify({
+          event: "test.ping",
+          device_id: "test_simulation_device",
+          timestamp: Math.floor(Date.now() / 1000),
+          data: {
+            message: "Simulasi uji coba konektivitas webhook dari Wahide Dashboard.",
+          },
+        }),
+        signal: controller.signal,
+        mode: "no-cors",
+      });
+      clearTimeout(timeoutId);
+      const latency = Math.round(performance.now() - startTime);
+      setPingResult({ success: true, latency });
+      toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, { id: "webhook-ping" });
+    } catch (err) {
+      const isTimeout = err instanceof Error && err.name === "AbortError";
+      setPingResult({ success: false, error: isTimeout ? "Timeout (>7s)" : "Gagal terhubung" });
+      toast.error(isTimeout ? "Endpoint timeout (>7 detik)" : "Gagal terhubung ke endpoint webhook", { id: "webhook-ping" });
+    } finally {
+      setIsPinging(false);
+    }
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,12 +139,24 @@ export function WebhookConfigCard({
           </div>
         </div>
 
-        {/* Toggle Switch */}
-        <div className="flex items-center gap-2.5">
-          <span className="text-foreground text-xs font-bold">
-            {isEnabled ? "Webhook Aktif" : "Webhook Nonaktif"}
-          </span>
-          <Switch checked={isEnabled} onCheckedChange={setIsEnabled} aria-label="Toggle Webhook" />
+        {/* Actions & Toggle Switch */}
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/docs/webhooks"
+            target="_blank"
+            className="text-foreground-secondary hover:text-foreground inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/50 px-3 py-1.5 text-xs font-bold transition-colors hover:border-border"
+          >
+            <BookOpen className="size-3.5" />
+            <span>Dokumentasi Webhook</span>
+            <ExternalLink className="size-3 opacity-70" />
+          </Link>
+
+          <div className="flex items-center gap-2.5 border-l border-border/60 pl-2">
+            <span className="text-foreground text-xs font-bold">
+              {isEnabled ? "Webhook Aktif" : "Webhook Nonaktif"}
+            </span>
+            <Switch checked={isEnabled} onCheckedChange={setIsEnabled} aria-label="Toggle Webhook" />
+          </div>
         </div>
       </div>
 
@@ -174,8 +237,47 @@ export function WebhookConfigCard({
           </div>
         </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-end pt-2">
+        {/* Action Buttons & Ping Feedback */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={isPinging || !url || !isEnabled}
+              onClick={handleTestPing}
+              className="border-border hover:border-foreground-muted gap-1.5 rounded-full text-xs font-bold"
+            >
+              {isPinging ? (
+                <>
+                  <Loader2 className="size-3.5 animate-spin" />
+                  <span>Menguji Endpoint...</span>
+                </>
+              ) : (
+                <>
+                  <Radio className="size-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>Test Endpoint (Ping)</span>
+                </>
+              )}
+            </Button>
+
+            {pingResult && (
+              <div className="flex items-center gap-1.5 text-xs font-bold">
+                {pingResult.success ? (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-emerald-700 dark:text-emerald-400">
+                    <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Terjangkau ({pingResult.latency}ms)
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-500/10 px-2.5 py-1 text-rose-600 dark:text-rose-400">
+                    <span className="size-1.5 rounded-full bg-rose-500" />
+                    {pingResult.error}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
           <Button
             type="submit"
             variant="primaryPill"

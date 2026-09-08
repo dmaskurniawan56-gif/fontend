@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { ApiKeyConfirmModal } from "@/modules/iam/components/settings/ApiKeyConfirmModal";
 import { ProfileInfoCard } from "@/modules/iam/components/settings/ProfileInfoCard";
 import { ActiveSessionsCard } from "@/modules/iam/components/settings/ActiveSessionsCard";
+import { WebhookConfigCard } from "@/modules/subscription/components/webhooks/WebhookConfigCard";
+import { useSubscription } from "@/modules/subscription/hooks/useSubscription";
 import { useI18n } from "@/lib/i18n/context";
 import { toast } from "sonner";
 import {
@@ -27,6 +29,12 @@ import {
 export function SettingsView() {
   const { t } = useI18n();
   const { user, tenant, updateProfileName, fetchProfile } = useAuth();
+  const {
+    webhookConfig,
+    saveWebhook,
+    regenerateSecret,
+    copySecret,
+  } = useSubscription();
   const [apiKey, setApiKey] = useState<string>(user?.token || "");
   const [showKey, setShowKey] = useState(false);
   const [isKeyLoading, setIsKeyLoading] = useState(false);
@@ -276,6 +284,14 @@ export function SettingsView() {
           </div>
         )}
       </div>
+
+      {/* Webhook Configuration Card */}
+      <WebhookConfigCard
+        config={webhookConfig}
+        onSave={saveWebhook}
+        onRegenerateSecret={regenerateSecret}
+        onCopySecret={copySecret}
+      />
 
       {/* Profile & Business Details */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">

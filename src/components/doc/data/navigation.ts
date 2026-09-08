@@ -194,4 +194,23 @@ export const docNavigation: NavSection[] = [
       },
     ],
   },
+  {
+    id: "webhooks",
+    title: "Webhooks",
+    icon: "Webhook",
+    items: [
+      {
+        id: "webhooks-overview",
+        title: "Overview & Quickstart",
+        path: "/docs/webhooks",
+      },
+      {
+        id: "webhooks-events",
+        title: "Event: message.received",
+        path: "/docs/webhooks/events",
+        method: "POST",
+        badge: "Real-Time",
+      },
+    ],
+  },
 ];

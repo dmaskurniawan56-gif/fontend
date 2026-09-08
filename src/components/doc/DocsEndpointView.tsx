@@ -169,32 +169,52 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 font-mono">
-                <tr>
-                  <td className="py-2.5 px-3 font-semibold text-foreground">
-                    Authorization
-                  </td>
-                  <td className="py-2.5 px-3 text-muted-foreground">
-                    Bearer &lt;your_api_key&gt;
-                  </td>
-                  <td className="py-2.5 px-3">
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                      Required
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-2.5 px-3 font-semibold text-foreground">
-                    Content-Type
-                  </td>
-                  <td className="py-2.5 px-3 text-muted-foreground">
-                    application/json
-                  </td>
-                  <td className="py-2.5 px-3">
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                      Required
-                    </span>
-                  </td>
-                </tr>
+                {doc.headers && doc.headers.length > 0 ? (
+                  doc.headers.map((header) => (
+                    <tr key={header.key}>
+                      <td className="py-2.5 px-3 font-semibold text-foreground">
+                        {header.key}
+                      </td>
+                      <td className="py-2.5 px-3 text-muted-foreground">
+                        {header.value}
+                      </td>
+                      <td className="py-2.5 px-3">
+                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                          {header.required ? "Required" : "Optional"}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <>
+                    <tr>
+                      <td className="py-2.5 px-3 font-semibold text-foreground">
+                        Authorization
+                      </td>
+                      <td className="py-2.5 px-3 text-muted-foreground">
+                        Bearer &lt;your_api_key&gt;
+                      </td>
+                      <td className="py-2.5 px-3">
+                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                          Required
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-2.5 px-3 font-semibold text-foreground">
+                        Content-Type
+                      </td>
+                      <td className="py-2.5 px-3 text-muted-foreground">
+                        application/json
+                      </td>
+                      <td className="py-2.5 px-3">
+                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                          Required
+                        </span>
+                      </td>
+                    </tr>
+                  </>
+                )}
               </tbody>
             </table>
           </div>

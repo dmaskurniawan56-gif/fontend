@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { GuideDoc } from "./types";
 import { DocsBreadcrumbs } from "./DocsBreadcrumbs";
+import { DocsCodeTabs } from "./DocsCodeTabs";
 import { getApiBaseUrl, getApiHost } from "./data";
 import {
   Copy,
@@ -179,6 +180,16 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
                     <code>{interpolateEnv(section.code.content)}</code>
                   </pre>
                 </div>
+              </div>
+            )}
+
+            {/* Multi-language Code Tabs (Unified Code Examples) */}
+            {section.codeTabs && (
+              <div className="pt-2">
+                <DocsCodeTabs
+                  snippets={section.codeTabs}
+                  title={section.codeTabsTitle}
+                />
               </div>
             )}
           </section>

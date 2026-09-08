@@ -12,6 +12,7 @@ import { ApiKeyConfirmModal } from "@/modules/iam/components/settings/ApiKeyConf
 import { ProfileInfoCard } from "@/modules/iam/components/settings/ProfileInfoCard";
 import { ActiveSessionsCard } from "@/modules/iam/components/settings/ActiveSessionsCard";
 import { WebhookConfigCard } from "@/modules/subscription/components/webhooks/WebhookConfigCard";
+import { WebhookLogsTable } from "@/modules/subscription/components/webhooks/WebhookLogsTable";
 import { useSubscription } from "@/modules/subscription/hooks/useSubscription";
 import { useI18n } from "@/lib/i18n/context";
 import { toast } from "sonner";
@@ -648,6 +649,9 @@ export function SettingsView() {
                 onRegenerateSecret={regenerateSecret}
                 onCopySecret={copySecret}
               />
+
+              {/* Webhook Delivery Logs History */}
+              <WebhookLogsTable />
             </div>
           )}
         </div>

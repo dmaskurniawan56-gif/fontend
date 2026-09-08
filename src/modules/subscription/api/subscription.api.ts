@@ -1,7 +1,13 @@
 import { httpClient } from "@/lib/api/http-client";
 import { env } from "@/lib/config/env";
 import { generateSecureRandomString } from "@/lib/utils";
-import { SubscriptionPlan, TenantSubscription, WebhookConfig } from "../types/subscription.types";
+import {
+  SubscriptionPlan,
+  TenantSubscription,
+  WebhookConfig,
+  WebhookLogItem,
+  WebhookLogFilters,
+} from "../types/subscription.types";
 
 const SUBSCRIPTION_BASE = env.NEXT_PUBLIC_WHATSAPP_API_URL;
 
@@ -294,21 +300,15 @@ export const subscriptionApi = {
       );
       const payload = res.payload;
       return {
-        url: String(
-          payload?.url || payload?.webhook_url || "https://api.business.com/v1/whatsapp/webhook"
-        ),
-        secret: String(
-          payload?.secret ||
-            payload?.webhook_secret ||
-            "whsec_live_9a7e60bd2c5a4fce87332185000bb181"
-        ),
+        url: String(payload?.url || payload?.webhook_url || ""),
+        secret: String(payload?.secret || payload?.webhook_secret || ""),
         isEnabled: Boolean(payload?.isEnabled ?? payload?.is_enabled ?? true),
       };
     } catch (err: unknown) {
       if (err instanceof Error && err.name === "AbortError") throw err;
       return {
-        url: "https://api.business.com/v1/whatsapp/webhook",
-        secret: "whsec_live_9a7e60bd2c5a4fce87332185000bb181",
+        url: "",
+        secret: "",
         isEnabled: true,
       };
     }
@@ -316,17 +316,24 @@ export const subscriptionApi = {
 
   updateWebhookConfig: async (payload: {
     url: string;
+    secret?: string;
     isEnabled: boolean;
   }): Promise<WebhookConfig> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUBSCRIPTION_BASE}/subscription/webhook`,
-      payload
+      {
+        webhook_url: payload.url,
+        url: payload.url,
+        webhook_secret: payload.secret,
+        secret: payload.secret,
+        is_enabled: payload.isEnabled,
+      }
     );
     const data = res.payload;
     return {
-      url: String(data?.url || payload.url),
-      secret: String(data?.secret || "whsec_live_9a7e60bd2c5a4fce87332185000bb181"),
-      isEnabled: Boolean(data?.isEnabled ?? payload.isEnabled),
+      url: String(data?.url || data?.webhook_url || payload.url),
+      secret: String(data?.secret || data?.webhook_secret || payload.secret || ""),
+      isEnabled: Boolean(data?.isEnabled ?? data?.is_enabled ?? payload.isEnabled),
     };
   },
 
@@ -340,5 +347,42 @@ export const subscriptionApi = {
         res.payload?.webhook_secret ||
         generateSecureRandomString("whsec_live_", 24),
     };
+  },
+
+  getWebhookLogs: async (
+    params?: WebhookLogFilters,
+    signal?: AbortSignal
+  ): Promise<{ data: WebhookLogItem[]; total: number }> => {
+    try {
+      const q = new URLSearchParams();
+      if (params?.page) q.set("page", String(params.page));
+      if (params?.page_size) q.set("page_size", String(params.page_size));
+      if (params?.search) q.set("search", params.search);
+      if (params?.event_name && params.event_name !== "ALL") q.set("event_name", params.event_name);
+      if (params?.response_status) q.set("response_status", String(params.response_status));
+
+      const queryStr = q.toString() ? `?${q.toString()}` : "";
+      const res = await httpClient.get<WebhookLogItem[]>(
+        `${SUBSCRIPTION_BASE}/subscription/webhook/logs${queryStr}`,
+        { signal }
+      );
+      return {
+        data: Array.isArray(res.payload) ? res.payload : [],
+        total: res.pagination?.total_items || (Array.isArray(res.payload) ? res.payload.length : 0),
+      };
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") throw err;
+      return { data: [], total: 0 };
+    }
+  },
+
+  deleteWebhookLog: async (id: string): Promise<boolean> => {
+    const res = await httpClient.delete(`${SUBSCRIPTION_BASE}/subscription/webhook/logs/${id}`);
+    return res.success;
+  },
+
+  retryWebhookLog: async (id: string): Promise<boolean> => {
+    const res = await httpClient.post(`${SUBSCRIPTION_BASE}/subscription/webhook/logs/${id}/retry`);
+    return res.success;
   },
 };

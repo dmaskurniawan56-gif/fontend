@@ -40,13 +40,14 @@ export const webhooksGuideDoc: GuideDoc = {
 Host: api.your-business.com
 Content-Type: application/json
 User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0
-Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210`,
+Authorization: Bearer whsec_live_9f8e7d6c5b4a3210fedcba9876543210
+X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210`,
       },
       callout: {
         type: "warning",
         title: "Mandatory Server Validation",
         content:
-          "Always verify that the Bearer token in the `Authorization` header matches your Webhook Secret before processing payloads.",
+          "Always verify that the Bearer token in the \`Authorization\` header (or \`X-Wahide-Secret\` header) matches your Webhook Secret before processing payloads.",
       },
     },
     {
@@ -250,9 +251,15 @@ export const webhooksEventsDoc: EndpointDoc = {
     },
     {
       key: "Authorization",
-      value: "Bearer wh_sec_...",
+      value: "Bearer whsec_live_...",
       required: true,
-      description: "Tenant webhook signing secret formatted as 'Bearer <secret>' for cryptographical verification.",
+      description: "Tenant webhook secret formatted as 'Bearer <secret>' for authentication verification.",
+    },
+    {
+      key: "X-Wahide-Secret",
+      value: "whsec_live_...",
+      required: false,
+      description: "Direct tenant webhook secret header for convenient zero-prefix matching.",
     },
     {
       key: "User-Agent",

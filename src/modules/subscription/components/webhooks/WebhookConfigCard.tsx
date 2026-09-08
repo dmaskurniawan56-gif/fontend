@@ -36,7 +36,7 @@ import {
 
 interface WebhookConfigCardProps {
   config: WebhookConfig | null;
-  onSave: (url: string, isEnabled: boolean) => Promise<unknown>;
+  onSave: (url: string, isEnabled: boolean, secret?: string) => Promise<unknown>;
   onRegenerateSecret: () => Promise<unknown>;
   onCopySecret: (secret: string) => void;
 }
@@ -56,6 +56,13 @@ export function WebhookConfigCard({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isPinging, setIsPinging] = useState(false);
   const [pingResult, setPingResult] = useState<{ success: boolean; latency?: number; error?: string } | null>(null);
+
+  React.useEffect(() => {
+    if (config) {
+      setUrl(config.url || "");
+      setIsEnabled(config.isEnabled);
+    }
+  }, [config]);
 
   const handleTestPing = async () => {
     if (!url) {
@@ -105,7 +112,7 @@ export function WebhookConfigCard({
     e.preventDefault();
     setIsSaving(true);
     try {
-      await onSave(url.trim(), isEnabled);
+      await onSave(url.trim(), isEnabled, config?.secret);
     } finally {
       setIsSaving(false);
     }
@@ -232,7 +239,7 @@ export function WebhookConfigCard({
           <div className="text-foreground-muted flex items-center gap-1.5 pt-1 text-[11px] font-semibold">
             <ShieldCheck className="dark:text-wise-green size-3.5 shrink-0 text-emerald-600" />
             <span>
-              Gunakan kunci ini untuk memverifikasi signature header `X-Wahide-Signature-256`.
+              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header <code className="font-mono text-foreground font-bold">Authorization: Bearer &lt;secret&gt;</code> dan <code className="font-mono text-foreground font-bold">X-Wahide-Secret</code> pada setiap callback event WhatsApp.
             </span>
           </div>
         </div>

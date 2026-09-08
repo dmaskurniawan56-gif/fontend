@@ -48,17 +48,17 @@
   "metrics": {
     "deviceScale": "Nomor Sendiri",
     "deviceScaleDesc": "Gunakan nomor WhatsApp bisnis yang sudah ada",
-    "ramSavings": "Anti-Blokir Alami",
-    "ramSavingsDesc": "Simulasi ketik dan jeda manusia otomatis",
+    "ramSavings": "Pengiriman Cerdas Alami",
+    "ramSavingsDesc": "Simulasi ketik dan jeda manusiawi otomatis",
     "wakeupLatency": "Setup 2 Menit",
     "wakeupLatencyDesc": "Tinggal scan QR seperti WhatsApp Web",
     "antiBan": "Solusi 4-in-1",
     "antiBanDesc": "Reservasi, Pengingat, Form & Template bawaan"
   },
   "spintaxSection": {
-    "badge": "Uji Coba Variasi Kata Anti-Blokir",
+    "badge": "Uji Coba Variasi Kata Otomatis",
     "title": "Uji Coba Variasi Pesan Otomatis",
-    "subtitle": "Sistem kami mengacak variasi kata dalam pesan secara otomatis agar setiap pelanggan menerima pesan yang berbeda dan nomor Anda terlindungi dari pemblokiran.",
+    "subtitle": "Sistem kami mengacak variasi kata dalam pesan secara otomatis agar setiap pelanggan menerima pesan yang unik, natural, dan menjaga reputasi nomor Anda tetap prima.",
     "templateLabel": "Template Variasi Kata",
     "resultLabel": "Pratinjau Pesan yang Diterima Pelanggan",
     "randomizeBtn": "Acak Variasi Baru"
@@ -67,7 +67,7 @@
     "features": {
       "badge": "Fitur Unggulan Platform",
       "title": "Infrastruktur WhatsApp Gateway Kelas Enterprise",
-      "subtitle": "Arsitektur tangguh yang dirancang untuk developer, startup, dan pelaku bisnis: dari pengiriman OTP instan, rotasi multi-perangkat, hingga perlindungan anti-blokir 5 lapis.",
+      "subtitle": "Arsitektur tangguh yang dirancang untuk developer, startup, dan pelaku bisnis: dari pengiriman OTP instan, rotasi multi-perangkat, hingga perlindungan pengiriman cerdas 5 lapis.",
       "otpBadge": "Fitur Baru • Fast Path",
       "otpTitle": "WhatsApp OTP & Verifikasi Transaksional",
       "otpDesc": "Kirim dan verifikasi kode OTP 4–8 digit ke WhatsApp pelanggan secara instan. Kode otomatis berlaku 5 menit, langsung hangus setelah digunakan, dan dilindungi jeda 60 detik untuk mencegah spam verifikasi.",
@@ -80,11 +80,11 @@
       "multiDeviceTitle": "Bagi Beban Kirim Otomatis (Multi-Nomor WhatsApp)",
       "multiDeviceDesc": "Hubungkan beberapa nomor WhatsApp sekaligus dalam satu akun. Sistem otomatis membagi beban pesan keluar ke nomor-nomor Anda secara bergantian untuk mencegah limit harian.",
       "antiBanBadge": "5-Layer Shield",
-      "antiBanTitle": "5 Sistem Proteksi Pintar Anti-Blokir",
-      "antiBanDesc": "Kombinasi simulasi status mengetik alami, variasi kata otomatis {halo|hai}, jeda acak 3–15 detik, dan pembiasaan bertahap menjaga nomor Anda tetap aman.",
+      "antiBanTitle": "5 Sistem Proteksi Pengiriman Cerdas",
+      "antiBanDesc": "Kombinasi simulasi status mengetik alami, variasi kata otomatis {halo|hai}, jeda acak 3–15 detik, dan pembiasaan bertahap menjaga reputasi nomor Anda tetap sehat.",
       "metaBadge": "Migrasi Praktis",
-      "metaTitle": "Kompatibel WhatsApp Cloud API",
-      "metaDesc": "Pindahkan aplikasi Anda dari Meta Cloud API v18.0–v20.0 tanpa mengubah logika kode. Cukup ubah URL tujuan untuk langsung aktif.",
+      "metaTitle": "Format Kompatibel WhatsApp Cloud API",
+      "metaDesc": "Kompatibel dengan struktur payload Cloud API v18.0–v20.0 tanpa mengubah logika kode. Cukup sesuaikan endpoint tujuan untuk langsung aktif.",
       "broadcastBadge": "High Throughput",
       "broadcastTitle": "Kirim Pesan Massal Terjadwal (Broadcast)",
       "broadcastDesc": "Kirim ribuan pesan kampanye promosi terjadwal dengan sistem pengiriman berkecepatan tinggi yang stabil, dilengkapi laporan keterkiriman real-time.",
@@ -187,7 +187,7 @@
       "p1F1": "1 Slot Nomor WhatsApp",
       "p1F2": "1.500 Kuota Pesan / Bulan",
       "p1F3": "Integrasi REST API & Notifikasi Real-Time",
-      "p1F4": "Fitur Variasi Kata Anti-Blokir",
+      "p1F4": "Fitur Variasi Kata Dinamis (Spintax)",
       "p1F5": "Dukungan Komunitas",
       "p1Btn": "Mulai Gratis Sekarang",
       "p2Name": "Pro Merchant",
@@ -299,7 +299,9 @@
     "privacy": "Kebijakan Privasi",
     "rights": "All rights reserved.",
     "sla": "SLA 99.9% Uptime",
-    "encryption": "AES-GCM 256 Enkripsi"
+    "encryption": "AES-GCM 256 Enkripsi",
+    "disclaimerTitle": "Pernyataan Keterbukaan (Disclaimer)",
+    "disclaimerText": "Wahide adalah platform piranti lunak independen yang dikembangkan oleh Hide Digital Security (Hide Group) untuk kebutuhan integrasi dan otomatisasi perpesanan bisnis. Wahide tidak berafiliasi, tidak disponsori, tidak didukung, dan tidak terhubung secara resmi dalam bentuk apa pun dengan WhatsApp LLC atau Meta Platforms, Inc. Nama 'WhatsApp', logo terkait, serta merek dagang lainnya adalah hak milik eksklusif dan terdaftar dari WhatsApp LLC dan Meta Platforms, Inc."
   },
   "actions": {
     "save": "Simpan Perubahan",

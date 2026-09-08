@@ -19,6 +19,8 @@ export interface Device {
   lastSeenAt?: string | null;
   createdAt: string;
   updatedAt?: string;
+  is_over_limit?: boolean;
+  isOverLimit?: boolean;
 }
 
 export interface QREventData {

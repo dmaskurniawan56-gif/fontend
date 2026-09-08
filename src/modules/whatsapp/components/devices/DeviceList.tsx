@@ -25,6 +25,8 @@ const DeviceDetailModal = dynamic(
   () => import("./DeviceDetailModal").then((m) => m.DeviceDetailModal),
   { ssr: false }
 );
+import Link from "next/link";
+import { useSubscription } from "@/modules/subscription/hooks/useSubscription";
 import {
   Smartphone,
   Plus,
@@ -34,6 +36,8 @@ import {
   XCircle,
   Moon,
   Send,
+  AlertTriangle,
+  ArrowRight,
 } from "lucide-react";
 
 export function DeviceList() {
@@ -55,6 +59,13 @@ export function DeviceList() {
     wakeDevice,
     updateDeviceStatus,
   } = useDevices();
+  const { subscription } = useSubscription();
+
+  const overlimitDevices = devices.filter((d) => Boolean(d.is_over_limit || d.isOverLimit));
+  const hasOverlimit = overlimitDevices.length > 0;
+  const planName = subscription?.planName || "FREE";
+  const totalSlots = devices.length;
+  const maxAllowedSlots = subscription?.deviceSlotsMax || Math.max(1, totalSlots - overlimitDevices.length);
 
   const [selectedDeviceForQR, setSelectedDeviceForQR] = useState<Device | null>(null);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
@@ -140,6 +151,37 @@ export function DeviceList() {
           </div>
         </div>
       </div>
+
+      {/* Over-Limit Warning Banner */}
+      {hasOverlimit && (
+        <div className="flex flex-col gap-3.5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div className="flex items-start gap-3.5">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400">
+              <AlertTriangle className="size-5.5" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-sm font-black tracking-tight text-amber-950 sm:text-base dark:text-amber-100">
+                ⚠️ Perangkat Melebihi Kuota Paket {planName} ({totalSlots}/{maxAllowedSlots} Perangkat)
+              </h4>
+              <p className="max-w-3xl text-xs font-semibold leading-relaxed text-amber-800/90 sm:text-sm dark:text-amber-300/90">
+                Paket {planName} Anda hanya mencakup {maxAllowedSlots} perangkat. Terdapat {overlimitDevices.length} perangkat berlebih yang dinonaktifkan sementara. Silakan hapus perangkat yang ditandai atau upgrade paket untuk mengaktifkan seluruh perangkat Anda kembali.
+              </p>
+            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-2 pt-1 sm:pt-0">
+            <Link href="/subscription" className="w-full sm:w-auto">
+              <Button
+                variant="primaryPill"
+                size="sm"
+                className="w-full gap-2 text-xs font-bold shadow-xs sm:w-auto"
+              >
+                <span>Upgrade Paket</span>
+                <ArrowRight className="size-3.5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Filter Toolbar & Actions */}
       <div className="border-border bg-surface space-y-3 rounded-xl border p-3.5 shadow-xs sm:space-y-4 sm:p-4">

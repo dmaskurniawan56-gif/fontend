@@ -155,6 +155,20 @@ export function TermsView() {
             Syarat &amp; Ketentuan ini diatur dan ditafsirkan sesuai dengan hukum Negara Kesatuan Republik Indonesia. Segala perselisihan yang timbul dari perjanjian ini akan diselesaikan secara musyawarah untuk mufakat, dan apabila tidak tercapai kesepakatan, akan diselesaikan melalui yurisdiksi <strong>Pengadilan Negeri Kota Semarang</strong>.
           </p>
         </section>
+
+        {/* Pasal 8 */}
+        <section className="space-y-3 p-6 rounded-md border border-border bg-surface">
+          <h2 className="text-base sm:text-lg font-black text-foreground flex items-center gap-2">
+            <span className="size-6 rounded-full bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center text-xs font-mono font-bold">8</span>
+            <span>Pernyataan Merek Dagang &amp; Independensi Layanan (*Trademark Attribution &amp; Non-Affiliation*)</span>
+          </h2>
+          <p>
+            Wahide adalah platform perangkat lunak independen yang dikembangkan secara mandiri oleh Hide Group. Wahide tidak berafiliasi, tidak disponsori, tidak didukung, dan tidak terhubung secara resmi dalam bentuk apa pun dengan WhatsApp LLC, Meta Platforms, Inc., atau entitas terafiliasinya.
+          </p>
+          <p>
+            Nama &ldquo;WhatsApp&rdquo;, logo terkait, serta merek dagang lainnya adalah hak milik eksklusif dari pemiliknya masing-masing (WhatsApp LLC / Meta Platforms, Inc.). Penyebutan nama merek tersebut pada seluruh situs, dokumentasi, dan antarmuka Wahide dilakukan semata-mata di bawah prinsip <em>Nominative Fair Use</em> untuk tujuan menerangkan kompatibilitas teknologi dan interoperabilitas fungsional antarmuka API.
+          </p>
+        </section>
       </div>
     </div>
   );

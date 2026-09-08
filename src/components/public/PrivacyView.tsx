@@ -144,6 +144,9 @@ export function PrivacyView() {
           <p>
             Kami menggunakan Cookie terbatas untuk mengingat preferensi bahasa (<code>NEXT_LOCALE</code>) dan mengintegrasikan Cloudflare Turnstile untuk proteksi keamanan dari serangan bot tanpa melacak riwayat penjelajahan pribadi Anda.
           </p>
+          <p>
+            Wahide beroperasi sebagai platform otomasi independen dan bukan merupakan bagian dari Meta Platforms, Inc. atau WhatsApp LLC. Seluruh pengelolaan transmisi data dilakukan secara mandiri sesuai protokol standar perpesanan tanpa membagikan data pribadi Anda kepada pihak ketiga tanpa persetujuan.
+          </p>
         </section>
 
         {/* Section 7 */}

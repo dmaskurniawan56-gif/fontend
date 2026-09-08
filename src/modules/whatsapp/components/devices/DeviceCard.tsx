@@ -80,7 +80,18 @@ export function DeviceCard({
     }
   };
 
+  const isOverLimit = Boolean(device.is_over_limit || device.isOverLimit);
+
   const renderStatusBadge = () => {
+    if (isOverLimit) {
+      return (
+        <Badge variant="destructive" className="gap-1.5 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">
+          <span className="size-2 rounded-full bg-rose-500 animate-pulse" />
+          {t("whatsapp.statusOverLimit") || "Melebihi Kuota"}
+        </Badge>
+      );
+    }
+
     switch (device.status) {
       case "CONNECTED":
         return (
@@ -117,7 +128,11 @@ export function DeviceCard({
   return (
     <Card
       onClick={() => onViewDetail?.(device)}
-      className="hover:border-wise-green/60 group relative flex cursor-pointer flex-col justify-between space-y-5 p-5 transition-all hover:shadow-lg sm:p-6"
+      className={`group relative flex cursor-pointer flex-col justify-between space-y-5 p-5 transition-all hover:shadow-lg sm:p-6 ${
+        isOverLimit
+          ? "border-rose-500/40 bg-rose-500/[0.02] hover:border-rose-500/60"
+          : "hover:border-wise-green/60"
+      }`}
     >
       {/* Card Header */}
       <div className="flex items-start justify-between gap-3">
@@ -274,7 +289,22 @@ export function DeviceCard({
 
       {/* Card Action Footer */}
       <div onClick={(e) => e.stopPropagation()}>
-        {device.status === "CONNECTED" ? (
+        {isOverLimit ? (
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={isActionLoading}
+            onClick={(e) => handleAction(e, onDelete)}
+            className="w-full gap-2 rounded-full border-rose-500/30 bg-rose-500/10 text-xs font-bold text-rose-600 hover:bg-rose-500/20 dark:text-rose-400"
+          >
+            {isActionLoading ? (
+              <Loader2 className="size-3.5 animate-spin" />
+            ) : (
+              <Trash2 className="size-3.5" />
+            )}
+            <span>{t("whatsapp.deleteOverlimitDevice") || "Hapus Perangkat Ini"}</span>
+          </Button>
+        ) : device.status === "CONNECTED" ? (
           <div className="flex items-center gap-2">
             <Button
               variant="outline"

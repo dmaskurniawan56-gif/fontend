@@ -48,7 +48,7 @@
   "metrics": {
     "deviceScale": "Own Number",
     "deviceScaleDesc": "Use your existing WhatsApp business number",
-    "ramSavings": "Human Anti-Ban",
+    "ramSavings": "Humanized Smart Delivery",
     "ramSavingsDesc": "Natural typing simulation & smart delay",
     "wakeupLatency": "2-Min Setup",
     "wakeupLatencyDesc": "Simply scan QR like WhatsApp Web",
@@ -56,9 +56,9 @@
     "antiBanDesc": "Built-in Reservations, Reminders, Forms & Templates"
   },
   "spintaxSection": {
-    "badge": "Live Word Variation Playground",
+    "badge": "Dynamic Spintax Playground",
     "title": "Automated Message Variation Playground",
-    "subtitle": "Our system automatically randomizes synonym word variations in messages so every recipient gets a unique message, safeguarding your number from spam detection.",
+    "subtitle": "Our system dynamically randomizes word variations in messages so every recipient receives a unique, natural text while safeguarding your sender reputation.",
     "templateLabel": "Word Variation Template",
     "resultLabel": "Recipient Message Preview",
     "randomizeBtn": "Generate New Variation"
@@ -67,7 +67,7 @@
     "features": {
       "badge": "Core Platform Features",
       "title": "Enterprise-Grade WhatsApp Gateway Infrastructure",
-      "subtitle": "Built for developers, fast-growing startups, and modern businesses: from instant OTP verification, multi-device pool rotation, to 5-layer anti-ban protection.",
+      "subtitle": "Built for developers, fast-growing startups, and modern businesses: from instant OTP verification, multi-device pool rotation, to 5-layer smart delivery protection.",
       "otpBadge": "New Feature • Fast Path",
       "otpTitle": "WhatsApp OTP & Transactional Verification",
       "otpDesc": "Dispatch and verify 4-8 digit OTP codes to customer WhatsApp numbers instantly. Codes expire automatically in 5 minutes, burn after single use, and include a 60s cooldown to prevent fraud without setting up database tables.",
@@ -80,11 +80,11 @@
       "multiDeviceTitle": "Smart Multi-Number Distribution",
       "multiDeviceDesc": "Connect multiple WhatsApp numbers simultaneously under one account. The routing engine automatically distributes outbound messages across your active devices to stay within safe daily limits.",
       "antiBanBadge": "5-Layer Shield",
-      "antiBanTitle": "5-Layer Intelligent Anti-Ban Protection",
-      "antiBanDesc": "Emulate human conversation with natural typing simulation, dynamic word variations {hello|hi}, random pacing (3–15s), and adaptive warmup protection.",
+      "antiBanTitle": "5-Layer Smart Delivery Protection",
+      "antiBanDesc": "Emulate natural communication with typing simulation, dynamic word variations {hello|hi}, adaptive pacing (3–15s), and gradual volume ramp-up to protect sender health.",
       "metaBadge": "Easy Migration",
-      "metaTitle": "WhatsApp Cloud API Compatible",
-      "metaDesc": "Effortlessly migrate existing Meta Cloud API integrations without rewriting logic. Simply swap the target URL to Wahide.",
+      "metaTitle": "WhatsApp Cloud API Payload Compatible",
+      "metaDesc": "Compatible with standard Meta Cloud API v18.0–v20.0 request structures. Simply adapt the target endpoint to connect instantly.",
       "broadcastBadge": "High Throughput",
       "broadcastTitle": "Scheduled High-Capacity Broadcasts",
       "broadcastDesc": "Queue and dispatch thousands of scheduled marketing messages smoothly with high-speed reliability and real-time delivery tracking.",
@@ -299,7 +299,9 @@
     "privacy": "Privacy Policy",
     "rights": "All rights reserved.",
     "sla": "99.9% Uptime SLA",
-    "encryption": "AES-GCM 256 Encryption"
+    "encryption": "AES-GCM 256 Encryption",
+    "disclaimerTitle": "Legal Disclaimer",
+    "disclaimerText": "Wahide is an independent software platform developed by Hide Digital Security (Hide Group) for business messaging integration and automation. Wahide is not affiliated, associated, authorized, endorsed by, or in any way officially connected with WhatsApp LLC or Meta Platforms, Inc. The name 'WhatsApp' as well as related names, marks, emblems, and images are registered trademarks of WhatsApp LLC and Meta Platforms, Inc."
   },
   "actions": {
     "save": "Save Changes",

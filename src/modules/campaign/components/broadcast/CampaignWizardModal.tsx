@@ -82,7 +82,10 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
   );
 
   const connectedDevices = devices.filter(
-    (d) => d.status === "CONNECTED" || (d.status as string) === "ONLINE"
+    (d) =>
+      (d.status === "CONNECTED" || (d.status as string) === "ONLINE") &&
+      !d.is_over_limit &&
+      !d.isOverLimit
   );
 
   if (!isOpen) return null;

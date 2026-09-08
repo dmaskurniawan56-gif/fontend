@@ -6,61 +6,61 @@ export const webhooksGuideDoc: GuideDoc = {
   slug: "webhooks",
   title: "Webhooks Overview & Quickstart",
   description:
-    "Terima pesan masuk dan status pesan WhatsApp secara real-time ke server backend aplikasi Anda melalui HTTP Webhook.",
+    "Receive incoming messages, delivery reports, and real-time WhatsApp events on your application backend via secure HTTP Webhooks.",
   category: "Webhooks",
   categorySlug: "webhooks",
   bannerNotice: {
     type: "info",
     title: "Event-Driven Real-Time Delivery",
     content:
-      "Wahide Webhook Engine secara otomatis meneruskan seluruh obrolan pesan masuk 1-on-1 dari WhatsApp ke URL endpoint backend Anda dalam format JSON berkecepatan tinggi.",
+      "The Wahide Webhook Engine automatically streams incoming 1-on-1 WhatsApp messages directly to your backend endpoint in high-speed, zero-heap JSON format.",
   },
   sections: [
     {
       id: "architecture",
-      title: "1. Bagaimana Cara Kerja Webhook Wahide?",
+      title: "1. How Wahide Webhooks Work",
       content:
-        "Ketika pelanggan mengirimkan pesan WhatsApp ke nomor bisnis Anda yang terhubung di Wahide, sistem melakukan serangkaian proses berikut secara instan:\n\n1. **Zero-Heap Filtering**: Memfilter pesan sampah (grup, story, newsletter) agar tidak membebani server Anda.\n2. **JSON Payload Construction**: Memformat detail pesan, pengirim, nomor telepon, dan timestamp ke dalam schema standar.\n3. **Asynchronous HTTP POST**: Mengirimkan request HTTP POST ke URL Webhook yang Anda daftarkan di dashboard.\n4. **Instant Acknowledgment**: Server Anda cukup mengembalikan HTTP status `200 OK` dalam batas waktu maksimal 8 detik.",
+        "When a customer sends a WhatsApp message to your connected business number, the Wahide engine immediately processes the event through a resilient, event-driven pipeline:\n\n1. **Zero-Heap Event Filtering**: Unnecessary noisy events (groups, stories, channel newsletters) are filtered out to protect your server from overload.\n2. **Standardized JSON Envelope**: The message text, sender details, phone number, and timestamp are packaged into a structured schema.\n3. **Asynchronous HTTP POST Delivery**: Wahide dispatches an HTTP POST request to the webhook URL configured in your dashboard.\n4. **Instant Acknowledgment**: Your server acknowledges receipt by returning an HTTP `200 OK` response within 8 seconds.",
       callout: {
         type: "tip",
-        title: "Endpoint Publik Diperlukan",
+        title: "Public HTTPS Endpoint Required",
         content:
-          "URL Webhook harus dapat diakses secara publik lewat protokol HTTPS yang valid. Untuk pengujian lokal di komputer development Anda, gunakan tool tunneling seperti Ngrok atau Cloudflare Tunnels.",
+          "Your webhook URL must be publicly accessible over valid HTTPS. For local development, use tunneling solutions such as Ngrok or Cloudflare Tunnels.",
       },
     },
     {
       id: "security",
-      title: "2. Keamanan & Verifikasi Header",
+      title: "2. Security & Header Verification",
       content:
-        "Untuk memastikan setiap request yang masuk ke endpoint Anda benar-benar berasal dari server resmi Wahide dan bukan dari pihak luar, Wahide menyertakan header otentikasi standar `Authorization` dengan format `Bearer <secret>` pada setiap HTTP POST request:",
+        "To verify that incoming requests genuinely originate from Wahide and protect your endpoint from spoofing or replay attacks, Wahide includes standard HTTP authentication headers on every request:",
       code: {
         language: "http",
-        title: "HTTP Request Headers dari Wahide",
+        title: "HTTP Request Headers from Wahide",
         content: `POST /api/webhook/whatsapp HTTP/1.1
-Host: api.bisnis-anda.com
+Host: api.your-business.com
 Content-Type: application/json
 User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0
 Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210`,
       },
       callout: {
         type: "warning",
-        title: "Validasi Wajib di Server Anda",
+        title: "Mandatory Server Validation",
         content:
-          "Pastikan server Anda selalu memverifikasi bahwa nilai token pada header `Authorization` (format `Bearer <secret>`) cocok dengan Secret Key yang tercantum di Dashboard Wahide Anda sebelum memproses payload.",
+          "Always verify that the Bearer token in the `Authorization` header matches your Webhook Secret before processing payloads.",
       },
     },
     {
       id: "retry-policy",
-      title: "3. Kebijakan Retry Otomatis & Dead Letter Queue (DLQ)",
+      title: "3. Automatic Retry Policy & Dead Letter Queue (DLQ)",
       content:
-        "Jika server endpoint Anda sedang down, mengalami error 5xx, atau mengalami timeout (> 8 detik), Wahide Webhook Engine menerapkan sistem ketahanan tingkat tinggi:\n\n- **Jittered Exponential Backoff**: Percobaan pengiriman ulang dilakukan hingga **5 kali** dengan jeda waktu yang meningkat secara bertahap (3s, 6s, 12s, 24s, 48s ditambah random jitter).\n- **Dead Letter Queue (DLQ)**: Jika setelah 5x pengiriman masih gagal, event disimpan di DLQ memori agar data tidak hilang dan dapat Anda inspeksi atau kirim ulang (replay) dari dashboard.",
+        "If your endpoint is temporarily unreachable, responds with 5xx errors, or times out (> 8 seconds), Wahide employs enterprise-grade delivery resilience:\n\n- **Jittered Exponential Backoff**: Retries are attempted up to **5 times** with increasing intervals (3s, 6s, 12s, 24s, 48s plus random jitter to avoid thundering-herd issues).\n- **Dead Letter Queue (DLQ)**: If all 5 attempts fail, the failed event is preserved in the in-memory DLQ, allowing you to inspect error diagnostics or replay dispatches from the dashboard.",
     },
     {
       id: "code-examples",
-      title: "4. Contoh Implementasi Server Penerima (Code Examples)",
+      title: "4. Receiver Server Implementation (Code Examples)",
       content:
-        "Pilih bahasa pemrograman backend Anda untuk melihat template boilerplate receiver webhook siap pakai yang sudah dilengkapi dengan verifikasi header keamanan `Authorization: Bearer <secret>` dan respons cepat HTTP 200 OK. Anda juga dapat menggunakan tab cURL untuk mensimulasikan payload pengujian event ke endpoint lokal Anda secara instan.",
-      codeTabsTitle: "Boilerplate Receiver & Simulasi Webhook",
+        "Select your backend language below to view a production-ready webhook receiver boilerplate featuring header verification and instant HTTP 200 OK acknowledgments. You can also run the cURL command to simulate an incoming webhook payload locally.",
+      codeTabsTitle: "Webhook Receiver Boilerplate & Simulation",
       codeTabs: {
         curl: `curl -X POST "http://localhost:3000/api/webhook/whatsapp" \\
   -H "Content-Type: application/json" \\
@@ -73,7 +73,7 @@ Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210`,
       "message_id": "3EB0ABC123456789DEF0",
       "sender": "6281234567890@s.whatsapp.net",
       "push_name": "Budi Santoso",
-      "text": "Halo admin, mau tanya stok produk apakah ready?"
+      "text": "Hello admin, is this product in stock?"
     }
   }'`,
         nodejs: `const express = require('express');
@@ -86,24 +86,24 @@ app.post('/api/webhook/whatsapp', (req, res) => {
   const authHeader = req.headers['authorization'] || '';
   const incomingSecret = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
   
-  // 1. Verifikasi Keamanan Header Authorization
+  // 1. Verify Authorization Header Security
   if (incomingSecret !== WAHIDE_SECRET) {
     return res.status(401).json({ error: 'Unauthorized: Invalid Authorization Header' });
   }
 
   const { event, device_id, data } = req.body;
 
-  // 2. Tangani Event Pesan Masuk
+  // 2. Handle Incoming Message Event
   if (event === 'message.received') {
-    console.log(\`[Pesan Masuk] Dari: \${data.sender} (\${data.push_name}): \${data.text}\`);
-    // TODO: Jalankan logika bisnis Anda (Auto-Reply, Simpan ke CRM, Notifikasi CS)
+    console.log(\`[Incoming Message] From: \${data.sender} (\${data.push_name}): \${data.text}\`);
+    // TODO: Execute business logic (Auto-reply, CRM storage, CS notification)
   }
 
-  // 3. Wajib Kembalikan HTTP 200 OK dengan cepat (< 8 detik)
+  // 3. Fast HTTP 200 OK Response (< 8 seconds)
   return res.status(200).json({ status: 'success', received: true });
 });
 
-app.listen(3000, () => console.log('Webhook server siap di port 3000'));`,
+app.listen(3000, () => console.log('Webhook server ready on port 3000'));`,
         php: `<?php
 
 namespace App\\Http\\Controllers;
@@ -119,7 +119,7 @@ class WhatsAppWebhookController extends Controller
         $authHeader = $request->header('Authorization', '');
         $incomingSecret = str_replace('Bearer ', '', $authHeader);
 
-        // 1. Verifikasi Secret Key via Authorization Header
+        // 1. Verify Secret Key via Authorization Header
         if ($incomingSecret !== $secret) {
             return response()->json(['error' => 'Unauthorized: Invalid Authorization Header'], 401);
         }
@@ -128,11 +128,11 @@ class WhatsAppWebhookController extends Controller
         $data = $request->input('data');
 
         if ($event === 'message.received') {
-            Log::info("Pesan masuk dari {$data['sender']}: {$data['text']}");
-            // TODO: Dispatch Job atau proses database CRM
+            Log::info("Incoming message from {$data['sender']}: {$data['text']}");
+            // TODO: Dispatch Job or persist to CRM database
         }
 
-        // 2. Wajib Kembalikan 200 OK dengan cepat (< 8 detik)
+        // 2. Return 200 OK immediately (< 8s)
         return response()->json(['status' => 'success']);
     }
 }`,
@@ -156,20 +156,20 @@ async def receive_whatsapp_webhook(
 ):
     token = authorization.replace("Bearer ", "").strip() if authorization else ""
 
-    # 1. Verifikasi Keamanan Authorization Header
+    # 1. Verify Authorization Header Security
     if token != WAHIDE_SECRET:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Authorization Header"
         )
 
-    # 2. Proses Event
+    # 2. Process Event
     if payload.event == "message.received":
         sender = payload.data.get("sender")
         text = payload.data.get("text")
-        print(f"Pesan dari {sender}: {text}")
+        print(f"Message from {sender}: {text}")
 
-    # 3. Respon Sukses 200 OK
+    # 3. Return Fast 200 OK Response
     return {"status": "success"}`,
         go: `package main
 
@@ -205,7 +205,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if payload.Event == "message.received" {
-		fmt.Printf("Pesan WhatsApp masuk dari %v: %v\\n", payload.Data["sender"], payload.Data["text"])
+		fmt.Printf("Incoming WhatsApp message from %v: %v\\n", payload.Data["sender"], payload.Data["text"])
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -229,7 +229,7 @@ export const webhooksEventsDoc: EndpointDoc = {
   slug: "webhooks/events",
   title: "Webhook Event: message.received",
   description:
-    "Struktur payload JSON yang dikirimkan oleh Wahide ke server Anda setiap kali pesan WhatsApp masuk diterima oleh perangkat Anda.",
+    "JSON payload schema dispatched by Wahide to your destination server whenever an incoming WhatsApp message is received by your device.",
   category: "Webhooks",
   categorySlug: "webhooks",
   method: "POST",
@@ -239,26 +239,26 @@ export const webhooksEventsDoc: EndpointDoc = {
     type: "info",
     title: "Incoming Direct Chat Event",
     content:
-      "Event ini hanya dipicu oleh pesan direct chat 1-on-1 dari pengguna WhatsApp resmi. Pesan grup, story, saluran, dan panggilan suara otomatis di-drop untuk melindungi efisiensi server Anda.",
+      "This event is triggered strictly by 1-on-1 direct customer chats. Group chats, status stories, public channels, and voice call signals are filtered out at the edge to optimize your server resources.",
   },
   headers: [
     {
       key: "Content-Type",
       value: "application/json",
       required: true,
-      description: "Format payload dalam bentuk JSON terenkripsi UTF-8.",
+      description: "Payload format encoded in UTF-8 JSON.",
     },
     {
       key: "Authorization",
       value: "Bearer wh_sec_...",
       required: true,
-      description: "Token rahasia penandatanganan webhook dengan format 'Bearer <secret>' untuk verifikasi keamanan.",
+      description: "Tenant webhook signing secret formatted as 'Bearer <secret>' for cryptographical verification.",
     },
     {
       key: "User-Agent",
       value: "Wahide-WhatsApp-Webhook-Engine/2.0",
       required: true,
-      description: "Identitas User-Agent resmi engine webhook Wahide.",
+      description: "Official User-Agent identity of the Wahide Webhook Engine.",
     },
   ],
   parameters: [
@@ -266,34 +266,34 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "event",
       type: "string",
       required: true,
-      description: "Nama event yang terjadi. Untuk pesan masuk, nilainya adalah 'message.received'.",
+      description: "Event identifier. For incoming messages, value is always 'message.received'.",
       example: "message.received",
     },
     {
       name: "device_id",
       type: "string",
       required: true,
-      description: "ID perangkat WhatsApp penerima di Wahide.",
+      description: "Unique WhatsApp device slot ID in Wahide that received the message.",
       example: "dev_01HV2A4F...",
     },
     {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Waktu pengiriman event oleh engine dalam format Unix epoch seconds.",
+      description: "Unix epoch timestamp in seconds when the event was dispatched by Wahide.",
       example: "1725845000",
     },
     {
       name: "data",
       type: "object",
       required: true,
-      description: "Objek detail data pesan WhatsApp yang diterima.",
+      description: "Structured container object holding message details.",
     },
     {
       name: "data.message_id",
       type: "string",
       required: true,
-      description: "ID pesan unik dari WhatsApp (WhatsApp Message ID).",
+      description: "Unique WhatsApp message identifier (WhatsApp Message ID).",
       example: "3EB0A1B2C3D4E5F6",
       depth: 1,
       parent: "data",
@@ -302,7 +302,7 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "data.sender",
       type: "string",
       required: true,
-      description: "Nomor telepon pengirim dalam format E.164 murni tanpa karakter spesial.",
+      description: "Normalized sender phone number in E.164 format without special characters.",
       example: "6281234567890",
       depth: 1,
       parent: "data",
@@ -311,7 +311,7 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "data.sender_jid",
       type: "string",
       required: true,
-      description: "JID resmi WhatsApp pengirim (Jabber ID).",
+      description: "Official WhatsApp Jabber ID of the sender (e.g. 6281234567890@s.whatsapp.net).",
       example: "6281234567890@s.whatsapp.net",
       depth: 1,
       parent: "data",
@@ -320,7 +320,7 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "data.push_name",
       type: "string",
       required: false,
-      description: "Nama tampilan profil WhatsApp pengirim.",
+      description: "WhatsApp profile display name configured by the sender.",
       example: "Budi Santoso",
       depth: 1,
       parent: "data",
@@ -329,8 +329,8 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "data.text",
       type: "string",
       required: true,
-      description: "Isi teks percakapan pesan WhatsApp yang dikirimkan pelanggan.",
-      example: "Halo min, saya ingin menanyakan paket langganan Wahide",
+      description: "Text body content of the conversation message sent by the customer.",
+      example: "Hello admin, I would like to inquire about the Wahide subscription plan.",
       depth: 1,
       parent: "data",
     },
@@ -338,14 +338,14 @@ export const webhooksEventsDoc: EndpointDoc = {
       name: "data.timestamp",
       type: "integer",
       required: true,
-      description: "Waktu pengiriman pesan oleh pengguna WhatsApp (Unix epoch).",
+      description: "Unix epoch timestamp when the message was sent by the customer.",
       example: "1725844998",
       depth: 1,
       parent: "data",
     },
   ],
   snippets: {
-    curl: `curl -X POST https://api.bisnis-anda.com/webhook \\
+    curl: `curl -X POST https://api.your-business.com/webhook \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210" \\
   -H "User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0" \\
@@ -358,18 +358,18 @@ export const webhooksEventsDoc: EndpointDoc = {
       "sender": "6281234567890",
       "sender_jid": "6281234567890@s.whatsapp.net",
       "push_name": "Budi Santoso",
-      "text": "Halo min, saya ingin menanyakan paket langganan Wahide",
+      "text": "Hello admin, I would like to inquire about the Wahide subscription plan.",
       "timestamp": 1725844998
     }
   }'`,
-    nodejs: `// Contoh Payload Event yang diterima di Express handler
+    nodejs: `// Incoming Webhook Event sample in Express handler
 app.post('/webhook', (req, res) => {
   const { event, device_id, data } = req.body;
-  console.log("Menerima event:", event);
-  console.log("Pengirim:", data.sender, "Pesan:", data.text);
+  console.log("Received event:", event);
+  console.log("Sender:", data.sender, "Message:", data.text);
   res.status(200).json({ received: true });
 });`,
-    php: `// Contoh Payload Event yang diterima di PHP
+    php: `// Incoming Webhook Event sample in PHP
 $payload = json_decode(file_get_contents('php://input'), true);
 if ($payload['event'] === 'message.received') {
     $sender = $payload['data']['sender'];
@@ -377,14 +377,14 @@ if ($payload['event'] === 'message.received') {
 }
 http_response_code(200);
 echo json_encode(['status' => 'success']);`,
-    python: `// Contoh Payload Event yang diterima di FastAPI
+    python: `// Incoming Webhook Event sample in FastAPI
 @app.post("/webhook")
 async def webhook(payload: dict):
     if payload.get("event") == "message.received":
         data = payload.get("data", {})
-        print("Pesan diterima:", data.get("text"))
+        print("Received text:", data.get("text"))
     return {"status": "success"}`,
-    go: `// Contoh Payload Event yang diterima di Go Net/HTTP
+    go: `// Incoming Webhook Event sample in Go Net/HTTP
 func handler(w http.ResponseWriter, r *http.Request) {
     var payload map[string]any
     _ = json.NewDecoder(r.Body).Decode(&payload)
@@ -397,7 +397,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
       status: 200,
       statusText: "OK",
       description:
-        "Respon yang wajib dikembalikan oleh server Anda untuk mengonfirmasi bahwa event berhasil diterima.",
+        "Mandatory HTTP acknowledgment response required from your server to confirm successful event delivery.",
       json: `{
   "status": "success",
   "received": true
@@ -406,7 +406,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
         {
           name: "status",
           type: "string",
-          description: "Status konfirmasi penerimaan payload.",
+          description: "Delivery receipt confirmation status acknowledgment.",
         },
       ],
     },

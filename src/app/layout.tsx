@@ -25,22 +25,22 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
+    default: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
     template: "%s | Wahide",
   },
   description:
-    "Platform WhatsApp Gateway & otomasi bisnis: kirim broadcast anti-blokir, sistem reservasi, pengingat otomatis, dan formulir web terintegrasi.",
+    "Wahide adalah platform otomasi bisnis dan WhatsApp Gateway terpadu: pengiriman pesan cerdas dengan proteksi reputasi, sistem reservasi, pengingat otomatis, dan formulir web terintegrasi.",
   keywords: [
-    "WhatsApp Gateway",
+    "Wahide",
+    "Wahide Gateway",
     "WhatsApp Gateway Indonesia",
-    "WhatsApp API Gateway",
+    "Platform Otomasi Bisnis",
     "WhatsApp Multi Device",
-    "Broadcast WhatsApp Anti Blokir",
-    "Otomasi WhatsApp Bisnis",
+    "Smart Broadcast WhatsApp",
     "Sistem Reservasi WhatsApp",
     "Pengingat Otomatis WhatsApp",
     "Formulir Dinamis WhatsApp",
-    "Wahide",
+    "API WhatsApp Indonesia",
   ],
   authors: [{ name: "Hide Digital Security", url: siteUrl }],
   creator: "Wahide",
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
+    title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
     description:
-      "Solusi WhatsApp Gateway terpadu: broadcast massal anti-blokir, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
+      "Solusi terpadu otomasi bisnis dan integrasi WhatsApp: pengiriman pesan cerdas dengan proteksi reputasi, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
     url: siteUrl,
     siteName: "Wahide",
     locale: "id_ID",
@@ -83,15 +83,15 @@ export const metadata: Metadata = {
         url: `${siteUrl}/icon.png`,
         width: 512,
         height: 512,
-        alt: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
+        alt: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
+    title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
     description:
-      "Solusi WhatsApp Gateway terpadu: broadcast massal anti-blokir, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
+      "Solusi terpadu otomasi bisnis dan integrasi WhatsApp: pengiriman pesan cerdas dengan proteksi reputasi, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
     creator: "@wahide_app",
     images: [`${siteUrl}/icon.png`],
   },
@@ -115,7 +115,7 @@ const jsonLd = {
       "@type": "WebSite",
       name: "Wahide",
       url: siteUrl,
-      description: "Platform WhatsApp Gateway & Otomasi Bisnis Terpadu",
+      description: "Platform Otomasi Bisnis & WhatsApp Gateway Terpadu",
       inLanguage: "id-ID",
     },
     {
@@ -129,10 +129,10 @@ const jsonLd = {
         priceCurrency: "IDR",
       },
       description:
-        "Solusi WhatsApp Gateway dan otomasi bisnis terpadu: broadcast massal anti-blokir, sistem reservasi online, pengingat otomatis, formulir dinamis, dan REST API.",
+        "Solusi terpadu otomasi bisnis dan integrasi WhatsApp: pengiriman pesan cerdas dengan proteksi reputasi, sistem reservasi online, pengingat otomatis, formulir dinamis, dan REST API.",
       featureList: [
         "WhatsApp Multi-Device Gateway",
-        "Broadcast Promosi Anti-Blokir",
+        "Smart Delivery & Broadcast Terjadwal",
         "Sistem Reservasi & Booking Jadwal",
         "Otomasi Pengingat & Jatuh Tempo",
         "Formulir Dinamis Publik",

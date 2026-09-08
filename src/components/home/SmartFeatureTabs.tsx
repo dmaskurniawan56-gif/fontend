@@ -239,13 +239,13 @@ export function SmartFeatureTabs() {
                     {isId ? "Proteksi Cerdas" : "Smart Protection"}
                   </span>
                   <span className="text-dark-green dark:text-wise-green font-mono text-xs font-bold">
-                    100% Ban Shield
+                    {isId ? "Proteksi Reputasi" : "Reputation Guard"}
                   </span>
                 </div>
 
                 <div>
                   <h3 className="text-foreground text-lg font-black sm:text-xl">
-                    {isId ? "5 Sistem Proteksi Pintar Anti-Blokir" : "5-Layer Automated Anti-Ban Shield"}
+                    {isId ? "5 Sistem Proteksi Pengiriman Cerdas" : "5-Layer Smart Delivery Shield"}
                   </h3>
                   <p className="text-foreground-secondary mt-1.5 text-xs leading-relaxed font-medium sm:text-sm">
                     {isId

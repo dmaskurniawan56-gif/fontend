@@ -89,11 +89,11 @@ export function HomeView() {
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
-              <ShieldCheck className="size-3.5" /> 5-Lapis Anti-Ban
+              <ShieldCheck className="size-3.5" /> 5-Lapis Smart Delivery
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
-              <Check className="size-3.5" /> Tanpa Biaya Meta
+              <Check className="size-3.5" /> Hemat Tanpa Markup
             </span>
           </div>
         </div>

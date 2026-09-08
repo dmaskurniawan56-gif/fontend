@@ -2,28 +2,28 @@ import type { Metadata } from "next";
 import { HomeView } from "@/components/home/HomeView";
 
 export const metadata: Metadata = {
-  title: "WhatsApp Gateway & Platform Otomasi Bisnis",
+  title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
   description:
-    "Platform WhatsApp Gateway & otomasi bisnis terpadu: kirim broadcast anti-blokir, sistem reservasi, pengingat otomatis, dan formulir web tanpa coding.",
+    "Platform otomasi bisnis dan WhatsApp Gateway terpadu: kelola broadcast cerdas dengan proteksi reputasi, sistem reservasi, pengingat otomatis, dan formulir web tanpa coding.",
   keywords: [
-    "WhatsApp Gateway",
+    "Wahide",
+    "Wahide Gateway",
     "WhatsApp Gateway Indonesia",
-    "Broadcast WhatsApp Anti Blokir",
-    "Otomasi WhatsApp Bisnis",
+    "Platform Otomasi Bisnis",
+    "Smart Broadcast WhatsApp",
     "Sistem Reservasi WhatsApp",
     "Pengingat Otomatis WhatsApp",
     "Formulir Dinamis WhatsApp",
     "Template Pesan Bisnis",
     "WhatsApp Multi Device",
-    "Wahide",
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Wahide - WhatsApp Gateway & Otomasi Bisnis",
+    title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
     description:
-      "Solusi WhatsApp Gateway terpadu: broadcast massal anti-blokir, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
+      "Solusi terpadu otomasi bisnis dan integrasi WhatsApp: pengiriman pesan cerdas dengan proteksi reputasi, reservasi online, pengingat otomatis, dan formulir web siap pakai.",
     url: "/",
     siteName: "Wahide",
     locale: "id_ID",
@@ -37,10 +37,10 @@ const faqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Apakah nomor WhatsApp saya aman dari pemblokiran (banned)?",
+      name: "Bagaimana Wahide menjaga keamanan dan reputasi nomor bisnis saya?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Wahide dilengkapi sistem proteksi 5-Lapis Anti-Ban meliputi dynamic spintax, simulasi pengetikan manusia (ChatPresence), jeda acak jitter 3–15 detik, dan rotasi nomor load-balancing otomatis.",
+        text: "Wahide dilengkapi 5-Lapis Proteksi Pengiriman Cerdas meliputi variasi kata dinamis (spintax), simulasi pengetikan manusia alami (ChatPresence), jeda acak jitter 3–15 detik, dan rotasi nomor cerdas untuk menjaga pengiriman pesan tetap wajar dan terhindar dari spam reporting.",
       },
     },
     {
@@ -69,10 +69,10 @@ const faqJsonLd = {
     },
     {
       "@type": "Question",
-      name: "Apa perbedaan Wahide dengan WhatsApp Cloud API resmi Meta?",
+      name: "Bagaimana hubungan Wahide dengan WhatsApp dan Meta?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "WhatsApp Cloud API resmi mengenakan biaya per percakapan berbasis template kaku. Wahide memberikan fleksibilitas penuh untuk multi-device tanpa biaya per percakapan yang mahal, sangat cocok untuk UMKM dan bisnis berkembang.",
+        text: "Wahide adalah platform piranti lunak otomasi independen yang memanfaatkan integrasi multi-device untuk kebutuhan operasional bisnis Anda. Wahide tidak berafiliasi resmi dengan WhatsApp LLC atau Meta Platforms, Inc., sehingga memberikan fleksibilitas operasional penuh bagi UMKM dan bisnis berkembang tanpa biaya percakapan per pesan yang membebani.",
       },
     },
     {

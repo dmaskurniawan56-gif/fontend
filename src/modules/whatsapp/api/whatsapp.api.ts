@@ -91,10 +91,11 @@ export const whatsappApi = {
     }
   },
 
-  getDevice: async (id: string): Promise<Device> => {
+  getDevice: async (id: string, signal?: AbortSignal): Promise<Device> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(
       `${WHATSAPP_BASE}/whatsapp/devices/${id}`,
+      { signal },
     );
     const data = res.payload || res;
     return mapBackendDevice(data);

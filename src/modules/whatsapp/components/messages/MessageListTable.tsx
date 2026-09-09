@@ -32,6 +32,10 @@ interface MessageListTableProps {
   onPageChange: (newPage: number) => void;
   onNewMessage: () => void;
   onRefresh?: () => void;
+  searchQuery?: string;
+  onSearchChange?: (q: string) => void;
+  statusFilter?: string;
+  onStatusFilterChange?: (status: string) => void;
 }
 
 export function MessageListTable({
@@ -43,31 +47,41 @@ export function MessageListTable({
   onPageChange,
   onNewMessage,
   onRefresh,
+  searchQuery,
+  onSearchChange,
+  statusFilter,
+  onStatusFilterChange,
 }: MessageListTableProps) {
   const { t } = useI18n();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [internalSearch, setInternalSearch] = useState("");
+  const [internalStatus, setInternalStatus] = useState<string>("ALL");
 
-  // Client-side filtering on current page
-  const filteredLogs = logs.filter((log) => {
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchPhone = log.recipient_jid?.toLowerCase().includes(q);
-      const matchBody = log.message_body?.toLowerCase().includes(q);
-      const matchDevice = log.device_id?.toLowerCase().includes(q);
-      if (!matchPhone && !matchBody && !matchDevice) return false;
+  const effectiveSearch =
+    searchQuery !== undefined ? searchQuery : internalSearch;
+  const effectiveStatus =
+    statusFilter !== undefined ? statusFilter : internalStatus;
+
+  const handleSearch = (val: string) => {
+    if (onSearchChange) {
+      onSearchChange(val);
+    } else {
+      setInternalSearch(val);
     }
-    if (statusFilter !== "ALL" && log.status !== statusFilter) {
-      return false;
+  };
+
+  const handleStatus = (val: string) => {
+    if (onStatusFilterChange) {
+      onStatusFilterChange(val);
+    } else {
+      setInternalStatus(val);
     }
-    return true;
-  });
+  };
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   // Export to CSV
   const handleExportCSV = () => {
-    if (filteredLogs.length === 0) return;
+    if (logs.length === 0) return;
     const headers = [
       "ID",
       "Recipient",
@@ -76,7 +90,7 @@ export function MessageListTable({
       "Status",
       "Created At",
     ];
-    const rows = filteredLogs.map((l) => [
+    const rows = logs.map((l) => [
       l.id,
       `"${l.recipient_jid || ""}"`,
       `"${(l.message_body || "").replace(/"/g, '""')}"`,
@@ -145,10 +159,10 @@ export function MessageListTable({
         {/* Search Input using unified SearchInput component */}
         <div className="w-full sm:max-w-xs md:max-w-sm">
           <SearchInput
-            value={searchQuery}
-            onChange={setSearchQuery}
-            onSearch={(val) => setSearchQuery(val)}
-            onClear={() => setSearchQuery("")}
+            value={effectiveSearch}
+            onChange={handleSearch}
+            onSearch={handleSearch}
+            onClear={() => handleSearch("")}
             placeholder={t("whatsapp.messagesSearchPlaceholder")}
             buttonText={t("common.search")}
           />
@@ -158,8 +172,8 @@ export function MessageListTable({
         <div className="flex flex-wrap items-center gap-2">
           {/* Status Filter */}
           <NativeSelect
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            value={effectiveStatus}
+            onChange={(e) => handleStatus(e.target.value)}
             variant="pill"
             wrapperClassName="w-auto"
           >
@@ -194,7 +208,7 @@ export function MessageListTable({
             variant="outline"
             size="sm"
             onClick={handleExportCSV}
-            disabled={filteredLogs.length === 0}
+            disabled={logs.length === 0}
             className="border-border hover:border-foreground-muted h-10 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold disabled:opacity-40"
           >
             <Download className="size-3.5" />
@@ -223,7 +237,7 @@ export function MessageListTable({
             {t("whatsapp.messagesLoadingList")}
           </p>
         </div>
-      ) : filteredLogs.length === 0 ? (
+      ) : logs.length === 0 ? (
         <EmptyState
           icon={
             <Inbox className="size-10 text-foreground-muted stroke-[1.5]" />
@@ -247,7 +261,7 @@ export function MessageListTable({
         <div>
           {/* Mobile View: Card-based Message Logs (Visible on < 1024px) */}
           <div className="divide-border/50 divide-y lg:hidden">
-            {filteredLogs.map((log) => {
+            {logs.map((log) => {
               const phone = log.recipient_jid?.split("@")[0] || "-";
               const timeFormatted = log.created_at
                 ? new Date(log.created_at).toLocaleString("id-ID", {
@@ -316,7 +330,7 @@ export function MessageListTable({
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 text-xs">
-                {filteredLogs.map((log) => {
+                {logs.map((log) => {
                   const phone = log.recipient_jid?.split("@")[0] || "-";
                   const timeFormatted = log.created_at
                     ? new Date(log.created_at).toLocaleString("id-ID", {

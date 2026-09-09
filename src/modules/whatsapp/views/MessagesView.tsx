@@ -29,8 +29,19 @@ export function MessagesView() {
   const [previewLocation, setPreviewLocation] = useState<string>("");
 
   // Data fetching
-  const { logs, total, page, setPage, pageSize, isLoading, fetchLogs } =
-    useMessageLogs(1, 20);
+  const {
+    logs,
+    total,
+    page,
+    setPage,
+    pageSize,
+    isLoading,
+    fetchLogs,
+    searchQuery,
+    setSearchQuery,
+    statusFilter,
+    setStatusFilter,
+  } = useMessageLogs(1, 20);
 
   // Derived telemetry metrics
   const failedCount = logs.filter(
@@ -107,6 +118,10 @@ export function MessagesView() {
               onPageChange={(p) => setPage(p)}
               onNewMessage={() => setActiveViewTab("compose")}
               onRefresh={fetchLogs}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
             />
           </ErrorBoundary>
         </TabsContent>

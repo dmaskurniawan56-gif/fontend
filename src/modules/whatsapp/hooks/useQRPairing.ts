@@ -188,10 +188,12 @@ export function useQRPairing({
       pollAbortRef.current = controller;
 
       try {
-        const devices = await whatsappApi.getDevices(controller.signal);
+        const currentDev = await whatsappApi.getDevice(
+          deviceId,
+          controller.signal,
+        );
         if (isCancelled || !isMountedRef.current) return;
 
-        const currentDev = devices.find((d) => d.id === deviceId);
         if (
           currentDev &&
           (currentDev.status === "CONNECTED" ||

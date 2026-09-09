@@ -49,17 +49,19 @@ export function MessageLogsTable() {
   const { t } = useI18n();
   const {
     logs,
-    total: serverTotal,
+    total,
     page,
     setPage,
     pageSize,
     setPageSize,
     isLoading,
     fetchLogs,
+    searchQuery,
+    setSearchQuery,
+    statusFilter,
+    setStatusFilter,
   } = useMessageLogs(1, 20);
   const [searchInput, setSearchInput] = useState("");
-  const [activeSearch, setActiveSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("ALL");
   const [selectedLogForDetail, setSelectedLogForDetail] =
     useState<MessageLogItem | null>(null);
 
@@ -81,42 +83,26 @@ export function MessageLogsTable() {
     });
   }, [logs]);
 
-  const filteredLogs = useMemo(() => {
-    return mappedLogs.filter((l) => {
-      const matchSearch =
-        activeSearch === "" ||
-        l.recipientPhone.includes(activeSearch) ||
-        (l.recipientName &&
-          l.recipientName.toLowerCase().includes(activeSearch.toLowerCase())) ||
-        l.campaignName.toLowerCase().includes(activeSearch.toLowerCase()) ||
-        l.messageSnippet.toLowerCase().includes(activeSearch.toLowerCase());
-
-      const matchStatus = statusFilter === "ALL" || l.status === statusFilter;
-      return matchSearch && matchStatus;
-    });
-  }, [mappedLogs, activeSearch, statusFilter]);
-
   const { sortKey, sortOrder, handleSort, sortData } =
     useTableSort<MessageLogItem>({
       initialKey: "sentAt",
       initialOrder: "desc",
     });
 
-  const sortedFilteredLogs = useMemo(() => {
-    return sortData(filteredLogs);
-  }, [filteredLogs, sortData]);
+  const sortedLogs = useMemo(() => {
+    return sortData(mappedLogs);
+  }, [mappedLogs, sortData]);
 
-  const total = serverTotal || sortedFilteredLogs.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const handleClearSearch = () => {
     setSearchInput("");
-    setActiveSearch("");
+    setSearchQuery("");
     setPage(1);
   };
 
-  const handleStatusChange = (status: string) => {
-    setStatusFilter(status);
+  const handleSearchSubmit = (val: string) => {
+    setSearchQuery(val);
     setPage(1);
   };
 
@@ -160,10 +146,12 @@ export function MessageLogsTable() {
       <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4">
         <SearchInput
           value={searchInput}
-          onChange={setSearchInput}
+          onChange={(val) => {
+            setSearchInput(val);
+            setSearchQuery(val);
+          }}
           onSearch={() => {
-            setActiveSearch(searchInput.trim());
-            setPage(1);
+            handleSearchSubmit(searchInput.trim());
           }}
           onClear={handleClearSearch}
           placeholder={t("campaign.searchLogsPlaceholder")}
@@ -187,7 +175,7 @@ export function MessageLogsTable() {
 
           <NativeSelect
             value={statusFilter}
-            onChange={(e) => handleStatusChange(e.target.value)}
+            onChange={(e) => setStatusFilter(e.target.value)}
             variant="pill"
             wrapperClassName="w-full sm:w-auto"
           >
@@ -208,13 +196,13 @@ export function MessageLogsTable() {
               {t("campaign.logsLoading")}
             </p>
           </div>
-        ) : filteredLogs.length === 0 ? (
+        ) : sortedLogs.length === 0 ? (
           <EmptyState
             icon={<AlertCircle />}
             title={t("campaign.logsEmptyTitle")}
             description={
-              activeSearch
-                ? t("campaign.logsEmptySearch", { query: activeSearch })
+              searchQuery
+                ? t("campaign.logsEmptySearch", { query: searchQuery })
                 : t("campaign.logsEmptyDesc")
             }
           />
@@ -222,7 +210,7 @@ export function MessageLogsTable() {
           <div>
             {/* Mobile View: Card-based Message Logs (Visible on < 1024px) */}
             <div className="divide-border/50 divide-y lg:hidden">
-              {sortedFilteredLogs.map((log) => (
+              {sortedLogs.map((log) => (
                 <div
                   key={log.id}
                   onClick={() => setSelectedLogForDetail(log)}
@@ -338,7 +326,7 @@ export function MessageLogsTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sortedFilteredLogs.map((log) => {
+                  {sortedLogs.map((log) => {
                     const formattedDate = log.sentAt
                       ? new Date(log.sentAt).toLocaleDateString("id-ID", {
                           day: "numeric",

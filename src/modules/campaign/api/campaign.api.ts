@@ -117,6 +117,17 @@ const mapBackendCampaign = (c: any): Campaign => {
   };
 };
 
+export interface GetMessageLogsParams {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  status?: string;
+  deviceId?: string;
+  direction?: string;
+  campaignId?: string;
+  signal?: AbortSignal;
+}
+
 export const campaignApi = {
   getCampaigns: async (
     page = 1,
@@ -221,14 +232,46 @@ export const campaignApi = {
   },
 
   getMessageLogs: async (
-    page = 1,
+    paramsOrPage: GetMessageLogsParams | number = 1,
     pageSize = 20,
     signal?: AbortSignal,
   ): Promise<{ logs: MessageLogResponse[]; total: number }> => {
+    let p = 1;
+    let size = 20;
+    let s = "";
+    let st = "";
+    let devId = "";
+    let dir = "";
+    let campId = "";
+    let sig = signal;
+
+    if (typeof paramsOrPage === "object" && paramsOrPage !== null) {
+      p = paramsOrPage.page ?? 1;
+      size = paramsOrPage.pageSize ?? 20;
+      s = paramsOrPage.search ?? "";
+      st = paramsOrPage.status ?? "";
+      devId = paramsOrPage.deviceId ?? "";
+      dir = paramsOrPage.direction ?? "";
+      campId = paramsOrPage.campaignId ?? "";
+      sig = paramsOrPage.signal || signal;
+    } else {
+      p = paramsOrPage;
+      size = pageSize;
+    }
+
     try {
+      const searchParams = new URLSearchParams();
+      searchParams.set("page", String(p));
+      searchParams.set("page_size", String(size));
+      if (s.trim()) searchParams.set("search", s.trim());
+      if (st.trim() && st !== "ALL") searchParams.set("status", st.trim());
+      if (devId.trim()) searchParams.set("device_id", devId.trim());
+      if (dir.trim() && dir !== "ALL") searchParams.set("direction", dir.trim());
+      if (campId.trim()) searchParams.set("campaign_id", campId.trim());
+
       const res = await httpClient.get<MessageLogResponse[]>(
-        `${CAMPAIGN_BASE}/campaigns/logs?page=${page}&page_size=${pageSize}`,
-        { signal },
+        `${CAMPAIGN_BASE}/campaigns/logs?${searchParams.toString()}`,
+        { signal: sig },
       );
       const logs = res.payload || (Array.isArray(res) ? res : []);
       const info = res.additional_info as { total?: number } | undefined;

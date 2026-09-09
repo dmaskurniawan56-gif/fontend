@@ -40,14 +40,13 @@ export const webhooksGuideDoc: GuideDoc = {
 Host: api.your-business.com
 Content-Type: application/json
 User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0
-Authorization: Bearer whsec_live_9f8e7d6c5b4a3210fedcba9876543210
 X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210`,
       },
       callout: {
         type: "warning",
         title: "Mandatory Server Validation",
         content:
-          "Always verify that the Bearer token in the \`Authorization\` header (or \`X-Wahide-Secret\` header) matches your Webhook Secret before processing payloads.",
+          "Always verify that the secret key in the \`X-Wahide-Secret\` header matches your configured Webhook Secret before processing payloads.",
       },
     },
     {
@@ -65,7 +64,7 @@ X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210`,
       codeTabs: {
         curl: `curl -X POST "http://localhost:3000/api/webhook/whatsapp" \\
   -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210" \\
+  -H "X-Wahide-Secret: wh_sec_9f8e7d6c5b4a3210fedcba9876543210" \\
   -d '{
     "event": "message.received",
     "device_id": "c1f76e5d-8b22-4211-9a11-87265143a123",
@@ -84,12 +83,11 @@ app.use(express.json());
 const WAHIDE_SECRET = process.env.WAHIDE_WEBHOOK_SECRET || "wh_sec_your_secret_here";
 
 app.post('/api/webhook/whatsapp', (req, res) => {
-  const authHeader = req.headers['authorization'] || '';
-  const incomingSecret = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+  const incomingSecret = req.headers['x-wahide-secret'];
   
-  // 1. Verify Authorization Header Security
-  if (incomingSecret !== WAHIDE_SECRET) {
-    return res.status(401).json({ error: 'Unauthorized: Invalid Authorization Header' });
+  // 1. Verify X-Wahide-Secret Header Security
+  if (!incomingSecret || incomingSecret !== WAHIDE_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid X-Wahide-Secret Header' });
   }
 
   const { event, device_id, data } = req.body;
@@ -117,12 +115,11 @@ class WhatsAppWebhookController extends Controller
     public function handle(Request $request)
     {
         $secret = config('services.wahide.webhook_secret');
-        $authHeader = $request->header('Authorization', '');
-        $incomingSecret = str_replace('Bearer ', '', $authHeader);
+        $incomingSecret = $request->header('X-Wahide-Secret', '');
 
-        // 1. Verify Secret Key via Authorization Header
+        // 1. Verify Secret Key via X-Wahide-Secret Header
         if ($incomingSecret !== $secret) {
-            return response()->json(['error' => 'Unauthorized: Invalid Authorization Header'], 401);
+            return response()->json(['error' => 'Unauthorized: Invalid X-Wahide-Secret Header'], 401);
         }
 
         $event = $request->input('event');
@@ -153,15 +150,13 @@ class WebhookPayload(BaseModel):
 @app.post("/api/webhook/whatsapp")
 async def receive_whatsapp_webhook(
     payload: WebhookPayload,
-    authorization: str = Header(None)
+    x_wahide_secret: str = Header(None, alias="X-Wahide-Secret")
 ):
-    token = authorization.replace("Bearer ", "").strip() if authorization else ""
-
-    # 1. Verify Authorization Header Security
-    if token != WAHIDE_SECRET:
+    # 1. Verify X-Wahide-Secret Header Security
+    if not x_wahide_secret or x_wahide_secret != WAHIDE_SECRET:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Authorization Header"
+            detail="Invalid X-Wahide-Secret Header"
         )
 
     # 2. Process Event
@@ -179,7 +174,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 )
 
 type WebhookPayload struct {
@@ -191,11 +185,10 @@ type WebhookPayload struct {
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	expectedSecret := os.Getenv("WAHIDE_WEBHOOK_SECRET")
-	authHeader := r.Header.Get("Authorization")
-	incomingSecret := strings.TrimPrefix(authHeader, "Bearer ")
+	incomingSecret := r.Header.Get("X-Wahide-Secret")
 
 	if expectedSecret != "" && incomingSecret != expectedSecret {
-		http.Error(w, "Unauthorized: Invalid Authorization Header", http.StatusUnauthorized)
+		http.Error(w, "Unauthorized: Invalid X-Wahide-Secret Header", http.StatusUnauthorized)
 		return
 	}
 
@@ -250,16 +243,10 @@ export const webhooksEventsDoc: EndpointDoc = {
       description: "Payload format encoded in UTF-8 JSON.",
     },
     {
-      key: "Authorization",
-      value: "Bearer whsec_live_...",
-      required: true,
-      description: "Tenant webhook secret formatted as 'Bearer <secret>' for authentication verification.",
-    },
-    {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
-      required: false,
-      description: "Direct tenant webhook secret header for convenient zero-prefix matching.",
+      required: true,
+      description: "Official authentication header containing your Tenant Webhook Secret for signature verification.",
     },
     {
       key: "User-Agent",
@@ -354,7 +341,7 @@ export const webhooksEventsDoc: EndpointDoc = {
   snippets: {
     curl: `curl -X POST https://api.your-business.com/webhook \\
   -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer wh_sec_9f8e7d6c5b4a3210fedcba9876543210" \\
+  -H "X-Wahide-Secret: wh_sec_9f8e7d6c5b4a3210fedcba9876543210" \\
   -H "User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0" \\
   -d '{
     "event": "message.received",

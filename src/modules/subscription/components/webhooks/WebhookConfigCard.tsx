@@ -81,7 +81,7 @@ export function WebhookConfigCard({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${config?.secret || ""}`,
+          "X-Wahide-Secret": config?.secret || "",
           "User-Agent": "Wahide-WhatsApp-Webhook-Engine/2.0-TestPing",
         },
         body: JSON.stringify({
@@ -239,7 +239,7 @@ export function WebhookConfigCard({
           <div className="text-foreground-muted flex items-center gap-1.5 pt-1 text-[11px] font-semibold">
             <ShieldCheck className="dark:text-wise-green size-3.5 shrink-0 text-emerald-600" />
             <span>
-              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header <code className="font-mono text-foreground font-bold">Authorization: Bearer &lt;secret&gt;</code> dan <code className="font-mono text-foreground font-bold">X-Wahide-Secret</code> pada setiap callback event WhatsApp.
+              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header <code className="font-mono text-foreground font-bold">X-Wahide-Secret</code> pada setiap callback event WhatsApp.
             </span>
           </div>
         </div>

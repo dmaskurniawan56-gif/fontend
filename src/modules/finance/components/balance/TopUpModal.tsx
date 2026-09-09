@@ -37,7 +37,7 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
       : selectedAmount;
 
     if (!finalAmount || finalAmount < 10000) {
-      setError("Nominal top-up minimum Rp 10.000.");
+      setError(t("billing.minimumTopUpNotice"));
       return;
     }
 
@@ -48,7 +48,8 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
       await onSubmit(finalAmount, "QRIS");
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memproses top-up";
+      const msg =
+        err instanceof Error ? err.message : t("billing.toastTopUpError");
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -135,7 +136,7 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
                 <Input
                   id="custom-nominal-input"
                   type="text"
-                  placeholder="Contoh: 150.000"
+                  placeholder={t("billing.customAmountPlaceholder")}
                   value={customAmount}
                   onChange={(e) => {
                     const raw = e.target.value.replace(/[^0-9]/g, "");
@@ -166,16 +167,15 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="text-foreground block text-xs font-bold">
-                        QRIS Instan (Auto-Settlement)
+                        {t("billing.qrisInstantTitle")}
                       </span>
                       <span className="py-0.2 bg-wise-green inline-flex items-center gap-1 rounded-full px-2 text-[10px] font-bold text-[#0e1708]">
                         <Zap className="size-2.5" />
-                        <span>0 Detik</span>
+                        <span>{t("billing.qrisInstantBadge")}</span>
                       </span>
                     </div>
                     <span className="text-foreground-secondary mt-0.5 block text-[11px] leading-tight font-semibold">
-                      Scan via BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA,
-                      ShopeePay
+                      {t("billing.qrisScanSupport")}
                     </span>
                   </div>
                 </div>

@@ -31,7 +31,7 @@ export function SubscriptionView() {
       </div>
 
       {/* Subscription Plans Grid with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Paket Langganan">
+      <ErrorBoundary>
         <PlanCardGrid
           plans={plans}
           currentSubscription={subscription}

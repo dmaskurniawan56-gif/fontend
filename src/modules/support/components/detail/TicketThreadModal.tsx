@@ -423,7 +423,7 @@ export function TicketThreadModal({
                 onClick={handleRemoveAttachment}
                 disabled={isLoading}
                 className="text-foreground-muted hover:bg-muted hover:text-foreground flex size-6 cursor-pointer items-center justify-center rounded-full"
-                title="Hapus gambar"
+                title={t("support.removeImage")}
               >
                 <X className="size-3.5" />
               </button>
@@ -468,7 +468,7 @@ export function TicketThreadModal({
                 ) : (
                   <>
                     <Send className="size-3.5" />
-                    <span>Kirim</span>
+                    <span>{t("support.sendReply")}</span>
                   </>
                 )}
               </Button>

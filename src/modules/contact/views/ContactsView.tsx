@@ -299,7 +299,7 @@ export function ContactsView() {
           }
         />
       ) : (
-        <ErrorBoundary fallbackTitle="Gagal Merender Tabel Kontak Virtual">
+        <ErrorBoundary>
           <ContactTable
             contacts={filteredContacts}
             selectedIds={selectedIds}

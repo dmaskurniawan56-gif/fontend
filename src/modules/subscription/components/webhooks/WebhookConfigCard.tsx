@@ -135,14 +135,14 @@ export function WebhookConfigCard({
 
   const handleTestPing = async () => {
     if (!url) {
-      toast.error("Masukkan URL endpoint webhook terlebih dahulu");
+      toast.error(t("subscription.webhookConfig.enterUrlFirst"));
       return;
     }
     setIsPinging(true);
     setPingResult(null);
     const startTime = performance.now();
     try {
-      toast.info("Mengirim simulasi test.ping ke endpoint...", {
+      toast.info(t("subscription.webhookConfig.sendingPing"), {
         id: "webhook-ping",
       });
       const controller = new AbortController();
@@ -170,9 +170,10 @@ export function WebhookConfigCard({
         });
         const latency = Math.round(performance.now() - startTime);
         setPingResult({ success: true, latency });
-        toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, {
-          id: "webhook-ping",
-        });
+        toast.success(
+          t("subscription.webhookConfig.pingSuccess", { latency }),
+          { id: "webhook-ping" },
+        );
       } finally {
         clearTimeout(timeoutId);
       }
@@ -180,12 +181,14 @@ export function WebhookConfigCard({
       const isTimeout = err instanceof Error && err.name === "AbortError";
       setPingResult({
         success: false,
-        error: isTimeout ? "Timeout (>7s)" : "Gagal terhubung",
+        error: isTimeout
+          ? t("subscription.webhookConfig.pingTimeoutShort")
+          : t("subscription.webhookConfig.pingFailedShort"),
       });
       toast.error(
         isTimeout
-          ? "Endpoint timeout (>7 detik)"
-          : "Gagal terhubung ke endpoint webhook",
+          ? t("subscription.webhookConfig.pingTimeoutToast")
+          : t("subscription.webhookConfig.pingFailedToast"),
         { id: "webhook-ping" },
       );
     } finally {
@@ -276,16 +279,7 @@ export function WebhookConfigCard({
       <div className="flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5 text-xs text-foreground-secondary">
         <ShieldCheck className="size-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
         <div className="leading-relaxed">
-          <span className="font-bold text-foreground">
-            Webhook Utama Workspace:
-          </span>{" "}
-          Semua nomor WhatsApp di workspace ini secara otomatis mewarisi
-          (*inherit*) endpoint dan secret key ini secara default. Jika Anda
-          membutuhkan routing terpisah untuk nomor tertentu, Anda dapat menyetel{" "}
-          <span className="font-semibold text-foreground">
-            Override Webhook Khusus
-          </span>{" "}
-          di menu Detail Perangkat masing-masing.
+          {t("subscription.webhookConfig.allDevicesInherit")}
         </div>
       </div>
 
@@ -312,15 +306,9 @@ export function WebhookConfigCard({
             <div className="leading-relaxed space-y-1">
               <p>
                 <span className="font-bold text-foreground">
-                  Tips Integrasi n8n / AI Bot:
+                  {t("subscription.webhookConfig.n8nTipsTitle")}
                 </span>{" "}
-                Jika menghubungkan webhook ke AI Agent (OpenAI/Claude/Gemini),
-                pastikan node Webhook n8n diatur ke{" "}
-                <span className="font-semibold text-foreground">
-                  Response Mode: Immediately (200 OK)
-                </span>{" "}
-                agar proses berpikir AI yang lama tidak memicu batas timeout
-                atau eksekusi ganda.
+                {t("subscription.webhookConfig.n8nTipsBody")}
               </p>
               <div>
                 <Link
@@ -328,7 +316,7 @@ export function WebhookConfigCard({
                   target="_blank"
                   className="inline-flex items-center gap-1 font-bold text-sky-600 dark:text-sky-400 hover:underline"
                 >
-                  <span>Buka Panduan & Template n8n Siap Pakai</span>
+                  <span>{t("subscription.webhookConfig.n8nGuideLink")}</span>
                   <ExternalLink className="size-3" />
                 </Link>
               </div>
@@ -354,7 +342,9 @@ export function WebhookConfigCard({
                 onClick={() => setShowSecret(!showSecret)}
                 className="border-border size-7 rounded-full p-0"
                 aria-label={
-                  showSecret ? "Sembunyikan Kunci" : "Tampilkan Kunci"
+                  showSecret
+                    ? t("subscription.webhookConfig.hideSecretAria")
+                    : t("subscription.webhookConfig.showSecretAria")
                 }
               >
                 {showSecret ? (
@@ -370,7 +360,7 @@ export function WebhookConfigCard({
                 size="sm"
                 onClick={() => config?.secret && onCopySecret(config.secret)}
                 className="border-border size-7 rounded-full p-0"
-                aria-label="Salin Secret"
+                aria-label={t("subscription.webhookConfig.copySecretAria")}
               >
                 <Copy className="size-3.5" />
               </Button>
@@ -382,7 +372,9 @@ export function WebhookConfigCard({
                 disabled={isRegenerating}
                 onClick={() => setIsConfirmOpen(true)}
                 className="border-border size-7 rounded-full p-0"
-                aria-label="Regenerate Secret"
+                aria-label={t(
+                  "subscription.webhookConfig.regenerateSecretAria",
+                )}
               >
                 <RefreshCw
                   className={`size-3.5 ${isRegenerating ? "animate-spin" : ""}`}
@@ -399,13 +391,7 @@ export function WebhookConfigCard({
 
           <div className="text-foreground-muted flex items-center gap-1.5 pt-1 text-[11px] font-semibold">
             <ShieldCheck className="dark:text-wise-green size-3.5 shrink-0 text-emerald-600" />
-            <span>
-              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header{" "}
-              <code className="font-mono text-foreground font-bold">
-                X-Wahide-Secret
-              </code>{" "}
-              pada setiap callback event WhatsApp.
-            </span>
+            <span>{t("subscription.webhookConfig.secretHeaderNotice")}</span>
           </div>
         </div>
 
@@ -416,11 +402,10 @@ export function WebhookConfigCard({
               <SlidersHorizontal className="dark:text-wise-green size-4 text-emerald-700" />
               <div>
                 <span className="text-foreground text-xs font-bold">
-                  Langganan Event Webhook (Event Subscriptions)
+                  {t("subscription.webhookConfig.eventSubscriptionsTitle")}
                 </span>
                 <p className="text-foreground-secondary text-[11px] font-medium">
-                  Hanya event yang dipilih yang akan dikirim ke endpoint Anda.
-                  Event lainnya akan di-drop instan (Zero Allocation).
+                  {t("subscription.webhookConfig.eventSubscriptionsDesc")}
                 </p>
               </div>
             </div>
@@ -434,7 +419,7 @@ export function WebhookConfigCard({
                 disabled={!isEnabled}
                 className="h-7 text-[11px] font-bold px-2 rounded-lg text-foreground-secondary hover:text-foreground"
               >
-                Pilih Semua
+                {t("subscription.webhookConfig.selectAll")}
               </Button>
               <span className="text-border">|</span>
               <Button
@@ -445,7 +430,7 @@ export function WebhookConfigCard({
                 disabled={!isEnabled}
                 className="h-7 text-[11px] font-bold px-2 rounded-lg text-foreground-secondary hover:text-foreground"
               >
-                Reset Default
+                {t("subscription.webhookConfig.resetDefault")}
               </Button>
             </div>
           </div>
@@ -568,20 +553,16 @@ export function WebhookConfigCard({
             </div>
             <div>
               <AlertDialogTitle className="text-foreground text-lg font-black tracking-tight">
-                Buat Ulang Signing Secret?
+                {t("subscription.webhookConfig.regenerateConfirmTitle")}
               </AlertDialogTitle>
               <AlertDialogDescription className="text-foreground-secondary text-xs font-semibold">
-                Tindakan rotasi kunci secret webhook sistem.
+                {t("subscription.signingSecretLabel")}
               </AlertDialogDescription>
             </div>
           </AlertDialogHeader>
 
           <div className="text-foreground-secondary min-h-0 flex-1 space-y-4 overflow-y-auto p-5 text-xs leading-relaxed sm:p-6">
-            <p>
-              Kunci Signing Secret lama akan segera tidak berlaku. Semua server
-              endpoint yang memverifikasi header signature webhook harus
-              diperbarui dengan kunci baru ini.
-            </p>
+            <p>{t("subscription.webhookConfig.regenerateConfirmWarning")}</p>
           </div>
 
           <AlertDialogFooter className="border-border bg-muted/20 m-0 flex shrink-0 flex-row items-center justify-end gap-2.5 rounded-none border-t p-4 sm:p-5">
@@ -589,7 +570,7 @@ export function WebhookConfigCard({
               disabled={isRegenerating}
               className="border-border hover:border-foreground-muted rounded-full text-xs font-bold"
             >
-              Batal
+              {t("common.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={isRegenerating}
@@ -598,7 +579,11 @@ export function WebhookConfigCard({
               className="gap-1.5 rounded-full text-xs font-bold"
             >
               {isRegenerating && <Loader2 className="size-3.5 animate-spin" />}
-              <span>{isRegenerating ? "Memproses..." : "Ya, Buat Ulang"}</span>
+              <span>
+                {isRegenerating
+                  ? t("common.saving")
+                  : t("subscription.webhookConfig.regenerateConfirmBtn")}
+              </span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

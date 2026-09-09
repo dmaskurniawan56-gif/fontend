@@ -30,9 +30,7 @@ export default function AdminLayout({
       <div className="flex min-w-0 flex-1 flex-col lg:pl-64">
         <AdminHeader onOpenMobileNav={() => setMobileNavOpen(true)} />
         <main className="min-w-0 flex-1">
-          <ErrorBoundary fallbackTitle="Terjadi Kendala Memuat Modul Superadmin">
-            {children}
-          </ErrorBoundary>
+          <ErrorBoundary>{children}</ErrorBoundary>
         </main>
       </div>
     </div>

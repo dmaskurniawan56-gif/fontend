@@ -30,8 +30,10 @@ import {
   Copy,
   ShieldAlert,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function WebhookLogsTable() {
+  const { t, locale } = useI18n();
   const [logs, setLogs] = useState<WebhookLogItem[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,11 +66,11 @@ export function WebhookLogsTable() {
       setLogs(res.data);
       setTotal(res.total);
     } catch {
-      toast.error("Gagal memuat riwayat log webhook");
+      toast.error(t("subscription.webhookLogs.toastLoadFailed"));
     } finally {
       setIsLoading(false);
     }
-  }, [filters]);
+  }, [filters, t]);
 
   useEffect(() => {
     fetchLogs();
@@ -78,7 +80,7 @@ export function WebhookLogsTable() {
     setRetryingId(log.id);
     try {
       await subscriptionApi.retryWebhookLog(log.id);
-      toast.success("Pengiriman ulang webhook dijadwalkan!");
+      toast.success(t("subscription.webhookLogs.toastRetryScheduled"));
       if (retryTimerRef.current) {
         clearTimeout(retryTimerRef.current);
       }
@@ -87,7 +89,7 @@ export function WebhookLogsTable() {
         retryTimerRef.current = null;
       }, 1500);
     } catch {
-      toast.error("Gagal mengirim ulang webhook");
+      toast.error(t("subscription.webhookLogs.toastRetryFailed"));
     } finally {
       setRetryingId(null);
     }
@@ -97,14 +99,14 @@ export function WebhookLogsTable() {
     setDeletingId(id);
     try {
       await subscriptionApi.deleteWebhookLog(id);
-      toast.success("Log webhook berhasil dihapus");
+      toast.success(t("subscription.webhookLogs.toastDeleteSuccess"));
       setLogs((prev) => prev.filter((l) => l.id !== id));
       setTotal((prev) => Math.max(0, prev - 1));
       if (selectedLog?.id === id) {
         setIsDetailOpen(false);
       }
     } catch {
-      toast.error("Gagal menghapus log webhook");
+      toast.error(t("subscription.webhookLogs.toastDeleteFailed"));
     } finally {
       setDeletingId(null);
     }
@@ -112,7 +114,7 @@ export function WebhookLogsTable() {
 
   const handleCopy = async (text: string, label: string) => {
     await navigator.clipboard.writeText(text);
-    toast.success(`${label} berhasil disalin ke clipboard!`);
+    toast.success(t("subscription.webhookLogs.copied", { label }));
   };
 
   const formatPayload = (raw?: string) => {
@@ -159,11 +161,10 @@ export function WebhookLogsTable() {
           </div>
           <div>
             <h3 className="text-foreground text-lg font-black tracking-tight">
-              Riwayat Pengiriman Webhook
+              {t("subscription.webhookLogs.title")}
             </h3>
             <p className="text-foreground-secondary text-xs font-semibold">
-              Audit log pengiriman event secara real-time. Data otomatis
-              dibersihkan setiap 3 hari (Rolling Retention).
+              {t("subscription.webhookLogs.subtitle")}
             </p>
           </div>
         </div>
@@ -180,7 +181,7 @@ export function WebhookLogsTable() {
             <RefreshCw
               className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            <span>Segarkan</span>
+            <span>{t("subscription.webhookLogs.refresh")}</span>
           </Button>
         </div>
       </div>
@@ -191,7 +192,7 @@ export function WebhookLogsTable() {
           <Search className="text-foreground-muted absolute top-1/2 left-3 size-4 -translate-y-1/2" />
           <Input
             type="text"
-            placeholder="Cari URL endpoint, Event ID, atau payload..."
+            placeholder={t("subscription.webhookLogs.searchPlaceholder")}
             value={filters.search || ""}
             onChange={(e) =>
               setFilters((prev) => ({
@@ -217,7 +218,9 @@ export function WebhookLogsTable() {
             }
             className="border-border bg-background text-foreground h-10 w-full rounded-full border px-3 text-xs font-bold focus:outline-none"
           >
-            <option value="ALL">Semua Event</option>
+            <option value="ALL">
+              {t("subscription.webhookLogs.allEvents")}
+            </option>
             <option value="message.received">message.received</option>
             <option value="message.sent">message.sent</option>
             <option value="message.delivered">message.delivered</option>
@@ -242,8 +245,10 @@ export function WebhookLogsTable() {
             }
             className="border-border bg-background text-foreground h-10 w-full rounded-full border px-3 text-xs font-bold focus:outline-none"
           >
-            <option value="ALL">Semua Status</option>
-            <option value="200">200 OK (Berhasil)</option>
+            <option value="ALL">
+              {t("subscription.webhookLogs.allStatus")}
+            </option>
+            <option value="200">200 OK</option>
             <option value="400">400 Bad Request</option>
             <option value="404">404 Not Found</option>
             <option value="500">500 Server Error</option>
@@ -258,12 +263,24 @@ export function WebhookLogsTable() {
           <table className="w-full text-left text-xs">
             <thead className="bg-muted/40 text-foreground-secondary border-border border-b font-bold uppercase tracking-wider">
               <tr>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Event</th>
-                <th className="px-4 py-3">Target Endpoint</th>
-                <th className="px-4 py-3">Latency</th>
-                <th className="px-4 py-3">Waktu</th>
-                <th className="px-4 py-3 text-right">Aksi</th>
+                <th className="px-4 py-3">
+                  {t("subscription.webhookLogs.colStatus")}
+                </th>
+                <th className="px-4 py-3">
+                  {t("subscription.webhookLogs.colEventName")}
+                </th>
+                <th className="px-4 py-3">
+                  {t("subscription.webhookLogs.colEndpoint")}
+                </th>
+                <th className="px-4 py-3">
+                  {t("subscription.webhookLogs.colDuration")}
+                </th>
+                <th className="px-4 py-3">
+                  {t("subscription.webhookLogs.colEventId")}
+                </th>
+                <th className="px-4 py-3 text-right">
+                  {t("subscription.webhookLogs.colActions")}
+                </th>
               </tr>
             </thead>
             <tbody className="divide-border divide-y font-medium">
@@ -274,7 +291,7 @@ export function WebhookLogsTable() {
                     className="text-foreground-muted px-4 py-12 text-center"
                   >
                     <RefreshCw className="mx-auto mb-2 size-5 animate-spin" />
-                    Memuat log pengiriman...
+                    {t("subscription.webhookLogs.loading")}
                   </td>
                 </tr>
               ) : logs.length === 0 ? (
@@ -285,11 +302,10 @@ export function WebhookLogsTable() {
                   >
                     <Activity className="mx-auto mb-2 size-8 opacity-40" />
                     <p className="text-foreground font-bold">
-                      Belum Ada Riwayat Webhook
+                      {t("subscription.webhookLogs.emptyTitle")}
                     </p>
                     <p className="mt-1 text-xs">
-                      Saat event WhatsApp terjadi, Wahide akan mengirimkan HTTP
-                      POST callback dan mencatat statusnya di sini.
+                      {t("subscription.webhookLogs.emptyDesc")}
                     </p>
                   </td>
                 </tr>
@@ -326,13 +342,16 @@ export function WebhookLogsTable() {
                       )}
                     </td>
                     <td className="px-4 py-3 text-foreground-secondary whitespace-nowrap">
-                      {new Date(log.created_at).toLocaleString("id-ID", {
-                        day: "2-digit",
-                        month: "short",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        second: "2-digit",
-                      })}
+                      {new Date(log.created_at).toLocaleString(
+                        locale === "id" ? "id-ID" : "en-US",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                        },
+                      )}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-1">
@@ -345,7 +364,7 @@ export function WebhookLogsTable() {
                             setIsDetailOpen(true);
                           }}
                           className="size-7 rounded-full p-0"
-                          title="Lihat Detail Payload & Response"
+                          title={t("subscription.webhookLogs.viewDetail")}
                         >
                           <Eye className="size-3.5" />
                         </Button>
@@ -356,7 +375,7 @@ export function WebhookLogsTable() {
                           onClick={() => handleRetry(log)}
                           disabled={retryingId === log.id}
                           className="size-7 rounded-full p-0 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-500/10"
-                          title="Kirim Ulang (Retry)"
+                          title={t("subscription.webhookLogs.retryTitle")}
                         >
                           <RotateCw
                             className={`size-3.5 ${retryingId === log.id ? "animate-spin" : ""}`}
@@ -369,7 +388,7 @@ export function WebhookLogsTable() {
                           onClick={() => handleDelete(log.id)}
                           disabled={deletingId === log.id}
                           className="size-7 rounded-full p-0 text-rose-500 hover:text-rose-600 hover:bg-rose-500/10"
-                          title="Hapus Log"
+                          title={t("subscription.webhookLogs.deleteTitle")}
                         >
                           <Trash2 className="size-3.5" />
                         </Button>
@@ -387,7 +406,13 @@ export function WebhookLogsTable() {
       {total > 0 && (
         <div className="flex items-center justify-between text-xs font-semibold text-foreground-secondary pt-2">
           <span>
-            Menampilkan {logs.length} dari total {total} log
+            {t("subscription.webhookLogs.pageInfo", {
+              page: String(filters.page || 1),
+              totalPages: String(
+                Math.max(1, Math.ceil(total / (filters.page_size || 15))),
+              ),
+              total: String(total),
+            })}
           </span>
           <div className="flex items-center gap-2">
             <Button
@@ -400,10 +425,10 @@ export function WebhookLogsTable() {
               }
               className="rounded-full h-8 text-xs font-bold"
             >
-              Sebelumnya
+              {t("common.prev")}
             </Button>
             <span className="font-mono font-bold text-foreground">
-              Halaman {filters.page}
+              {filters.page}
             </span>
             <Button
               type="button"
@@ -415,7 +440,7 @@ export function WebhookLogsTable() {
               }
               className="rounded-full h-8 text-xs font-bold"
             >
-              Berikutnya
+              {t("common.next")}
             </Button>
           </div>
         </div>
@@ -428,7 +453,8 @@ export function WebhookLogsTable() {
             <div className="flex items-center gap-2.5">
               {selectedLog && renderStatusBadge(selectedLog.response_status)}
               <DialogTitle className="text-base font-black">
-                Detail Pengiriman Webhook: {selectedLog?.event_name}
+                {t("subscription.webhookLogs.detailTitle")}:{" "}
+                {selectedLog?.event_name}
               </DialogTitle>
             </div>
             <DialogDescription className="text-xs font-mono break-all text-foreground-secondary">
@@ -442,7 +468,7 @@ export function WebhookLogsTable() {
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 bg-muted/30 p-3 rounded-lg border border-border">
                 <div>
                   <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
-                    Latency
+                    {t("subscription.webhookLogs.colDuration")}
                   </span>
                   <span className="font-mono font-bold text-foreground">
                     {selectedLog.latency_ms} ms
@@ -450,10 +476,10 @@ export function WebhookLogsTable() {
                 </div>
                 <div>
                   <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
-                    Percobaan
+                    {t("subscription.webhookLogs.colAttempts")}
                   </span>
                   <span className="font-mono font-bold text-foreground">
-                    Percobaan #{selectedLog.attempt}
+                    #{selectedLog.attempt}
                   </span>
                 </div>
                 <div>
@@ -466,11 +492,11 @@ export function WebhookLogsTable() {
                 </div>
                 <div>
                   <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
-                    Waktu
+                    {t("subscription.webhookLogs.colEventId")}
                   </span>
                   <span className="font-mono font-bold text-foreground truncate block">
                     {new Date(selectedLog.created_at).toLocaleTimeString(
-                      "id-ID",
+                      locale === "id" ? "id-ID" : "en-US",
                     )}
                   </span>
                 </div>
@@ -481,7 +507,7 @@ export function WebhookLogsTable() {
                 <div className="bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 text-rose-600 dark:text-rose-400">
                   <div className="flex items-center gap-1.5 font-bold mb-1">
                     <ShieldAlert className="size-4" />
-                    <span>Pesan Kesalahan:</span>
+                    <span>Error Message:</span>
                   </div>
                   <p className="font-mono text-xs">
                     {selectedLog.error_message}
@@ -493,7 +519,7 @@ export function WebhookLogsTable() {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="font-bold text-foreground text-xs uppercase tracking-wider">
-                    Request Payload (JSON)
+                    {t("subscription.webhookLogs.requestPayload")}
                   </span>
                   <Button
                     type="button"
@@ -508,7 +534,7 @@ export function WebhookLogsTable() {
                     className="h-6 gap-1 px-2 text-[11px] font-bold"
                   >
                     <Copy className="size-3" />
-                    Salin
+                    {t("subscription.webhookLogs.copy")}
                   </Button>
                 </div>
                 <pre className="bg-[#10110e] text-[#f4f4f0] p-3 rounded-lg font-mono text-[11px] overflow-x-auto max-h-48 border border-border">
@@ -520,7 +546,8 @@ export function WebhookLogsTable() {
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="font-bold text-foreground text-xs uppercase tracking-wider">
-                    Response Body (HTTP {selectedLog.response_status})
+                    {t("subscription.webhookLogs.responseBody")} (HTTP{" "}
+                    {selectedLog.response_status})
                   </span>
                   {selectedLog.response_body && (
                     <Button
@@ -533,7 +560,7 @@ export function WebhookLogsTable() {
                       className="h-6 gap-1 px-2 text-[11px] font-bold"
                     >
                       <Copy className="size-3" />
-                      Salin
+                      {t("subscription.webhookLogs.copy")}
                     </Button>
                   )}
                 </div>
@@ -553,7 +580,7 @@ export function WebhookLogsTable() {
               className="text-rose-500 hover:text-rose-600 rounded-full text-xs font-bold"
             >
               <Trash2 className="size-3.5 mr-1" />
-              Hapus Log Ini
+              {t("subscription.webhookLogs.deleteLogBtn")}
             </Button>
             <div className="flex items-center gap-2">
               <Button
@@ -567,7 +594,7 @@ export function WebhookLogsTable() {
                 <RotateCw
                   className={`size-3.5 ${retryingId === selectedLog?.id ? "animate-spin" : ""}`}
                 />
-                Kirim Ulang
+                {t("subscription.webhookLogs.retry")}
               </Button>
               <Button
                 type="button"
@@ -576,7 +603,7 @@ export function WebhookLogsTable() {
                 onClick={() => setIsDetailOpen(false)}
                 className="text-xs font-bold px-5"
               >
-                Tutup
+                {t("subscription.webhookLogs.close")}
               </Button>
             </div>
           </DialogFooter>

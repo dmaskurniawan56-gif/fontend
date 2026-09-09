@@ -28,7 +28,7 @@ export function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger
         className="hover:bg-surface hover:border-border border-border flex cursor-pointer items-center gap-1.5 rounded-full border bg-transparent px-3 py-1.5 text-xs font-bold tracking-wider uppercase transition outline-none dark:hover:bg-[#161715]"
-        aria-label="Pilih Bahasa / Select Language"
+        aria-label={t("common.selectLanguage")}
       >
         <Globe className="text-dark-green dark:text-wise-green size-3.5" />
         <span>{currentLocale.toUpperCase()}</span>

@@ -139,14 +139,11 @@ export function CampaignWizardModal({
       }
       if (targetType === "TAGS") {
         if (selectedTags.length === 0) {
-          setError("Silakan pilih minimal satu kategori tag penerima.");
+          setError(t("campaign.errSelectTagRequired"));
           return;
         }
         if (calculateTargetCount() === 0) {
-          setError(
-            t("campaign.noTargetContactsSelected") ||
-              "Tidak ada kontak yang memiliki tag yang dipilih. Silakan pilih tag lain atau gunakan input nomor manual.",
-          );
+          setError(t("campaign.noTargetContactsSelected"));
           return;
         }
       }
@@ -218,9 +215,7 @@ export function CampaignWizardModal({
       onClose();
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : "Gagal membuat kampanye broadcast.";
+        err instanceof Error ? err.message : t("campaign.errCreateFailed");
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -773,7 +768,7 @@ export function CampaignWizardModal({
               disabled={isLoading}
               className="border-border hover:border-foreground-muted cursor-pointer rounded-full text-xs font-bold"
             >
-              Batal
+              {t("common.cancel")}
             </Button>
           )}
 

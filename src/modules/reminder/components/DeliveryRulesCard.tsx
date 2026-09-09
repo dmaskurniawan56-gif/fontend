@@ -262,7 +262,7 @@ export function DeliveryRulesCard({
                     {t("reminder.rules.dripPhases")}
                   </span>
                   <span className="text-[11px] text-foreground-muted">
-                    Pilih tahapan pesan yang ingin dikonfigurasi
+                    {t("reminder.rules.dripPhasesDesc")}
                   </span>
                 </div>
               </div>

@@ -174,8 +174,8 @@ export function DeviceCard({
               ) : (
                 <span className="text-foreground-muted font-sans text-[11px] italic">
                   {device.status === "PAIRING"
-                    ? "Menunggu Scan QR..."
-                    : "Nomor Belum Tertaut"}
+                    ? t("whatsapp.waitingScanQR")
+                    : t("whatsapp.numberNotLinked")}
                 </span>
               )}
             </div>
@@ -196,7 +196,7 @@ export function DeviceCard({
               </TooltipTrigger>
               <TooltipContent>
                 <span>
-                  Custom Webhook Aktif:{" "}
+                  {t("whatsapp.customWebhookActive")}{" "}
                   {device.webhook_url || device.webhookUrl}
                 </span>
               </TooltipContent>
@@ -207,7 +207,7 @@ export function DeviceCard({
           <DropdownMenu>
             <DropdownMenuTrigger
               className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-8 cursor-pointer items-center justify-center rounded-full transition outline-none"
-              aria-label="Opsi Perangkat"
+              aria-label={t("whatsapp.deviceOptionsAria")}
             >
               <MoreVertical className="size-4" />
             </DropdownMenuTrigger>
@@ -300,7 +300,7 @@ export function DeviceCard({
                 </TooltipTrigger>
                 <TooltipContent>
                   {copiedId
-                    ? "Tersalin!"
+                    ? t("whatsapp.copied")
                     : t("whatsapp.copyDeviceId") || "Salin Device ID"}
                 </TooltipContent>
               </Tooltip>

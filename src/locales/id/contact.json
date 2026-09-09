@@ -58,10 +58,17 @@
   "errPhonePrefix": "Format nomor WhatsApp tidak valid (Gunakan format 08xx atau kode negara internasional).",
   "errPhoneTooShort": "Nomor WhatsApp terlalu pendek.",
   "errNoValidContacts": "Tidak ada nomor kontak valid dalam file CSV.",
+  "errCsvParseFailed": "Gagal memproses file CSV. Pastikan format CSV valid.",
+  "errImportFailed": "Gagal mengimpor kontak",
   "errSaveFailed": "Gagal menyimpan kontak",
   "tagSegmentationLabel": "Tag / Segmentasi Kontak",
   "optional": "Opsional",
   "noTagsAvailable": "Belum ada tag kontak yang tersedia.",
   "newTagPlaceholder": "+ Buat tag baru (misal: VIP)...",
-  "addTagBtn": "Tambah"
+  "addTagBtn": "Tambah",
+  "selectContactAria": "Pilih {name}",
+  "editContactAria": "Ubah {name}",
+  "editContact": "Ubah Kontak",
+  "deleteContactAria": "Hapus {name}",
+  "deleteContact": "Hapus Kontak"
 }

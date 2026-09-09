@@ -127,5 +127,8 @@
   "statusUpdatedError": "Gagal memperbarui status tiket.",
   "updateStatusTitle": "Perbarui Status Tiket",
   "updateStatusDesc": "Pilih status penanganan baru untuk tiket bantuan ini.",
-  "selectNewStatus": "Pilih Status Baru"
+  "selectNewStatus": "Pilih Status Baru",
+  "removeImage": "Hapus gambar",
+  "sendReply": "Kirim",
+  "sendingReply": "Mengirim..."
 }

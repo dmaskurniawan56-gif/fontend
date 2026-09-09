@@ -252,7 +252,7 @@ export function SubscriptionDetailModal({
                   type="button"
                   onClick={() => handleCopy(subscription.tenantId, "Tenant ID")}
                   className="text-foreground-muted hover:text-foreground cursor-pointer p-0.5"
-                  title="Salin Tenant ID"
+                  title={t("admin.subscriptions.copyTenantId")}
                 >
                   {copiedField === "Tenant ID" ? (
                     <Check className="size-3 text-emerald-600" />
@@ -276,7 +276,7 @@ export function SubscriptionDetailModal({
                   type="button"
                   onClick={() => handleCopy(subscription.id, "Subscription ID")}
                   className="text-foreground-muted hover:text-foreground cursor-pointer p-0.5"
-                  title="Salin Subscription ID"
+                  title={t("admin.subscriptions.copySubscriptionId")}
                 >
                   {copiedField === "Subscription ID" ? (
                     <Check className="size-3 text-emerald-600" />

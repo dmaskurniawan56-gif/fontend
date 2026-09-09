@@ -88,9 +88,7 @@ export function ResetPasswordForm() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError(
-          "Gagal mereset password. Pastikan token verifikasi Anda valid dan belum kadaluarsa.",
-        );
+        setError(t("auth.resetPassword.errorResetFailed"));
       }
     } finally {
       setIsLoading(false);

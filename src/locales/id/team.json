@@ -37,5 +37,10 @@
   "deleteConfirmDesc": "Apakah Anda yakin ingin menghapus akses anggota tim ini secara permanen dari akun Anda?",
   "deleteWarning": "Tindakan ini tidak dapat dibatalkan. Staf tidak akan lagi dapat mengelola chat pelanggan atau membalas pesan.",
   "confirmDeleteBtn": "Ya, Hapus Anggota",
-  "deletingBtn": "Menghapus..."
+  "deletingBtn": "Menghapus...",
+  "searchPlaceholder": "Cari nama, email, atau nomor staf...",
+  "refreshAgents": "Refresh Anggota Tim",
+  "errorLoadAgents": "Gagal Memuat Daftar Tim Staf Agen",
+  "deleteMemberTitle": "Hapus Anggota Tim",
+  "noAgentsFoundSearch": "Tidak ditemukan staf dengan kata kunci \"{query}\"."
 }

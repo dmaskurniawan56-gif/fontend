@@ -64,12 +64,12 @@ export function CampaignsView() {
 
         {/* Main Content Tab with Error Boundary */}
         <TabsContent value="campaigns">
-          <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Kampanye Siaran">
+          <ErrorBoundary>
             <CampaignList />
           </ErrorBoundary>
         </TabsContent>
         <TabsContent value="logs">
-          <ErrorBoundary fallbackTitle="Gagal Memuat Log Audit Pesan">
+          <ErrorBoundary>
             {activeTab === "logs" && <MessageLogsTable />}
           </ErrorBoundary>
         </TabsContent>

@@ -3,6 +3,7 @@
 import React from "react";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
+import { useI18n } from "@/lib/i18n/context";
 import { X } from "lucide-react";
 
 interface DashboardMobileNavProps {
@@ -11,6 +12,7 @@ interface DashboardMobileNavProps {
 }
 
 export function DashboardMobileNav({ open, onClose }: DashboardMobileNavProps) {
+  const { t } = useI18n();
   useEscapeKey(open, onClose);
 
   if (!open) return null;
@@ -29,7 +31,7 @@ export function DashboardMobileNav({ open, onClose }: DashboardMobileNavProps) {
           <button
             onClick={onClose}
             className="text-foreground-secondary hover:text-foreground hover:bg-muted/60 flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-full p-2.5 transition"
-            aria-label="Tutup Menu"
+            aria-label={t("common.closeMenuAria") || "Tutup Menu"}
           >
             <X className="size-5" />
           </button>

@@ -105,16 +105,13 @@ export function ImportCsvModal({
         }
 
         if (validContacts.length === 0) {
-          setError(
-            t("contact.errNoValidContacts") ||
-              "Tidak ada nomor kontak WhatsApp yang valid dalam file CSV.",
-          );
+          setError(t("contact.errNoValidContacts"));
           return;
         }
 
         setParsedData(validContacts);
       } catch {
-        setError("Gagal memproses file CSV. Pastikan format CSV valid.");
+        setError(t("contact.errCsvParseFailed"));
       }
     };
 
@@ -130,7 +127,8 @@ export function ImportCsvModal({
       await onImport(parsedData);
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal mengimpor kontak";
+      const msg =
+        err instanceof Error ? err.message : t("contact.errImportFailed");
       setError(msg);
     } finally {
       setIsLoading(false);

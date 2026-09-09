@@ -29,7 +29,7 @@ export function DevicesView() {
       </div>
 
       {/* Main Content Component with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Node Sesi WhatsApp">
+      <ErrorBoundary>
         <DeviceList />
       </ErrorBoundary>
     </div>

@@ -46,7 +46,7 @@ export function AddDeviceModal({
       onClose();
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "Gagal menambahkan perangkat";
+        err instanceof Error ? err.message : t("whatsapp.errAddDeviceFailed");
       setError(msg);
     } finally {
       setIsLoading(false);

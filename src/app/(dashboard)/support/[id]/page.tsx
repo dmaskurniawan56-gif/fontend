@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { TicketDetailView } from "@/modules/support/components/detail/TicketDetailView";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 
@@ -20,7 +20,7 @@ export default async function SupportDetailPage({ params }: PageProps) {
   const { id } = await params;
 
   return (
-    <ErrorBoundary fallbackTitle="Gagal Memuat Halaman Tiket Bantuan">
+    <ErrorBoundary>
       <TicketDetailView ticketId={id} />
     </ErrorBoundary>
   );

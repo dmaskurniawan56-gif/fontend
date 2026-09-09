@@ -150,7 +150,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
       {/* Main 2-Column Split for Admin */}
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Recent Registered Users */}
-        <ErrorBoundary fallbackTitle="Gagal Memuat Pengguna Terbaru">
+        <ErrorBoundary>
           <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
             <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
@@ -203,7 +203,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
         </ErrorBoundary>
 
         {/* Recent Transactions & Financial Overview */}
-        <ErrorBoundary fallbackTitle="Gagal Memuat Transaksi Terbaru">
+        <ErrorBoundary>
           <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
             <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">

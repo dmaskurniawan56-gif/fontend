@@ -223,7 +223,7 @@ export function UserAddressForm() {
                 {isLoadingCities && (
                   <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
                     <Loader2 className="size-3 animate-spin" />
-                    <span>Memuat...</span>
+                    <span>{t("common.loading")}</span>
                   </span>
                 )}
               </div>
@@ -239,9 +239,9 @@ export function UserAddressForm() {
                 >
                   <option value="">
                     {!formState.state
-                      ? "Pilih provinsi terlebih dahulu"
+                      ? t("address.selectStateFirst")
                       : isLoadingCities
-                        ? "Memuat kota..."
+                        ? t("address.loadingCities")
                         : t("address.cityPlaceholder")}
                   </option>
                   {cities.map((city) => (
@@ -283,7 +283,7 @@ export function UserAddressForm() {
                 {isLoadingDistricts && (
                   <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
                     <Loader2 className="size-3 animate-spin" />
-                    <span>Memuat...</span>
+                    <span>{t("common.loading")}</span>
                   </span>
                 )}
               </div>
@@ -298,9 +298,9 @@ export function UserAddressForm() {
                 >
                   <option value="">
                     {!formState.city
-                      ? "Pilih kota terlebih dahulu"
+                      ? t("address.selectCityFirst")
                       : isLoadingDistricts
-                        ? "Memuat kecamatan..."
+                        ? t("address.loadingDistricts")
                         : t("address.districtPlaceholder")}
                   </option>
                   {districts.map((dist) => (
@@ -374,7 +374,7 @@ export function UserAddressForm() {
               className="cursor-pointer gap-1.5 text-xs font-bold"
             >
               <ArrowLeft className="size-4" />
-              <span>Batal & Kembali ke Tagihan</span>
+              <span>{t("address.cancelAndBackToBilling")}</span>
             </Button>
           )}
           <Button

@@ -58,12 +58,7 @@ export function DeleteTemplateModal({
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
-            Apakah Anda yakin ingin menghapus template{" "}
-            <strong className="font-semibold text-foreground">
-              &ldquo;{templateName}&rdquo;
-            </strong>
-            ? Template ini tidak akan dapat dipulihkan atau digunakan lagi dalam
-            siaran pesan.
+            {t("template.deleteConfirmDesc", { name: templateName })}
           </AlertDialogDescription>
         </AlertDialogHeader>
 

@@ -136,25 +136,25 @@ export function SubmissionsDrawer({
             >
               <TabsList className="h-9 p-1 rounded-xl bg-muted/60 border border-border/70">
                 <TabsTrigger value="ALL" className="text-xs px-3 rounded-lg">
-                  Semua
+                  {t("form.statusAll")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="PENDING"
                   className="text-xs px-3 rounded-lg"
                 >
-                  Pending
+                  {t("form.statusPending")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="PROCESSED"
                   className="text-xs px-3 rounded-lg"
                 >
-                  Diproses
+                  {t("form.statusProcessed")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="ARCHIVED"
                   className="text-xs px-3 rounded-lg"
                 >
-                  Arsip
+                  {t("form.statusArchived")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -165,7 +165,7 @@ export function SubmissionsDrawer({
         <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-6 space-y-3">
           {isLoading ? (
             <div className="py-12 text-center text-xs text-slate-500">
-              Memuat respons...
+              {t("form.loadingSubmissions")}
             </div>
           ) : submissions.length === 0 ? (
             <div className="py-14 text-center">
@@ -337,7 +337,7 @@ export function SubmissionsDrawer({
         {totalPages > 1 && (
           <div className="border-border/70 bg-muted/20 flex shrink-0 items-center justify-between border-t p-4 sm:px-6 text-xs">
             <span className="text-foreground-muted">
-              Halaman {page} dari {totalPages}
+              {t("common.page")} {page} {t("common.of")} {totalPages}
             </span>
             <div className="flex items-center gap-2">
               <Button
@@ -347,7 +347,7 @@ export function SubmissionsDrawer({
                 disabled={page <= 1}
                 onClick={() => setPage(page - 1)}
               >
-                Sebelumnya
+                {t("common.prev")}
               </Button>
               <Button
                 variant="outline"
@@ -356,7 +356,7 @@ export function SubmissionsDrawer({
                 disabled={page >= totalPages}
                 onClick={() => setPage(page + 1)}
               >
-                Berikutnya
+                {t("common.next")}
               </Button>
             </div>
           </div>

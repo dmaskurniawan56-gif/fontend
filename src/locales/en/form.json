@@ -125,5 +125,14 @@
   "fieldTypeSelect": "Dropdown Choice (Select)",
   "newQuestion": "New Question",
   "presetNeeds": "Your Needs",
-  "presetNeedsPlaceholder": "Describe the requirements or products you are looking for..."
+  "presetNeedsPlaceholder": "Describe the requirements or products you are looking for...",
+  "statusAll": "All",
+  "statusPending": "Pending",
+  "statusProcessed": "Processed",
+  "statusArchived": "Archived",
+  "loadingSubmissions": "Loading responses...",
+  "previewTextareaPlaceholder": "Write your complete answer here...",
+  "previewSelectOption": "-- Select {label} --",
+  "previewNoOptions": "No options added yet",
+  "previewInputPlaceholder": "Enter {label}..."
 }

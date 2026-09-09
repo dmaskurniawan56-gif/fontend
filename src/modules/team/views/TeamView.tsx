@@ -149,8 +149,8 @@ export function TeamView() {
               setPage(1);
             }}
             onClear={handleClearSearch}
-            placeholder="Cari nama, email, atau nomor staf..."
-            buttonText="Cari"
+            placeholder={t("team.searchPlaceholder")}
+            buttonText={t("common.search")}
           />
         </div>
 
@@ -161,18 +161,18 @@ export function TeamView() {
           onClick={fetchAgents}
           disabled={isLoading}
           className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
-          aria-label="Refresh Anggota Tim"
-          title="Refresh Anggota Tim"
+          aria-label={t("team.refreshAgents")}
+          title={t("team.refreshAgents")}
         >
           <RefreshCw
             className={`size-3.5 ${isLoading ? "dark:text-wise-green animate-spin text-emerald-700" : ""}`}
           />
-          <span className="hidden sm:inline">Refresh</span>
+          <span className="hidden sm:inline">{t("common.refresh")}</span>
         </Button>
       </div>
 
       {/* Agents Table with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Tim Staf Agen">
+      <ErrorBoundary fallbackTitle={t("team.errorLoadAgents")}>
         <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-xs">
           {paginatedAgents.length === 0 ? (
             <EmptyState
@@ -180,7 +180,7 @@ export function TeamView() {
               title={t("team.noAgents")}
               description={
                 activeSearch
-                  ? `Tidak ditemukan staf dengan kata kunci "${activeSearch}".`
+                  ? t("team.noAgentsFoundSearch", { query: activeSearch })
                   : t("team.noAgentsDesc")
               }
             />
@@ -245,7 +245,7 @@ export function TeamView() {
                           onClick={() => setDeletingMember(agt)}
                           className="text-foreground-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition hover:bg-rose-500/10 hover:text-rose-500"
                           aria-label={`${t("actions.delete")} ${agt.name}`}
-                          title="Hapus Anggota Tim"
+                          title={t("team.deleteMemberTitle")}
                         >
                           <Trash2 className="size-4" />
                         </button>
@@ -381,7 +381,7 @@ export function TeamView() {
                                 onClick={() => setDeletingMember(agt)}
                                 className="text-foreground-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition hover:bg-rose-500/10 hover:text-rose-500"
                                 aria-label={`${t("actions.delete")} ${agt.name}`}
-                                title="Hapus Anggota Tim"
+                                title={t("team.deleteMemberTitle")}
                               >
                                 <Trash2 className="size-4" />
                               </button>

@@ -143,7 +143,7 @@ export function CreateTicketModal({
       onClose();
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "Gagal membuat tiket bantuan";
+        err instanceof Error ? err.message : t("support.errCreateFailed");
       setError(msg);
     } finally {
       setIsLoading(false);

@@ -120,7 +120,7 @@ export function DeleteActivityConfirmModal({
 
               {/* Description Box */}
               <div className="bg-surface border-border/60 text-foreground-secondary rounded-md border p-2.5 text-xs leading-relaxed dark:bg-[#121310]">
-                {activity.description || "Tidak ada deskripsi detail kejadian."}
+                {activity.description || t("admin.activities.noDescription")}
               </div>
 
               {/* Timestamp & ID */}

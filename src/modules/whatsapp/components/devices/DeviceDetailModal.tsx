@@ -139,22 +139,20 @@ export function DeviceDetailModal({
       .join("");
     const newSecret = `whsec_dev_${randomHex}`;
     setWebhookSecret(newSecret);
-    toast.info("Secret acak baru berhasil dibuat");
+    toast.info(t("whatsapp.deviceWebhook.toastSecretGenerated"));
   };
 
   const handleSaveWebhook = async () => {
     if (!device) return;
     if (!webhookUrl.trim()) {
-      toast.error(
-        "Masukkan URL webhook yang valid atau klik 'Reset ke Default'",
-      );
+      toast.error(t("whatsapp.deviceWebhook.toastWebhookSaveFailed"));
       return;
     }
     if (
       !webhookUrl.startsWith("http://") &&
       !webhookUrl.startsWith("https://")
     ) {
-      toast.error("URL webhook harus diawali dengan http:// atau https://");
+      toast.error("Format URL harus diawali dengan http:// atau https://");
       return;
     }
 
@@ -177,12 +175,12 @@ export function DeviceDetailModal({
           setWebhookSecret(updated.webhook_secret);
         }
       }
-      toast.success("Pengaturan webhook perangkat berhasil disimpan!");
+      toast.success(t("whatsapp.deviceWebhook.toastWebhookSaved"));
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : "Gagal menyimpan webhook perangkat";
+          : t("whatsapp.deviceWebhook.toastWebhookSaveFailed");
       toast.error(msg);
     } finally {
       setIsSavingWebhook(false);
@@ -207,12 +205,12 @@ export function DeviceDetailModal({
       setWebhookSecret("");
       setIsCustomEvents(false);
       setCustomEvents(["message.received", "device.status"]);
-      toast.success(
-        "Webhook di-reset! Perangkat kini kembali mewarisi Webhook Workspace.",
-      );
+      toast.success(t("whatsapp.deviceWebhook.toastWebhookReset"));
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "Gagal mereset webhook perangkat";
+        err instanceof Error
+          ? err.message
+          : t("whatsapp.deviceWebhook.toastWebhookResetFailed");
       toast.error(msg);
     } finally {
       setIsSavingWebhook(false);
@@ -259,21 +257,27 @@ export function DeviceDetailModal({
         });
         const latency = Math.round(performance.now() - startTime);
         setPingResult({ success: true, latency });
-        toast.success(`Ping berhasil terkirim (~${latency}ms)`, {
-          id: "device-webhook-ping",
-        });
+        toast.success(
+          t("whatsapp.deviceWebhook.pingSuccess", {
+            latency: String(latency),
+          }),
+          {
+            id: "device-webhook-ping",
+          },
+        );
       } finally {
         clearTimeout(timeoutId);
       }
     } catch (err: unknown) {
       const errorMsg =
-        err instanceof Error
-          ? err.message
-          : "Koneksi ke endpoint gagal atau timeout";
+        err instanceof Error ? err.message : "Endpoint unreachable or timeout";
       setPingResult({ success: false, error: errorMsg });
-      toast.error(`Gagal mengirim ping: ${errorMsg}`, {
-        id: "device-webhook-ping",
-      });
+      toast.error(
+        t("whatsapp.deviceWebhook.toastPingFailed", { error: errorMsg }),
+        {
+          id: "device-webhook-ping",
+        },
+      );
     } finally {
       setIsPinging(false);
     }
@@ -404,7 +408,7 @@ export function DeviceDetailModal({
           <div className="border-border bg-muted/20 space-y-3 rounded-xl border p-4 dark:bg-[#10110e]">
             <div className="text-foreground flex items-center gap-2 text-xs font-black tracking-wider uppercase">
               <Cpu className="dark:text-wise-green size-4 text-emerald-700" />
-              <span>Identitas & Parameter Sesi</span>
+              <span>{t("whatsapp.identityAndSessionParams")}</span>
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -434,7 +438,7 @@ export function DeviceDetailModal({
                     </TooltipTrigger>
                     <TooltipContent>
                       {copiedField === "Device ID"
-                        ? "Tersalin!"
+                        ? t("whatsapp.copied")
                         : t("whatsapp.copyDeviceId") || "Salin Device ID"}
                     </TooltipContent>
                   </Tooltip>
@@ -470,8 +474,8 @@ export function DeviceDetailModal({
                       </TooltipTrigger>
                       <TooltipContent>
                         {copiedField === "WhatsApp JID"
-                          ? "Tersalin!"
-                          : "Salin JID"}
+                          ? t("whatsapp.copied")
+                          : t("whatsapp.copyJid")}
                       </TooltipContent>
                     </Tooltip>
                   )}
@@ -484,7 +488,7 @@ export function DeviceDetailModal({
           <div className="border-border bg-muted/20 space-y-3 rounded-xl border p-4 dark:bg-[#10110e]">
             <div className="text-foreground flex items-center gap-2 text-xs font-black tracking-wider uppercase">
               <ShieldCheck className="dark:text-wise-green size-4 text-emerald-700" />
-              <span>Kesehatan Slot & Anti-Ban Telemetry</span>
+              <span>{t("whatsapp.healthAndAntiBanTelemetry")}</span>
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -519,7 +523,7 @@ export function DeviceDetailModal({
                     `Hari ke-${warmupDay}`}
                 </div>
                 <span className="text-foreground-muted mt-1 block text-[10px] font-normal">
-                  Anti-ban cooldown aktif
+                  {t("whatsapp.antiBanCooldownActive")}
                 </span>
               </div>
 
@@ -532,10 +536,12 @@ export function DeviceDetailModal({
                   <span className="font-mono text-lg font-extrabold">
                     {dailySent}
                   </span>
-                  <span className="text-foreground-muted text-xs">pesan</span>
+                  <span className="text-foreground-muted text-xs">
+                    {t("whatsapp.messagesSentTodayUnit")}
+                  </span>
                 </div>
                 <span className="text-foreground-muted mt-1 block text-[10px] font-normal">
-                  Reset otomatis jam 00:00
+                  {t("whatsapp.resetAutoMidnight")}
                 </span>
               </div>
             </div>
@@ -575,7 +581,7 @@ export function DeviceDetailModal({
             <div className="flex items-center justify-between">
               <div className="text-foreground flex items-center gap-2 text-xs font-black tracking-wider uppercase">
                 <Webhook className="dark:text-wise-green size-4 text-emerald-700" />
-                <span>Routing Webhook Perangkat</span>
+                <span>{t("whatsapp.deviceWebhook.routingTitle")}</span>
               </div>
               {device.webhook_url ? (
                 <Badge
@@ -583,7 +589,7 @@ export function DeviceDetailModal({
                   className="gap-1 py-0.5 text-[10px] font-bold"
                 >
                   <Radio className="size-2.5 animate-pulse text-emerald-500" />
-                  Override Khusus Aktif
+                  {t("whatsapp.deviceWebhook.overrideActive")}
                 </Badge>
               ) : (
                 <Badge
@@ -591,29 +597,26 @@ export function DeviceDetailModal({
                   className="gap-1 py-0.5 text-[10px] font-bold"
                 >
                   <ShieldCheck className="size-2.5 text-zinc-500" />
-                  Mewarisi Webhook Workspace
+                  {t("whatsapp.deviceWebhook.inheritWorkspace")}
                 </Badge>
               )}
             </div>
 
             <p className="text-foreground-secondary text-[11px] leading-relaxed font-normal">
-              Secara default, nomor WhatsApp ini mewarisi endpoint webhook
-              Workspace. Setel URL khusus di bawah jika nomor ini memerlukan
-              server penerima payload terpisah (misal CRM khusus atau bot
-              terisolasi).
+              {t("whatsapp.deviceWebhook.routingDesc")}
             </p>
 
             <div className="space-y-3">
               {/* Webhook URL Input */}
               <div className="space-y-1.5">
                 <label className="text-foreground-muted block text-[11px] font-bold">
-                  Webhook URL (Endpoint POST)
+                  {t("whatsapp.deviceWebhook.urlLabel")}
                 </label>
                 <div className="relative">
                   <Input
                     variant="rounded"
                     type="url"
-                    placeholder="https://api.perusahaan.com/webhook/wa-sales"
+                    placeholder={t("whatsapp.deviceWebhook.urlPlaceholder")}
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrl(e.target.value)}
                     className="font-mono text-xs pr-20"
@@ -632,7 +635,7 @@ export function DeviceDetailModal({
                       ) : (
                         <Radio className="size-3" />
                       )}
-                      <span>Ping</span>
+                      <span>{t("whatsapp.deviceWebhook.pingBtn")}</span>
                     </Button>
                   </div>
                 </div>
@@ -651,8 +654,12 @@ export function DeviceDetailModal({
                     )}
                     <span>
                       {pingResult.success
-                        ? `Ping terkirim! Latensi: ~${pingResult.latency}ms (Header X-Wahide-Secret tervalidasi).`
-                        : `Gagal: ${pingResult.error}`}
+                        ? t("whatsapp.deviceWebhook.pingSuccess", {
+                            latency: String(pingResult.latency),
+                          })
+                        : t("whatsapp.deviceWebhook.pingFailed", {
+                            error: String(pingResult.error),
+                          })}
                     </span>
                   </div>
                 )}
@@ -662,8 +669,7 @@ export function DeviceDetailModal({
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-foreground-muted block text-[11px] font-bold">
-                    Secret Key (Header:{" "}
-                    <code className="text-foreground">X-Wahide-Secret</code>)
+                    {t("whatsapp.deviceWebhook.secretLabel")}
                   </label>
                   <button
                     type="button"
@@ -671,14 +677,14 @@ export function DeviceDetailModal({
                     className="dark:text-wise-green text-[10px] font-bold text-emerald-700 hover:underline inline-flex items-center gap-1"
                   >
                     <RefreshCw className="size-2.5" />
-                    Generate Acak
+                    {t("whatsapp.deviceWebhook.generateRandom")}
                   </button>
                 </div>
                 <div className="relative">
                   <Input
                     variant="rounded"
                     type={showSecret ? "text" : "password"}
-                    placeholder="whsec_dev_..."
+                    placeholder={t("whatsapp.deviceWebhook.secretPlaceholder")}
                     value={webhookSecret}
                     onChange={(e) => setWebhookSecret(e.target.value)}
                     className="font-mono text-xs pr-20"
@@ -703,7 +709,10 @@ export function DeviceDetailModal({
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          handleCopy(webhookSecret, "Secret Webhook")
+                          handleCopy(
+                            webhookSecret,
+                            t("whatsapp.deviceWebhook.secretLabel"),
+                          )
                         }
                         className="h-7 w-7 p-0 text-foreground-muted hover:text-foreground"
                       >
@@ -717,9 +726,7 @@ export function DeviceDetailModal({
                   </div>
                 </div>
                 <p className="text-foreground-muted text-[10px]">
-                  Kosongkan secret jika ingin digenerate otomatis oleh backend (
-                  <code className="text-[10px]">whsec_dev_&lt;32 hex&gt;</code>
-                  ).
+                  {t("whatsapp.deviceWebhook.secretHint")}
                 </p>
               </div>
 
@@ -729,19 +736,19 @@ export function DeviceDetailModal({
                   <div className="flex items-center gap-2">
                     <SlidersHorizontal className="size-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span className="text-[11px] font-bold text-foreground">
-                      Kustomisasi Langganan Event Nomor Ini
+                      {t("whatsapp.deviceWebhook.customEventsTitle")}
                     </span>
                   </div>
                   <Switch
                     checked={isCustomEvents}
                     onCheckedChange={setIsCustomEvents}
-                    aria-label="Toggle custom events for device"
+                    aria-label={t("whatsapp.deviceWebhook.customEventsTitle")}
                   />
                 </div>
                 <p className="text-[10px] text-foreground-secondary leading-relaxed">
                   {isCustomEvents
-                    ? "Mode Kustom Aktif: Hanya event yang dipilih di bawah ini yang akan dikirimkan untuk nomor WhatsApp ini."
-                    : "Mewarisi Pengaturan Workspace (Default): Perangkat ini otomatis mendengarkan daftar event yang disetel di menu Integrasi Webhook Workspace."}
+                    ? t("whatsapp.deviceWebhook.customEventsActiveDesc")
+                    : t("whatsapp.deviceWebhook.inheritWorkspaceDesc")}
                 </p>
 
                 {isCustomEvents && (
@@ -801,7 +808,11 @@ export function DeviceDetailModal({
                   ) : (
                     <Save className="size-3.5" />
                   )}
-                  <span>Simpan Webhook Perangkat</span>
+                  <span>
+                    {isSavingWebhook
+                      ? t("whatsapp.deviceWebhook.savingWebhookBtn")
+                      : t("whatsapp.deviceWebhook.saveWebhookBtn")}
+                  </span>
                 </Button>
 
                 {(device.webhook_url || webhookUrl) && (
@@ -814,7 +825,7 @@ export function DeviceDetailModal({
                     className="border-border rounded-full text-xs font-bold text-foreground-muted hover:text-foreground hover:bg-muted/50"
                   >
                     <RotateCcw className="size-3.5" />
-                    <span>Reset ke Default Workspace</span>
+                    <span>{t("whatsapp.deviceWebhook.resetToDefaultBtn")}</span>
                   </Button>
                 )}
               </div>

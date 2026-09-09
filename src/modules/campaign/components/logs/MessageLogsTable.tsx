@@ -205,17 +205,17 @@ export function MessageLogsTable() {
           <div className="space-y-3 p-8 text-center sm:p-12">
             <Loader2 className="text-wise-green mx-auto size-8 animate-spin" />
             <p className="text-foreground-secondary text-xs font-semibold">
-              Memuat log pesan dari server...
+              {t("campaign.logsLoading")}
             </p>
           </div>
         ) : filteredLogs.length === 0 ? (
           <EmptyState
             icon={<AlertCircle />}
-            title="Tidak ada log pesan ditemukan"
+            title={t("campaign.logsEmptyTitle")}
             description={
               activeSearch
-                ? `Tidak ditemukan pesan dengan kata kunci "${activeSearch}".`
-                : "Belum ada riwayat pengiriman pesan."
+                ? t("campaign.logsEmptySearch", { query: activeSearch })
+                : t("campaign.logsEmptyDesc")
             }
           />
         ) : (

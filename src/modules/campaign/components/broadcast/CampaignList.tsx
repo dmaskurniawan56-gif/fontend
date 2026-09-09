@@ -122,10 +122,7 @@ export function CampaignList() {
       // 2. Cek Ketersediaan Data Kontak (Pre-flight Validation)
       const contactRes = await contactApi.getContacts({ page: 1, pageSize: 1 });
       if (contactRes.total === 0) {
-        toast.warning(
-          t("campaign.noContactsRedirect") ||
-            "Buku kontak Anda masih kosong. Silakan tambah atau impor kontak terlebih dahulu.",
-        );
+        toast.warning(t("campaign.noContactsRedirect"));
         router.push("/contacts");
         return;
       }
@@ -133,9 +130,7 @@ export function CampaignList() {
       setIsWizardOpen(true);
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : "Gagal memeriksa status prasyarat kampanye";
+        err instanceof Error ? err.message : t("campaign.errPreflightCheck");
       toast.error(msg);
     } finally {
       setIsCheckingPreflight(false);
@@ -332,12 +327,12 @@ export function CampaignList() {
                         <Users className="size-3.5" />
                         <span>
                           {campaign.targetType === "CUSTOM"
-                            ? `Input Manual (${campaign.totalRecipients ?? 0} no)`
+                            ? `${t("campaign.audienceCustomTitle")} (${campaign.totalRecipients ?? 0})`
                             : campaign.targetType === "TAGS" &&
                                 campaign.targetTags &&
                                 campaign.targetTags.length > 0
                               ? `#${campaign.targetTags[0]}`
-                              : "Semua Kontak"}
+                              : t("campaign.audienceAllTitle")}
                         </span>
                       </div>
                     </div>

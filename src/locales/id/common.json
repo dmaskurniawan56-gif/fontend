@@ -22,8 +22,17 @@
   "genericError": "Terjadi kesalahan. Silakan coba lagi.",
   "breadcrumbHome": "Beranda",
   "breadcrumbDashboard": "Dasbor",
+  "closeMenuAria": "Tutup Menu",
+  "backToDashboard": "Kembali ke Dasbor",
+  "contactBook": "Buku Kontak",
+  "allFilter": "Semua",
+  "allTypesFilter": "Semua Tipe",
+  "errorBoundaryDefaultTitle": "Terjadi Kendala Memuat Modul",
+  "errorBoundaryDefaultDesc": "Kesalahan runtime JavaScript tidak terduga",
+  "errorBoundaryRetryBtn": "Coba Pulihkan Modul",
   "langIndonesian": "Bahasa Indonesia",
   "langEnglish": "English",
+  "selectLanguage": "Pilih Bahasa",
   "nav": {
     "solutions": "Solusi",
     "features": "Fitur",
@@ -417,7 +426,18 @@
     "revokeSingleWarningDesc": "Sesi perangkat {device} ({ip}) akan langsung dicabut dan pengguna pada perangkat tersebut wajib login ulang.",
     "processingBtn": "Memproses...",
     "logoutAllConfirmBtn": "Ya, Keluar Semua Perangkat",
-    "revokeSingleConfirmBtn": "Ya, Cabut Sesi Perangkat"
+    "revokeSingleConfirmBtn": "Ya, Cabut Sesi Perangkat",
+    "changePasswordBtn": "Ubah Kata Sandi",
+    "changingPasswordBtn": "Mengubah...",
+    "copyKeyAria": "Salin Kunci",
+    "keyFetchError": "Gagal mendapatkan API Key dari server.",
+    "keyRevoked": "API Key berhasil dicabut.",
+    "keyActionError": "Gagal memproses aksi API Key.",
+    "currentPasswordRequired": "Kata sandi saat ini wajib diisi.",
+    "newPasswordMinLength": "Kata sandi baru minimal 8 karakter.",
+    "confirmPasswordMismatch": "Konfirmasi kata sandi baru tidak cocok.",
+    "passwordChangedSuccess": "Kata sandi berhasil diperbarui.",
+    "passwordChangeError": "Gagal mengubah kata sandi. Pastikan kata sandi saat ini sesuai."
   },
   "activities": {
     "title": "Log Aktivitas Akun",
@@ -476,7 +496,12 @@
     "saveSuccess": "Alamat berhasil disimpan!",
     "billingRequiredBannerTitle": "Kelengkapan Alamat Diperlukan untuk Top-Up",
     "billingRequiredBannerDesc": "Untuk melanjutkan transaksi Top-Up saldo dan penerbitan faktur tagihan resmi, silakan lengkapi alamat bisnis Anda terlebih dahulu.",
-    "saveAndReturnToast": "Alamat berhasil disimpan! Mengalihkan ke transaksi Top-Up..."
+    "saveAndReturnToast": "Alamat berhasil disimpan! Mengalihkan ke transaksi Top-Up...",
+    "selectStateFirst": "Pilih provinsi terlebih dahulu",
+    "loadingCities": "Memuat kota...",
+    "selectCityFirst": "Pilih kota terlebih dahulu",
+    "loadingDistricts": "Memuat kecamatan...",
+    "cancelAndBackToBilling": "Batal & Kembali ke Tagihan"
   },
   "billing": {
     "title": "Faktur & Tagihan Pembayaran",

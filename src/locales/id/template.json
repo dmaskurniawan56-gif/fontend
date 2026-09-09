@@ -16,6 +16,7 @@
   "removeFromFavorites": "Hapus dari favorit",
   "usedCount": "Dipakai {count}x",
   "deleteIrreversible": "Tindakan ini bersifat permanen",
+  "deleteConfirmDesc": "Apakah Anda yakin ingin menghapus template \"{name}\"? Template ini tidak akan dapat dipulihkan atau digunakan lagi dalam siaran pesan.",
   "emptyTitle": "Belum Ada Template Pesan",
   "emptyDesc": "Buat template pesan pertama Anda untuk mempermudah siaran massal dan komunikasi WhatsApp yang konsisten.",
   "noMatching": "Tidak ada template yang cocok",

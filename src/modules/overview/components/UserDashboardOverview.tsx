@@ -275,7 +275,7 @@ export function UserDashboardOverview({
       {/* Main 2-Column Split: Active Devices & Broadcast Campaigns / Recent Invoices */}
       <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
         {/* Active WhatsApp Devices */}
-        <ErrorBoundary fallbackTitle="Gagal Memuat Ringkasan Sesi WhatsApp">
+        <ErrorBoundary>
           <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
             <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">
@@ -340,7 +340,7 @@ export function UserDashboardOverview({
         </ErrorBoundary>
 
         {/* Broadcast Campaigns & Invoices Activity */}
-        <ErrorBoundary fallbackTitle="Gagal Memuat Ringkasan Kampanye">
+        <ErrorBoundary>
           <Card className="border-border bg-surface space-y-4 rounded-xl border p-4 shadow-xs sm:p-6">
             <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-2">

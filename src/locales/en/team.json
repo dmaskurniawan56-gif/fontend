@@ -37,5 +37,10 @@
   "deleteConfirmDesc": "Are you sure you want to permanently remove this team member's access from your account?",
   "deleteWarning": "This action cannot be undone. The staff member will no longer be able to manage customer chats or reply to messages.",
   "confirmDeleteBtn": "Yes, Remove Member",
-  "deletingBtn": "Removing..."
+  "deletingBtn": "Removing...",
+  "searchPlaceholder": "Search by name, email, or staff phone...",
+  "refreshAgents": "Refresh Team Members",
+  "errorLoadAgents": "Failed to Load Team Staff Members",
+  "deleteMemberTitle": "Delete Team Member",
+  "noAgentsFoundSearch": "No staff members found matching \"{query}\"."
 }

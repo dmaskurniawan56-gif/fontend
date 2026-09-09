@@ -238,25 +238,25 @@ export function FormsView() {
                   value="ALL"
                   className="text-xs px-2.5 cursor-pointer"
                 >
-                  Semua Tipe
+                  {t("common.allTypesFilter")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="STANDARD"
                   className="text-xs px-2.5 cursor-pointer"
                 >
-                  Standard
+                  {t("form.typeStandard")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="RESERVATION"
                   className="text-xs px-2.5 cursor-pointer"
                 >
-                  Reservasi
+                  {t("form.typeReservation")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="LEAD"
                   className="text-xs px-2.5 cursor-pointer"
                 >
-                  Lead
+                  {t("form.typeLead")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -318,7 +318,8 @@ export function FormsView() {
           <Separator className="my-4" />
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <span className="text-slate-500">
-              Halaman {page} dari {totalPages} ({total} formulir)
+              {t("common.page")} {page} {t("common.of")} {totalPages} ({total}{" "}
+              {t("form.stats.totalForms")})
             </span>
             <div className="flex items-center gap-1.5 w-full sm:w-auto justify-end">
               <Button
@@ -328,7 +329,7 @@ export function FormsView() {
                 disabled={page <= 1}
                 onClick={() => setPage(page - 1)}
               >
-                Sebelumnya
+                {t("common.prev")}
               </Button>
               <Button
                 variant="outline"
@@ -337,7 +338,7 @@ export function FormsView() {
                 disabled={page >= totalPages}
                 onClick={() => setPage(page + 1)}
               >
-                Berikutnya
+                {t("common.next")}
               </Button>
             </div>
           </div>

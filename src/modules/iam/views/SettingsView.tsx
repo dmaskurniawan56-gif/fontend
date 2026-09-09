@@ -137,20 +137,20 @@ export function SettingsView() {
           toast.success(t("settings.keyRegenerated"), { id: "apikey-action" });
           await fetchProfile().catch(() => null);
         } else {
-          toast.error("Gagal mendapatkan API Key dari server.", {
+          toast.error(t("settings.keyFetchError"), {
             id: "apikey-action",
           });
         }
       } else {
         await authApi.revokeApiKey();
         setApiKey("");
-        toast.success("API Key berhasil dicabut.", { id: "apikey-action" });
+        toast.success(t("settings.keyRevoked"), { id: "apikey-action" });
         await fetchProfile().catch(() => null);
       }
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } catch (err: unknown) {
       const msg =
-        err instanceof Error ? err.message : "Gagal memproses aksi API Key.";
+        err instanceof Error ? err.message : t("settings.keyActionError");
       toast.error(msg, { id: "apikey-action" });
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } finally {
@@ -163,13 +163,13 @@ export function SettingsView() {
     const errors: { current?: string; new?: string; confirm?: string } = {};
 
     if (!currentPassword) {
-      errors.current = "Kata sandi saat ini wajib diisi.";
+      errors.current = t("settings.currentPasswordRequired");
     }
     if (newPassword.length < 8) {
-      errors.new = "Kata sandi baru minimal 8 karakter.";
+      errors.new = t("settings.newPasswordMinLength");
     }
     if (newPassword !== confirmPassword) {
-      errors.confirm = "Konfirmasi kata sandi baru tidak cocok.";
+      errors.confirm = t("settings.confirmPasswordMismatch");
     }
 
     if (Object.keys(errors).length > 0) {
@@ -187,12 +187,12 @@ export function SettingsView() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      toast.success("Kata sandi berhasil diperbarui.", { id: "password-save" });
+      toast.success(t("settings.passwordChangedSuccess"), {
+        id: "password-save",
+      });
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : "Gagal mengubah kata sandi. Pastikan kata sandi saat ini sesuai.";
+        err instanceof Error ? err.message : t("settings.passwordChangeError");
       toast.error(msg, { id: "password-save" });
     } finally {
       setIsSavingPassword(false);
@@ -505,12 +505,14 @@ export function SettingsView() {
                       {isSavingPassword ? (
                         <>
                           <Loader2 className="size-3.5 animate-spin" />
-                          <span>Mengubah...</span>
+                          <span>
+                            {t("common.settings.changingPasswordBtn")}
+                          </span>
                         </>
                       ) : (
                         <>
                           <Lock className="size-3.5" />
-                          <span>Ubah Kata Sandi</span>
+                          <span>{t("common.settings.changePasswordBtn")}</span>
                         </>
                       )}
                     </Button>
@@ -624,7 +626,7 @@ export function SettingsView() {
                           size="sm"
                           onClick={handleCopyKey}
                           className="border-border size-7 rounded-full p-0"
-                          aria-label="Salin Kunci"
+                          aria-label={t("common.settings.copyKeyAria")}
                         >
                           <Copy className="size-3.5" />
                         </Button>

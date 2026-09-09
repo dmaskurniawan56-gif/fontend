@@ -51,6 +51,7 @@
     "chatVisibility": "Show History in WhatsApp Chat",
     "chatVisibilityDesc": "When active, automated message delivery logs will be visible in the WhatsApp chat screen.",
     "dripPhases": "Multi-Stage Reminder Phases (Drip)",
+    "dripPhasesDesc": "Select message phase to configure",
     "phaseActive": "This phase is active",
     "phaseInactive": "This phase is inactive",
     "enablePhase": "Enable This Phase",

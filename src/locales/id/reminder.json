@@ -51,6 +51,7 @@
     "chatVisibility": "Tampilkan Riwayat di Obrolan WhatsApp",
     "chatVisibilityDesc": "Jika aktif, riwayat pengiriman pesan otomatis akan terlihat di layar obrolan WhatsApp.",
     "dripPhases": "Fase Pengingat Bertahap (Drip)",
+    "dripPhasesDesc": "Pilih tahapan pesan yang ingin dikonfigurasi",
     "phaseActive": "Fase ini aktif",
     "phaseInactive": "Fase ini nonaktif",
     "enablePhase": "Aktifkan Fase Ini",

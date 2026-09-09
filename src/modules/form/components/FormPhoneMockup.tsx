@@ -204,21 +204,25 @@ export function FormPhoneMockup({
                           {f.fieldType === "textarea" ? (
                             <div className="h-14 w-full rounded-lg border border-slate-200 bg-slate-50/50 p-2 text-[10px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60 leading-tight">
                               {f.placeholder ||
-                                "Tuliskan jawaban lengkap di sini..."}
+                                t("form.previewTextareaPlaceholder")}
                             </div>
                           ) : f.fieldType === "select" ? (
                             <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center justify-between text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60">
                               <span className="truncate">
                                 {f.options && f.options.length > 0
-                                  ? `-- Pilih ${f.label} --`
-                                  : "Pilihan belum diisi"}
+                                  ? t("form.previewSelectOption", {
+                                      label: f.label,
+                                    })
+                                  : t("form.previewNoOptions")}
                               </span>
                               <ChevronDown className="size-3 text-slate-400" />
                             </div>
                           ) : (
                             <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60">
                               {f.placeholder ||
-                                `Masukkan ${f.label.toLowerCase()}...`}
+                                t("form.previewInputPlaceholder", {
+                                  label: f.label,
+                                })}
                             </div>
                           )}
                         </div>

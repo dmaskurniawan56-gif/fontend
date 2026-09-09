@@ -22,8 +22,17 @@
   "genericError": "An error occurred. Please try again.",
   "breadcrumbHome": "Home",
   "breadcrumbDashboard": "Dashboard",
+  "closeMenuAria": "Close Menu",
+  "backToDashboard": "Back to Dashboard",
+  "contactBook": "Contact Book",
+  "allFilter": "All",
+  "allTypesFilter": "All Types",
+  "errorBoundaryDefaultTitle": "Module Loading Issue Occurred",
+  "errorBoundaryDefaultDesc": "Unexpected runtime JavaScript error",
+  "errorBoundaryRetryBtn": "Try Recovering Module",
   "langIndonesian": "Bahasa Indonesia",
   "langEnglish": "English",
+  "selectLanguage": "Select Language",
   "nav": {
     "solutions": "Solutions",
     "features": "Features",
@@ -417,7 +426,18 @@
     "revokeSingleWarningDesc": "Device session {device} ({ip}) will be revoked immediately and the user on that device must sign in again.",
     "processingBtn": "Processing...",
     "logoutAllConfirmBtn": "Yes, Sign Out All Devices",
-    "revokeSingleConfirmBtn": "Yes, Revoke Device Session"
+    "revokeSingleConfirmBtn": "Yes, Revoke Device Session",
+    "changePasswordBtn": "Change Password",
+    "changingPasswordBtn": "Updating...",
+    "copyKeyAria": "Copy Key",
+    "keyFetchError": "Failed to retrieve API Key from server.",
+    "keyRevoked": "API Key revoked successfully.",
+    "keyActionError": "Failed to process API Key action.",
+    "currentPasswordRequired": "Current password is required.",
+    "newPasswordMinLength": "New password must be at least 8 characters.",
+    "confirmPasswordMismatch": "Password confirmation does not match.",
+    "passwordChangedSuccess": "Password updated successfully.",
+    "passwordChangeError": "Failed to change password. Please ensure current password is correct."
   },
   "activities": {
     "title": "Account Activity Log",
@@ -476,7 +496,12 @@
     "saveSuccess": "Address saved successfully!",
     "billingRequiredBannerTitle": "Address Required for Balance Top-Up",
     "billingRequiredBannerDesc": "To proceed with balance top-up transactions and official invoice generation, please complete your registered business address first.",
-    "saveAndReturnToast": "Address saved! Redirecting back to Top-Up transaction..."
+    "saveAndReturnToast": "Address saved! Redirecting back to Top-Up transaction...",
+    "selectStateFirst": "Please select a state/province first",
+    "loadingCities": "Loading cities...",
+    "selectCityFirst": "Please select a city first",
+    "loadingDistricts": "Loading districts...",
+    "cancelAndBackToBilling": "Cancel & Return to Billing"
   },
   "billing": {
     "title": "Invoices & Payment Billings",

@@ -150,7 +150,7 @@ export function DeviceList() {
           </div>
           <div className="min-w-0">
             <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
-              Total Slot
+              {t("whatsapp.totalSlot")}
             </span>
             <span className="text-foreground text-lg font-black sm:text-xl">
               {stats.total}
@@ -210,15 +210,18 @@ export function DeviceList() {
             </div>
             <div className="space-y-1">
               <h4 className="text-sm font-black tracking-tight text-amber-950 sm:text-base dark:text-amber-100">
-                ⚠️ Perangkat Melebihi Kuota Paket {planName} ({totalSlots}/
-                {maxAllowedSlots} Perangkat)
+                {t("whatsapp.overlimitBannerTitle", {
+                  planName,
+                  totalSlots: String(totalSlots),
+                  maxAllowedSlots: String(maxAllowedSlots),
+                })}
               </h4>
               <p className="max-w-3xl text-xs font-semibold leading-relaxed text-amber-800/90 sm:text-sm dark:text-amber-300/90">
-                Paket {planName} Anda hanya mencakup {maxAllowedSlots}{" "}
-                perangkat. Terdapat {overlimitDevices.length} perangkat berlebih
-                yang dinonaktifkan sementara. Silakan hapus perangkat yang
-                ditandai atau upgrade paket untuk mengaktifkan seluruh perangkat
-                Anda kembali.
+                {t("whatsapp.overlimitBannerDesc", {
+                  planName,
+                  maxAllowedSlots: String(maxAllowedSlots),
+                  overlimitCount: String(overlimitDevices.length),
+                })}
               </p>
             </div>
           </div>
@@ -229,7 +232,7 @@ export function DeviceList() {
                 size="sm"
                 className="w-full gap-2 text-xs font-bold shadow-xs sm:w-auto"
               >
-                <span>Upgrade Paket</span>
+                <span>{t("whatsapp.upgradePlanBtn")}</span>
                 <ArrowRight className="size-3.5" />
               </Button>
             </Link>
@@ -261,8 +264,12 @@ export function DeviceList() {
               className="border-border hover:border-foreground-muted h-10 flex-1 cursor-pointer justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold sm:flex-initial sm:px-4"
             >
               <Send className="dark:text-wise-green size-3.5 text-emerald-700" />
-              <span className="hidden sm:inline">Kirim Pesan Instan</span>
-              <span className="sm:hidden">Pesan Cepat</span>
+              <span className="hidden sm:inline">
+                {t("whatsapp.instantMessageBtn")}
+              </span>
+              <span className="sm:hidden">
+                {t("whatsapp.instantMessageBtn")}
+              </span>
             </Button>
 
             <Button
@@ -321,12 +328,12 @@ export function DeviceList() {
             onClick={() => fetchDevices()}
             disabled={isLoading}
             className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
-            aria-label="Refresh Daftar"
+            aria-label={t("whatsapp.refreshListBtn")}
           >
             <RefreshCw
               className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{t("common.refresh")}</span>
           </Button>
         </div>
       </div>

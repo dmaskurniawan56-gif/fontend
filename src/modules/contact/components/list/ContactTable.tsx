@@ -108,7 +108,9 @@ export function ContactTable({
                   <Checkbox
                     checked={isSelected}
                     onCheckedChange={() => onToggleSelectOne(contact.id)}
-                    aria-label={`Pilih ${contact.name}`}
+                    aria-label={t("contact.selectContactAria", {
+                      name: contact.name,
+                    })}
                   />
                   <span className="text-foreground truncate text-sm font-bold">
                     {contact.name}
@@ -123,13 +125,15 @@ export function ContactTable({
                           type="button"
                           onClick={() => onEdit(contact)}
                           className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                          aria-label={`Ubah ${contact.name}`}
+                          aria-label={t("contact.editContactAria", {
+                            name: contact.name,
+                          })}
                         >
                           <Edit2 className="size-3.5" />
                         </button>
                       }
                     />
-                    <TooltipContent>Ubah Kontak</TooltipContent>
+                    <TooltipContent>{t("contact.editContact")}</TooltipContent>
                   </Tooltip>
 
                   <Tooltip>
@@ -139,13 +143,17 @@ export function ContactTable({
                           type="button"
                           onClick={() => onDelete(contact)}
                           className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                          aria-label={`Hapus ${contact.name}`}
+                          aria-label={t("contact.deleteContactAria", {
+                            name: contact.name,
+                          })}
                         >
                           <Trash2 className="size-3.5" />
                         </button>
                       }
                     />
-                    <TooltipContent>Hapus Kontak</TooltipContent>
+                    <TooltipContent>
+                      {t("contact.deleteContact")}
+                    </TooltipContent>
                   </Tooltip>
                 </div>
               </div>
@@ -242,7 +250,9 @@ export function ContactTable({
                       <Checkbox
                         checked={isSelected}
                         onCheckedChange={() => onToggleSelectOne(contact.id)}
-                        aria-label={`Pilih ${contact.name}`}
+                        aria-label={t("contact.selectContactAria", {
+                          name: contact.name,
+                        })}
                       />
                     </div>
                   </TableCell>
@@ -302,13 +312,17 @@ export function ContactTable({
                               type="button"
                               onClick={() => onEdit(contact)}
                               className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                              aria-label={`Ubah ${contact.name}`}
+                              aria-label={t("contact.editContactAria", {
+                                name: contact.name,
+                              })}
                             >
                               <Edit2 className="size-4" />
                             </button>
                           }
                         />
-                        <TooltipContent>Ubah Kontak</TooltipContent>
+                        <TooltipContent>
+                          {t("contact.editContact")}
+                        </TooltipContent>
                       </Tooltip>
 
                       <Tooltip>
@@ -318,13 +332,17 @@ export function ContactTable({
                               type="button"
                               onClick={() => onDelete(contact)}
                               className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                              aria-label={`Hapus ${contact.name}`}
+                              aria-label={t("contact.deleteContactAria", {
+                                name: contact.name,
+                              })}
                             >
                               <Trash2 className="size-4" />
                             </button>
                           }
                         />
-                        <TooltipContent>Hapus Kontak</TooltipContent>
+                        <TooltipContent>
+                          {t("contact.deleteContact")}
+                        </TooltipContent>
                       </Tooltip>
                     </div>
                   </TableCell>

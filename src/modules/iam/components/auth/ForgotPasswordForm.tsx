@@ -71,7 +71,7 @@ export function ForgotPasswordForm() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("Gagal mengirim email reset password.");
+        setError(t("auth.forgotPassword.errorSendEmail"));
       }
     } finally {
       setIsLoading(false);

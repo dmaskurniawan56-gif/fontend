@@ -45,5 +45,12 @@
   "prevPage": "Sebelumnya",
   "nextPage": "Selanjutnya",
   "toastTopUpError": "Gagal memproses transaksi top-up saldo deposit.",
-  "addressRequiredForTopUp": "Lengkapi profil alamat bisnis Anda terlebih dahulu sebelum melakukan top-up deposit."
+  "addressRequiredForTopUp": "Lengkapi profil alamat bisnis Anda terlebih dahulu sebelum melakukan top-up deposit.",
+  "searchPlaceholder": "Cari nomor faktur atau deskripsi...",
+  "refreshInvoices": "Refresh Riwayat Faktur",
+  "errorLoadBalance": "Gagal Memuat Saldo Deposit",
+  "errorLoadInvoices": "Gagal Memuat Riwayat Faktur",
+  "qrisInstantTitle": "QRIS Instan (Auto-Settlement)",
+  "qrisInstantBadge": "0 Detik",
+  "qrisScanSupport": "Scan via BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay"
 }

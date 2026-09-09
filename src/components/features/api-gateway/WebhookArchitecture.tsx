@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2, Shield, Webhook } from "lucide-react";
 
 export function WebhookArchitecture() {
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
       <div className="rounded-3xl border border-border bg-gradient-to-br from-surface to-muted/20 p-6 sm:p-10 shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-5 space-y-4">

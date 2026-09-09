@@ -144,14 +144,13 @@ export function LiveEndpointSandbox() {
   };
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
-      <div className="space-y-4 text-center max-w-2xl mx-auto mb-8">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="space-y-3 text-center max-w-2xl mx-auto mb-6">
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-          {t("landingPages.apiGateway.sandboxTitle") || "Coba Endpoint API Sekarang"}
+          {t("landingPages.apiGateway.sandboxTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm font-semibold leading-relaxed">
-          {t("landingPages.apiGateway.sandboxSubtitle") ||
-            "Salin contoh kode integrasi siap pakai untuk berbagai bahasa pemrograman favorit Anda."}
+          {t("landingPages.apiGateway.sandboxSubtitle")}
         </p>
       </div>
 

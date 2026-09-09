@@ -17,69 +17,60 @@ export function ApiFeaturesBento() {
   const features = [
     {
       icon: <Zap className="size-5 text-amber-500" />,
-      title: t("landingPages.apiGateway.featureFastTitle") || "Latensi Sub-Detik (<400ms)",
+      title: t("landingPages.apiGateway.featureFastTitle"),
       desc:
-        t("landingPages.apiGateway.featureFastDesc") ||
-        "Rute pengiriman optimal dengan respons cepat di bawah 400ms untuk transmisi pesan real-time.",
+        t("landingPages.apiGateway.featureFastDesc"),
       badge: "Sub-Second",
     },
     {
       icon: <Layers className="size-5 text-wise-green" />,
-      title: t("landingPages.apiGateway.featureOtpTitle") || "VIP Express Lane OTP",
+      title: t("landingPages.apiGateway.featureOtpTitle"),
       desc:
-        t("landingPages.apiGateway.featureOtpDesc") ||
-        "Jalur bebas hambatan khusus kode verifikasi OTP dan notifikasi darurat yang memotong antrean pesan broadcast.",
+        t("landingPages.apiGateway.featureOtpDesc"),
       badge: "Preemption",
     },
     {
       icon: <Webhook className="size-5 text-blue-500" />,
       title:
-        t("landingPages.apiGateway.featureWebhookTitle") || "Dua Arah Realtime Webhook",
+        t("landingPages.apiGateway.featureWebhookTitle"),
       desc:
-        t("landingPages.apiGateway.featureWebhookDesc") ||
-        "Terima pesan masuk dan update status pengiriman secara instan dengan verifikasi signature X-Wahide-Secret HMAC-SHA256.",
+        t("landingPages.apiGateway.featureWebhookDesc"),
       badge: "Two-Way",
     },
     {
       icon: <ShieldCheck className="size-5 text-emerald-500" />,
       title:
-        t("landingPages.apiGateway.featureMultiTitle") || "Multi-Device Multi-Instance",
+        t("landingPages.apiGateway.featureMultiTitle"),
       desc:
-        t("landingPages.apiGateway.featureMultiDesc") ||
-        "Hubungkan puluhan nomor WhatsApp dalam satu API terpadu. Dilengkapi Session Hibernation hemat RAM.",
+        t("landingPages.apiGateway.featureMultiDesc"),
       badge: "Hibernation",
     },
     {
       icon: <Lock className="size-5 text-rose-500" />,
       title:
-        t("landingPages.apiGateway.featureSecurityTitle") || "Keamanan Tingkat Korporat",
+        t("landingPages.apiGateway.featureSecurityTitle"),
       desc:
-        t("landingPages.apiGateway.featureSecurityDesc") ||
-        "Autentikasi Bearer Token 'hide_live_...', enkripsi TLS modern, dan isolasi data multi-tenant berbasis ULID.",
+        t("landingPages.apiGateway.featureSecurityDesc"),
       badge: "ULID Isolation",
     },
     {
       icon: <RotateCcw className="size-5 text-indigo-500" />,
       title:
-        t("landingPages.apiGateway.featureRetryTitle") ||
-        "Automatic Exponential Backoff",
+        t("landingPages.apiGateway.featureRetryTitle"),
       desc:
-        t("landingPages.apiGateway.featureRetryDesc") ||
-        "Mekanisme pengiriman ulang cerdas dan Dead-Letter Queue (DLQ) untuk menjamin tidak ada pesan yang hilang.",
+        t("landingPages.apiGateway.featureRetryDesc"),
       badge: "Zero Dropped",
     },
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.apiGateway.featuresTitle") ||
-            "Mengapa Developer Memilih Wahide API Gateway"}
+          {t("landingPages.apiGateway.featuresTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          {t("landingPages.apiGateway.featuresSubtitle") ||
-            "Dirancang dengan arsitektur Go modern untuk latensi ultra rendah, efisiensi memori, dan keandalan tingkat enterprise."}
+          {t("landingPages.apiGateway.featuresSubtitle")}
         </p>
       </div>
 

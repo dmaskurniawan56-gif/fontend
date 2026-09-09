@@ -43,19 +43,17 @@ export function LiveSpintaxPlayground() {
   };
 
   return (
-    <section className="mx-auto max-w-4xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-8">
+    <section className="mx-auto max-w-4xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
           <Sparkles className="size-3.5" />
           <span>Interactive Sandbox</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-          {t("landingPages.broadcast.playgroundTitle") ||
-            "Uji Coba Spintax Langsung di Browser"}
+          {t("landingPages.broadcast.playgroundTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm font-semibold leading-relaxed">
-          {t("landingPages.broadcast.playgroundSubtitle") ||
-            "Ketik pesan Anda dengan format {opsi1|opsi2} dan klik tombol untuk melihat bagaimana pesan berubah secara acak."}
+          {t("landingPages.broadcast.playgroundSubtitle")}
         </p>
       </div>
 
@@ -84,7 +82,7 @@ export function LiveSpintaxPlayground() {
           >
             <RefreshCw className="size-4 animate-spin-once" />
             <span>
-              {t("landingPages.broadcast.playgroundButton") || "Acak Ulang Pesan"}
+              {t("landingPages.broadcast.playgroundButton")}
             </span>
           </Button>
         </div>
@@ -94,8 +92,7 @@ export function LiveSpintaxPlayground() {
           <span className="text-xs font-bold text-foreground-secondary flex items-center gap-1.5">
             <MessageSquare className="size-3.5 text-wise-green" />
             <span>
-              {t("landingPages.broadcast.playgroundResult") ||
-                "Hasil Variasi Pesan yang Terkirim ke Pelanggan:"}
+              {t("landingPages.broadcast.playgroundResult")}
             </span>
           </span>
 

@@ -11,27 +11,25 @@ export function EcommerceHero() {
   const { t } = useI18n();
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-20">
+    <section className="relative overflow-hidden pt-4 pb-2 sm:pt-8 sm:pb-4">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8 text-center sm:text-left">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
             <ShoppingBag className="size-4 text-wise-green" />
             <span className="text-foreground">
-              {t("landingPages.ecommerce.badge") || "Solusi E-Commerce & Retail"}
+              {t("landingPages.ecommerce.badge")}
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
-            {t("landingPages.ecommerce.title") ||
-              "Otomasi Penjualan & Notifikasi Toko Online via WhatsApp"}
+            {t("landingPages.ecommerce.title")}
           </h1>
 
           {/* Subtitle */}
           <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
-            {t("landingPages.ecommerce.subtitle") ||
-              "Tingkatkan konversi penjualan dan kepuasan pelanggan dengan notifikasi pesanan otomatis, pengingat keranjang belanja, dan nomor CS terpadu."}
+            {t("landingPages.ecommerce.subtitle")}
           </p>
 
           {/* Action CTAs */}
@@ -43,7 +41,7 @@ export function EcommerceHero() {
                 "min-h-12 gap-2.5 px-7 py-5 text-sm font-bold shadow-sm sm:text-base",
               )}
             >
-              <span>{t("landingPages.ecommerce.ctaTrial") || "Mulai Otomasi Olshop"}</span>
+              <span>{t("landingPages.ecommerce.ctaTrial")}</span>
               <ArrowRight className="size-4" />
             </Link>
             <Link

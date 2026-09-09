@@ -36,7 +36,7 @@ export function HomeView() {
   const { t } = useI18n();
 
   return (
-    <div className="space-y-20 py-6 sm:space-y-28 sm:py-10">
+    <div className="space-y-14 py-4 sm:space-y-20 sm:py-8">
       {/* 1. Hero Section */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8">

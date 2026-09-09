@@ -52,7 +52,7 @@ export default function BusinessAutomationPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(automationJsonLd) }}
       />
-      <div className="space-y-6">
+      <div className="space-y-10 sm:space-y-14 py-4 sm:py-6">
         <AutomationHero />
         <AutomationModulesGrid />
         <AutomationCtaSection />

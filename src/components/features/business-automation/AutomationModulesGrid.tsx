@@ -18,11 +18,9 @@ export function AutomationModulesGrid() {
       id: "reservation",
       icon: <CalendarDays className="size-6 text-emerald-500" />,
       title:
-        t("landingPages.automation.reservationTitle") ||
-        "Sistem Reservasi & Booking Jadwal",
+        t("landingPages.automation.reservationTitle"),
       desc:
-        t("landingPages.automation.reservationDesc") ||
-        "Pelanggan memilih slot waktu layanan secara online, dan sistem otomatis mengirimkan konfirmasi serta pengingat via WhatsApp.",
+        t("landingPages.automation.reservationDesc"),
       benefits: [
         "Link booking publik mandiri",
         "Pencegahan jadwal bentrok otomatis",
@@ -34,11 +32,9 @@ export function AutomationModulesGrid() {
       id: "reminder",
       icon: <BellRing className="size-6 text-amber-500" />,
       title:
-        t("landingPages.automation.reminderTitle") ||
-        "Otomasi Pengingat & Jatuh Tempo",
+        t("landingPages.automation.reminderTitle"),
       desc:
-        t("landingPages.automation.reminderDesc") ||
-        "Kirim pengingat otomatis H-3, H-1 jadwal janji temu, jatuh tempo faktur, atau perpanjangan langganan pelanggan.",
+        t("landingPages.automation.reminderDesc"),
       benefits: [
         "Jadwal pengingat berkala otomatis",
         "Pengurangan risiko tagihan macet",
@@ -50,11 +46,9 @@ export function AutomationModulesGrid() {
       id: "form",
       icon: <FormInput className="size-6 text-blue-500" />,
       title:
-        t("landingPages.automation.formTitle") ||
-        "Formulir Dinamis Publik (/f/[slug])",
+        t("landingPages.automation.formTitle"),
       desc:
-        t("landingPages.automation.formDesc") ||
-        "Buat formulir survei, pendaftaran, atau pesanan tanpa coding. Notifikasi submit langsung terkirim ke nomor Anda.",
+        t("landingPages.automation.formDesc"),
       benefits: [
         "Link instan siap bagikan di bio medsos",
         "Validasi input nomor telepon WhatsApp",
@@ -66,11 +60,9 @@ export function AutomationModulesGrid() {
       id: "template",
       icon: <BookOpenCheck className="size-6 text-indigo-500" />,
       title:
-        t("landingPages.automation.templateTitle") ||
-        "Pustaka Template Pesan Bisnis",
+        t("landingPages.automation.templateTitle"),
       desc:
-        t("landingPages.automation.templateDesc") ||
-        "Simpan dan gunakan kembali template pesan siap pakai untuk Customer Service, Penjualan, dan Notifikasi Resmi.",
+        t("landingPages.automation.templateDesc"),
       benefits: [
         "Standarisasi komunikasi tim CS",
         "Kategori pesan lengkap (Sales, Billing, CS)",
@@ -81,15 +73,13 @@ export function AutomationModulesGrid() {
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.automation.modulesTitle") ||
-            "4 Modul Bisnis Siap Pakai"}
+          {t("landingPages.automation.modulesTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          {t("landingPages.automation.modulesSubtitle") ||
-            "Semua modul langsung terhubung ke WhatsApp bisnis Anda dan dapat diatur dalam beberapa klik."}
+          {t("landingPages.automation.modulesSubtitle")}
         </p>
       </div>
 

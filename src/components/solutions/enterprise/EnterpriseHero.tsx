@@ -11,27 +11,25 @@ export function EnterpriseHero() {
   const { t } = useI18n();
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-20">
+    <section className="relative overflow-hidden pt-4 pb-2 sm:pt-8 sm:pb-4">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8 text-center sm:text-left">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
             <Building2 className="size-4 text-wise-green" />
             <span className="text-foreground">
-              {t("landingPages.enterprise.badge") || "Solusi Skala Bisnis & Korporat"}
+              {t("landingPages.enterprise.badge")}
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
-            {t("landingPages.enterprise.title") ||
-              "Solusi WhatsApp Terpadu untuk Perusahaan Skala Besar"}
+            {t("landingPages.enterprise.title")}
           </h1>
 
           {/* Subtitle */}
           <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
-            {t("landingPages.enterprise.subtitle") ||
-              "Kelola komunikasi ribuan pelanggan dengan aman dan teratur di berbagai tim dan divisi bisnis Anda, didampingi dukungan langsung tanpa hambatan."}
+            {t("landingPages.enterprise.subtitle")}
           </p>
 
           {/* Action CTAs */}
@@ -43,7 +41,7 @@ export function EnterpriseHero() {
                 "min-h-12 gap-2.5 px-7 py-5 text-sm font-bold shadow-sm sm:text-base",
               )}
             >
-              <span>{t("landingPages.enterprise.ctaContact") || "Konsultasi Tim Ahli Kami"}</span>
+              <span>{t("landingPages.enterprise.ctaContact")}</span>
               <ArrowRight className="size-4" />
             </Link>
             <Link
@@ -53,7 +51,7 @@ export function EnterpriseHero() {
                 "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:text-base",
               )}
             >
-              {t("landingPages.enterprise.ctaDemo") || "Minta Jadwal Demo"}
+              {t("landingPages.enterprise.ctaDemo")}
             </Link>
           </div>
 

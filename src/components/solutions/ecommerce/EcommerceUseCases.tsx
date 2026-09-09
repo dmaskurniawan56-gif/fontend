@@ -17,11 +17,9 @@ export function EcommerceUseCases() {
     {
       icon: <FileText className="size-5 text-emerald-500" />,
       title:
-        t("landingPages.ecommerce.useCaseOrderTitle") ||
-        "Konfirmasi Pesanan & Faktur Instan",
+        t("landingPages.ecommerce.useCaseOrderTitle"),
       desc:
-        t("landingPages.ecommerce.useCaseOrderDesc") ||
-        "Otomatis kirim rincian pembelian, tagihan pembayaran (Midtrans/Xendit), dan instruksi transfer setelah checkout.",
+        t("landingPages.ecommerce.useCaseOrderDesc"),
       badge: "Instant Order",
       mockup: {
         time: "10:14",
@@ -31,11 +29,9 @@ export function EcommerceUseCases() {
     {
       icon: <Truck className="size-5 text-blue-500" />,
       title:
-        t("landingPages.ecommerce.useCaseShippingTitle") ||
-        "Notifikasi Resi & Pelacakan Pengiriman",
+        t("landingPages.ecommerce.useCaseShippingTitle"),
       desc:
-        t("landingPages.ecommerce.useCaseShippingDesc") ||
-        "Kirim nomor resi kurir dan link pelacakan langsung ke WhatsApp pembeli saat barang dikirim.",
+        t("landingPages.ecommerce.useCaseShippingDesc"),
       badge: "Automated Resi",
       mockup: {
         time: "14:30",
@@ -45,11 +41,9 @@ export function EcommerceUseCases() {
     {
       icon: <ShoppingCart className="size-5 text-amber-500" />,
       title:
-        t("landingPages.ecommerce.useCaseCartTitle") ||
-        "Pemulihan Keranjang Belanja (Abandoned Cart)",
+        t("landingPages.ecommerce.useCaseCartTitle"),
       desc:
-        t("landingPages.ecommerce.useCaseCartDesc") ||
-        "Ingatkan calon pembeli yang belum menyelesaikan pembayaran dengan penawaran khusus via WhatsApp.",
+        t("landingPages.ecommerce.useCaseCartDesc"),
       badge: "Cart Recovery",
       mockup: {
         time: "16:45",
@@ -59,11 +53,9 @@ export function EcommerceUseCases() {
     {
       icon: <Users className="size-5 text-purple-500" />,
       title:
-        t("landingPages.ecommerce.useCaseSupportTitle") ||
-        "Layanan CS & Reseller Multi-Device",
+        t("landingPages.ecommerce.useCaseSupportTitle"),
       desc:
-        t("landingPages.ecommerce.useCaseSupportDesc") ||
-        "Kelola interaksi pelanggan dan jaringan reseller secara rapi dengan multi-nomor terhubung.",
+        t("landingPages.ecommerce.useCaseSupportDesc"),
       badge: "Multi-Agent Support",
       mockup: {
         time: "09:00",
@@ -73,11 +65,10 @@ export function EcommerceUseCases() {
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.ecommerce.useCasesTitle") ||
-            "Skenario Otomasi Toko Online"}
+          {t("landingPages.ecommerce.useCasesTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
           Ubah proses manual menjadi serba otomatis dengan pemicu webhook dari platform toko online Anda.

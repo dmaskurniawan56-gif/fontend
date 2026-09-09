@@ -115,11 +115,11 @@ export function ContactUsView() {
             </div>
 
             <div className="text-base font-black font-mono text-foreground pt-1">
-              admin@hidessh.com
+              dmaskurniawan56@gmail.com
             </div>
           </div>
 
-          <a href="mailto:admin@hidessh.com" className="block pt-2">
+          <a href="mailto:dmaskurniawan56@gmail.com" className="block pt-2">
             <Button
               variant="outline"
               size="default"

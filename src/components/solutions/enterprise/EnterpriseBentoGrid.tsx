@@ -11,55 +11,45 @@ export function EnterpriseBentoGrid() {
     {
       icon: <Users className="size-5 text-wise-green" />,
       title:
-        t("landingPages.enterprise.featureWorkflowsTitle") ||
-        "Alur Kerja Lintas Divisi & Tim",
+        t("landingPages.enterprise.featureWorkflowsTitle"),
       desc:
-        t("landingPages.enterprise.featureWorkflowsDesc") ||
-        "Bagi akses penanganan pesan secara rapi untuk tim Customer Service, Penjualan, Operasional, hingga Keuangan tanpa saling tumpang tindih.",
+        t("landingPages.enterprise.featureWorkflowsDesc"),
       badge: "Kolaborasi Tim",
     },
     {
       icon: <ShieldCheck className="size-5 text-blue-500" />,
       title:
-        t("landingPages.enterprise.featureSecurityTitle") ||
-        "Keamanan & Pengaturan Akses Staf",
+        t("landingPages.enterprise.featureSecurityTitle"),
       desc:
-        t("landingPages.enterprise.featureSecurityDesc") ||
-        "Atur peran staf dengan aman. Pimpinan memiliki kendali penuh menentukan data apa saja yang boleh dilihat atau dikelola oleh masing-masing staf.",
+        t("landingPages.enterprise.featureSecurityDesc"),
       badge: "Kontrol Privasi",
     },
     {
       icon: <Layers className="size-5 text-purple-500" />,
       title:
-        t("landingPages.enterprise.featureIntegrationTitle") ||
-        "Mudah Terhubung ke Aplikasi Kantor",
+        t("landingPages.enterprise.featureIntegrationTitle"),
       desc:
-        t("landingPages.enterprise.featureIntegrationDesc") ||
-        "Dapat dihubungkan dengan mudah ke sistem yang sudah perusahaan Anda miliki seperti CRM, sistem kasir, atau software manajemen internal.",
+        t("landingPages.enterprise.featureIntegrationDesc"),
       badge: "Integrasi Fleksibel",
     },
     {
       icon: <Headphones className="size-5 text-emerald-500" />,
       title:
-        t("landingPages.enterprise.featureSupportTitle") ||
-        "Dukungan Khusus & Pendampingan Penuh",
+        t("landingPages.enterprise.featureSupportTitle"),
       desc:
-        t("landingPages.enterprise.featureSupportDesc") ||
-        "Tim kami siap membantu proses pemasangan, pelatihan penggunaan, serta memberikan pendampingan langsung jika Anda membutuhkan bantuan.",
+        t("landingPages.enterprise.featureSupportDesc"),
       badge: "Bantuan Prioritas",
     },
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.enterprise.featuresTitle") ||
-            "Kelebihan Utama untuk Operasional Perusahaan Anda"}
+          {t("landingPages.enterprise.featuresTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          {t("landingPages.enterprise.featuresSubtitle") ||
-            "Solusi lengkap yang memudahkan koordinasi antar tim, menjaga kerahasiaan data, dan siap dihubungkan ke sistem kerja yang sudah Anda gunakan."}
+          {t("landingPages.enterprise.featuresSubtitle")}
         </p>
       </div>
 

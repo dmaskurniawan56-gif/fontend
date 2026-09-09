@@ -18,69 +18,61 @@ export function AntiBan5LayersVisual() {
     {
       num: "01",
       icon: <Shuffle className="size-5 text-wise-green" />,
-      title: t("landingPages.broadcast.layer1Title") || "1. Spintax Variasi Kata",
+      title: t("landingPages.broadcast.layer1Title"),
       desc:
-        t("landingPages.broadcast.layer1Desc") ||
-        "Otomatis mengacak sinonim kalimat seperti {Halo|Hai|Selamat Siang} sehingga setiap pesan unik dan menghancurkan pola deteksi spam Meta.",
+        t("landingPages.broadcast.layer1Desc"),
       tag: "Anti-Hash Detection",
     },
     {
       num: "02",
       icon: <Keyboard className="size-5 text-blue-500" />,
       title:
-        t("landingPages.broadcast.layer2Title") || "2. Simulasi Mengetik Alami",
+        t("landingPages.broadcast.layer2Title"),
       desc:
-        t("landingPages.broadcast.layer2Desc") ||
-        "Mengirimkan status ChatPresenceComposing secara proporsional sesuai panjang pesan, meniru perilaku pengetikan manusia nyata.",
+        t("landingPages.broadcast.layer2Desc"),
       tag: "Human Emulation",
     },
     {
       num: "03",
       icon: <Clock className="size-5 text-amber-500" />,
       title:
-        t("landingPages.broadcast.layer3Title") || "3. Dynamic Jitter Delay",
+        t("landingPages.broadcast.layer3Title"),
       desc:
-        t("landingPages.broadcast.layer3Desc") ||
-        "Menerapkan jeda acak 3–7 detik antar pengiriman pesan untuk menghindari lonjakan pengiriman tidak wajar.",
+        t("landingPages.broadcast.layer3Desc"),
       tag: "Traffic Pacing",
     },
     {
       num: "04",
       icon: <TrendingUp className="size-5 text-emerald-500" />,
       title:
-        t("landingPages.broadcast.layer4Title") || "4. Account Warmup Quota",
+        t("landingPages.broadcast.layer4Title"),
       desc:
-        t("landingPages.broadcast.layer4Desc") ||
-        "Pembatasan kuota bertahap untuk nomor WhatsApp baru agar terbiasa dengan volume kirim sebelum blast skala besar.",
+        t("landingPages.broadcast.layer4Desc"),
       tag: "Reputation Guard",
     },
     {
       num: "05",
       icon: <RotateCw className="size-5 text-indigo-500" />,
       title:
-        t("landingPages.broadcast.layer5Title") ||
-        "5. Multi-Device Round-Robin Pool",
+        t("landingPages.broadcast.layer5Title"),
       desc:
-        t("landingPages.broadcast.layer5Desc") ||
-        "Mendistribusikan ribuan kontak secara merata ke beberapa nomor cadangan saat nomor utama mencapai batas harian.",
+        t("landingPages.broadcast.layer5Desc"),
       tag: "Failover Balancing",
     },
   ];
 
   return (
-    <section id="anti-ban" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section id="anti-ban" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-wise-green/15 text-dark-green dark:text-wise-green text-xs font-bold">
           <ShieldCheck className="size-3.5" />
           <span>Exclusive Protection Engine</span>
         </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.broadcast.protectionTitle") ||
-            "5-Lapis Proteksi Pengiriman Cerdas (Anti-Ban Engine)"}
+          {t("landingPages.broadcast.protectionTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          {t("landingPages.broadcast.protectionSubtitle") ||
-            "Arsitektur proteksi terdepan di Indonesia yang menjaga kesehatan dan reputasi nomor WhatsApp bisnis Anda."}
+          {t("landingPages.broadcast.protectionSubtitle")}
         </p>
       </div>
 

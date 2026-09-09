@@ -17,27 +17,25 @@ export function BroadcastHero() {
   const { t } = useI18n();
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-20">
+    <section className="relative overflow-hidden pt-4 pb-2 sm:pt-8 sm:pb-4">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8 text-center sm:text-left">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
             <ShieldCheck className="size-4 text-wise-green" />
             <span className="text-foreground">
-              {t("landingPages.broadcast.badge") || "Smart Broadcast & Anti-Ban"}
+              {t("landingPages.broadcast.badge")}
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
-            {t("landingPages.broadcast.title") ||
-              "Kirim Pesan Siaran Massal WhatsApp dengan Reputasi Terproteksi"}
+            {t("landingPages.broadcast.title")}
           </h1>
 
           {/* Subtitle */}
           <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
-            {t("landingPages.broadcast.subtitle") ||
-              "Jangkau ribuan pelanggan dalam hitungan menit tanpa khawatir nomor terblokir. Dilengkapi 5-Lapis Proteksi Pengiriman Cerdas, Spintax Dinamis, dan Rotasi Nomor Otomatis."}
+            {t("landingPages.broadcast.subtitle")}
           </p>
 
           {/* Action CTAs */}
@@ -49,7 +47,7 @@ export function BroadcastHero() {
                 "min-h-12 gap-2.5 px-7 py-5 text-sm font-bold shadow-sm sm:text-base",
               )}
             >
-              <span>{t("landingPages.broadcast.ctaTrial") || "Mulai Siaran Sekarang"}</span>
+              <span>{t("landingPages.broadcast.ctaTrial")}</span>
               <ArrowRight className="size-4" />
             </Link>
             <a
@@ -60,7 +58,7 @@ export function BroadcastHero() {
               )}
             >
               <ShieldCheck className="size-4 text-wise-green" />
-              <span>{t("landingPages.broadcast.ctaLearn") || "Pelajari Proteksi Anti-Ban"}</span>
+              <span>{t("landingPages.broadcast.ctaLearn")}</span>
             </a>
           </div>
 

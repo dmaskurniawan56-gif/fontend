@@ -11,51 +11,41 @@ export function BroadcastFeaturesGrid() {
     {
       icon: <FileSpreadsheet className="size-5 text-emerald-500" />,
       title:
-        t("landingPages.broadcast.featureCsvTitle") ||
-        "Impor Kontak Massal CSV & Excel",
+        t("landingPages.broadcast.featureCsvTitle"),
       desc:
-        t("landingPages.broadcast.featureCsvDesc") ||
-        "Unggah ribuan nomor kontak sekaligus dengan pembersihan format nomor otomatis dan deteksi duplikat.",
+        t("landingPages.broadcast.featureCsvDesc"),
     },
     {
       icon: <Tags className="size-5 text-blue-500" />,
       title:
-        t("landingPages.broadcast.featureTagTitle") ||
-        "Segmentasi Audiens Berdasarkan Tag",
+        t("landingPages.broadcast.featureTagTitle"),
       desc:
-        t("landingPages.broadcast.featureTagDesc") ||
-        "Kelompokkan pelanggan ke dalam tag khusus (VIP, Reseller, Leads) dan targetkan kampanye yang relevan.",
+        t("landingPages.broadcast.featureTagDesc"),
     },
     {
       icon: <CalendarClock className="size-5 text-amber-500" />,
       title:
-        t("landingPages.broadcast.featureScheduleTitle") ||
-        "Jadwal Siaran & Jam Kerja Otomatis",
+        t("landingPages.broadcast.featureScheduleTitle"),
       desc:
-        t("landingPages.broadcast.featureScheduleDesc") ||
-        "Atur pengiriman pesan pada jam-jam optimal pelanggan dengan fitur pause/resume instan.",
+        t("landingPages.broadcast.featureScheduleDesc"),
     },
     {
       icon: <BarChart3 className="size-5 text-purple-500" />,
       title:
-        t("landingPages.broadcast.featureAnalyticsTitle") ||
-        "Laporan Status Pengiriman Transparan",
+        t("landingPages.broadcast.featureAnalyticsTitle"),
       desc:
-        t("landingPages.broadcast.featureAnalyticsDesc") ||
-        "Pantau status TERKIRIM, DITERIMA, dan TERBACA secara real-time dari dashboard analitik.",
+        t("landingPages.broadcast.featureAnalyticsDesc"),
     },
   ];
 
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
-      <div className="text-center max-w-2xl mx-auto space-y-3 mb-10 sm:mb-14">
+    <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+      <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
-          {t("landingPages.broadcast.featuresTitle") ||
-            "Fitur Kampanye Lengkap untuk Pertumbuhan Bisnis"}
+          {t("landingPages.broadcast.featuresTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          {t("landingPages.broadcast.featuresSubtitle") ||
-            "Dari segmentasi audiens hingga pelacakan konversi riil."}
+          {t("landingPages.broadcast.featuresSubtitle")}
         </p>
       </div>
 

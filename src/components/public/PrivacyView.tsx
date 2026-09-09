@@ -45,10 +45,10 @@ export function PrivacyView() {
               <span>Email Resmi</span>
             </div>
             <a
-              href="mailto:admin@hidessh.com"
+              href="mailto:dmaskurniawan56@gmail.com"
               className="text-dark-green dark:text-wise-green font-bold hover:underline"
             >
-              admin@hidessh.com
+              dmaskurniawan56@gmail.com
             </a>
           </div>
           <div className="space-y-1">
@@ -234,10 +234,10 @@ export function PrivacyView() {
             <div>
               <strong>Email:</strong>{" "}
               <a
-                href="mailto:admin@hidessh.com"
+                href="mailto:dmaskurniawan56@gmail.com"
                 className="text-dark-green dark:text-wise-green font-bold hover:underline"
               >
-                admin@hidessh.com
+                dmaskurniawan56@gmail.com
               </a>
             </div>
             <div>

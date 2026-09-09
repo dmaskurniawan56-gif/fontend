@@ -17,27 +17,25 @@ export function ApiGatewayHero() {
   const { t } = useI18n();
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14 sm:pb-20">
+    <section className="relative overflow-hidden pt-4 pb-2 sm:pt-8 sm:pb-4">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8 text-center sm:text-left">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
             <span className="bg-wise-green size-2 animate-pulse rounded-full" />
             <span className="text-foreground">
-              {t("landingPages.apiGateway.badge") || "WhatsApp RESTful API Gateway"}
+              {t("landingPages.apiGateway.badge")}
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
-            {t("landingPages.apiGateway.title") ||
-              "WhatsApp REST API Berperforma Tinggi untuk Developer & Startup"}
+            {t("landingPages.apiGateway.title")}
           </h1>
 
           {/* Subtitle */}
           <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
-            {t("landingPages.apiGateway.subtitle") ||
-              "Kirim pesan WhatsApp dari sistem apa pun dengan latensi sub-detik, antrean prioritas OTP terpisah, dan Webhook dua arah terenkripsi HMAC SHA256."}
+            {t("landingPages.apiGateway.subtitle")}
           </p>
 
           {/* Action CTAs */}
@@ -49,7 +47,7 @@ export function ApiGatewayHero() {
                 "min-h-12 gap-2.5 px-7 py-5 text-sm font-bold shadow-sm sm:text-base",
               )}
             >
-              <span>{t("landingPages.apiGateway.ctaTrial") || "Mulai Integrasi Gratis"}</span>
+              <span>{t("landingPages.apiGateway.ctaTrial")}</span>
               <ArrowRight className="size-4" />
             </Link>
             <Link
@@ -60,7 +58,7 @@ export function ApiGatewayHero() {
               )}
             >
               <Code2 className="size-4 text-wise-green" />
-              <span>{t("landingPages.apiGateway.ctaDocs") || "Lihat Dokumentasi API"}</span>
+              <span>{t("landingPages.apiGateway.ctaDocs")}</span>
             </Link>
           </div>
 

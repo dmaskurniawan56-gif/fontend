@@ -54,7 +54,7 @@ export default function BroadcastMessagingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(broadcastJsonLd) }}
       />
-      <div className="space-y-6">
+      <div className="space-y-10 sm:space-y-14 py-4 sm:py-6">
         <BroadcastHero />
         <AntiBan5LayersVisual />
         <LiveSpintaxPlayground />

@@ -23,7 +23,7 @@ Kami secara aktif memelihara dan merilis pembaruan keamanan (_security patches_)
 
 1. **GitHub Private Vulnerability Reporting**: Gunakan fitur tab [Security -> Report a vulnerability](../../security/advisories/new) di repositori ini.
 2. **Email Tim Keamanan**: Kirimkan detail temuan Anda ke:
-   - **Email**: [`admin@hidessh.com`](mailto:admin@hidessh.com)
+   - **Email**: [`dmaskurniawan56@gmail.com`](mailto:dmaskurniawan56@gmail.com)
    - **Subjek**: `[SECURITY VULNERABILITY REPORT] fontwahide - <Judul Singkat>`
 
 ---

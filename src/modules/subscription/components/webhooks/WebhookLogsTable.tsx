@@ -307,7 +307,7 @@ export function WebhookLogsTable() {
                         {log.event_name}
                       </span>
                     </td>
-                    <td className="px-4 py-3 max-w-[220px]">
+                    <td className="px-4 py-3 max-w-55">
                       <span
                         className="truncate font-mono block text-foreground-secondary"
                         title={log.target_url}

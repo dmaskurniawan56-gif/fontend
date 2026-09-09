@@ -120,7 +120,7 @@ export function DocsResponseView({
         </div>
       </div>
 
-      {/* Response Attributes Breakdown Table (Whatspie Style) */}
+      {/* Response Attributes Breakdown Table */}
       {activeResponse.attributes && activeResponse.attributes.length > 0 && (
         <div className="space-y-2 pt-2">
           <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">

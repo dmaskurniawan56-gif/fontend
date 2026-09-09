@@ -39,21 +39,21 @@ export function HomeView() {
     <div className="space-y-14 py-4 sm:space-y-20 sm:py-8">
       {/* 1. Hero Section */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold shadow-xs">
             <span className="bg-wise-green h-2 w-2 animate-pulse rounded-full" />
             <span>{t("common.hero.badge")}</span>
           </div>
 
-          <h1 className="text-foreground max-w-3xl text-3xl leading-[1.04] font-black tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="text-foreground max-w-4xl text-3xl leading-[1.04] font-black tracking-tight sm:text-5xl lg:text-6xl text-center mx-auto">
             {t("common.hero.title")}
           </h1>
 
-          <p className="text-foreground-secondary max-w-2xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
+          <p className="text-foreground-secondary max-w-2xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg text-center mx-auto">
             {t("common.hero.subtitle")}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3.5 pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
             <Link
               href="/register"
               className={cn(
@@ -75,12 +75,12 @@ export function HomeView() {
             </Link>
           </div>
 
-          <div className="text-foreground-muted flex items-center gap-2 pt-1 text-xs font-semibold">
+          <div className="text-foreground-muted flex items-center justify-center gap-2 pt-1 text-xs font-semibold">
             <CheckCircle2 className="text-dark-green dark:text-wise-green size-3.5" />
             <span>{t("common.hero.trustBadge")}</span>
           </div>
           {/* High-Impact Trust Strip */}
-          <div className="border-border/60 flex flex-wrap items-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary">
+          <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="size-3.5" /> 99.9% Uptime Delivery
             </span>

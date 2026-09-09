@@ -19,7 +19,7 @@ export function AutomationHero() {
   return (
     <section className="relative overflow-hidden pt-4 pb-2 sm:pt-8 sm:pb-4">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="space-y-6 sm:space-y-8 text-center sm:text-left">
+        <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
             <Sparkles className="size-4 text-wise-green" />
@@ -29,17 +29,17 @@ export function AutomationHero() {
           </div>
 
           {/* Heading */}
-          <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="text-foreground max-w-4xl text-3xl leading-[1.08] font-black tracking-tight sm:text-5xl lg:text-6xl text-center mx-auto">
             {t("landingPages.automation.title")}
           </h1>
 
           {/* Subtitle */}
-          <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
+          <p className="text-foreground-secondary max-w-3xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg text-center mx-auto">
             {t("landingPages.automation.subtitle")}
           </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3.5 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
             <Link
               href="/register"
               className={cn(
@@ -62,7 +62,7 @@ export function AutomationHero() {
           </div>
 
           {/* Trust Strip */}
-          <div className="border-border/60 flex flex-wrap items-center justify-center sm:justify-start gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary">
+          <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="size-3.5" /> 100% No-Code Setup
             </span>

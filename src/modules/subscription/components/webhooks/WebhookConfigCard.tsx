@@ -32,11 +32,59 @@ import {
   BookOpen,
   ExternalLink,
   Radio,
+  SlidersHorizontal,
+  Check,
 } from "lucide-react";
+
+export interface WebhookEventDefinition {
+  id: string;
+  name: string;
+  description: string;
+  tag: string;
+  defaultChecked: boolean;
+}
+
+export const AVAILABLE_WEBHOOK_EVENTS: WebhookEventDefinition[] = [
+  {
+    id: "message.received",
+    name: "Pesan Masuk (Inbound Message)",
+    description: "Callback setiap kali ada pesan WhatsApp baru yang masuk ke perangkat.",
+    tag: "Pesan",
+    defaultChecked: true,
+  },
+  {
+    id: "message.ack",
+    name: "Tanda Terima Pesan (Message Ack)",
+    description: "Status pengiriman pesan keluar: Sent (1 centang), Delivered (2 centang), Read (centang biru).",
+    tag: "Delivery",
+    defaultChecked: false,
+  },
+  {
+    id: "message.sent",
+    name: "Pesan Terkirim (Outbound Sent)",
+    description: "Konfirmasi instan saat pesan berhasil didispatch dari perangkat ponsel ke server WhatsApp.",
+    tag: "Audit",
+    defaultChecked: false,
+  },
+  {
+    id: "device.status",
+    name: "Status Perangkat (Lifecycle)",
+    description: "Pemberitahuan perubahan status perangkat: Connected, Disconnected, Authenticated.",
+    tag: "Koneksi",
+    defaultChecked: true,
+  },
+  {
+    id: "device.qr",
+    name: "QR Code Baru (Pairing)",
+    description: "Streaming Base64 QR code saat nomor sedang dalam proses scanning/pairing WhatsApp Web.",
+    tag: "Pairing",
+    defaultChecked: false,
+  },
+];
 
 interface WebhookConfigCardProps {
   config: WebhookConfig | null;
-  onSave: (url: string, isEnabled: boolean, secret?: string) => Promise<unknown>;
+  onSave: (url: string, isEnabled: boolean, secret?: string, events?: string[]) => Promise<unknown>;
   onRegenerateSecret: () => Promise<unknown>;
   onCopySecret: (secret: string) => void;
 }
@@ -50,6 +98,9 @@ export function WebhookConfigCard({
   const { t } = useI18n();
   const [url, setUrl] = useState(config?.url || "");
   const [isEnabled, setIsEnabled] = useState(config?.isEnabled ?? true);
+  const [selectedEvents, setSelectedEvents] = useState<string[]>(
+    config?.events || ["message.received", "device.status"]
+  );
   const [showSecret, setShowSecret] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
@@ -61,6 +112,9 @@ export function WebhookConfigCard({
     if (config) {
       setUrl(config.url || "");
       setIsEnabled(config.isEnabled);
+      if (config.events && Array.isArray(config.events)) {
+        setSelectedEvents(config.events);
+      }
     }
   }, [config]);
 
@@ -108,11 +162,25 @@ export function WebhookConfigCard({
     }
   };
 
+  const handleToggleEvent = (eventId: string) => {
+    setSelectedEvents((prev) =>
+      prev.includes(eventId) ? prev.filter((id) => id !== eventId) : [...prev, eventId]
+    );
+  };
+
+  const handleSelectAllEvents = () => {
+    setSelectedEvents(AVAILABLE_WEBHOOK_EVENTS.map((e) => e.id));
+  };
+
+  const handleResetDefaultEvents = () => {
+    setSelectedEvents(["message.received", "device.status"]);
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     try {
-      await onSave(url.trim(), isEnabled, config?.secret);
+      await onSave(url.trim(), isEnabled, config?.secret, selectedEvents);
     } finally {
       setIsSaving(false);
     }
@@ -164,6 +232,14 @@ export function WebhookConfigCard({
             </span>
             <Switch checked={isEnabled} onCheckedChange={setIsEnabled} aria-label="Toggle Webhook" />
           </div>
+        </div>
+      </div>
+
+      {/* Workspace Webhook Inheritance Info Banner */}
+      <div className="flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5 text-xs text-foreground-secondary">
+        <ShieldCheck className="size-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
+        <div className="leading-relaxed">
+          <span className="font-bold text-foreground">Webhook Utama Workspace:</span> Semua nomor WhatsApp di workspace ini secara otomatis mewarisi (*inherit*) endpoint dan secret key ini secara default. Jika Anda membutuhkan routing terpisah untuk nomor tertentu, Anda dapat menyetel <span className="font-semibold text-foreground">Override Webhook Khusus</span> di menu Detail Perangkat masing-masing.
         </div>
       </div>
 
@@ -241,6 +317,92 @@ export function WebhookConfigCard({
             <span>
               Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header <code className="font-mono text-foreground font-bold">X-Wahide-Secret</code> pada setiap callback event WhatsApp.
             </span>
+          </div>
+        </div>
+
+        {/* Granular Webhook Event Subscriptions */}
+        <div className="border-border bg-muted/20 space-y-3.5 rounded-xl border p-4 sm:p-5">
+          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="dark:text-wise-green size-4 text-emerald-700" />
+              <div>
+                <span className="text-foreground text-xs font-bold">
+                  Langganan Event Webhook (Event Subscriptions)
+                </span>
+                <p className="text-foreground-secondary text-[11px] font-medium">
+                  Hanya event yang dipilih yang akan dikirim ke endpoint Anda. Event lainnya akan di-drop instan (Zero Allocation).
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 self-end sm:self-auto">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleSelectAllEvents}
+                disabled={!isEnabled}
+                className="h-7 text-[11px] font-bold px-2 rounded-lg text-foreground-secondary hover:text-foreground"
+              >
+                Pilih Semua
+              </Button>
+              <span className="text-border">|</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleResetDefaultEvents}
+                disabled={!isEnabled}
+                className="h-7 text-[11px] font-bold px-2 rounded-lg text-foreground-secondary hover:text-foreground"
+              >
+                Reset Default
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-2.5 pt-1 sm:grid-cols-2 lg:grid-cols-1">
+            {AVAILABLE_WEBHOOK_EVENTS.map((ev) => {
+              const isChecked = selectedEvents.includes(ev.id);
+              return (
+                <div
+                  key={ev.id}
+                  onClick={() => isEnabled && handleToggleEvent(ev.id)}
+                  className={`flex items-start justify-between gap-3 rounded-lg border p-3 transition-all cursor-pointer select-none ${
+                    isChecked
+                      ? "border-emerald-500/40 bg-emerald-500/5 dark:border-emerald-400/30 dark:bg-emerald-500/10"
+                      : "border-border/70 bg-surface/50 opacity-60 hover:opacity-100"
+                  } ${!isEnabled ? "pointer-events-none opacity-40" : ""}`}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[11px] font-bold text-foreground">
+                        {ev.id}
+                      </span>
+                      <span className="rounded-md border border-border/80 bg-background/80 px-1.5 py-0.5 text-[10px] font-semibold text-foreground-secondary">
+                        {ev.tag}
+                      </span>
+                      {isChecked && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                          <Check className="size-3" />
+                          Aktif
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-foreground-secondary leading-relaxed font-medium">
+                      {ev.description}
+                    </p>
+                  </div>
+
+                  <Switch
+                    checked={isChecked}
+                    onCheckedChange={() => handleToggleEvent(ev.id)}
+                    disabled={!isEnabled}
+                    className="shrink-0 mt-0.5"
+                    aria-label={`Toggle event ${ev.id}`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 

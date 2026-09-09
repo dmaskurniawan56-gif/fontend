@@ -7,7 +7,15 @@ import { messagingEndpoints } from "./messaging";
 import { contactsEndpoints } from "./contacts";
 import { campaignsEndpoints } from "./campaigns";
 import { otpEndpoints } from "./otp";
-import { webhooksGuideDoc, webhooksEventsDoc } from "./webhooks";
+import {
+  webhooksGuideDoc,
+  webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
+} from "./webhooks";
 
 export { docNavigation } from "./navigation";
 export { introDoc } from "./intro";
@@ -18,7 +26,15 @@ export { messagingEndpoints } from "./messaging";
 export { otpEndpoints } from "./otp";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
-export { webhooksGuideDoc, webhooksEventsDoc } from "./webhooks";
+export {
+  webhooksGuideDoc,
+  webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
+} from "./webhooks";
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
 export { getApiBaseUrl, getApiHost } from "./env";
 
@@ -31,6 +47,11 @@ export const allEndpoints: EndpointDoc[] = [
   ...contactsEndpoints,
   ...campaignsEndpoints,
   webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
 ];
 
 export const allDocs: DocItem[] = [...allGuides, ...allEndpoints];

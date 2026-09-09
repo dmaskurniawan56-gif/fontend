@@ -137,6 +137,22 @@ export function useDevices() {
     []
   );
 
+  const updateDeviceSettings = async (
+    id: string,
+    data: { push_name?: string; webhook_url?: string | null; webhook_secret?: string | null }
+  ): Promise<Device> => {
+    try {
+      const updated = await whatsappApi.updateDevice(id, data);
+      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, ...updated } : d)));
+      toast.success("Pengaturan perangkat berhasil diperbarui");
+      return updated;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui pengaturan perangkat";
+      toast.error(msg);
+      throw err;
+    }
+  };
+
   const filteredDevices = useMemo(() => {
     return devices.filter((device) => {
       const devName = device.push_name || device.pushName || device.name || "";
@@ -178,5 +194,6 @@ export function useDevices() {
     hibernateDevice,
     wakeDevice,
     updateDeviceStatus,
+    updateDeviceSettings,
   };
 }

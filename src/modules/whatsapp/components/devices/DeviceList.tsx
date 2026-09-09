@@ -58,6 +58,7 @@ export function DeviceList() {
     hibernateDevice,
     wakeDevice,
     updateDeviceStatus,
+    updateDeviceSettings,
   } = useDevices();
   const { subscription } = useSubscription();
 
@@ -91,6 +92,16 @@ export function DeviceList() {
     });
     // Immediately synchronize fresh device state from backend to populate extracted phone
     await fetchDevices();
+  };
+
+  const handleUpdateSettings = async (
+    id: string,
+    data: { push_name?: string; webhook_url?: string | null; webhook_secret?: string | null }
+  ) => {
+    const updated = await updateDeviceSettings(id, data);
+    if (selectedDeviceForDetail && selectedDeviceForDetail.id === id) {
+      setSelectedDeviceForDetail(updated);
+    }
   };
 
   return (
@@ -344,6 +355,7 @@ export function DeviceList() {
         onDisconnect={disconnectDevice}
         onHibernate={hibernateDevice}
         onWake={wakeDevice}
+        onUpdateSettings={handleUpdateSettings}
       />
 
       {/* Live QR Modal */}

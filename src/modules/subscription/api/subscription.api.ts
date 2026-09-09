@@ -303,6 +303,9 @@ export const subscriptionApi = {
         url: String(payload?.url || payload?.webhook_url || ""),
         secret: String(payload?.secret || payload?.webhook_secret || ""),
         isEnabled: Boolean(payload?.isEnabled ?? payload?.is_enabled ?? true),
+        events: Array.isArray(payload?.events)
+          ? (payload.events as string[])
+          : ["message.received", "device.status"],
       };
     } catch (err: unknown) {
       if (err instanceof Error && err.name === "AbortError") throw err;
@@ -310,6 +313,7 @@ export const subscriptionApi = {
         url: "",
         secret: "",
         isEnabled: true,
+        events: ["message.received", "device.status"],
       };
     }
   },
@@ -318,6 +322,7 @@ export const subscriptionApi = {
     url: string;
     secret?: string;
     isEnabled: boolean;
+    events?: string[];
   }): Promise<WebhookConfig> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUBSCRIPTION_BASE}/subscription/webhook`,
@@ -327,6 +332,7 @@ export const subscriptionApi = {
         webhook_secret: payload.secret,
         secret: payload.secret,
         is_enabled: payload.isEnabled,
+        events: payload.events,
       }
     );
     const data = res.payload;
@@ -334,6 +340,7 @@ export const subscriptionApi = {
       url: String(data?.url || data?.webhook_url || payload.url),
       secret: String(data?.secret || data?.webhook_secret || payload.secret || ""),
       isEnabled: Boolean(data?.isEnabled ?? data?.is_enabled ?? payload.isEnabled),
+      events: Array.isArray(data?.events) ? (data.events as string[]) : payload.events,
     };
   },
 

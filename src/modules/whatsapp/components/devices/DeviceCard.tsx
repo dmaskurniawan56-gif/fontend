@@ -32,6 +32,7 @@ import {
   Check,
   Info,
   ExternalLink,
+  Webhook,
 } from "lucide-react";
 import { formatDisplayPhone } from "@/lib/phone";
 
@@ -130,7 +131,7 @@ export function DeviceCard({
       onClick={() => onViewDetail?.(device)}
       className={`group relative flex cursor-pointer flex-col justify-between space-y-5 p-5 transition-all hover:shadow-lg sm:p-6 ${
         isOverLimit
-          ? "border-rose-500/40 bg-rose-500/[0.02] hover:border-rose-500/60"
+          ? "border-rose-500/40 bg-rose-500/2 hover:border-rose-500/60"
           : "hover:border-wise-green/60"
       }`}
     >
@@ -163,6 +164,19 @@ export function DeviceCard({
         </div>
 
         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+          {Boolean(device.webhook_url || device.webhookUrl) && (
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                  <Webhook className="size-2.5" />
+                  <span>Hook</span>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Custom Webhook Aktif: {device.webhook_url || device.webhookUrl}</span>
+              </TooltipContent>
+            </Tooltip>
+          )}
           {renderStatusBadge()}
 
           <DropdownMenu>

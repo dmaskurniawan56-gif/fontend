@@ -21,6 +21,19 @@ export interface Device {
   updatedAt?: string;
   is_over_limit?: boolean;
   isOverLimit?: boolean;
+  webhook_url?: string | null;
+  webhook_secret?: string | null;
+  webhookUrl?: string | null;
+  webhookSecret?: string | null;
+  webhook_events?: string[] | null;
+  webhookEvents?: string[] | null;
+}
+
+export interface UpdateDeviceInput {
+  push_name?: string;
+  webhook_url?: string | null;
+  webhook_secret?: string | null;
+  webhook_events?: string[] | null;
 }
 
 export interface QREventData {

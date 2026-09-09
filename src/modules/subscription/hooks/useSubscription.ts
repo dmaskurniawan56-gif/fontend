@@ -89,9 +89,9 @@ export function useSubscription() {
     }
   };
 
-  const saveWebhook = async (url: string, isEnabled: boolean, secret?: string) => {
+  const saveWebhook = async (url: string, isEnabled: boolean, secret?: string, events?: string[]) => {
     try {
-      const updated = await subscriptionApi.updateWebhookConfig({ url, secret, isEnabled });
+      const updated = await subscriptionApi.updateWebhookConfig({ url, secret, isEnabled, events });
       setWebhookConfig(updated);
       toast.success(t("subscription.toastWebhookSaved"));
     } catch (err: unknown) {

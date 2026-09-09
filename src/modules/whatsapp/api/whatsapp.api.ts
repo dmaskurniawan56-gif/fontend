@@ -3,6 +3,7 @@ import { env } from "@/lib/config/env";
 import {
   Device,
   CreateDeviceInput,
+  UpdateDeviceInput,
   PairDeviceResponse,
   PairPhoneResponse,
 } from "../types/whatsapp.types";
@@ -64,6 +65,12 @@ const mapBackendDevice = (d: any): Device => {
     lastSeenAt: d.last_seen_at || d.lastSeenAt || null,
     createdAt: d.created_at || d.createdAt || new Date().toISOString(),
     updatedAt: d.updated_at || d.updatedAt || undefined,
+    webhook_url: d.webhook_url ?? null,
+    webhook_secret: d.webhook_secret ?? null,
+    webhookUrl: d.webhook_url ?? null,
+    webhookSecret: d.webhook_secret ?? null,
+    webhook_events: d.webhook_events ?? null,
+    webhookEvents: d.webhook_events ?? null,
   };
 };
 
@@ -93,6 +100,13 @@ export const whatsappApi = {
     const res = await httpClient.post<any>(`${WHATSAPP_BASE}/whatsapp/devices`, {
       push_name: payload.push_name,
     });
+    const data = res.payload || res;
+    return mapBackendDevice(data);
+  },
+
+  updateDevice: async (id: string, payload: UpdateDeviceInput): Promise<Device> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res = await httpClient.put<any>(`${WHATSAPP_BASE}/whatsapp/devices/${id}`, payload);
     const data = res.payload || res;
     return mapBackendDevice(data);
   },

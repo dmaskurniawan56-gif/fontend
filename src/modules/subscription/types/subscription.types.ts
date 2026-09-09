@@ -38,6 +38,7 @@ export interface WebhookConfig {
   url: string;
   secret: string;
   isEnabled: boolean;
+  events?: string[];
 }
 
 export interface WebhookLogItem {

@@ -268,6 +268,75 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Laporan Pengiriman WhatsApp",
     ],
   },
+  webhooks: {
+    seoTitle: "WhatsApp Webhook Integration Guide",
+    seoDescription:
+      "Configure secure HTTP Webhooks for real-time incoming WhatsApp messages, delivery receipts, retry policies, and Circuit Breaker architecture.",
+    keywords: [
+      "WhatsApp Webhook",
+      "WhatsApp Real-Time Events",
+      "WhatsApp Webhook Secret",
+      "Kirim Webhook WhatsApp",
+    ],
+  },
+  "webhooks/events": {
+    seoTitle: "WhatsApp Webhook Events Reference",
+    seoDescription:
+      "Complete JSON payload schemas for WhatsApp incoming messages, delivery receipts, and device status events in Wahide.",
+    keywords: [
+      "WhatsApp Webhook Events",
+      "WhatsApp Message Webhook JSON",
+    ],
+  },
+  "webhooks/events/message-received": {
+    seoTitle: "Webhook Event: message.received API",
+    seoDescription:
+      "Receive incoming WhatsApp messages (text, photos, PDF attachments) via HTTP POST with automatic Cloudflare R2 streaming.",
+    keywords: [
+      "WhatsApp Incoming Message Webhook",
+      "WhatsApp Media Attachment Webhook",
+      "message.received JSON Schema",
+    ],
+  },
+  "webhooks/events/message-ack": {
+    seoTitle: "Webhook Event: message.ack Delivery API",
+    seoDescription:
+      "Track WhatsApp delivery receipt checkmarks in real time (Sent, Delivered Double Tick, and Read Blue Tick) via webhook callback.",
+    keywords: [
+      "WhatsApp Delivery Receipt Webhook",
+      "WhatsApp Blue Tick Callback",
+      "message.ack Status Codes",
+    ],
+  },
+  "webhooks/events/message-sent": {
+    seoTitle: "Webhook Event: message.sent Dispatch API",
+    seoDescription:
+      "Immediate confirmation webhook dispatched when outbound WhatsApp messages are successfully handed over to WhatsApp servers.",
+    keywords: [
+      "WhatsApp Message Sent Webhook",
+      "Outbound WhatsApp Confirmation",
+    ],
+  },
+  "webhooks/events/device-status": {
+    seoTitle: "Webhook Event: device.status Health API",
+    seoDescription:
+      "Monitor WhatsApp device connection state changes (ONLINE, OFFLINE, HIBERNATED, LOGGED_OUT) with automatic alerting payloads.",
+    keywords: [
+      "WhatsApp Device Status Webhook",
+      "WhatsApp Disconnect Alert",
+      "Device Health Monitoring API",
+    ],
+  },
+  "webhooks/events/device-qr": {
+    seoTitle: "Webhook Event: device.qr Streaming API",
+    seoDescription:
+      "Real-time streaming Base64 QR code and raw pairing strings for custom WhatsApp web login and pairing screens.",
+    keywords: [
+      "WhatsApp QR Webhook Stream",
+      "Headless WhatsApp Pairing",
+      "Custom WhatsApp QR Login",
+    ],
+  },
 };
 
 /**

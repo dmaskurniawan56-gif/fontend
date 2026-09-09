@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { UserActivityItem } from "@/modules/admin/types/admin.types";
-import { DeleteActivityConfirmModal } from "./DeleteActivityConfirmModal";
+
+const DeleteActivityConfirmModal = dynamic(
+  () => import("./DeleteActivityConfirmModal").then((m) => m.DeleteActivityConfirmModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

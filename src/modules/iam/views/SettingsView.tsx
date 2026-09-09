@@ -5,10 +5,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { authApi } from "@/modules/iam/api/auth.api";
 import { userApi } from "@/modules/iam/api/user.api";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ApiKeyConfirmModal } from "@/modules/iam/components/settings/ApiKeyConfirmModal";
+
+const ApiKeyConfirmModal = dynamic(
+  () =>
+    import("@/modules/iam/components/settings/ApiKeyConfirmModal").then(
+      (m) => m.ApiKeyConfirmModal
+    ),
+  { ssr: false }
+);
 import { ProfileInfoCard } from "@/modules/iam/components/settings/ProfileInfoCard";
 import { ActiveSessionsCard } from "@/modules/iam/components/settings/ActiveSessionsCard";
 import { WebhookConfigCard } from "@/modules/subscription/components/webhooks/WebhookConfigCard";

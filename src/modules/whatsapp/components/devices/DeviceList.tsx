@@ -81,6 +81,13 @@ export function DeviceList() {
     setSearchQuery(val.trim());
   };
 
+  const handleSearchChange = (val: string) => {
+    setSearchInput(val);
+    if (!val.trim() && searchQuery) {
+      setSearchQuery("");
+    }
+  };
+
   const handleSearchClear = () => {
     setSearchInput("");
     setSearchQuery("");
@@ -214,7 +221,7 @@ export function DeviceList() {
           <div className="flex-1">
             <SearchInput
               value={searchInput}
-              onChange={setSearchInput}
+              onChange={handleSearchChange}
               onSearch={handleSearchSubmit}
               onClear={handleSearchClear}
               placeholder={t("whatsapp.searchPlaceholder")}

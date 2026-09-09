@@ -3,8 +3,13 @@
 import React, { useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAdminBilling } from "@/modules/admin/hooks/useAdminBilling";
+import dynamic from "next/dynamic";
 import { AdminBillingItem } from "@/modules/admin/types/admin.types";
-import { UpdateBillingStatusModal } from "./UpdateBillingStatusModal";
+
+const UpdateBillingStatusModal = dynamic(
+  () => import("./UpdateBillingStatusModal").then((m) => m.UpdateBillingStatusModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

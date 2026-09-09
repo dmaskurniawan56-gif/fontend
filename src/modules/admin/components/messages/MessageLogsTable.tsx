@@ -1,10 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { AdminMessageLogItem } from "@/modules/admin/types/admin.types";
 import { useI18n } from "@/lib/i18n/context";
-import { DeleteMessageModal } from "./DeleteMessageModal";
-import { MessageDetailModal } from "./MessageDetailModal";
+
+const DeleteMessageModal = dynamic(
+  () => import("./DeleteMessageModal").then((m) => m.DeleteMessageModal),
+  { ssr: false }
+);
+const MessageDetailModal = dynamic(
+  () => import("./MessageDetailModal").then((m) => m.MessageDetailModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

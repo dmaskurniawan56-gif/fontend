@@ -1,10 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { AdminDeviceItem } from "@/modules/admin/types/admin.types";
 import { useI18n } from "@/lib/i18n/context";
-import { DeleteDeviceModal } from "./DeleteDeviceModal";
-import { DeviceDetailModal } from "./DeviceDetailModal";
+
+const DeleteDeviceModal = dynamic(
+  () => import("./DeleteDeviceModal").then((m) => m.DeleteDeviceModal),
+  { ssr: false }
+);
+const DeviceDetailModal = dynamic(
+  () => import("./DeviceDetailModal").then((m) => m.DeviceDetailModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

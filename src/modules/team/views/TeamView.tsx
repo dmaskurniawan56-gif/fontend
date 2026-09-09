@@ -2,9 +2,17 @@
 
 import React, { useState, useMemo } from "react";
 import { useTeam } from "@/modules/team/hooks/useTeam";
+import dynamic from "next/dynamic";
 import { Agent } from "@/modules/team/types/team.types";
-import { DeleteTeamMemberModal } from "@/modules/team/components/modals/DeleteTeamMemberModal";
-import { AddTeamMemberModal } from "@/modules/team/components/modals/AddTeamMemberModal";
+
+const DeleteTeamMemberModal = dynamic(
+  () => import("@/modules/team/components/modals/DeleteTeamMemberModal").then((m) => m.DeleteTeamMemberModal),
+  { ssr: false }
+);
+const AddTeamMemberModal = dynamic(
+  () => import("@/modules/team/components/modals/AddTeamMemberModal").then((m) => m.AddTeamMemberModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

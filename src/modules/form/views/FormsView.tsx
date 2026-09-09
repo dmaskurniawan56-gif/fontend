@@ -16,12 +16,20 @@ import { Separator } from "@/components/ui/separator";
 import { SearchInput } from "@/components/ui/search-input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useI18n } from "@/lib/i18n/context";
+import dynamic from "next/dynamic";
 import { Form, FormType } from "../types/form.types";
 import { useForms } from "../hooks/useForms";
 import { FormCard } from "../components/FormCard";
-import { FormBuilderModal } from "../components/FormBuilderModal";
-import { DeleteFormModal } from "../components/DeleteFormModal";
 import { SubmissionsDrawer } from "../components/SubmissionsDrawer";
+
+const FormBuilderModal = dynamic(
+  () => import("../components/FormBuilderModal").then((m) => m.FormBuilderModal),
+  { ssr: false }
+);
+const DeleteFormModal = dynamic(
+  () => import("../components/DeleteFormModal").then((m) => m.DeleteFormModal),
+  { ssr: false }
+);
 
 export function FormsView() {
   const { t } = useI18n();

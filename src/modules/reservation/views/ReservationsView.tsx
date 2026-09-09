@@ -15,8 +15,13 @@ import { useReservations } from "../hooks/useReservations";
 import { MonthlyCalendar } from "../components/MonthlyCalendar";
 import { DailyAgendaList } from "../components/DailyAgendaList";
 import { AddReservationForm } from "../components/AddReservationForm";
-import { DeleteReservationModal } from "../components/DeleteReservationModal";
+import dynamic from "next/dynamic";
 import { Reservation } from "../types/reservation.types";
+
+const DeleteReservationModal = dynamic(
+  () => import("../components/DeleteReservationModal").then((m) => m.DeleteReservationModal),
+  { ssr: false }
+);
 
 export function ReservationsView() {
   const { t } = useI18n();

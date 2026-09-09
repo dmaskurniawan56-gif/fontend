@@ -74,68 +74,67 @@ export function useDevices() {
   };
 
   const deleteDevice = async (id: string): Promise<void> => {
-    const previousDevices = devices;
+    const targetDevice = devices.find((d) => d.id === id);
     // Optimistic update
     setDevices((prev) => prev.filter((d) => d.id !== id));
     try {
       await whatsappApi.deleteDevice(id);
       toast.success(t("whatsapp.toastDeleted"));
     } catch (err: unknown) {
-      // Rollback to snapshot on error
-      setDevices(previousDevices);
+      // Precision rollback: restore only the target device without overwriting other devices' states
+      if (targetDevice) {
+        setDevices((prev) => (prev.some((d) => d.id === id) ? prev : [targetDevice, ...prev]));
+      }
       const msg = err instanceof Error ? err.message : "Gagal menghapus perangkat";
       toast.error(msg);
     }
   };
 
   const disconnectDevice = async (id: string): Promise<void> => {
-    const previousDevices = devices;
+    const originalStatus = devices.find((d) => d.id === id)?.status || "CONNECTED";
     // Optimistic update
     setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "DISCONNECTED" } : d)));
     try {
       await whatsappApi.disconnectDevice(id);
       toast.success(t("whatsapp.toastDisconnected"));
     } catch (err: unknown) {
-      // Rollback to snapshot on error
-      setDevices(previousDevices);
+      // Precision rollback: revert status only for target device
+      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: originalStatus } : d)));
       const msg = err instanceof Error ? err.message : "Gagal memutuskan koneksi";
       toast.error(msg);
     }
   };
 
   const hibernateDevice = async (id: string): Promise<void> => {
-    const previousDevices = devices;
+    const originalStatus = devices.find((d) => d.id === id)?.status || "CONNECTED";
     // Optimistic update
     setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "HIBERNATED" } : d)));
     try {
       await whatsappApi.hibernateDevice(id);
       toast.success(t("whatsapp.toastHibernated"));
     } catch (err: unknown) {
-      // Rollback to snapshot on error
-      setDevices(previousDevices);
+      // Precision rollback: revert status only for target device
+      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: originalStatus } : d)));
       const msg = err instanceof Error ? err.message : "Gagal menghibernasi sesi";
       toast.error(msg);
     }
   };
 
   const wakeDevice = async (id: string): Promise<void> => {
-    const previousDevices = devices;
     // Optimistic update
     setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "CONNECTED" } : d)));
     try {
       await whatsappApi.wakeDevice(id);
       toast.success(t("whatsapp.toastWoken"));
     } catch (err: unknown) {
-      // Rollback to snapshot on error
-      setDevices(previousDevices);
-      const msg = err instanceof Error ? err.message : "Gagal membangunkan sesi";
-      toast.error(msg);
-      // Auto-transition device state in UI to DISCONNECTED and clear JID/phone when wake fails (e.g. session expired)
+      // Precision rollback: Auto-transition device state in UI to DISCONNECTED and clear JID/phone when wake fails (e.g. session expired)
       setDevices((prev) =>
         prev.map((d) =>
           d.id === id ? { ...d, status: "DISCONNECTED", phone: null, jid: null } : d
         )
       );
+      const msg = err instanceof Error ? err.message : "Gagal membangunkan sesi";
+      toast.error(msg);
       // Background sync with backend
       void whatsappApi
         .getDevices()
@@ -157,18 +156,20 @@ export function useDevices() {
     id: string,
     data: { push_name?: string; webhook_url?: string | null; webhook_secret?: string | null }
   ): Promise<Device> => {
-    const previousDevices = devices;
+    const targetDevice = devices.find((d) => d.id === id);
     // Optimistic update
     setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, ...data } : d)));
     try {
       const updated = await whatsappApi.updateDevice(id, data);
       setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, ...updated } : d)));
-      toast.success("Pengaturan perangkat berhasil diperbarui");
+      toast.success(t("whatsapp.toastSettingsSaved"));
       return updated;
     } catch (err: unknown) {
-      // Rollback to snapshot on error
-      setDevices(previousDevices);
-      const msg = err instanceof Error ? err.message : "Gagal memperbarui pengaturan perangkat";
+      // Precision rollback: restore settings only for target device
+      if (targetDevice) {
+        setDevices((prev) => prev.map((d) => (d.id === id ? targetDevice : d)));
+      }
+      const msg = err instanceof Error ? err.message : "Gagal memperbarui pengaturan";
       toast.error(msg);
       throw err;
     }

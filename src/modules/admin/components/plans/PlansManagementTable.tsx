@@ -2,9 +2,17 @@
 
 import React, { useState } from "react";
 import { useAdminPlans } from "@/modules/admin/hooks/useAdminPlans";
+import dynamic from "next/dynamic";
 import { AdminPlanItem, CreatePlanInput, UpdatePlanInput } from "@/modules/admin/types/admin.types";
-import { PlanFormModal } from "./PlanFormModal";
-import { DeletePlanModal } from "./DeletePlanModal";
+
+const PlanFormModal = dynamic(
+  () => import("./PlanFormModal").then((m) => m.PlanFormModal),
+  { ssr: false }
+);
+const DeletePlanModal = dynamic(
+  () => import("./DeletePlanModal").then((m) => m.DeletePlanModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

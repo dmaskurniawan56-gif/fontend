@@ -1,10 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { AdminQueueItem } from "@/modules/admin/types/admin.types";
 import { useI18n } from "@/lib/i18n/context";
-import { DeleteQueueModal } from "./DeleteQueueModal";
-import { QueueDetailModal } from "./QueueDetailModal";
+
+const DeleteQueueModal = dynamic(
+  () => import("./DeleteQueueModal").then((m) => m.DeleteQueueModal),
+  { ssr: false }
+);
+const QueueDetailModal = dynamic(
+  () => import("./QueueDetailModal").then((m) => m.QueueDetailModal),
+  { ssr: false }
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";

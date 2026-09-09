@@ -77,11 +77,19 @@ interface RequestOptions extends RequestInit {
   idempotencyKey?: string;
   timeoutMs?: number;
   retries?: number;
+  dedupe?: boolean;
 }
 
 let isRedirectingToLogin = false;
 
 class HttpClient {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private inFlightRequests = new Map<string, Promise<any>>();
+
+  public clearDedupeCache(): void {
+    this.inFlightRequests.clear();
+  }
+
   private getAuthToken(): string | null {
     if (typeof window === "undefined") return null;
     // 1. Try Cookie First
@@ -150,10 +158,22 @@ class HttpClient {
     }
 
     const fullUrl = this.buildUrl(endpoint, params);
+    const method = (customConfig.method || "GET").toUpperCase();
+    const shouldDedupe =
+      options.dedupe !== false &&
+      method === "GET" &&
+      !customConfig.body &&
+      !customConfig.signal;
+    const dedupeKey = shouldDedupe ? `${method}:${fullUrl}:${authToken || "anon"}` : null;
 
-    // Timeout Abort Controller combined with caller's custom signal
-    const timeoutController = new AbortController();
-    const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
+    if (dedupeKey && this.inFlightRequests.has(dedupeKey)) {
+      return this.inFlightRequests.get(dedupeKey) as Promise<ApiResponse<T>>;
+    }
+
+    const execute = async (): Promise<ApiResponse<T>> => {
+      // Timeout Abort Controller combined with caller's custom signal
+      const timeoutController = new AbortController();
+      const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
 
     let combinedSignal: AbortSignal = timeoutController.signal;
     let cleanupSignalListeners: (() => void) | null = null;
@@ -288,6 +308,17 @@ class HttpClient {
       clearTimeout(timeoutId);
       cleanupSignalListeners?.();
     }
+  };
+
+    if (dedupeKey) {
+      const pendingPromise = execute().finally(() => {
+        this.inFlightRequests.delete(dedupeKey);
+      });
+      this.inFlightRequests.set(dedupeKey, pendingPromise);
+      return pendingPromise;
+    }
+
+    return execute();
   }
 
   public get<T = unknown>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {

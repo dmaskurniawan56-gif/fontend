@@ -38,7 +38,9 @@ export function DashboardUserNav() {
           {user.name.charAt(0).toUpperCase()}
         </div>
         <div className="hidden flex-col text-left md:flex">
-          <span className="text-foreground text-xs leading-tight font-bold">{user.name}</span>
+          <span className="text-foreground text-xs leading-tight font-bold">
+            {user.name}
+          </span>
           <span className="text-foreground-muted text-[10px] font-semibold tracking-wider uppercase">
             {user.role} {tenant ? `• ${tenant.planName}` : ""}
           </span>
@@ -46,9 +48,15 @@ export function DashboardUserNav() {
         <ChevronDown className="text-foreground-muted hidden size-3.5 md:block" />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" sideOffset={8} className="w-56 p-1.5 shadow-xl">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="w-56 p-1.5 shadow-xl"
+      >
         <DropdownMenuLabel className="border-border/60 border-b px-2.5 py-2">
-          <p className="text-foreground truncate text-xs font-bold">{user.name}</p>
+          <p className="text-foreground truncate text-xs font-bold">
+            {user.name}
+          </p>
           <p className="text-foreground-muted truncate font-mono text-[11px] font-semibold">
             {user.email}
           </p>

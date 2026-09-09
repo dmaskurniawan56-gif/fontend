@@ -34,19 +34,23 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
   const pathname = usePathname();
 
   // Initialize open sections: Auto-open the section containing current pathname and Getting Started
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>(() => {
-    const initial: Record<string, boolean> = {};
-    sections.forEach((section) => {
-      const hasActiveItem = section.items.some((item) => item.path === pathname);
-      initial[section.id] = hasActiveItem || section.id === "getting-started";
-    });
-    return initial;
-  });
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(
+    () => {
+      const initial: Record<string, boolean> = {};
+      sections.forEach((section) => {
+        const hasActiveItem = section.items.some(
+          (item) => item.path === pathname,
+        );
+        initial[section.id] = hasActiveItem || section.id === "getting-started";
+      });
+      return initial;
+    },
+  );
 
   // Context-Aware Auto-Expansion: Keep active section open whenever pathname changes
   useEffect(() => {
     const activeSection = sections.find((section) =>
-      section.items.some((item) => item.path === pathname)
+      section.items.some((item) => item.path === pathname),
     );
     if (activeSection) {
       setOpenSections((prev) => ({
@@ -129,7 +133,9 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
         {sections.map((section) => {
           const IconComponent = section.icon ? ICON_MAP[section.icon] : null;
           const isOpen = !!openSections[section.id];
-          const hasActiveChild = section.items.some((item) => item.path === pathname);
+          const hasActiveChild = section.items.some(
+            (item) => item.path === pathname,
+          );
 
           return (
             <div key={section.id} className="space-y-1">

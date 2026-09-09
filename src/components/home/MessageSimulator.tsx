@@ -88,7 +88,11 @@ export function MessageSimulator() {
             label: t("common.landing.showcase.tabMedia"),
             icon: FileText,
           },
-          { id: "OTP" as MessageType, label: t("common.landing.showcase.tabOtp"), icon: KeyRound },
+          {
+            id: "OTP" as MessageType,
+            label: t("common.landing.showcase.tabOtp"),
+            icon: KeyRound,
+          },
           {
             id: "BUTTON" as MessageType,
             label: t("common.landing.showcase.tabButton"),
@@ -135,11 +139,15 @@ export function MessageSimulator() {
                 <ShieldCheck className="text-wise-green inline size-3" />
               </div>
               <div className="font-mono text-[10px] text-white/80">
-                {isSimulating ? "mengetik pesan..." : "+62 877-1113-01818 • Online"}
+                {isSimulating
+                  ? "mengetik pesan..."
+                  : "+62 877-1113-01818 • Online"}
               </div>
             </div>
           </div>
-          <div className="font-mono text-[10px] text-white/75">Gateway Node 01</div>
+          <div className="font-mono text-[10px] text-white/75">
+            Gateway Node 01
+          </div>
         </div>
 
         {/* Message Bubble Content based on activeTab */}
@@ -149,12 +157,12 @@ export function MessageSimulator() {
               {activeTab === "TEXT" && (
                 <div className="space-y-1 text-xs leading-relaxed text-white/95">
                   <p>
-                    Halo <strong>Budi Santoso</strong>! Pesanan #INV-9821 telah kami konfirmasi dan
-                    saat ini dalam proses pengemasan.
+                    Halo <strong>Budi Santoso</strong>! Pesanan #INV-9821 telah
+                    kami konfirmasi dan saat ini dalam proses pengemasan.
                   </p>
                   <p className="text-[11px] text-white/85">
-                    Estimasi pengiriman tiba besok sore via JNE Reguler. Terima kasih telah
-                    berbelanja!
+                    Estimasi pengiriman tiba besok sore via JNE Reguler. Terima
+                    kasih telah berbelanja!
                   </p>
                 </div>
               )}
@@ -180,12 +188,15 @@ export function MessageSimulator() {
 
               {activeTab === "OTP" && (
                 <div className="space-y-2 text-xs">
-                  <p className="text-white/90">Kode Verifikasi Keamanan Akun Anda:</p>
+                  <p className="text-white/90">
+                    Kode Verifikasi Keamanan Akun Anda:
+                  </p>
                   <div className="border-wise-green/40 text-wise-green rounded border bg-black/60 p-2.5 text-center font-mono text-lg font-black tracking-widest">
                     849 - 201
                   </div>
                   <p className="text-[10px] text-white/80">
-                    Jangan bagikan kode ini kepada siapa pun termasuk staf Wahide. Berlaku 5 menit.
+                    Jangan bagikan kode ini kepada siapa pun termasuk staf
+                    Wahide. Berlaku 5 menit.
                   </p>
                 </div>
               )}
@@ -193,8 +204,8 @@ export function MessageSimulator() {
               {activeTab === "BUTTON" && (
                 <div className="space-y-2.5 text-xs">
                   <p className="text-white/95">
-                    Tiket bantuan #TKT-4412 telah selesai diproses oleh tim CS. Silakan pilih
-                    tindakan selanjutnya:
+                    Tiket bantuan #TKT-4412 telah selesai diproses oleh tim CS.
+                    Silakan pilih tindakan selanjutnya:
                   </p>
                   <div className="space-y-1.5 pt-1">
                     <button className="text-wise-green flex h-8 w-full items-center justify-center gap-1.5 rounded border border-white/10 bg-white/10 px-3 text-[11px] font-bold transition hover:bg-white/15">
@@ -212,7 +223,8 @@ export function MessageSimulator() {
               {activeTab === "LIST" && (
                 <div className="space-y-2.5 text-xs">
                   <p className="text-white/95">
-                    Selamat datang di Bot Otomasi Wahide! Silakan pilih opsi layanan:
+                    Selamat datang di Bot Otomasi Wahide! Silakan pilih opsi
+                    layanan:
                   </p>
                   <div className="space-y-1.5 rounded border border-white/10 bg-black/40 p-2">
                     <div className="text-[10px] font-bold tracking-wider text-white/80 uppercase">

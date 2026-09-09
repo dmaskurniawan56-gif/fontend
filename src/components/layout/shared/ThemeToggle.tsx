@@ -10,7 +10,7 @@ function useIsMounted() {
   return React.useSyncExternalStore(
     subscribe,
     () => true,
-    () => false
+    () => false,
   );
 }
 

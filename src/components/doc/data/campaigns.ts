@@ -6,7 +6,8 @@ export const campaignsEndpoints: EndpointDoc[] = [
     id: "campaigns-list",
     slug: "campaigns/list",
     title: "List Campaigns",
-    description: "Fetch broadcast campaigns, their delivery progress, and schedule states.",
+    description:
+      "Fetch broadcast campaigns, their delivery progress, and schedule states.",
     category: "Campaigns & Broadcasts",
     categorySlug: "campaigns",
     method: "GET",
@@ -16,7 +17,8 @@ export const campaignsEndpoints: EndpointDoc[] = [
         name: "status",
         type: "string",
         required: false,
-        description: "Filter by status: 'DRAFT', 'RUNNING', 'PAUSED', 'COMPLETED'.",
+        description:
+          "Filter by status: 'DRAFT', 'RUNNING', 'PAUSED', 'COMPLETED'.",
         example: "RUNNING",
       },
       {
@@ -128,7 +130,8 @@ func main() {
     id: "campaigns-create",
     slug: "campaigns/create",
     title: "Create Campaign",
-    description: "Configures a new broadcast queue with rate limits, jitter, and target contact tags.",
+    description:
+      "Configures a new broadcast queue with rate limits, jitter, and target contact tags.",
     category: "Campaigns & Broadcasts",
     categorySlug: "campaigns",
     method: "POST",
@@ -145,7 +148,8 @@ func main() {
         name: "message_template",
         type: "string",
         required: true,
-        description: "Message template with variables like {{name}} and Spintax.",
+        description:
+          "Message template with variables like {{name}} and Spintax.",
         example: "{Hi|Hello} {{name}}, our flash sale is live!",
       },
       {
@@ -160,7 +164,8 @@ func main() {
         type: "integer",
         required: false,
         defaultValue: "5",
-        description: "Minimum jitter delay between outbound dispatches (anti-ban).",
+        description:
+          "Minimum jitter delay between outbound dispatches (anti-ban).",
       },
       {
         name: "max_delay_seconds",
@@ -294,7 +299,8 @@ func main() {
     id: "campaigns-start",
     slug: "campaigns/start",
     title: "Start Campaign",
-    description: "Triggers the Redis Streams background worker to begin dispatching queued messages.",
+    description:
+      "Triggers the Redis Streams background worker to begin dispatching queued messages.",
     category: "Campaigns & Broadcasts",
     categorySlug: "campaigns",
     method: "POST",
@@ -484,7 +490,8 @@ func main() {
     id: "campaigns-logs",
     slug: "campaigns/logs",
     title: "Campaign Delivery Logs",
-    description: "Inspect message-by-message delivery status, timestamps, and error codes for a campaign.",
+    description:
+      "Inspect message-by-message delivery status, timestamps, and error codes for a campaign.",
     category: "Campaigns & Broadcasts",
     categorySlug: "campaigns",
     method: "GET",

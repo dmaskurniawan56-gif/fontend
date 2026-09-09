@@ -82,7 +82,11 @@ export function ContactUsView() {
             rel="noopener noreferrer"
             className="block pt-2"
           >
-            <Button variant="primaryPill" size="default" className="w-full text-xs font-bold gap-2 shadow-xs">
+            <Button
+              variant="primaryPill"
+              size="default"
+              className="w-full text-xs font-bold gap-2 shadow-xs"
+            >
               <MessageSquare className="size-4" />
               <span>{t("contactUs.btnChatWhatsApp")}</span>
             </Button>
@@ -116,7 +120,11 @@ export function ContactUsView() {
           </div>
 
           <a href="mailto:admin@hidessh.com" className="block pt-2">
-            <Button variant="outline" size="default" className="w-full rounded-full text-xs font-bold border-border hover:bg-muted/50">
+            <Button
+              variant="outline"
+              size="default"
+              className="w-full rounded-full text-xs font-bold border-border hover:bg-muted/50"
+            >
               <Mail className="size-3.5" />
               <span>{t("contactUs.btnSendEmail")}</span>
             </Button>
@@ -140,7 +148,8 @@ export function ContactUsView() {
                 {t("contactUs.cardOffice")}
               </h2>
               <p className="text-xs font-semibold text-foreground-secondary leading-relaxed">
-                Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota Semarang, Jawa Tengah 50124
+                Jl. Kampung Baris No.391, Karangturi, Kec. Semarang Tim., Kota
+                Semarang, Jawa Tengah 50124
               </p>
             </div>
 
@@ -156,7 +165,11 @@ export function ContactUsView() {
             rel="noopener noreferrer"
             className="block pt-2"
           >
-            <Button variant="outline" size="default" className="w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5">
+            <Button
+              variant="outline"
+              size="default"
+              className="w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5"
+            >
               <MapPin className="size-3.5" />
               <span>{t("contactUs.btnOpenMaps")}</span>
               <ExternalLink className="size-3 opacity-70" />
@@ -195,7 +208,7 @@ export function ContactUsView() {
               href="/docs/intro"
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center"
+                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center",
               )}
             >
               <span>{t("contactUs.btnOpenDocs")}</span>
@@ -223,7 +236,7 @@ export function ContactUsView() {
               rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center"
+                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center",
               )}
             >
               <span>{t("contactUs.btnEnterpriseConsult")}</span>
@@ -249,7 +262,7 @@ export function ContactUsView() {
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center"
+                "w-full rounded-full text-xs font-bold border-border hover:bg-muted/50 gap-1.5 justify-center",
               )}
             >
               <span>{t("contactUs.btnDashboardSupport")}</span>

@@ -167,10 +167,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Delete WhatsApp Device Slot API",
     seoDescription:
       "Permanently delete a WhatsApp device slot from your tenant organization through the Wahide REST API.",
-    keywords: [
-      "Delete WhatsApp Device API",
-      "Remove WhatsApp Slot",
-    ],
+    keywords: ["Delete WhatsApp Device API", "Remove WhatsApp Slot"],
   },
   "contacts/list": {
     seoTitle: "List & Search WhatsApp Contacts API",
@@ -186,10 +183,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Create WhatsApp Contact API",
     seoDescription:
       "Add individual WhatsApp contact records with custom attributes and tags for broadcast personalization and CRM integration.",
-    keywords: [
-      "Create WhatsApp Contact API",
-      "Add Contact WhatsApp CRM",
-    ],
+    keywords: ["Create WhatsApp Contact API", "Add Contact WhatsApp CRM"],
   },
   "contacts/bulk-import": {
     seoTitle: "Bulk Import WhatsApp Contacts API",
@@ -205,10 +199,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Bulk Delete WhatsApp Contacts API",
     seoDescription:
       "Delete multiple WhatsApp contact records simultaneously by ID array for efficient contact database hygiene.",
-    keywords: [
-      "Bulk Delete WhatsApp Contacts",
-      "Hapus Kontak WhatsApp API",
-    ],
+    keywords: ["Bulk Delete WhatsApp Contacts", "Hapus Kontak WhatsApp API"],
   },
   "contacts/tags": {
     seoTitle: "Manage WhatsApp Contact Tags API",
@@ -244,19 +235,13 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Start WhatsApp Broadcast Campaign",
     seoDescription:
       "Trigger the Redis Streams queue worker to initiate dispatching queued WhatsApp broadcast messages across active devices.",
-    keywords: [
-      "Start WhatsApp Campaign API",
-      "Dispatch WhatsApp Broadcast",
-    ],
+    keywords: ["Start WhatsApp Campaign API", "Dispatch WhatsApp Broadcast"],
   },
   "campaigns/pause": {
     seoTitle: "Pause WhatsApp Broadcast Campaign",
     seoDescription:
       "Temporarily halt active WhatsApp broadcast message dispatching without losing current queue positions or campaign logs.",
-    keywords: [
-      "Pause WhatsApp Broadcast",
-      "Hentikan Sementara Broadcast",
-    ],
+    keywords: ["Pause WhatsApp Broadcast", "Hentikan Sementara Broadcast"],
   },
   "campaigns/logs": {
     seoTitle: "WhatsApp Campaign Delivery Logs API",
@@ -283,10 +268,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "WhatsApp Webhook Events Reference",
     seoDescription:
       "Complete JSON payload schemas for WhatsApp incoming messages, delivery receipts, and device status events in Wahide.",
-    keywords: [
-      "WhatsApp Webhook Events",
-      "WhatsApp Message Webhook JSON",
-    ],
+    keywords: ["WhatsApp Webhook Events", "WhatsApp Message Webhook JSON"],
   },
   "webhooks/events/message-received": {
     seoTitle: "Webhook Event: message.received API",
@@ -345,7 +327,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
 export function getDocSeoMetadata(
   slug: string,
   fallbackTitle: string,
-  fallbackDesc: string
+  fallbackDesc: string,
 ): DocSeoMetadata {
   const custom = SEO_DIRECTORY[slug];
   if (custom) {
@@ -353,7 +335,10 @@ export function getDocSeoMetadata(
   }
 
   // Smart fallback adhering strictly to 45 chars title & 150 chars description
-  const cleanTitle = fallbackTitle.length > 40 ? `${fallbackTitle.slice(0, 37)}...` : fallbackTitle;
+  const cleanTitle =
+    fallbackTitle.length > 40
+      ? `${fallbackTitle.slice(0, 37)}...`
+      : fallbackTitle;
   const cleanDesc =
     fallbackDesc.length > 155
       ? `${fallbackDesc.slice(0, 150).trim()}...`

@@ -20,9 +20,16 @@ export function PublicHeader() {
   const { user, isAuthenticated } = useAuth();
   const { t } = useI18n();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isClient = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot);
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
 
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string,
+  ) => {
     if (pathname === "/") {
       e.preventDefault();
       const el = document.getElementById(targetId);
@@ -33,7 +40,10 @@ export function PublicHeader() {
     }
   };
 
-  const handleMobileAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleMobileAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string,
+  ) => {
     setMobileMenuOpen(false);
     if (pathname === "/") {
       e.preventDefault();
@@ -52,7 +62,8 @@ export function PublicHeader() {
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
           <span className="h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full bg-wise-green shadow-xs transition-transform group-hover:scale-110" />
           <span className="font-black text-xl sm:text-2xl tracking-tight text-foreground">
-            Wahide<span className="text-dark-green dark:text-wise-green">.</span>
+            Wahide
+            <span className="text-dark-green dark:text-wise-green">.</span>
           </span>
         </Link>
 
@@ -98,11 +109,13 @@ export function PublicHeader() {
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: "primaryPill", size: "sm" }),
-                "gap-2 px-5 font-bold shadow-xs min-h-9"
+                "gap-2 px-5 font-bold shadow-xs min-h-9",
               )}
             >
               <User className="size-3.5" />
-              <span>{t("common.nav.dashboard")} ({user.name.split(" ")[0]})</span>
+              <span>
+                {t("common.nav.dashboard")} ({user.name.split(" ")[0]})
+              </span>
             </Link>
           ) : (
             <div className="flex items-center gap-2">
@@ -110,7 +123,7 @@ export function PublicHeader() {
                 href="/login"
                 className={cn(
                   buttonVariants({ variant: "ghost", size: "sm" }),
-                  "font-bold text-xs sm:text-sm text-foreground-secondary hover:text-foreground rounded-full px-4 min-h-9"
+                  "font-bold text-xs sm:text-sm text-foreground-secondary hover:text-foreground rounded-full px-4 min-h-9",
                 )}
               >
                 {t("common.nav.login")}
@@ -119,7 +132,7 @@ export function PublicHeader() {
                 href="/register"
                 className={cn(
                   buttonVariants({ variant: "primaryPill", size: "sm" }),
-                  "font-bold text-xs sm:text-sm gap-1.5 px-5 shadow-xs min-h-9"
+                  "font-bold text-xs sm:text-sm gap-1.5 px-5 shadow-xs min-h-9",
                 )}
               >
                 <span>{t("common.nav.register")}</span>
@@ -138,7 +151,11 @@ export function PublicHeader() {
             className="p-2 rounded-full text-foreground-secondary hover:text-foreground hover:bg-muted/60 transition min-size-10 flex items-center justify-center"
             aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+            {mobileMenuOpen ? (
+              <X className="size-6" />
+            ) : (
+              <Menu className="size-6" />
+            )}
           </button>
         </div>
       </div>
@@ -184,11 +201,13 @@ export function PublicHeader() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
                   buttonVariants({ variant: "primaryPill", size: "default" }),
-                  "w-full gap-2 font-bold shadow-xs min-h-11"
+                  "w-full gap-2 font-bold shadow-xs min-h-11",
                 )}
               >
                 <User className="size-4" />
-                <span>{t("common.nav.dashboard")} ({user.name.split(" ")[0]})</span>
+                <span>
+                  {t("common.nav.dashboard")} ({user.name.split(" ")[0]})
+                </span>
               </Link>
             ) : (
               <>
@@ -197,7 +216,7 @@ export function PublicHeader() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     buttonVariants({ variant: "outline", size: "default" }),
-                    "w-full rounded-full font-bold border-border min-h-11"
+                    "w-full rounded-full font-bold border-border min-h-11",
                   )}
                 >
                   {t("common.nav.login")}
@@ -207,7 +226,7 @@ export function PublicHeader() {
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     buttonVariants({ variant: "primaryPill", size: "default" }),
-                    "w-full font-bold shadow-sm min-h-11"
+                    "w-full font-bold shadow-sm min-h-11",
                   )}
                 >
                   {t("common.nav.register")}

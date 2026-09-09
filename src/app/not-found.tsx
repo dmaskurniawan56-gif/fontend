@@ -37,7 +37,11 @@ export default function NotFound() {
         {/* Primary Action Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <Link href="/">
-            <Button variant="primaryPill" size="default" className="gap-2 px-6 shadow-sm">
+            <Button
+              variant="primaryPill"
+              size="default"
+              className="gap-2 px-6 shadow-sm"
+            >
               <Home className="size-4" />
               <span>{t("common.errors.notFound.backHome")}</span>
             </Button>
@@ -66,15 +70,24 @@ export default function NotFound() {
               {t("common.errors.notFound.dashboardBtn")}
             </Link>
             <span>•</span>
-            <Link href="/pricing" className="dark:text-wise-green text-emerald-700 hover:underline">
+            <Link
+              href="/pricing"
+              className="dark:text-wise-green text-emerald-700 hover:underline"
+            >
               {t("common.nav.pricing")}
             </Link>
             <span>•</span>
-            <Link href="/blog" className="dark:text-wise-green text-emerald-700 hover:underline">
+            <Link
+              href="/blog"
+              className="dark:text-wise-green text-emerald-700 hover:underline"
+            >
               Blog &amp; Panduan
             </Link>
             <span>•</span>
-            <Link href="/about" className="dark:text-wise-green text-emerald-700 hover:underline">
+            <Link
+              href="/about"
+              className="dark:text-wise-green text-emerald-700 hover:underline"
+            >
               Tentang Kami
             </Link>
           </div>

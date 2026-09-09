@@ -40,7 +40,13 @@ export {
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
 export { getApiBaseUrl, getApiHost } from "./env";
 
-export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc, webhooksGuideDoc, n8nDoc];
+export const allGuides: GuideDoc[] = [
+  introDoc,
+  authenticationDoc,
+  errorsDoc,
+  webhooksGuideDoc,
+  n8nDoc,
+];
 
 export const allEndpoints: EndpointDoc[] = [
   ...devicesEndpoints,
@@ -87,11 +93,23 @@ export function searchDocs(query: string): DocItem[] {
     if (doc.description.toLowerCase().includes(q)) return true;
     if (doc.type === "endpoint") {
       if (doc.path.toLowerCase().includes(q)) return true;
-      if (doc.parameters.some((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))) {
+      if (
+        doc.parameters.some(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q),
+        )
+      ) {
         return true;
       }
     } else {
-      if (doc.sections.some((s) => s.title.toLowerCase().includes(q) || s.content.toLowerCase().includes(q))) {
+      if (
+        doc.sections.some(
+          (s) =>
+            s.title.toLowerCase().includes(q) ||
+            s.content.toLowerCase().includes(q),
+        )
+      ) {
         return true;
       }
     }

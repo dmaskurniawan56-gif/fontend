@@ -295,19 +295,22 @@ export const webhooksReceivedDoc: EndpointDoc = {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
       required: true,
-      description: "Official authentication header containing your Tenant or Device Webhook Secret (whsec_live_... or whsec_dev_...).",
+      description:
+        "Official authentication header containing your Tenant or Device Webhook Secret (whsec_live_... or whsec_dev_...).",
     },
     {
       key: "X-Wahide-Delivery-ID",
       value: "01JPLAN0000000000000000099",
       required: true,
-      description: "Unique ULID delivery identifier generated per webhook attempt for idempotency and de-duplication.",
+      description:
+        "Unique ULID delivery identifier generated per webhook attempt for idempotency and de-duplication.",
     },
     {
       key: "X-Wahide-Event",
       value: "message.received",
       required: true,
-      description: "Granular event type header matching the event field in payload.",
+      description:
+        "Granular event type header matching the event field in payload.",
     },
     {
       key: "X-Wahide-Device-ID",
@@ -319,7 +322,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       key: "X-Wahide-Timestamp",
       value: "1725845000",
       required: true,
-      description: "Unix epoch timestamp in seconds when the webhook was dispatched.",
+      description:
+        "Unix epoch timestamp in seconds when the webhook was dispatched.",
     },
     {
       key: "User-Agent",
@@ -333,21 +337,24 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "event",
       type: "string",
       required: true,
-      description: "Event identifier. For incoming messages, value is always 'message.received'.",
+      description:
+        "Event identifier. For incoming messages, value is always 'message.received'.",
       example: "message.received",
     },
     {
       name: "device_id",
       type: "string",
       required: true,
-      description: "Unique WhatsApp device slot ID in Wahide that received the message.",
+      description:
+        "Unique WhatsApp device slot ID in Wahide that received the message.",
       example: "01JPLAN0000000000000000001",
     },
     {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp in seconds when the event was dispatched by Wahide.",
+      description:
+        "Unix epoch timestamp in seconds when the event was dispatched by Wahide.",
       example: "1725845000",
     },
     {
@@ -369,7 +376,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.sender",
       type: "string",
       required: true,
-      description: "Normalized sender phone number in E.164 format without special characters.",
+      description:
+        "Normalized sender phone number in E.164 format without special characters.",
       example: "6281234567890",
       depth: 1,
       parent: "data",
@@ -378,7 +386,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.sender_jid",
       type: "string",
       required: true,
-      description: "Official WhatsApp Jabber ID of the sender (e.g. 6281234567890@s.whatsapp.net).",
+      description:
+        "Official WhatsApp Jabber ID of the sender (e.g. 6281234567890@s.whatsapp.net).",
       example: "6281234567890@s.whatsapp.net",
       depth: 1,
       parent: "data",
@@ -396,7 +405,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.text",
       type: "string",
       required: true,
-      description: "Text body content or image/document caption sent by the customer.",
+      description:
+        "Text body content or image/document caption sent by the customer.",
       example: "Please check the attached payment proof",
       depth: 1,
       parent: "data",
@@ -405,7 +415,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.has_media",
       type: "boolean",
       required: true,
-      description: "Indicates whether the message includes an attachment (Photo or PDF Document).",
+      description:
+        "Indicates whether the message includes an attachment (Photo or PDF Document).",
       example: "true",
       depth: 1,
       parent: "data",
@@ -414,7 +425,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media",
       type: "object",
       required: false,
-      description: "Decrypted media object stored in Cloudflare R2 (null if no media or rejected).",
+      description:
+        "Decrypted media object stored in Cloudflare R2 (null if no media or rejected).",
       depth: 1,
       parent: "data",
     },
@@ -422,7 +434,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media.type",
       type: "string",
       required: false,
-      description: "Media category: 'image' for JPEG/PNG/WebP photos, or 'document' for PDF files.",
+      description:
+        "Media category: 'image' for JPEG/PNG/WebP photos, or 'document' for PDF files.",
       example: "image",
       depth: 2,
       parent: "data.media",
@@ -431,8 +444,10 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media.url",
       type: "string",
       required: false,
-      description: "Direct public Cloudflare R2 CDN URL to download the attachment ($0 egress fee).",
-      example: "https://pub-r2.wahide.com/tmp/whatsapp-media/01JPLAN000/2026/09/01JPLANXYZ123456.jpg",
+      description:
+        "Direct public Cloudflare R2 CDN URL to download the attachment ($0 egress fee).",
+      example:
+        "https://pub-r2.wahide.com/tmp/whatsapp-media/01JPLAN000/2026/09/01JPLANXYZ123456.jpg",
       depth: 2,
       parent: "data.media",
     },
@@ -440,7 +455,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media.file_name",
       type: "string",
       required: false,
-      description: "Original filename or generated filename with appropriate extension.",
+      description:
+        "Original filename or generated filename with appropriate extension.",
       example: "payment_receipt.jpg",
       depth: 2,
       parent: "data.media",
@@ -449,7 +465,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media.mime_type",
       type: "string",
       required: false,
-      description: "Standard MIME type of the file (e.g. image/jpeg, image/png, application/pdf).",
+      description:
+        "Standard MIME type of the file (e.g. image/jpeg, image/png, application/pdf).",
       example: "image/jpeg",
       depth: 2,
       parent: "data.media",
@@ -467,7 +484,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.media_error",
       type: "string",
       required: false,
-      description: "Diagnostic error code if attachment was skipped ('file_size_exceeded_1mb', 'unsupported_media_type', 'storage_unavailable').",
+      description:
+        "Diagnostic error code if attachment was skipped ('file_size_exceeded_1mb', 'unsupported_media_type', 'storage_unavailable').",
       example: "file_size_exceeded_1mb",
       depth: 1,
       parent: "data",
@@ -476,7 +494,8 @@ export const webhooksReceivedDoc: EndpointDoc = {
       name: "data.timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp when the message was sent by the customer.",
+      description:
+        "Unix epoch timestamp when the message was sent by the customer.",
       example: "1725844998",
       depth: 1,
       parent: "data",
@@ -551,7 +570,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
     {
       status: 200,
       statusText: "OK",
-      description: "Mandatory HTTP acknowledgment response required from your server to confirm successful event receipt.",
+      description:
+        "Mandatory HTTP acknowledgment response required from your server to confirm successful event receipt.",
       json: `{\\n  "status": "success",\\n  "received": true\\n}`,
       attributes: [
         {
@@ -604,7 +624,8 @@ export const webhooksAckDoc: EndpointDoc = {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
       required: true,
-      description: "Official authentication header containing your Tenant or Device Webhook Secret.",
+      description:
+        "Official authentication header containing your Tenant or Device Webhook Secret.",
     },
     {
       key: "User-Agent",
@@ -625,14 +646,16 @@ export const webhooksAckDoc: EndpointDoc = {
       name: "device_id",
       type: "string",
       required: true,
-      description: "Unique WhatsApp device slot ID that reported the delivery receipt.",
+      description:
+        "Unique WhatsApp device slot ID that reported the delivery receipt.",
       example: "01JPLAN0000000000000000001",
     },
     {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp in seconds when the receipt was processed.",
+      description:
+        "Unix epoch timestamp in seconds when the receipt was processed.",
       example: "1725845015",
     },
     {
@@ -645,7 +668,8 @@ export const webhooksAckDoc: EndpointDoc = {
       name: "data.message_id",
       type: "string",
       required: true,
-      description: "Unique WhatsApp message ID corresponding to the sent message.",
+      description:
+        "Unique WhatsApp message ID corresponding to the sent message.",
       example: "3EB0A1B2C3D4E5F6",
       depth: 1,
       parent: "data",
@@ -672,7 +696,8 @@ export const webhooksAckDoc: EndpointDoc = {
       name: "data.status",
       type: "string",
       required: true,
-      description: "Human-readable delivery receipt status: 'sent', 'delivered', 'read', or 'played'.",
+      description:
+        "Human-readable delivery receipt status: 'sent', 'delivered', 'read', or 'played'.",
       example: "read",
       depth: 1,
       parent: "data",
@@ -681,7 +706,8 @@ export const webhooksAckDoc: EndpointDoc = {
       name: "data.status_code",
       type: "integer",
       required: true,
-      description: "Numeric receipt code: 1 (Sent to Server), 2 (Delivered / Double Grey Tick), 3 (Read / Double Blue Tick), 4 (Audio Played).",
+      description:
+        "Numeric receipt code: 1 (Sent to Server), 2 (Delivered / Double Grey Tick), 3 (Read / Double Blue Tick), 4 (Audio Played).",
       example: "3",
       depth: 1,
       parent: "data",
@@ -690,7 +716,8 @@ export const webhooksAckDoc: EndpointDoc = {
       name: "data.timestamp",
       type: "integer",
       required: true,
-      description: "Unix timestamp when the receipt state was triggered on recipient device.",
+      description:
+        "Unix timestamp when the receipt state was triggered on recipient device.",
       example: "1725845014",
       depth: 1,
       parent: "data",
@@ -746,7 +773,8 @@ func handleAck(w http.ResponseWriter, r *http.Request) {
     {
       status: 200,
       statusText: "OK",
-      description: "Acknowledgment response confirming receipt of the delivery status update.",
+      description:
+        "Acknowledgment response confirming receipt of the delivery status update.",
       json: `{\\n  "status": "success",\\n  "acknowledged": true\\n}`,
       attributes: [
         {
@@ -791,7 +819,8 @@ export const webhooksSentDoc: EndpointDoc = {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
       required: true,
-      description: "Official authentication header containing your Tenant or Device Webhook Secret.",
+      description:
+        "Official authentication header containing your Tenant or Device Webhook Secret.",
     },
   ],
   parameters: [
@@ -806,14 +835,16 @@ export const webhooksSentDoc: EndpointDoc = {
       name: "device_id",
       type: "string",
       required: true,
-      description: "Unique WhatsApp device slot ID that dispatched the message.",
+      description:
+        "Unique WhatsApp device slot ID that dispatched the message.",
       example: "01JPLAN0000000000000000001",
     },
     {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp in seconds when the message was dispatched.",
+      description:
+        "Unix epoch timestamp in seconds when the message was dispatched.",
       example: "1725845010",
     },
     {
@@ -927,7 +958,8 @@ func handleSent(w http.ResponseWriter, r *http.Request) {
     {
       status: 200,
       statusText: "OK",
-      description: "Acknowledgment confirming receipt of the outbound sent event.",
+      description:
+        "Acknowledgment confirming receipt of the outbound sent event.",
       json: `{\\n  "status": "success"\\n}`,
     },
   ],
@@ -965,7 +997,8 @@ export const webhooksStatusDoc: EndpointDoc = {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
       required: true,
-      description: "Official authentication header containing your Tenant or Device Webhook Secret.",
+      description:
+        "Official authentication header containing your Tenant or Device Webhook Secret.",
     },
   ],
   parameters: [
@@ -987,20 +1020,23 @@ export const webhooksStatusDoc: EndpointDoc = {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp in seconds when the state transition occurred.",
+      description:
+        "Unix epoch timestamp in seconds when the state transition occurred.",
       example: "1725845100",
     },
     {
       name: "data",
       type: "object",
       required: true,
-      description: "Container object holding device health and connection status.",
+      description:
+        "Container object holding device health and connection status.",
     },
     {
       name: "data.device_name",
       type: "string",
       required: true,
-      description: "Descriptive label assigned to this device in the dashboard.",
+      description:
+        "Descriptive label assigned to this device in the dashboard.",
       example: "Customer Service CS-1",
       depth: 1,
       parent: "data",
@@ -1018,7 +1054,8 @@ export const webhooksStatusDoc: EndpointDoc = {
       name: "data.status",
       type: "string",
       required: true,
-      description: "New connection state: 'ONLINE', 'OFFLINE', 'HIBERNATED', 'LOGGED_OUT', or 'COOLDOWN'.",
+      description:
+        "New connection state: 'ONLINE', 'OFFLINE', 'HIBERNATED', 'LOGGED_OUT', or 'COOLDOWN'.",
       example: "OFFLINE",
       depth: 1,
       parent: "data",
@@ -1036,7 +1073,8 @@ export const webhooksStatusDoc: EndpointDoc = {
       name: "data.heat_score",
       type: "integer",
       required: false,
-      description: "Real-time anti-ban heat score (0 to 100). Scores above 80 trigger automated safety throttling.",
+      description:
+        "Real-time anti-ban heat score (0 to 100). Scores above 80 trigger automated safety throttling.",
       example: "15",
       depth: 1,
       parent: "data",
@@ -1091,7 +1129,8 @@ func handleDeviceStatus(w http.ResponseWriter, r *http.Request) {
     {
       status: 200,
       statusText: "OK",
-      description: "Acknowledgment response confirming receipt of device status event.",
+      description:
+        "Acknowledgment response confirming receipt of device status event.",
       json: `{\\n  "status": "success"\\n}`,
     },
   ],
@@ -1129,7 +1168,8 @@ export const webhooksQrDoc: EndpointDoc = {
       key: "X-Wahide-Secret",
       value: "whsec_live_...",
       required: true,
-      description: "Official authentication header containing your Tenant or Device Webhook Secret.",
+      description:
+        "Official authentication header containing your Tenant or Device Webhook Secret.",
     },
   ],
   parameters: [
@@ -1151,7 +1191,8 @@ export const webhooksQrDoc: EndpointDoc = {
       name: "timestamp",
       type: "integer",
       required: true,
-      description: "Unix epoch timestamp in seconds when the QR code frame was generated.",
+      description:
+        "Unix epoch timestamp in seconds when the QR code frame was generated.",
       example: "1725845000",
     },
     {
@@ -1164,7 +1205,8 @@ export const webhooksQrDoc: EndpointDoc = {
       name: "data.qr_code",
       type: "string",
       required: true,
-      description: "Raw WhatsApp pairing string payload suitable for rendering with qrcode.js / react-qr-code.",
+      description:
+        "Raw WhatsApp pairing string payload suitable for rendering with qrcode.js / react-qr-code.",
       example: "2@XYZ123ABC456...==,DEF789...==,GHI012...==",
       depth: 1,
       parent: "data",
@@ -1173,7 +1215,8 @@ export const webhooksQrDoc: EndpointDoc = {
       name: "data.qr_image_url",
       type: "string",
       required: true,
-      description: "Base64 encoded Data URI image (data:image/png;base64,...) ready for direct <img src=...> rendering.",
+      description:
+        "Base64 encoded Data URI image (data:image/png;base64,...) ready for direct <img src=...> rendering.",
       example: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
       depth: 1,
       parent: "data",
@@ -1191,7 +1234,8 @@ export const webhooksQrDoc: EndpointDoc = {
       name: "data.expires_in",
       type: "integer",
       required: true,
-      description: "Validity lifetime of this QR code in seconds before a refresh frame is dispatched (typically 20 seconds).",
+      description:
+        "Validity lifetime of this QR code in seconds before a refresh frame is dispatched (typically 20 seconds).",
       example: "20",
       depth: 1,
       parent: "data",
@@ -1249,7 +1293,8 @@ func handleQR(w http.ResponseWriter, r *http.Request) {
     {
       status: 200,
       statusText: "OK",
-      description: "Acknowledgment response confirming receipt of the QR stream frame.",
+      description:
+        "Acknowledgment response confirming receipt of the QR stream frame.",
       json: `{\\n  "status": "success"\\n}`,
     },
   ],

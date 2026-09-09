@@ -67,7 +67,9 @@ export const metadata: Metadata = {
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: "/favicon.svg",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
@@ -155,7 +157,11 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="id"

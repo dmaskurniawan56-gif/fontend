@@ -18,7 +18,8 @@ export function PublicFooter() {
             <Link href="/" className="flex items-center gap-2.5 group">
               <span className="h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full bg-wise-green shadow-xs transition-transform group-hover:scale-110" />
               <span className="font-black text-xl sm:text-2xl tracking-tight text-foreground">
-                Wahide<span className="text-dark-green dark:text-wise-green">.</span>
+                Wahide
+                <span className="text-dark-green dark:text-wise-green">.</span>
               </span>
             </Link>
 
@@ -45,22 +46,34 @@ export function PublicFooter() {
             </p>
             <ul className="space-y-2.5 text-xs font-semibold text-foreground-secondary">
               <li>
-                <Link href="/#solutions" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/#solutions"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.solutionReservation")}
                 </Link>
               </li>
               <li>
-                <Link href="/#solutions" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/#solutions"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.solutionReminder")}
                 </Link>
               </li>
               <li>
-                <Link href="/#solutions" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/#solutions"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.solutionForms")}
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/#features"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.solutionBroadcast")}
                 </Link>
               </li>
@@ -83,12 +96,18 @@ export function PublicFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/#features"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.devOtp")}
                 </Link>
               </li>
               <li>
-                <Link href="/docs/webhooks" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/docs/webhooks"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.devWebhook")}
                 </Link>
               </li>
@@ -102,22 +121,34 @@ export function PublicFooter() {
             </p>
             <ul className="space-y-2.5 text-xs font-semibold text-foreground-secondary">
               <li>
-                <Link href="/about" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/about"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.about")}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/contact"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.contact")}
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/terms"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.terms")}
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-foreground transition-colors">
+                <Link
+                  href="/privacy"
+                  className="hover:text-foreground transition-colors"
+                >
                   {t("footer.privacy")}
                 </Link>
               </li>
@@ -127,7 +158,9 @@ export function PublicFooter() {
 
         {/* Footer Copyright & Trust SLA Bar */}
         <div className="pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-foreground-muted">
-          <span>&copy; {new Date().getFullYear()} Hide Group. {t("footer.rights")}</span>
+          <span>
+            &copy; {new Date().getFullYear()} Hide Group. {t("footer.rights")}
+          </span>
           <div className="flex flex-wrap items-center gap-2.5 text-[11px]">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-500/20">
               <ShieldCheck className="size-3.5" />

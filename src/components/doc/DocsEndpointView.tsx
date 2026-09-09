@@ -7,12 +7,7 @@ import { DocsParametersTable } from "./DocsParametersTable";
 import { DocsCodeTabs } from "./DocsCodeTabs";
 import { DocsResponseView } from "./DocsResponseView";
 import { getApiHost } from "./data";
-import {
-  Lock,
-  Copy,
-  Check,
-  Info,
-} from "lucide-react";
+import { Lock, Copy, Check, Info } from "lucide-react";
 
 interface DocsEndpointViewProps {
   doc: EndpointDoc;
@@ -64,7 +59,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
         <div className="flex flex-wrap items-center gap-2.5">
           <span
             className={`font-mono text-xs font-black uppercase px-2.5 py-1 rounded-md tracking-wider ${getMethodBadge(
-              doc.method
+              doc.method,
             )}`}
           >
             {doc.method}
@@ -103,15 +98,13 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
 
       {/* 4. Endpoint Box */}
       <div className="space-y-3" id="endpoint">
-        <h3 className="text-base font-bold text-foreground">
-          HTTP Endpoint
-        </h3>
+        <h3 className="text-base font-bold text-foreground">HTTP Endpoint</h3>
 
         <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 p-3.5 rounded-xl border border-border bg-card shadow-xs">
           <div className="flex items-center gap-3 font-mono text-xs overflow-x-auto min-w-0">
             <span
               className={`font-bold px-2 py-0.5 rounded uppercase shrink-0 ${getMethodBadge(
-                doc.method
+                doc.method,
               )}`}
             >
               {doc.method}
@@ -147,15 +140,14 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
 
       {/* 5. Authentication & Headers Card */}
       <div className="space-y-3" id="authentication">
-        <h3 className="text-base font-bold text-foreground">
-          Authentication
-        </h3>
+        <h3 className="text-base font-bold text-foreground">Authentication</h3>
 
         <div className="rounded-xl border border-border bg-card p-4 space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Lock className="size-3.5 text-emerald-500 shrink-0" />
             <span>
-              This endpoint requires Bearer authentication via your secret API Key.
+              This endpoint requires Bearer authentication via your secret API
+              Key.
             </span>
           </div>
 

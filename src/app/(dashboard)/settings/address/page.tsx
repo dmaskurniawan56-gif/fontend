@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 
 export default function SettingsAddressPage() {
   return (
-    <Suspense fallback={<div className="flex h-96 animate-pulse items-center justify-center" />}>
+    <Suspense
+      fallback={
+        <div className="flex h-96 animate-pulse items-center justify-center" />
+      }
+    >
       <AddressView />
     </Suspense>
   );

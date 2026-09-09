@@ -32,7 +32,9 @@ export function SellerRouteGuard({
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-foreground text-lg font-bold sm:text-xl">{fallbackTitle}</h2>
+            <h2 className="text-foreground text-lg font-bold sm:text-xl">
+              {fallbackTitle}
+            </h2>
             <p className="text-foreground-secondary text-xs leading-relaxed sm:text-sm">
               {fallbackDescription}
             </p>

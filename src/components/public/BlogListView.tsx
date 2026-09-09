@@ -82,7 +82,11 @@ export function BlogListView() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Calendar className="size-3 text-foreground-muted" />
-                    <span>{new Date(post.publishedAt).toLocaleDateString(locale === "en" ? "en-US" : "id-ID")}</span>
+                    <span>
+                      {new Date(post.publishedAt).toLocaleDateString(
+                        locale === "en" ? "en-US" : "id-ID",
+                      )}
+                    </span>
                   </span>
                 </div>
 

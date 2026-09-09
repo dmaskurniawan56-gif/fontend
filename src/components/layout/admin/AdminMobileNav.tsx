@@ -16,7 +16,11 @@ export function AdminMobileNav({ open, onClose }: AdminMobileNavProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-50 lg:hidden"
+      role="dialog"
+      aria-modal="true"
+    >
       {/* Backdrop Overlay */}
       <div
         onClick={onClose}

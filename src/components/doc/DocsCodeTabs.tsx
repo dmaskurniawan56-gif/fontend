@@ -29,7 +29,10 @@ export function DocsCodeTabs({
   const apiHost = getApiHost();
 
   const rawSnippet = snippets[activeLang] || snippets.curl || "";
-  const activeSnippet = rawSnippet.replaceAll("https://api.wahide.com", apiHost);
+  const activeSnippet = rawSnippet.replaceAll(
+    "https://api.wahide.com",
+    apiHost,
+  );
 
   const handleCopy = async () => {
     try {
@@ -46,9 +49,7 @@ export function DocsCodeTabs({
     <div className="space-y-3">
       {title && (
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-foreground">
-            {title}
-          </h3>
+          <h3 className="text-base font-bold text-foreground">{title}</h3>
         </div>
       )}
 

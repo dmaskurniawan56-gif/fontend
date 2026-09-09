@@ -24,8 +24,7 @@ export const otpEndpoints: EndpointDoc[] = [
         key: "Authorization",
         value: "Bearer hide_<your_api_key>",
         required: true,
-        description:
-          "Your secret Wahide API Key prefixed with Bearer.",
+        description: "Your secret Wahide API Key prefixed with Bearer.",
       },
       {
         key: "Content-Type",
@@ -59,7 +58,8 @@ export const otpEndpoints: EndpointDoc[] = [
         defaultValue: `"Your verification code is *{{otp}}*. Keep this code confidential. Valid for 5 minutes."`,
         description:
           "Custom message template body. Must include the '{{otp}}' placeholder which will be replaced by the generated OTP code.",
-        example: "Your login verification code is *{{otp}}*. Do not share this code with anyone.",
+        example:
+          "Your login verification code is *{{otp}}*. Do not share this code with anyone.",
       },
       {
         name: "device_id",
@@ -201,7 +201,8 @@ func main() {
       {
         status: 200,
         statusText: "OK",
-        description: "OTP generated, stored in Redis cache, and queued for instant WhatsApp delivery.",
+        description:
+          "OTP generated, stored in Redis cache, and queued for instant WhatsApp delivery.",
         json: `{
   "code": 200,
   "status": "success",
@@ -221,19 +222,22 @@ func main() {
           {
             name: "data.expires_in",
             type: "integer",
-            description: "Remaining validity period in seconds (default: 300s).",
+            description:
+              "Remaining validity period in seconds (default: 300s).",
           },
           {
             name: "data.cooldown",
             type: "integer",
-            description: "Minimum interval in seconds before the next OTP request is allowed (60s).",
+            description:
+              "Minimum interval in seconds before the next OTP request is allowed (60s).",
           },
         ],
       },
       {
         status: 429,
         statusText: "Too Many Requests",
-        description: "Request rejected due to active cooldown timer or daily limit.",
+        description:
+          "Request rejected due to active cooldown timer or daily limit.",
         json: `{
   "code": 429,
   "status": "error",
@@ -257,26 +261,34 @@ func main() {
       {
         code: 429,
         error: "ERR_OTP_COOLDOWN",
-        description: "New OTP request submitted before the 60-second cooldown elapsed.",
-        solution: "Display a 60-second countdown timer on your application's 'Resend OTP' button.",
+        description:
+          "New OTP request submitted before the 60-second cooldown elapsed.",
+        solution:
+          "Display a 60-second countdown timer on your application's 'Resend OTP' button.",
       },
       {
         code: 429,
         error: "ERR_OTP_DAILY_LIMIT",
-        description: "Daily limit quota (10x OTP/day) for this destination phone number has been reached.",
-        solution: "Prompt the user to wait for UTC day reset or offer an alternative verification method.",
+        description:
+          "Daily limit quota (10x OTP/day) for this destination phone number has been reached.",
+        solution:
+          "Prompt the user to wait for UTC day reset or offer an alternative verification method.",
       },
       {
         code: 503,
         error: "ERR_NO_CONNECTED_DEVICE",
-        description: "Tenant has no WhatsApp device currently in 'Connected' state.",
-        solution: "Connect at least one WhatsApp device via QR code pairing in the Wahide dashboard.",
+        description:
+          "Tenant has no WhatsApp device currently in 'Connected' state.",
+        solution:
+          "Connect at least one WhatsApp device via QR code pairing in the Wahide dashboard.",
       },
       {
         code: 402,
         error: "ERR_QUOTA_EXCEEDED",
-        description: "Tenant subscription quota limit or prepaid credit balance has been exhausted.",
-        solution: "Top up your account balance or upgrade your subscription tier.",
+        description:
+          "Tenant subscription quota limit or prepaid credit balance has been exhausted.",
+        solution:
+          "Top up your account balance or upgrade your subscription tier.",
       },
     ],
   },
@@ -426,7 +438,8 @@ func main() {
       {
         status: 200,
         statusText: "OK",
-        description: "OTP code successfully validated and automatically burned from cache.",
+        description:
+          "OTP code successfully validated and automatically burned from cache.",
         json: `{
   "code": 200,
   "status": "success",
@@ -445,7 +458,8 @@ func main() {
           {
             name: "data.verified",
             type: "boolean",
-            description: "Confirmation boolean indicating successful verification.",
+            description:
+              "Confirmation boolean indicating successful verification.",
           },
         ],
       },
@@ -463,7 +477,8 @@ func main() {
       {
         status: 429,
         statusText: "Too Many Requests",
-        description: "Maximum verification attempts (5/5) exceeded. OTP has been invalidated.",
+        description:
+          "Maximum verification attempts (5/5) exceeded. OTP has been invalidated.",
         json: `{
   "code": 429,
   "status": "error",
@@ -477,19 +492,23 @@ func main() {
         code: 400,
         error: "ERR_OTP_INVALID",
         description: "Submitted OTP code does not match the stored code.",
-        solution: "Ask the user to check their WhatsApp messages and enter the correct code.",
+        solution:
+          "Ask the user to check their WhatsApp messages and enter the correct code.",
       },
       {
         code: 400,
         error: "ERR_OTP_NOT_FOUND",
-        description: "OTP code has expired (exceeded 5 minutes) or was never requested.",
-        solution: "Direct the user to tap 'Resend OTP' to receive a fresh verification code.",
+        description:
+          "OTP code has expired (exceeded 5 minutes) or was never requested.",
+        solution:
+          "Direct the user to tap 'Resend OTP' to receive a fresh verification code.",
       },
       {
         code: 429,
         error: "ERR_OTP_MAX_ATTEMPTS",
         description: "Maximum invalid verification attempts (5 times) reached.",
-        solution: "OTP code has been permanently deleted for anti-brute-force protection. User must request a new OTP.",
+        solution:
+          "OTP code has been permanently deleted for anti-brute-force protection. User must request a new OTP.",
       },
     ],
   },

@@ -6,7 +6,8 @@ export const contactsEndpoints: EndpointDoc[] = [
     id: "contacts-list",
     slug: "contacts/list",
     title: "List Contacts",
-    description: "Search, filter, and paginate through your stored WhatsApp contact list.",
+    description:
+      "Search, filter, and paginate through your stored WhatsApp contact list.",
     category: "Contacts Management",
     categorySlug: "contacts",
     method: "GET",
@@ -169,7 +170,8 @@ func main() {
         name: "custom_fields",
         type: "object",
         required: false,
-        description: "Key-value dictionary for dynamic variable substitution in broadcasts.",
+        description:
+          "Key-value dictionary for dynamic variable substitution in broadcasts.",
         example: '{"company": "Acme Corp"}',
       },
     ],
@@ -287,7 +289,8 @@ func main() {
     id: "contacts-bulk-import",
     slug: "contacts/bulk-import",
     title: "Bulk Import Contacts",
-    description: "Imports up to 5,000 contacts in a single asynchronous batch operation.",
+    description:
+      "Imports up to 5,000 contacts in a single asynchronous batch operation.",
     category: "Contacts Management",
     categorySlug: "contacts",
     method: "POST",
@@ -298,7 +301,8 @@ func main() {
         name: "contacts",
         type: "array",
         required: true,
-        description: "Array of contact objects (name, phone, tags, custom_fields).",
+        description:
+          "Array of contact objects (name, phone, tags, custom_fields).",
         depth: 0,
       },
       {

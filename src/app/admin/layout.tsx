@@ -6,7 +6,11 @@ import { AdminHeader } from "@/components/layout/admin/AdminHeader";
 import { AdminMobileNav } from "@/components/layout/admin/AdminMobileNav";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
@@ -17,7 +21,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* Mobile Drawer Navigation */}
-      <AdminMobileNav open={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+      <AdminMobileNav
+        open={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+      />
 
       {/* Main Admin Content Area */}
       <div className="flex min-w-0 flex-1 flex-col lg:pl-64">

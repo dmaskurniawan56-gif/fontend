@@ -37,8 +37,7 @@ export const n8nDoc: GuideDoc = {
     {
       id: "step-by-step-guide",
       title: "3. Step-by-Step n8n Workflow Configuration",
-      content:
-        `Follow these steps to wire the 3 core nodes in n8n for an automated WhatsApp AI Chatbot:
+      content: `Follow these steps to wire the 3 core nodes in n8n for an automated WhatsApp AI Chatbot:
 
 ### Node 1: Inbound Webhook (Wahide)
 - **HTTP Method**: \`POST\`

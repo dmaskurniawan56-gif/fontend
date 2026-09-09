@@ -131,17 +131,20 @@ func main() {
           {
             name: "payload[].status",
             type: "string",
-            description: "Connection status: 'QR_PENDING', 'CONNECTED', or 'DISCONNECTED'.",
+            description:
+              "Connection status: 'QR_PENDING', 'CONNECTED', or 'DISCONNECTED'.",
           },
           {
             name: "payload[].trust_score",
             type: "integer",
-            description: "Dynamic health score (0-100) calculated from account age, spam flags, and response rates.",
+            description:
+              "Dynamic health score (0-100) calculated from account age, spam flags, and response rates.",
           },
           {
             name: "payload[].warmup_day",
             type: "integer",
-            description: "Current day in anti-ban warmup schedule (Day 1: 50 msgs/day -> Day 14+: Unrestricted).",
+            description:
+              "Current day in anti-ban warmup schedule (Day 1: 50 msgs/day -> Day 14+: Unrestricted).",
           },
         ],
       },
@@ -152,7 +155,8 @@ func main() {
     id: "devices-create",
     slug: "devices/create",
     title: "Create Device Slot",
-    description: "Allocates a new WhatsApp device slot ready for QR code pairing.",
+    description:
+      "Allocates a new WhatsApp device slot ready for QR code pairing.",
     category: "WhatsApp Devices",
     categorySlug: "devices",
     method: "POST",
@@ -162,7 +166,8 @@ func main() {
         name: "push_name",
         type: "string",
         required: true,
-        description: "Friendly label for this device (e.g. 'CS Sales Bandung').",
+        description:
+          "Friendly label for this device (e.g. 'CS Sales Bandung').",
         example: "CS Sales Bandung",
       },
     ],
@@ -475,7 +480,8 @@ func main() {
     id: "devices-delete",
     slug: "devices/delete",
     title: "Delete Device Slot",
-    description: "Permanently removes a device slot from your tenant organization.",
+    description:
+      "Permanently removes a device slot from your tenant organization.",
     category: "WhatsApp Devices",
     categorySlug: "devices",
     method: "DELETE",

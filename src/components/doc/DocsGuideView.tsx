@@ -54,7 +54,8 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
       case "success":
       case "tip":
         return {
-          container: "border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-500/10",
+          container:
+            "border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-500/10",
           icon: <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />,
           title: "text-emerald-700 dark:text-emerald-400",
         };

@@ -49,7 +49,7 @@ export function DocsTableOfContents({
       {
         rootMargin: "-80px 0% -60% 0%",
         threshold: 0,
-      }
+      },
     );
 
     uniqueItems.forEach((item) => {

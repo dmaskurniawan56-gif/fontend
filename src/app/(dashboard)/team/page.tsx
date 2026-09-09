@@ -4,7 +4,8 @@ import { SellerRouteGuard } from "@/components/layout/shared/SellerRouteGuard";
 
 export const metadata: Metadata = {
   title: "Manajemen Tim & Agen CS",
-  description: "Kelola akun staf customer service dan supervisor untuk bisnis Anda.",
+  description:
+    "Kelola akun staf customer service dan supervisor untuk bisnis Anda.",
   alternates: {
     canonical: "/team",
   },

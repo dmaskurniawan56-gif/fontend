@@ -27,14 +27,15 @@ export default function GlobalError({
               Terjadi Hambatan Fatal pada Aplikasi
             </h1>
             <p className="text-xs leading-relaxed text-white/70">
-              Root layout mengalami kendala tidak terduga. Silakan segarkan ulang aplikasi untuk
-              memulihkan sesi Anda.
+              Root layout mengalami kendala tidak terduga. Silakan segarkan
+              ulang aplikasi untuk memulihkan sesi Anda.
             </p>
           </div>
 
           {error?.digest && (
             <div className="rounded border border-white/10 bg-black/40 p-2.5 font-mono text-[11px] text-white/60">
-              Ref ID: <span className="text-wise-green font-bold">{error.digest}</span>
+              Ref ID:{" "}
+              <span className="text-wise-green font-bold">{error.digest}</span>
             </div>
           )}
 

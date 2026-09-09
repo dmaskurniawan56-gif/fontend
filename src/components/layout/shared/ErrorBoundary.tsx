@@ -15,7 +15,10 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   public state: ErrorBoundaryState = {
     hasError: false,
     error: null,
@@ -50,7 +53,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               {this.props.fallbackTitle || "Terjadi Kendala Memuat Modul"}
             </h3>
             <p className="text-foreground-secondary mx-auto max-w-md truncate font-mono text-xs">
-              {this.state.error?.message || "Kesalahan runtime JavaScript tidak terduga"}
+              {this.state.error?.message ||
+                "Kesalahan runtime JavaScript tidak terduga"}
             </p>
           </div>
 

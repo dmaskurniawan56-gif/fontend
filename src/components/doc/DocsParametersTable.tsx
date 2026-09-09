@@ -25,11 +25,11 @@ export function DocsParametersTable({
     <div className="space-y-3">
       {title && (
         <div>
-          <h3 className="text-base font-bold text-foreground">
-            {title}
-          </h3>
+          <h3 className="text-base font-bold text-foreground">{title}</h3>
           {description && (
-            <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {description}
+            </p>
           )}
         </div>
       )}
@@ -46,7 +46,8 @@ export function DocsParametersTable({
           </thead>
           <tbody className="divide-y divide-border/60 font-normal text-foreground">
             {parameters.map((param) => {
-              const isNested = (param.depth && param.depth > 0) || Boolean(param.parent);
+              const isNested =
+                (param.depth && param.depth > 0) || Boolean(param.parent);
 
               return (
                 <tr

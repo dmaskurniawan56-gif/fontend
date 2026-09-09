@@ -12,7 +12,12 @@ interface AuthBannerProps {
   scaleTag?: string;
 }
 
-export function AuthBanner({ badgeText, headline, subheadline, scaleTag }: AuthBannerProps) {
+export function AuthBanner({
+  badgeText,
+  headline,
+  subheadline,
+  scaleTag,
+}: AuthBannerProps) {
   const { t } = useI18n();
   const pathname = usePathname();
 
@@ -74,7 +79,9 @@ export function AuthBanner({ badgeText, headline, subheadline, scaleTag }: AuthB
         <h1 className="text-5xl leading-[0.95] font-black tracking-tight text-white">
           {displayHeadline}
         </h1>
-        <p className="text-lg leading-relaxed font-semibold text-[#c2c5be]">{displaySubheadline}</p>
+        <p className="text-lg leading-relaxed font-semibold text-[#c2c5be]">
+          {displaySubheadline}
+        </p>
       </div>
 
       <div className="z-10 flex items-center justify-between border-t border-white/10 pt-6 text-xs font-semibold text-[#868685]">

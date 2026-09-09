@@ -10,7 +10,8 @@ import { UserDashboardOverview } from "../components/UserDashboardOverview";
 import { AdminDashboardOverview } from "../components/AdminDashboardOverview";
 
 export function DashboardOverviewView() {
-  const { isSuperAdmin, userStats, adminStats, isLoading, error, refetch } = useDashboardStats();
+  const { isSuperAdmin, userStats, adminStats, isLoading, error, refetch } =
+    useDashboardStats();
   const { t } = useI18n();
 
   if (isLoading) {
@@ -21,7 +22,9 @@ export function DashboardOverviewView() {
     return (
       <div className="mx-auto max-w-7xl p-3 sm:p-6 lg:p-8">
         <div className="space-y-3 rounded-md border border-red-500/20 bg-red-500/10 p-6 text-center">
-          <p className="text-sm font-bold text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm font-bold text-red-600 dark:text-red-400">
+            {error}
+          </p>
           <Button
             variant="outline"
             size="sm"

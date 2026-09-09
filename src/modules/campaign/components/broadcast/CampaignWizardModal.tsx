@@ -57,7 +57,11 @@ const parseCustomNumbers = (raw: string): string[] => {
   return result;
 };
 
-export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizardModalProps) {
+export function CampaignWizardModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: CampaignWizardModalProps) {
   const router = useRouter();
   const { t } = useI18n();
   const { devices } = useDevices();
@@ -66,7 +70,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [name, setName] = useState("");
   const [selectedDeviceIds, setSelectedDeviceIds] = useState<string[]>([]);
-  const [targetType, setTargetType] = useState<"ALL" | "TAGS" | "CUSTOM">("ALL");
+  const [targetType, setTargetType] = useState<"ALL" | "TAGS" | "CUSTOM">(
+    "ALL",
+  );
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [customNumbersStr, setCustomNumbersStr] = useState("");
   const [jitterDelaySeconds, setJitterDelaySeconds] = useState(4);
@@ -78,21 +84,21 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
   const [isLoading, setIsLoading] = useState(false);
 
   const { template, preview, setTemplate, randomize } = useSpintax(
-    "{Halo|Hi|Selamat Siang} Kak {nama}, dapatkan penawaran spesial {diskon 50%|potongan harga} hari ini!"
+    "{Halo|Hi|Selamat Siang} Kak {nama}, dapatkan penawaran spesial {diskon 50%|potongan harga} hari ini!",
   );
 
   const connectedDevices = devices.filter(
     (d) =>
       (d.status === "CONNECTED" || (d.status as string) === "ONLINE") &&
       !d.is_over_limit &&
-      !d.isOverLimit
+      !d.isOverLimit,
   );
 
   if (!isOpen) return null;
 
   const handleToggleDevice = (id: string) => {
     setSelectedDeviceIds((prev) =>
-      prev.includes(id) ? prev.filter((dId) => dId !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((dId) => dId !== id) : [...prev, id],
     );
   };
 
@@ -118,21 +124,26 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
         return;
       }
       if (selectedDeviceIds.length === 0) {
-        setError("Silakan pilih minimal satu slot perangkat WhatsApp pengirim.");
+        setError(
+          "Silakan pilih minimal satu slot perangkat WhatsApp pengirim.",
+        );
         return;
       }
     } else if (step === 2) {
       if (targetType === "ALL" && contacts.length === 0) {
-        setError(t("campaign.noTargetContactsSelected") || "Target audiens kosong (0 penerima). Silakan tambahkan kontak terlebih dahulu atau gunakan input nomor manual.");
+        setError(
+          t("campaign.noTargetContactsSelected") ||
+            "Target audiens kosong (0 penerima). Silakan tambahkan kontak terlebih dahulu atau gunakan input nomor manual.",
+        );
         return;
       }
       if (targetType === "TAGS") {
         if (selectedTags.length === 0) {
-          setError("Silakan pilih minimal satu kategori tag penerima.");
+          setError(t("campaign.errSelectTagRequired"));
           return;
         }
         if (calculateTargetCount() === 0) {
-          setError(t("campaign.noTargetContactsSelected") || "Tidak ada kontak yang memiliki tag yang dipilih. Silakan pilih tag lain atau gunakan input nomor manual.");
+          setError(t("campaign.noTargetContactsSelected"));
           return;
         }
       }
@@ -140,7 +151,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
         const parsed = parseCustomNumbers(customNumbersStr);
         if (parsed.length === 0) {
           setError(
-            "Silakan masukkan minimal satu nomor telepon tujuan yang valid (contoh: 08123456789 atau 628123456789)."
+            "Silakan masukkan minimal satu nomor telepon tujuan yang valid (contoh: 08123456789 atau 628123456789).",
           );
           return;
         }
@@ -167,7 +178,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
           const name = typeof t === "string" ? t : t.name;
           const id = typeof t === "string" ? t : t.id;
           return selectedTags.includes(name) || selectedTags.includes(id);
-        })
+        }),
       ).length;
     }
     return parseCustomNumbers(customNumbersStr).length;
@@ -179,7 +190,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
     try {
       const targetNumbers =
-        targetType === "CUSTOM" ? parseCustomNumbers(customNumbersStr) : undefined;
+        targetType === "CUSTOM"
+          ? parseCustomNumbers(customNumbersStr)
+          : undefined;
 
       const payload: CreateCampaignInput = {
         name: name.trim(),
@@ -192,13 +205,17 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
         targetType,
         targetTags: targetType === "TAGS" ? selectedTags : undefined,
         targetNumbers,
-        scheduledAt: isScheduled && scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
+        scheduledAt:
+          isScheduled && scheduledAt
+            ? new Date(scheduledAt).toISOString()
+            : undefined,
       };
 
       await onSubmit(payload);
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal membuat kampanye broadcast.";
+      const msg =
+        err instanceof Error ? err.message : t("campaign.errCreateFailed");
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -207,7 +224,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
 
@@ -217,7 +234,10 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
         {/* Sticky Header with Step Tracker */}
         <DialogHeader className="border-border/80 shrink-0 space-y-3 border-b p-4 pb-3 text-left sm:p-6">
@@ -235,7 +255,11 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
             {[
               { num: 1, label: t("campaign.step1Device"), icon: Smartphone },
               { num: 2, label: t("campaign.step2Audience"), icon: Users },
-              { num: 3, label: t("campaign.step3Message"), icon: MessageSquare },
+              {
+                num: 3,
+                label: t("campaign.step3Message"),
+                icon: MessageSquare,
+              },
               { num: 4, label: t("campaign.step4Schedule"), icon: ShieldCheck },
             ].map(({ num, label, icon: Icon }) => (
               <div
@@ -312,7 +336,8 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                       </button>
                     )}
                     <span className="text-foreground-muted text-[11px]">
-                      {selectedDeviceIds.length}/{connectedDevices.length} {t("campaign.connectedDevicesCount")}
+                      {selectedDeviceIds.length}/{connectedDevices.length}{" "}
+                      {t("campaign.connectedDevicesCount")}
                     </span>
                   </div>
                 </div>
@@ -386,12 +411,21 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                         <Zap className="dark:text-wise-green size-4 shrink-0 text-emerald-600 mt-0.5" />
                         <div>
                           <span className="font-bold">
-                            {t("campaign.multiDeviceBannerTitle", { count: String(selectedDeviceIds.length) })}
+                            {t("campaign.multiDeviceBannerTitle", {
+                              count: String(selectedDeviceIds.length),
+                            })}
                           </span>
                           <p className="text-foreground-secondary mt-0.5 text-[11px] leading-relaxed">
                             {t("campaign.multiDeviceBannerDesc", {
                               count: String(selectedDeviceIds.length),
-                              percent: String(Math.min(80, Math.round((1 - 1 / selectedDeviceIds.length) * 100))),
+                              percent: String(
+                                Math.min(
+                                  80,
+                                  Math.round(
+                                    (1 - 1 / selectedDeviceIds.length) * 100,
+                                  ),
+                                ),
+                              ),
                             })}
                           </p>
                         </div>
@@ -415,7 +449,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                   {
                     type: "ALL" as const,
                     title: t("campaign.audienceAllTitle"),
-                    desc: t("campaign.audienceAllDesc", { count: String(contacts.length) }),
+                    desc: t("campaign.audienceAllDesc", {
+                      count: String(contacts.length),
+                    }),
                   },
                   {
                     type: "TAGS" as const,
@@ -438,7 +474,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                     }`}
                   >
                     <div>
-                      <span className="text-foreground block font-bold">{item.title}</span>
+                      <span className="text-foreground block font-bold">
+                        {item.title}
+                      </span>
                       <p className="text-foreground-secondary mt-1 text-[11px] leading-relaxed">
                         {item.desc}
                       </p>
@@ -452,7 +490,8 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                   <div className="space-y-0.5">
                     <p className="font-bold">Buku Kontak Masih Kosong</p>
                     <p className="text-[11px] text-foreground-secondary">
-                      Tambahkan kontak terlebih dahulu atau pilih opsi &quot;Input Nomor Manual&quot;.
+                      Tambahkan kontak terlebih dahulu atau pilih opsi
+                      &quot;Input Nomor Manual&quot;.
                     </p>
                   </div>
                   <Button
@@ -521,12 +560,16 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                   />
                   <div className="flex items-center justify-between text-[11px]">
                     <span className="text-foreground-muted">
-                      {t("campaign.customNumbersHint")} (otomatis normalisasi 08xx → 628xx & format internasional)
+                      {t("campaign.customNumbersHint")} (otomatis normalisasi
+                      08xx → 628xx & format internasional)
                     </span>
                     {parseCustomNumbers(customNumbersStr).length > 0 && (
                       <span className="dark:text-wise-green inline-flex items-center gap-1 font-bold text-emerald-700">
                         <Check className="size-3.5 shrink-0" />
-                        <span>{parseCustomNumbers(customNumbersStr).length} nomor valid</span>
+                        <span>
+                          {parseCustomNumbers(customNumbersStr).length} nomor
+                          valid
+                        </span>
                       </span>
                     )}
                   </div>
@@ -575,7 +618,10 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
               </div>
 
               {/* Live Spintax Visualizer */}
-              <SpintaxVisualizer previewText={preview} onRandomize={randomize} />
+              <SpintaxVisualizer
+                previewText={preview}
+                onRandomize={randomize}
+              />
             </div>
           )}
 
@@ -606,7 +652,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                       min={2}
                       max={15}
                       value={jitterDelaySeconds}
-                      onChange={(e) => setJitterDelaySeconds(Number(e.target.value))}
+                      onChange={(e) =>
+                        setJitterDelaySeconds(Number(e.target.value))
+                      }
                       className="accent-wise-green dark:accent-wise-green mt-1 w-full"
                     />
                     <span className="text-foreground-muted text-[11px]">
@@ -651,7 +699,9 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
                   <div className="border-border/50 border-t pt-2.5">
                     <div className="flex items-center gap-1.5 text-foreground-secondary">
                       <ShieldCheck className="dark:text-wise-green size-3.5 text-emerald-600" />
-                      <span className="font-bold text-[11px]">{t("campaign.warmupEngineTitle")}</span>
+                      <span className="font-bold text-[11px]">
+                        {t("campaign.warmupEngineTitle")}
+                      </span>
                     </div>
                     <p className="text-foreground-muted text-[11px] mt-1 leading-relaxed">
                       {t("campaign.warmupEngineDesc")}
@@ -718,7 +768,7 @@ export function CampaignWizardModal({ isOpen, onClose, onSubmit }: CampaignWizar
               disabled={isLoading}
               className="border-border hover:border-foreground-muted cursor-pointer rounded-full text-xs font-bold"
             >
-              Batal
+              {t("common.cancel")}
             </Button>
           )}
 

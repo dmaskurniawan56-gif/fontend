@@ -83,7 +83,10 @@ export function CampaignDetailModal({
   const renderStatusBadge = () => {
     if (campaign.scheduledAt && campaign.status === "DRAFT") {
       return (
-        <Badge variant="warning" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+        <Badge
+          variant="warning"
+          className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+        >
           <Clock className="size-3" />
           <span>{t("campaign.statusScheduled")}</span>
         </Badge>
@@ -93,28 +96,40 @@ export function CampaignDetailModal({
     switch (campaign.status) {
       case "RUNNING":
         return (
-          <Badge variant="success" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <Badge
+            variant="success"
+            className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+          >
             <span className="mr-0.5 size-1.5 animate-pulse rounded-full bg-emerald-500" />
             <span>{t("campaign.statusRunning")}</span>
           </Badge>
         );
       case "PAUSED":
         return (
-          <Badge variant="warning" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <Badge
+            variant="warning"
+            className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+          >
             <Pause className="size-3" />
             <span>{t("campaign.statusPaused")}</span>
           </Badge>
         );
       case "COMPLETED":
         return (
-          <Badge variant="success" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <Badge
+            variant="success"
+            className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+          >
             <CheckCircle2 className="size-3" />
             <span>{t("campaign.statusCompleted")}</span>
           </Badge>
         );
       case "FAILED":
         return (
-          <Badge variant="danger" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <Badge
+            variant="danger"
+            className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+          >
             <AlertCircle className="size-3" />
             <span>{t("campaign.statusFailed")}</span>
           </Badge>
@@ -122,7 +137,10 @@ export function CampaignDetailModal({
       case "DRAFT":
       default:
         return (
-          <Badge variant="neutral" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+          <Badge
+            variant="neutral"
+            className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+          >
             <span>{t("campaign.statusDraft")}</span>
           </Badge>
         );
@@ -133,7 +151,9 @@ export function CampaignDetailModal({
   const sentCount = campaign.sentCount ?? 0;
   const failedCount = campaign.failedCount ?? 0;
   const percent =
-    totalRecipients > 0 ? Math.min(100, Math.round((sentCount / totalRecipients) * 100)) : 0;
+    totalRecipients > 0
+      ? Math.min(100, Math.round((sentCount / totalRecipients) * 100))
+      : 0;
 
   const handleAction = async (action: () => Promise<void>) => {
     setIsSubmitting(true);
@@ -175,7 +195,9 @@ export function CampaignDetailModal({
               <Clock className="size-4 shrink-0" />
               <div>
                 <span className="block font-bold">
-                  {t("campaign.scheduledBanner", { time: formatDateTime(campaign.scheduledAt) })}
+                  {t("campaign.scheduledBanner", {
+                    time: formatDateTime(campaign.scheduledAt),
+                  })}
                 </span>
                 <span className="text-[11px] font-medium opacity-90">
                   Pesan siaran otomatis disiapkan untuk jadwal waktu ini.
@@ -209,7 +231,9 @@ export function CampaignDetailModal({
                 {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
                   <div>
                     <span className="text-foreground font-bold block">
-                      {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                      {t("campaign.poolMultiDevice", {
+                        count: String(campaign.deviceIds.length),
+                      })}
                     </span>
                     <span className="text-foreground-muted text-[10px] font-mono">
                       Multi-device auto distribution
@@ -287,7 +311,9 @@ export function CampaignDetailModal({
                   <span className="inline-flex items-center gap-1">
                     <Sparkles className="size-3 text-amber-500" />
                     Typing:{" "}
-                    {campaign.enableHumanTyping ? t("campaign.active") : t("campaign.inactive")}
+                    {campaign.enableHumanTyping
+                      ? t("campaign.active")
+                      : t("campaign.inactive")}
                   </span>
                   <span>•</span>
                   <span className="inline-flex items-center gap-1">
@@ -305,7 +331,9 @@ export function CampaignDetailModal({
           {/* Delivery Metrics Card */}
           <div className="border-border bg-muted/20 space-y-2.5 rounded-lg border p-4 dark:bg-[#10110e]">
             <div className="flex items-center justify-between">
-              <span className="text-foreground font-bold">{t("campaign.deliveryMetrics")}</span>
+              <span className="text-foreground font-bold">
+                {t("campaign.deliveryMetrics")}
+              </span>
               <span className="text-dark-green dark:text-wise-green font-mono text-sm font-black">
                 {percent}%
               </span>
@@ -316,13 +344,17 @@ export function CampaignDetailModal({
                 <span className="text-foreground-muted block font-sans text-[10px] font-semibold">
                   {t("campaign.totalRecipients")}
                 </span>
-                <span className="text-foreground font-bold">{totalRecipients}</span>
+                <span className="text-foreground font-bold">
+                  {totalRecipients}
+                </span>
               </div>
               <div className="border-border/60 rounded border p-2">
                 <span className="text-foreground-muted block font-sans text-[10px] font-semibold">
                   {t("campaign.sentMessages")}
                 </span>
-                <span className="dark:text-wise-green font-bold text-emerald-700">{sentCount}</span>
+                <span className="dark:text-wise-green font-bold text-emerald-700">
+                  {sentCount}
+                </span>
               </div>
               <div className="border-border/60 rounded border p-2">
                 <span className="text-foreground-muted block font-sans text-[10px] font-semibold">
@@ -332,17 +364,20 @@ export function CampaignDetailModal({
               </div>
             </div>
 
-            {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
-              <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
-                <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
-                <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
-                  {t("campaign.warmupPausedDesc", {
-                    offset: String(campaign.processedOffset),
-                    total: String(totalRecipients),
-                  })}
-                </p>
-              </div>
-            )}
+            {campaign.status === "PAUSED" &&
+              (campaign.processedOffset ?? 0) > 0 && (
+                <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                  <span className="font-bold">
+                    {t("campaign.warmupPausedBanner")}
+                  </span>
+                  <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                    {t("campaign.warmupPausedDesc", {
+                      offset: String(campaign.processedOffset),
+                      total: String(totalRecipients),
+                    })}
+                  </p>
+                </div>
+              )}
           </div>
 
           {/* Message Template Preview */}
@@ -360,7 +395,9 @@ export function CampaignDetailModal({
                 {copied ? (
                   <>
                     <Check className="size-3 text-emerald-500" />
-                    <span className="text-emerald-500">{t("campaign.copied")}</span>
+                    <span className="text-emerald-500">
+                      {t("campaign.copied")}
+                    </span>
                   </>
                 ) : (
                   <>
@@ -410,7 +447,9 @@ export function CampaignDetailModal({
                 variant="primaryPill"
                 size="sm"
                 disabled={isSubmitting}
-                onClick={() => handleAction(() => onResumeCampaign(campaign.id))}
+                onClick={() =>
+                  handleAction(() => onResumeCampaign(campaign.id))
+                }
                 className="gap-2 text-xs font-bold"
               >
                 <Play className="size-3.5" />

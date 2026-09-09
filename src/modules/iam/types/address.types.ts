@@ -19,6 +19,7 @@ export interface UserAddress {
   id: string;
   userId: string;
   name: string;
+  country?: string;
   address: string;
   city: string;
   state: string;
@@ -28,6 +29,7 @@ export interface UserAddress {
 }
 
 export interface UpsertAddressInput {
+  country?: string;
   address: string;
   city: string;
   state: string;

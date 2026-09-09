@@ -11,9 +11,9 @@ import { Send, Layers, ListChecks } from "lucide-react";
 const MessageLogsTable = dynamic(
   () =>
     import("@/modules/campaign/components/logs/MessageLogsTable").then(
-      (m) => m.MessageLogsTable
+      (m) => m.MessageLogsTable,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 export function CampaignsView() {
@@ -22,7 +22,11 @@ export function CampaignsView() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-3 sm:space-y-8 sm:p-6 lg:p-8">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
         {/* Header Section */}
         <div className="border-border flex flex-col justify-between gap-4 border-b pb-5 sm:flex-row sm:items-center sm:pb-6">
           <div className="space-y-1">
@@ -60,12 +64,12 @@ export function CampaignsView() {
 
         {/* Main Content Tab with Error Boundary */}
         <TabsContent value="campaigns">
-          <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Kampanye Siaran">
+          <ErrorBoundary>
             <CampaignList />
           </ErrorBoundary>
         </TabsContent>
         <TabsContent value="logs">
-          <ErrorBoundary fallbackTitle="Gagal Memuat Log Audit Pesan">
+          <ErrorBoundary>
             {activeTab === "logs" && <MessageLogsTable />}
           </ErrorBoundary>
         </TabsContent>

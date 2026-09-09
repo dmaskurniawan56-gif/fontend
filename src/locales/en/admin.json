@@ -353,6 +353,8 @@
     "createdAtLabel": "Created At:",
     "copiedToast": "{label} copied to clipboard",
     "copyFailedToast": "Failed to copy text",
+    "copyTenantId": "Copy Tenant ID",
+    "copySubscriptionId": "Copy Subscription ID",
     "entityName": "subscriptions"
   },
   "notifications": {
@@ -640,6 +642,25 @@
     "emptyTitle": "No Activities Found",
     "emptySearchDesc": "No records match keyword \"{query}\".",
     "emptyDesc": "No user operational activity logs yet.",
+    "noDescription": "No incident description available.",
     "entityName": "activity records"
+  },
+  "adminMenu": {
+    "groupPlatformControl": "Platform Control",
+    "usersAndMembers": "Users & Members",
+    "memberList": "Member List",
+    "activityLogs": "Activity Logs",
+    "billingAndTopup": "Billing & Top-up",
+    "subscriptionsAndPlans": "Subscriptions & SaaS Plans",
+    "subscriptionList": "Subscription List",
+    "saasPlansAndPricing": "SaaS Plans & Pricing",
+    "groupOpsAndMonitoring": "Operations & Monitoring",
+    "whatsappGateway": "WhatsApp Gateway",
+    "whatsappDevices": "WhatsApp Devices",
+    "whatsappMessageLogs": "WhatsApp Message Logs",
+    "broadcastAndNotifications": "Broadcasts & Notifications",
+    "supportCenter": "Support Center",
+    "backToTenantApp": "Back to Tenant App",
+    "closeAdminMenuAria": "Close Admin Menu"
   }
 }

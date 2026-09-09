@@ -194,4 +194,56 @@ export const docNavigation: NavSection[] = [
       },
     ],
   },
+  {
+    id: "webhooks",
+    title: "Webhooks",
+    icon: "Webhook",
+    items: [
+      {
+        id: "webhooks-overview",
+        title: "Overview & Quickstart",
+        path: "/docs/webhooks",
+      },
+      {
+        id: "webhooks-n8n",
+        title: "n8n & AI Bot Integration",
+        path: "/docs/webhooks/n8n",
+        badge: "Workflow",
+      },
+      {
+        id: "webhook-event-received",
+        title: "Event: message.received",
+        path: "/docs/webhooks/events/message-received",
+        method: "POST",
+        badge: "Real-Time",
+      },
+      {
+        id: "webhook-event-ack",
+        title: "Event: message.ack",
+        path: "/docs/webhooks/events/message-ack",
+        method: "POST",
+        badge: "Receipt",
+      },
+      {
+        id: "webhook-event-sent",
+        title: "Event: message.sent",
+        path: "/docs/webhooks/events/message-sent",
+        method: "POST",
+      },
+      {
+        id: "webhook-event-status",
+        title: "Event: device.status",
+        path: "/docs/webhooks/events/device-status",
+        method: "POST",
+        badge: "Device",
+      },
+      {
+        id: "webhook-event-qr",
+        title: "Event: device.qr",
+        path: "/docs/webhooks/events/device-qr",
+        method: "POST",
+        badge: "Pairing",
+      },
+    ],
+  },
 ];

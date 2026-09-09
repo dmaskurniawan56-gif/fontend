@@ -5,14 +5,14 @@ import { env } from "@/lib/config/env";
 export const metadata: Metadata = {
   title: "Hubungi Kami — Hide Group & Wahide",
   description:
-    "Hubungi tim teknis dan kemitraan Hide Group di Semarang. WhatsApp resmi 0877111301818 dan email admin@hidessh.com.",
+    "Hubungi tim teknis dan kemitraan Hide Group di Semarang. WhatsApp resmi 0877111301818 dan email dmaskurniawan56@gmail.com.",
   alternates: {
     canonical: "/contact",
   },
   openGraph: {
     title: "Hubungi Kami — Hide Group & Wahide",
     description:
-      "Hubungi tim teknis dan kemitraan Hide Group di Semarang. WhatsApp resmi 0877111301818 dan email admin@hidessh.com.",
+      "Hubungi tim teknis dan kemitraan Hide Group di Semarang. WhatsApp resmi 0877111301818 dan email dmaskurniawan56@gmail.com.",
     url: "/contact",
     siteName: "Wahide",
     locale: "id_ID",
@@ -31,7 +31,7 @@ export default function ContactPage() {
       "@type": "Organization",
       name: "Hide Digital Security",
       telephone: "+62877111301818",
-      email: "admin@hidessh.com",
+      email: "dmaskurniawan56@gmail.com",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Semarang",

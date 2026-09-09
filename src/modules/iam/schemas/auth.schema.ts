@@ -12,7 +12,10 @@ export type LoginInput = z.infer<typeof loginSchema>;
 
 export const registerSchema = z
   .object({
-    name: z.string().min(3, "Nama bisnis / pengguna minimal 3 karakter").max(60),
+    name: z
+      .string()
+      .min(3, "Nama bisnis / pengguna minimal 3 karakter")
+      .max(60),
     email: z.string().email("Format email tidak valid"),
     phone: z
       .string()

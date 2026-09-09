@@ -15,7 +15,11 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { useTableSort } from "@/hooks/useTableSort";
 
@@ -57,7 +61,8 @@ export function ContactTable({
 
   const sortedContacts = sortData(contacts);
 
-  const isAllSelected = sortedContacts.length > 0 && selectedIds.size === sortedContacts.length;
+  const isAllSelected =
+    sortedContacts.length > 0 && selectedIds.size === sortedContacts.length;
 
   return (
     <Card className="border-border bg-surface overflow-hidden rounded-xl border p-0 gap-0 shadow-xs">
@@ -68,10 +73,16 @@ export function ContactTable({
           <div className="flex items-center gap-2">
             <Checkbox
               checked={isAllSelected}
-              onCheckedChange={() => onToggleSelectAll(sortedContacts.map((c) => c.id))}
+              onCheckedChange={() =>
+                onToggleSelectAll(sortedContacts.map((c) => c.id))
+              }
               aria-label={t("contact.selectAll")}
             />
-            <span>{t("contact.selectAllWithCount", { count: sortedContacts.length })}</span>
+            <span>
+              {t("contact.selectAllWithCount", {
+                count: sortedContacts.length,
+              })}
+            </span>
           </div>
           {selectedIds.size > 0 && (
             <span className="dark:text-wise-green font-bold text-emerald-700">
@@ -97,9 +108,13 @@ export function ContactTable({
                   <Checkbox
                     checked={isSelected}
                     onCheckedChange={() => onToggleSelectOne(contact.id)}
-                    aria-label={`Pilih ${contact.name}`}
+                    aria-label={t("contact.selectContactAria", {
+                      name: contact.name,
+                    })}
                   />
-                  <span className="text-foreground truncate text-sm font-bold">{contact.name}</span>
+                  <span className="text-foreground truncate text-sm font-bold">
+                    {contact.name}
+                  </span>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-1">
@@ -110,13 +125,15 @@ export function ContactTable({
                           type="button"
                           onClick={() => onEdit(contact)}
                           className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                          aria-label={`Ubah ${contact.name}`}
+                          aria-label={t("contact.editContactAria", {
+                            name: contact.name,
+                          })}
                         >
                           <Edit2 className="size-3.5" />
                         </button>
                       }
                     />
-                    <TooltipContent>Ubah Kontak</TooltipContent>
+                    <TooltipContent>{t("contact.editContact")}</TooltipContent>
                   </Tooltip>
 
                   <Tooltip>
@@ -126,13 +143,17 @@ export function ContactTable({
                           type="button"
                           onClick={() => onDelete(contact)}
                           className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                          aria-label={`Hapus ${contact.name}`}
+                          aria-label={t("contact.deleteContactAria", {
+                            name: contact.name,
+                          })}
                         >
                           <Trash2 className="size-3.5" />
                         </button>
                       }
                     />
-                    <TooltipContent>Hapus Kontak</TooltipContent>
+                    <TooltipContent>
+                      {t("contact.deleteContact")}
+                    </TooltipContent>
                   </Tooltip>
                 </div>
               </div>
@@ -173,7 +194,9 @@ export function ContactTable({
                 <div className="flex items-center justify-center">
                   <Checkbox
                     checked={isAllSelected}
-                    onCheckedChange={() => onToggleSelectAll(sortedContacts.map((c) => c.id))}
+                    onCheckedChange={() =>
+                      onToggleSelectAll(sortedContacts.map((c) => c.id))
+                    }
                     aria-label={t("contact.selectAll")}
                   />
                 </div>
@@ -216,7 +239,9 @@ export function ContactTable({
                   key={contact.id}
                   data-state={isSelected ? "selected" : undefined}
                   className={`border-border/40 border-b transition-colors ${
-                    isSelected ? "bg-wise-green/10 dark:bg-wise-green/5" : "hover:bg-muted/40"
+                    isSelected
+                      ? "bg-wise-green/10 dark:bg-wise-green/5"
+                      : "hover:bg-muted/40"
                   }`}
                 >
                   {/* Select Checkbox */}
@@ -225,7 +250,9 @@ export function ContactTable({
                       <Checkbox
                         checked={isSelected}
                         onCheckedChange={() => onToggleSelectOne(contact.id)}
-                        aria-label={`Pilih ${contact.name}`}
+                        aria-label={t("contact.selectContactAria", {
+                          name: contact.name,
+                        })}
                       />
                     </div>
                   </TableCell>
@@ -256,7 +283,8 @@ export function ContactTable({
                     {contact.tags && contact.tags.length > 0 ? (
                       <div className="flex flex-wrap items-center gap-1.5">
                         {contact.tags.map((tag, idx) => {
-                          const tagName = typeof tag === "string" ? tag : tag.name;
+                          const tagName =
+                            typeof tag === "string" ? tag : tag.name;
                           return (
                             <span
                               key={idx}
@@ -268,7 +296,9 @@ export function ContactTable({
                         })}
                       </div>
                     ) : (
-                      <span className="text-foreground-muted/60 text-xs font-medium italic">-</span>
+                      <span className="text-foreground-muted/60 text-xs font-medium italic">
+                        -
+                      </span>
                     )}
                   </TableCell>
 
@@ -282,13 +312,17 @@ export function ContactTable({
                               type="button"
                               onClick={() => onEdit(contact)}
                               className="text-foreground-muted hover:text-foreground hover:bg-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition"
-                              aria-label={`Ubah ${contact.name}`}
+                              aria-label={t("contact.editContactAria", {
+                                name: contact.name,
+                              })}
                             >
                               <Edit2 className="size-4" />
                             </button>
                           }
                         />
-                        <TooltipContent>Ubah Kontak</TooltipContent>
+                        <TooltipContent>
+                          {t("contact.editContact")}
+                        </TooltipContent>
                       </Tooltip>
 
                       <Tooltip>
@@ -298,13 +332,17 @@ export function ContactTable({
                               type="button"
                               onClick={() => onDelete(contact)}
                               className="flex size-8 cursor-pointer items-center justify-center rounded-full text-rose-500 transition hover:bg-rose-500/10"
-                              aria-label={`Hapus ${contact.name}`}
+                              aria-label={t("contact.deleteContactAria", {
+                                name: contact.name,
+                              })}
                             >
                               <Trash2 className="size-4" />
                             </button>
                           }
                         />
-                        <TooltipContent>Hapus Kontak</TooltipContent>
+                        <TooltipContent>
+                          {t("contact.deleteContact")}
+                        </TooltipContent>
                       </Tooltip>
                     </div>
                   </TableCell>

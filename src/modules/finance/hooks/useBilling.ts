@@ -20,11 +20,19 @@ export function useBilling() {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const fetchInvoices = useCallback(
-    async (overrideSearch?: string, overrideStatus?: string, targetPage?: number) => {
+    async (
+      overrideSearch?: string,
+      overrideStatus?: string,
+      targetPage?: number,
+    ) => {
       setIsLoading(true);
       try {
-        const search = overrideSearch !== undefined ? overrideSearch.trim() : activeSearch.trim();
-        const status = overrideStatus !== undefined ? overrideStatus : statusFilter;
+        const search =
+          overrideSearch !== undefined
+            ? overrideSearch.trim()
+            : activeSearch.trim();
+        const status =
+          overrideStatus !== undefined ? overrideStatus : statusFilter;
         const p = targetPage !== undefined ? targetPage : page;
 
         const invRes = await financeApi.getInvoices({
@@ -50,7 +58,7 @@ export function useBilling() {
         setIsLoading(false);
       }
     },
-    [activeSearch, statusFilter, page, pageSize]
+    [activeSearch, statusFilter, page, pageSize],
   );
 
   const fetchBillingData = useCallback(async () => {
@@ -124,9 +132,15 @@ export function useBilling() {
     };
   }, []);
 
-  const createTopUp = async (amount: number, paymentMethod: PaymentMethod): Promise<Invoice> => {
+  const createTopUp = async (
+    amount: number,
+    paymentMethod: PaymentMethod,
+  ): Promise<Invoice> => {
     try {
-      const { invoice, invoiceUrl } = await financeApi.createTopUp({ amount, paymentMethod });
+      const { invoice, invoiceUrl } = await financeApi.createTopUp({
+        amount,
+        paymentMethod,
+      });
       setInvoices((prev) => [invoice, ...prev]);
       setTotal((prev) => prev + 1);
       toast.success(t("billing.toastTopUpSuccess"));
@@ -135,7 +149,8 @@ export function useBilling() {
       }
       return invoice;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("billing.toastTopUpError");
+      const msg =
+        err instanceof Error ? err.message : t("billing.toastTopUpError");
       toast.error(msg);
       throw err;
     }
@@ -152,7 +167,7 @@ export function useBilling() {
         (inv) =>
           inv.invoiceNumber.toLowerCase().includes(term) ||
           inv.description.toLowerCase().includes(term) ||
-          inv.amount.toString().includes(term)
+          inv.amount.toString().includes(term),
       );
     }
     return list;

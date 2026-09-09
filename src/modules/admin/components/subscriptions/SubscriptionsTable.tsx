@@ -5,12 +5,14 @@ import dynamic from "next/dynamic";
 import { AdminSubscriptionItem } from "@/modules/admin/types/admin.types";
 
 const ExpireSubscriptionModal = dynamic(
-  () => import("./ExpireSubscriptionModal").then((m) => m.ExpireSubscriptionModal),
-  { ssr: false }
+  () =>
+    import("./ExpireSubscriptionModal").then((m) => m.ExpireSubscriptionModal),
+  { ssr: false },
 );
 const SubscriptionDetailModal = dynamic(
-  () => import("./SubscriptionDetailModal").then((m) => m.SubscriptionDetailModal),
-  { ssr: false }
+  () =>
+    import("./SubscriptionDetailModal").then((m) => m.SubscriptionDetailModal),
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +67,7 @@ interface SubscriptionsTableProps {
 
 function getSubscriptionStatusBadge(
   status: string,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
 ) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
@@ -127,19 +129,18 @@ export function SubscriptionsTable({
 }: SubscriptionsTableProps) {
   const { t } = useI18n();
   const [searchInput, setSearchInput] = useState("");
-  const [selectedSubForExpire, setSelectedSubForExpire] = useState<AdminSubscriptionItem | null>(
-    null
-  );
-  const [selectedSubForDetail, setSelectedSubForDetail] = useState<AdminSubscriptionItem | null>(
-    null
-  );
+  const [selectedSubForExpire, setSelectedSubForExpire] =
+    useState<AdminSubscriptionItem | null>(null);
+  const [selectedSubForDetail, setSelectedSubForDetail] =
+    useState<AdminSubscriptionItem | null>(null);
   const [isExpireModalOpen, setIsExpireModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminSubscriptionItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminSubscriptionItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedSubscriptions = sortData(subscriptions);
 
@@ -179,11 +180,21 @@ export function SubscriptionsTable({
               onChange={(e) => onStatusFilterChange(e.target.value)}
               variant="pill"
             >
-              <option value="ALL">{t("admin.subscriptions.filterAllStatus")}</option>
-              <option value="ACTIVE">{t("admin.subscriptions.filterActive")}</option>
-              <option value="EXPIRED">{t("admin.subscriptions.filterExpired")}</option>
-              <option value="TRIAL">{t("admin.subscriptions.filterTrial")}</option>
-              <option value="SUSPENDED">{t("admin.subscriptions.filterSuspended")}</option>
+              <option value="ALL">
+                {t("admin.subscriptions.filterAllStatus")}
+              </option>
+              <option value="ACTIVE">
+                {t("admin.subscriptions.filterActive")}
+              </option>
+              <option value="EXPIRED">
+                {t("admin.subscriptions.filterExpired")}
+              </option>
+              <option value="TRIAL">
+                {t("admin.subscriptions.filterTrial")}
+              </option>
+              <option value="SUSPENDED">
+                {t("admin.subscriptions.filterSuspended")}
+              </option>
             </NativeSelect>
 
             <Button
@@ -194,7 +205,9 @@ export function SubscriptionsTable({
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.subscriptions.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("refresh")}</span>
             </Button>
           </div>
@@ -206,7 +219,9 @@ export function SubscriptionsTable({
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.subscriptions.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.subscriptions.loadingText")}
+            </span>
           </div>
         ) : subscriptions.length === 0 ? (
           <EmptyState
@@ -214,7 +229,9 @@ export function SubscriptionsTable({
             title={t("admin.subscriptions.emptyTitle")}
             description={
               searchQuery
-                ? t("admin.subscriptions.emptySearchDesc", { query: searchQuery })
+                ? t("admin.subscriptions.emptySearchDesc", {
+                    query: searchQuery,
+                  })
                 : t("admin.subscriptions.emptyDesc")
             }
           />
@@ -228,7 +245,7 @@ export function SubscriptionsTable({
                 const quotaLimit = s.plan?.monthly_message_limit ?? 1000;
                 const usagePercent = Math.min(
                   100,
-                  Math.round((s.currentMonthUsage / (quotaLimit || 1)) * 100)
+                  Math.round((s.currentMonthUsage / (quotaLimit || 1)) * 100),
                 );
                 const isExpired = s.status === "EXPIRED";
 
@@ -236,13 +253,17 @@ export function SubscriptionsTable({
                   <div key={s.id} className="bg-surface space-y-3 p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="space-y-0.5">
-                        <span className="text-foreground text-sm font-bold">{tenantName}</span>
+                        <span className="text-foreground text-sm font-bold">
+                          {tenantName}
+                        </span>
                         <span className="text-foreground-secondary block font-mono text-xs font-bold">
                           {planName} &bull; {formatCurrency(s.plan?.price ?? 0)}
                         </span>
                       </div>
 
-                      <div className="shrink-0">{getSubscriptionStatusBadge(s.status, t)}</div>
+                      <div className="shrink-0">
+                        {getSubscriptionStatusBadge(s.status, t)}
+                      </div>
                     </div>
 
                     {/* Quota Progress */}
@@ -259,8 +280,14 @@ export function SubscriptionsTable({
                     </div>
 
                     <div className="text-foreground-muted flex items-center justify-between pt-1 text-[11px]">
-                      <span>{t("admin.subscriptions.expiresAt", { date: formatDateTime(s.expiredAt) })}</span>
-                      <span className="font-mono text-[10px]">ID: {s.id.slice(0, 10)}...</span>
+                      <span>
+                        {t("admin.subscriptions.expiresAt", {
+                          date: formatDateTime(s.expiredAt),
+                        })}
+                      </span>
+                      <span className="font-mono text-[10px]">
+                        ID: {s.id.slice(0, 10)}...
+                      </span>
                     </div>
 
                     {/* Actions */}
@@ -354,23 +381,31 @@ export function SubscriptionsTable({
                 </TableHeader>
                 <TableBody>
                   {sortedSubscriptions.map((s) => {
-                    const planName = s.plan?.name || `Plan ${s.planId.slice(0, 8)}`;
+                    const planName =
+                      s.plan?.name || `Plan ${s.planId.slice(0, 8)}`;
                     const tenantName = s.tenant?.name || s.tenantId;
                     const quotaLimit = s.plan?.monthly_message_limit ?? 1000;
                     const usagePercent = Math.min(
                       100,
-                      Math.round((s.currentMonthUsage / (quotaLimit || 1)) * 100)
+                      Math.round(
+                        (s.currentMonthUsage / (quotaLimit || 1)) * 100,
+                      ),
                     );
                     const isExpired = s.status === "EXPIRED";
 
                     return (
-                      <TableRow key={s.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={s.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* 1. Tenant & ID */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="space-y-0.5">
                             <div className="text-foreground flex items-center gap-1.5 text-xs font-bold">
                               <Building2 className="text-foreground-muted size-3 shrink-0" />
-                              <span className="max-w-40 truncate">{tenantName}</span>
+                              <span className="max-w-40 truncate">
+                                {tenantName}
+                              </span>
                             </div>
                             <span className="text-foreground-muted block pl-4.5 font-mono text-[10px]">
                               {s.id.slice(0, 16)}...
@@ -381,7 +416,9 @@ export function SubscriptionsTable({
                         {/* 2. Paket */}
                         <TableCell className="px-4 py-3.5 align-middle">
                           <div className="space-y-0.5">
-                            <span className="text-foreground block font-bold">{planName}</span>
+                            <span className="text-foreground block font-bold">
+                              {planName}
+                            </span>
                             <span className="dark:text-wise-green block font-mono text-[11px] text-emerald-700">
                               {formatCurrency(s.plan?.price ?? 0)}
                             </span>
@@ -412,10 +449,14 @@ export function SubscriptionsTable({
                         <TableCell className="px-4 py-3.5 align-middle">
                           <div className="space-y-0.5 font-mono text-[11px]">
                             <span className="text-foreground-muted block text-[10px]">
-                              {t("admin.subscriptions.validityStart", { date: formatDateTime(s.startedAt) })}
+                              {t("admin.subscriptions.validityStart", {
+                                date: formatDateTime(s.startedAt),
+                              })}
                             </span>
                             <span className="text-foreground block font-bold">
-                              {t("admin.subscriptions.validityUntil", { date: formatDateTime(s.expiredAt) })}
+                              {t("admin.subscriptions.validityUntil", {
+                                date: formatDateTime(s.expiredAt),
+                              })}
                             </span>
                           </div>
                         </TableCell>
@@ -456,10 +497,14 @@ export function SubscriptionsTable({
                                 size="sm"
                                 onClick={() => handleOpenExpire(s)}
                                 className="h-8 cursor-pointer gap-1 rounded-full border-amber-500/30 px-2.5 text-xs font-bold text-amber-700 hover:bg-amber-500/10 dark:text-amber-400"
-                                title={t("admin.subscriptions.setExpiredTooltip")}
+                                title={t(
+                                  "admin.subscriptions.setExpiredTooltip",
+                                )}
                               >
                                 <Clock className="size-3.5" />
-                                <span>{t("admin.subscriptions.setExpiredBtn")}</span>
+                                <span>
+                                  {t("admin.subscriptions.setExpiredBtn")}
+                                </span>
                               </Button>
                             )}
                           </div>

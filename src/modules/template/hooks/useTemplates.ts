@@ -35,17 +35,23 @@ export function useTemplates() {
         favoriteOnly?: boolean;
         page?: number;
       },
-      signal?: AbortSignal
+      signal?: AbortSignal,
     ) => {
       setIsLoading(true);
       setError(null);
       try {
-        const querySearch = overrideParams?.search !== undefined ? overrideParams.search : search;
+        const querySearch =
+          overrideParams?.search !== undefined ? overrideParams.search : search;
         const queryCategory =
-          overrideParams?.category !== undefined ? overrideParams.category : category;
+          overrideParams?.category !== undefined
+            ? overrideParams.category
+            : category;
         const queryFavoriteOnly =
-          overrideParams?.favoriteOnly !== undefined ? overrideParams.favoriteOnly : favoriteOnly;
-        const queryPage = overrideParams?.page !== undefined ? overrideParams.page : page;
+          overrideParams?.favoriteOnly !== undefined
+            ? overrideParams.favoriteOnly
+            : favoriteOnly;
+        const queryPage =
+          overrideParams?.page !== undefined ? overrideParams.page : page;
 
         const res = await templateApi.getTemplates({
           page: queryPage,
@@ -62,13 +68,14 @@ export function useTemplates() {
         setPage(res.page);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
-        const msg = err instanceof Error ? err.message : t("common.networkError");
+        const msg =
+          err instanceof Error ? err.message : t("common.networkError");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [search, category, favoriteOnly, page, pageSize, t]
+    [search, category, favoriteOnly, page, pageSize, t],
   );
 
   // Initial load effect
@@ -84,7 +91,7 @@ export function useTemplates() {
             pageSize,
           },
           // @ts-expect-error signal support if api client accepts
-          controller.signal
+          controller.signal,
         );
         if (isMounted) {
           setTemplates(res.templates);
@@ -94,7 +101,9 @@ export function useTemplates() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         if (isMounted) {
-          setError(err instanceof Error ? err.message : "Gagal memuat template");
+          setError(
+            err instanceof Error ? err.message : "Gagal memuat template",
+          );
         }
       } finally {
         if (isMounted) {
@@ -137,27 +146,34 @@ export function useTemplates() {
     fetchTemplates({ page: p });
   };
 
-  const createTemplate = async (input: CreateTemplateInput): Promise<boolean> => {
+  const createTemplate = async (
+    input: CreateTemplateInput,
+  ): Promise<boolean> => {
     try {
       await templateApi.createTemplate(input);
       toast.success(t("template.createdSuccess"));
       await fetchTemplates();
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.createFailed");
+      const msg =
+        err instanceof Error ? err.message : t("template.createFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const updateTemplate = async (id: string, input: UpdateTemplateInput): Promise<boolean> => {
+  const updateTemplate = async (
+    id: string,
+    input: UpdateTemplateInput,
+  ): Promise<boolean> => {
     try {
       const updated = await templateApi.updateTemplate(id, input);
       toast.success(t("template.updatedSuccess"));
       setTemplates((prev) => prev.map((t) => (t.id === id ? updated : t)));
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.updateFailed");
+      const msg =
+        err instanceof Error ? err.message : t("template.updateFailed");
       toast.error(msg);
       return false;
     }
@@ -170,13 +186,17 @@ export function useTemplates() {
       await fetchTemplates();
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.duplicateFailed");
+      const msg =
+        err instanceof Error ? err.message : t("template.duplicateFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const deleteTemplate = async (id: string, _name?: string): Promise<boolean> => {
+  const deleteTemplate = async (
+    id: string,
+    _name?: string,
+  ): Promise<boolean> => {
     try {
       await templateApi.deleteTemplate(id);
       toast.success(t("template.deletedSuccess"));
@@ -184,7 +204,8 @@ export function useTemplates() {
       setTotal((prev) => Math.max(0, prev - 1));
       return true;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("template.deleteFailed");
+      const msg =
+        err instanceof Error ? err.message : t("template.deleteFailed");
       toast.error(msg);
       return false;
     }
@@ -194,19 +215,21 @@ export function useTemplates() {
     const nextFavorite = !template.isFavorite;
     // Optimistic update
     setTemplates((prev) =>
-      prev.map((t) => (t.id === template.id ? { ...t, isFavorite: nextFavorite } : t))
+      prev.map((t) =>
+        t.id === template.id ? { ...t, isFavorite: nextFavorite } : t,
+      ),
     );
     try {
       await templateApi.toggleFavorite(template.id);
       toast.success(
-        nextFavorite
-          ? t("template.favorited")
-          : t("template.unfavorited")
+        nextFavorite ? t("template.favorited") : t("template.unfavorited"),
       );
     } catch {
       // Rollback
       setTemplates((prev) =>
-        prev.map((t) => (t.id === template.id ? { ...t, isFavorite: template.isFavorite } : t))
+        prev.map((t) =>
+          t.id === template.id ? { ...t, isFavorite: template.isFavorite } : t,
+        ),
       );
       toast.error(t("common.genericError"));
     }
@@ -214,11 +237,21 @@ export function useTemplates() {
 
   // Stats calculation
   const stats = useMemo(() => {
-    const marketingCount = templates.filter((t) => t.category === "MARKETING").length;
-    const utilityCount = templates.filter((t) => t.category === "UTILITY").length;
-    const reminderCount = templates.filter((t) => t.category === "REMINDER").length;
-    const reservationCount = templates.filter((t) => t.category === "RESERVATION").length;
-    const quickReplyCount = templates.filter((t) => t.category === "QUICK_REPLY").length;
+    const marketingCount = templates.filter(
+      (t) => t.category === "MARKETING",
+    ).length;
+    const utilityCount = templates.filter(
+      (t) => t.category === "UTILITY",
+    ).length;
+    const reminderCount = templates.filter(
+      (t) => t.category === "REMINDER",
+    ).length;
+    const reservationCount = templates.filter(
+      (t) => t.category === "RESERVATION",
+    ).length;
+    const quickReplyCount = templates.filter(
+      (t) => t.category === "QUICK_REPLY",
+    ).length;
     const favoriteCount = templates.filter((t) => t.isFavorite).length;
 
     return {

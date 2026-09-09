@@ -3,7 +3,6 @@
 import React from "react";
 import { AuthBanner } from "./AuthBanner";
 import { AuthHeader } from "./AuthHeader";
-import { useI18n } from "@/lib/i18n/context";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -22,10 +21,6 @@ export function AuthLayout({
   bannerScaleTag,
   footerNote,
 }: AuthLayoutProps) {
-  const { t } = useI18n();
-
-  const displayFooterNote = footerNote || t("auth.layout.footerNote");
-
   return (
     <div className="bg-background grid min-h-screen lg:grid-cols-2">
       {/* Kolom Kiri: Visual Banner */}
@@ -44,9 +39,11 @@ export function AuthLayout({
 
         <div className="mx-auto my-auto w-full max-w-md py-8">{children}</div>
 
-        <footer className="text-foreground-muted pt-4 text-center text-xs font-semibold">
-          {displayFooterNote}
-        </footer>
+        {footerNote && (
+          <footer className="text-foreground-muted pt-4 text-center text-xs font-semibold">
+            {footerNote}
+          </footer>
+        )}
       </main>
     </div>
   );

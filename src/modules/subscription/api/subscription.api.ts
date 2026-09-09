@@ -1,7 +1,13 @@
 import { httpClient } from "@/lib/api/http-client";
 import { env } from "@/lib/config/env";
 import { generateSecureRandomString } from "@/lib/utils";
-import { SubscriptionPlan, TenantSubscription, WebhookConfig } from "../types/subscription.types";
+import {
+  SubscriptionPlan,
+  TenantSubscription,
+  WebhookConfig,
+  WebhookLogItem,
+  WebhookLogFilters,
+} from "../types/subscription.types";
 
 const SUBSCRIPTION_BASE = env.NEXT_PUBLIC_WHATSAPP_API_URL;
 
@@ -80,7 +86,7 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
 ];
 
 function normalizeSubscription(
-  raw: Record<string, unknown> | null | undefined
+  raw: Record<string, unknown> | null | undefined,
 ): TenantSubscription {
   if (!raw) {
     return {
@@ -98,15 +104,20 @@ function normalizeSubscription(
     };
   }
 
-  const rawPlan = (raw.plan && typeof raw.plan === "object" ? raw.plan : {}) as Record<
-    string,
-    unknown
-  >;
+  const rawPlan = (
+    raw.plan && typeof raw.plan === "object" ? raw.plan : {}
+  ) as Record<string, unknown>;
 
   const planId = String(
-    raw.plan_id || raw.planId || rawPlan.id || raw.id || "01JPLAN0000000000000000001"
+    raw.plan_id ||
+      raw.planId ||
+      rawPlan.id ||
+      raw.id ||
+      "01JPLAN0000000000000000001",
   );
-  const planName = String(rawPlan.name || raw.plan_name || raw.planName || raw.name || "Starter");
+  const planName = String(
+    rawPlan.name || raw.plan_name || raw.planName || raw.name || "Starter",
+  );
   const planPrice = Number(rawPlan.price ?? raw.plan_price ?? 0);
 
   const quotaUsed = Number(
@@ -115,7 +126,7 @@ function normalizeSubscription(
       raw.quota_used ??
       raw.quotaUsed ??
       raw.used_quota ??
-      0
+      0,
   );
 
   const quotaTotal = Number(
@@ -124,11 +135,11 @@ function normalizeSubscription(
       raw.monthly_message_limit ??
       raw.quota_total ??
       raw.quotaTotal ??
-      1500
+      1500,
   );
 
   const deviceSlotsUsed = Number(
-    raw.device_slots_used ?? raw.deviceSlotsUsed ?? raw.active_devices ?? 0
+    raw.device_slots_used ?? raw.deviceSlotsUsed ?? raw.active_devices ?? 0,
   );
 
   const deviceSlotsMax = Number(
@@ -137,15 +148,19 @@ function normalizeSubscription(
       raw.max_devices ??
       raw.device_slots_max ??
       raw.deviceSlotsMax ??
-      1
+      1,
   );
 
   const hasWatermark = Boolean(
-    rawPlan.has_watermark ?? rawPlan.hasWatermark ?? raw.has_watermark ?? raw.hasWatermark ?? false
+    rawPlan.has_watermark ??
+    rawPlan.hasWatermark ??
+    raw.has_watermark ??
+    raw.hasWatermark ??
+    false,
   );
 
   const expiresAt = String(
-    raw.expired_at || raw.expiredAt || raw.expires_at || raw.expiresAt || ""
+    raw.expired_at || raw.expiredAt || raw.expires_at || raw.expiresAt || "",
   );
 
   const status = String(raw.status || "ACTIVE").toUpperCase();
@@ -153,10 +168,10 @@ function normalizeSubscription(
 
   const isLifetime = Boolean(
     raw.is_lifetime ||
-      raw.isLifetime ||
-      planPrice === 0 ||
-      planName.toUpperCase() === "FREE" ||
-      planName.toUpperCase() === "STARTER"
+    raw.isLifetime ||
+    planPrice === 0 ||
+    planName.toUpperCase() === "FREE" ||
+    planName.toUpperCase() === "STARTER",
   );
 
   return {
@@ -177,31 +192,49 @@ function normalizeSubscription(
 
 function normalizePlan(raw: Record<string, unknown>): SubscriptionPlan {
   const id = String(raw.id || raw.plan_id || raw.planId || "plan_custom");
-  const name = String(raw.name || raw.plan_name || raw.planName || "Paket Langganan");
-  const priceMonthly = Number(raw.price ?? raw.price_monthly ?? raw.priceMonthly ?? 0);
+  const name = String(
+    raw.name || raw.plan_name || raw.planName || "Paket Langganan",
+  );
+  const priceMonthly = Number(
+    raw.price ?? raw.price_monthly ?? raw.priceMonthly ?? 0,
+  );
   const quotaMonthly = Number(
     raw.monthly_message_limit ??
       raw.monthlyMessageLimit ??
       raw.quota_monthly ??
       raw.quotaMonthly ??
-      1500
+      1500,
   );
   const maxDeviceSlots = Number(
-    raw.max_devices ?? raw.maxDevices ?? raw.max_device_slots ?? raw.maxDeviceSlots ?? 1
+    raw.max_devices ??
+      raw.maxDevices ??
+      raw.max_device_slots ??
+      raw.maxDeviceSlots ??
+      1,
   );
   const maxAgents = Number(raw.max_agents ?? raw.maxAgents ?? 0);
   const hasWatermark = Boolean(raw.has_watermark ?? raw.hasWatermark ?? false);
-  const allowAttachment = Boolean(raw.allow_attachment ?? raw.allowAttachment ?? false);
-  const allowCampaign = Boolean(raw.allow_campaign ?? raw.allowCampaign ?? true);
-  const allowAutoreply = Boolean(raw.allow_autoreply ?? raw.allowAutoreply ?? false);
-  const allowSchedule = Boolean(raw.allow_schedule ?? raw.allowSchedule ?? false);
+  const allowAttachment = Boolean(
+    raw.allow_attachment ?? raw.allowAttachment ?? false,
+  );
+  const allowCampaign = Boolean(
+    raw.allow_campaign ?? raw.allowCampaign ?? true,
+  );
+  const allowAutoreply = Boolean(
+    raw.allow_autoreply ?? raw.allowAutoreply ?? false,
+  );
+  const allowSchedule = Boolean(
+    raw.allow_schedule ?? raw.allowSchedule ?? false,
+  );
 
   // Dynamic feature generation based directly on database columns
   let features: string[] = [];
   if (Array.isArray(raw.features) && raw.features.length > 0) {
     features = raw.features.map(String);
   } else {
-    features.push(`${quotaMonthly.toLocaleString("id-ID")} Pesan Broadcast / bulan`);
+    features.push(
+      `${quotaMonthly.toLocaleString("id-ID")} Pesan Broadcast / bulan`,
+    );
     features.push(`${maxDeviceSlots} Slot WhatsApp Multi-Device`);
     if (maxAgents > 0) {
       features.push(`${maxAgents} Akun Operator CS / Multi-Agent`);
@@ -249,11 +282,13 @@ function normalizePlan(raw: Record<string, unknown>): SubscriptionPlan {
 }
 
 export const subscriptionApi = {
-  getSubscription: async (signal?: AbortSignal): Promise<TenantSubscription> => {
+  getSubscription: async (
+    signal?: AbortSignal,
+  ): Promise<TenantSubscription> => {
     try {
       const res = await httpClient.get<Record<string, unknown>>(
         `${SUBSCRIPTION_BASE}/subscription`,
-        { signal }
+        { signal },
       );
       return normalizeSubscription(res.payload);
     } catch (err: unknown) {
@@ -266,7 +301,7 @@ export const subscriptionApi = {
     try {
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${SUBSCRIPTION_BASE}/subscription/plans`,
-        { signal }
+        { signal },
       );
       if (Array.isArray(res.payload) && res.payload.length > 0) {
         return res.payload.map(normalizePlan);
@@ -278,10 +313,12 @@ export const subscriptionApi = {
     }
   },
 
-  upgradePlan: async (planId: string): Promise<{ success: boolean; invoiceUrl?: string }> => {
+  upgradePlan: async (
+    planId: string,
+  ): Promise<{ success: boolean; invoiceUrl?: string }> => {
     const res = await httpClient.post<{ invoiceUrl?: string }>(
       `${SUBSCRIPTION_BASE}/subscription/upgrade`,
-      { planId }
+      { planId },
     );
     return { success: res.success, invoiceUrl: res.payload?.invoiceUrl };
   },
@@ -290,55 +327,115 @@ export const subscriptionApi = {
     try {
       const res = await httpClient.get<Record<string, unknown>>(
         `${SUBSCRIPTION_BASE}/subscription/webhook`,
-        { signal }
+        { signal },
       );
       const payload = res.payload;
       return {
-        url: String(
-          payload?.url || payload?.webhook_url || "https://api.business.com/v1/whatsapp/webhook"
-        ),
-        secret: String(
-          payload?.secret ||
-            payload?.webhook_secret ||
-            "whsec_live_9a7e60bd2c5a4fce87332185000bb181"
-        ),
+        url: String(payload?.url || payload?.webhook_url || ""),
+        secret: String(payload?.secret || payload?.webhook_secret || ""),
         isEnabled: Boolean(payload?.isEnabled ?? payload?.is_enabled ?? true),
+        events: Array.isArray(payload?.events)
+          ? (payload.events as string[])
+          : ["message.received", "device.status"],
       };
     } catch (err: unknown) {
       if (err instanceof Error && err.name === "AbortError") throw err;
       return {
-        url: "https://api.business.com/v1/whatsapp/webhook",
-        secret: "whsec_live_9a7e60bd2c5a4fce87332185000bb181",
+        url: "",
+        secret: "",
         isEnabled: true,
+        events: ["message.received", "device.status"],
       };
     }
   },
 
   updateWebhookConfig: async (payload: {
     url: string;
+    secret?: string;
     isEnabled: boolean;
+    events?: string[];
   }): Promise<WebhookConfig> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUBSCRIPTION_BASE}/subscription/webhook`,
-      payload
+      {
+        webhook_url: payload.url,
+        url: payload.url,
+        webhook_secret: payload.secret,
+        secret: payload.secret,
+        is_enabled: payload.isEnabled,
+        events: payload.events,
+      },
     );
     const data = res.payload;
     return {
-      url: String(data?.url || payload.url),
-      secret: String(data?.secret || "whsec_live_9a7e60bd2c5a4fce87332185000bb181"),
-      isEnabled: Boolean(data?.isEnabled ?? payload.isEnabled),
+      url: String(data?.url || data?.webhook_url || payload.url),
+      secret: String(
+        data?.secret || data?.webhook_secret || payload.secret || "",
+      ),
+      isEnabled: Boolean(
+        data?.isEnabled ?? data?.is_enabled ?? payload.isEnabled,
+      ),
+      events: Array.isArray(data?.events)
+        ? (data.events as string[])
+        : payload.events,
     };
   },
 
   regenerateWebhookSecret: async (): Promise<{ secret: string }> => {
-    const res = await httpClient.post<{ secret?: string; webhook_secret?: string }>(
-      `${SUBSCRIPTION_BASE}/subscription/webhook/regenerate-secret`
-    );
+    const res = await httpClient.post<{
+      secret?: string;
+      webhook_secret?: string;
+    }>(`${SUBSCRIPTION_BASE}/subscription/webhook/regenerate-secret`);
     return {
       secret:
         res.payload?.secret ||
         res.payload?.webhook_secret ||
         generateSecureRandomString("whsec_live_", 24),
     };
+  },
+
+  getWebhookLogs: async (
+    params?: WebhookLogFilters,
+    signal?: AbortSignal,
+  ): Promise<{ data: WebhookLogItem[]; total: number }> => {
+    try {
+      const q = new URLSearchParams();
+      if (params?.page) q.set("page", String(params.page));
+      if (params?.page_size) q.set("page_size", String(params.page_size));
+      if (params?.search) q.set("search", params.search);
+      if (params?.event_name && params.event_name !== "ALL")
+        q.set("event_name", params.event_name);
+      if (params?.response_status)
+        q.set("response_status", String(params.response_status));
+
+      const queryStr = q.toString() ? `?${q.toString()}` : "";
+      const res = await httpClient.get<WebhookLogItem[]>(
+        `${SUBSCRIPTION_BASE}/subscription/webhook/logs${queryStr}`,
+        { signal },
+      );
+      return {
+        data: Array.isArray(res.payload) ? res.payload : [],
+        total:
+          res.pagination?.total_items ||
+          (Array.isArray(res.payload) ? res.payload.length : 0),
+      };
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") throw err;
+      return { data: [], total: 0 };
+    }
+  },
+
+  deleteWebhookLog: async (id: string): Promise<boolean> => {
+    const res = await httpClient.delete(
+      `${SUBSCRIPTION_BASE}/subscription/webhook/logs/${id}`,
+    );
+    return res.success;
+  },
+
+  retryWebhookLog: async (id: string): Promise<boolean> => {
+    const res = await httpClient.post(
+      `${SUBSCRIPTION_BASE}/subscription/webhook/logs/${id}/retry`,
+    );
+    return res.success;
   },
 };

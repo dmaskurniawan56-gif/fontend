@@ -22,7 +22,9 @@ export function VariableInsertChips({ onInsert }: VariableInsertChipsProps) {
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between text-xs text-foreground-muted">
         <span className="font-medium">{t("reminder.variables.title")}</span>
-        <span className="text-[11px] opacity-75">{t("reminder.variables.format")}</span>
+        <span className="text-[11px] opacity-75">
+          {t("reminder.variables.format")}
+        </span>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {reminderVariables.map((v) => (

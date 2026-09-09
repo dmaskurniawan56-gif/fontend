@@ -8,16 +8,15 @@ import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { useI18n } from "@/lib/i18n/context";
+import { CountrySearchCombobox } from "./CountrySearchCombobox";
 import {
   MapPin,
   Building,
   Navigation,
-  Globe,
   Mail,
   Loader2,
   Save,
   CheckCircle2,
-  ShieldCheck,
   Info,
   ArrowLeft,
 } from "lucide-react";
@@ -40,6 +39,7 @@ export function UserAddressForm() {
     isLoadingCities,
     isLoadingDistricts,
     isSaving,
+    handleCountryChange,
     handleProvinceChange,
     handleCityChange,
     handleDistrictChange,
@@ -47,7 +47,14 @@ export function UserAddressForm() {
     handleSubmit,
   } = useUserAddress();
 
-  const redirectTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isIndonesia =
+    !formState.country ||
+    formState.country.toLowerCase() === "indonesia" ||
+    formState.country.toUpperCase() === "ID";
+
+  const redirectTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   React.useEffect(() => {
     return () => {
@@ -149,138 +156,186 @@ export function UserAddressForm() {
           {/* 1. Country / Negara */}
           <div className="space-y-2">
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.countryLabel")}
+              {t("address.countryLabel")}{" "}
+              <span className="text-rose-500">*</span>
             </label>
-            <div className="relative">
-              <Globe className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <Input
-                type="text"
-                value={formState.country}
-                disabled
-                readOnly
-                variant="rounded"
-                className="bg-muted/50 h-11 cursor-not-allowed pr-4 pl-10 sm:text-sm"
-              />
-            </div>
+            <CountrySearchCombobox
+              value={formState.country || "Indonesia"}
+              onChange={(countryName) => handleCountryChange(countryName)}
+              required
+            />
           </div>
 
           {/* 2. State / Provinsi */}
-          <div className="space-y-2">
-            <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.provinceLabel")} <span className="text-rose-500">*</span>
-            </label>
-            <div className="relative">
-              <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.state}
-                onChange={(e) => handleProvinceChange(e.target.value)}
-                required
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">{t("address.provincePlaceholder")}</option>
-                {provinces.map((prov) => (
-                  <option key={prov.id} value={prov.name}>
-                    {prov.name}
-                  </option>
-                ))}
-              </NativeSelect>
+          {isIndonesia ? (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.provinceLabel")}{" "}
+                <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.state}
+                  onChange={(e) => handleProvinceChange(e.target.value)}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">{t("address.provincePlaceholder")}</option>
+                  {provinces.map((prov) => (
+                    <option key={prov.id} value={prov.name}>
+                      {prov.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.provinceInternationalLabel")}{" "}
+                <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  value={formState.state}
+                  onChange={(e) => handleFieldChange("state", e.target.value)}
+                  placeholder={t("address.provinceInternationalPlaceholder")}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-4 pl-10 sm:text-sm font-medium"
+                />
+              </div>
+            </div>
+          )}
 
           {/* 3. City / Kota / Kabupaten */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.cityLabel")} <span className="text-rose-500">*</span>
-              </label>
-              {isLoadingCities && (
-                <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
-                  <Loader2 className="size-3 animate-spin" />
-                  <span>Memuat...</span>
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.city}
-                onChange={(e) => handleCityChange(e.target.value)}
-                disabled={!formState.state || isLoadingCities}
-                required
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">
-                  {!formState.state
-                    ? "Pilih provinsi terlebih dahulu"
-                    : isLoadingCities
-                      ? "Memuat kota..."
-                      : t("address.cityPlaceholder")}
-                </option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.name}>
-                    {city.name}
+          {isIndonesia ? (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                  {t("address.cityLabel")}{" "}
+                  <span className="text-rose-500">*</span>
+                </label>
+                {isLoadingCities && (
+                  <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+                    <Loader2 className="size-3 animate-spin" />
+                    <span>{t("common.loading")}</span>
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.city}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  disabled={!formState.state || isLoadingCities}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">
+                    {!formState.state
+                      ? t("address.selectStateFirst")
+                      : isLoadingCities
+                        ? t("address.loadingCities")
+                        : t("address.cityPlaceholder")}
                   </option>
-                ))}
-              </NativeSelect>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.cityInternationalLabel")}{" "}
+                <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  value={formState.city}
+                  onChange={(e) => handleFieldChange("city", e.target.value)}
+                  placeholder={t("address.cityInternationalPlaceholder")}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-4 pl-10 sm:text-sm font-medium"
+                />
+              </div>
+            </div>
+          )}
 
-          {/* 4. District / Kecamatan (UI Helper) */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.districtLabel")}
-              </label>
-              {isLoadingDistricts && (
-                <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
-                  <Loader2 className="size-3 animate-spin" />
-                  <span>Memuat...</span>
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.district}
-                onChange={(e) => handleDistrictChange(e.target.value)}
-                disabled={!formState.city || isLoadingDistricts}
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">
-                  {!formState.city
-                    ? "Pilih kota terlebih dahulu"
-                    : isLoadingDistricts
-                      ? "Memuat kecamatan..."
-                      : t("address.districtPlaceholder")}
-                </option>
-                {districts.map((dist) => (
-                  <option key={dist.id} value={dist.name}>
-                    {dist.name}
+          {/* 4. District / Kecamatan (UI Helper - Only for Indonesia) */}
+          {isIndonesia && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                  {t("address.districtLabel")}
+                </label>
+                {isLoadingDistricts && (
+                  <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+                    <Loader2 className="size-3 animate-spin" />
+                    <span>{t("common.loading")}</span>
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.district}
+                  onChange={(e) => handleDistrictChange(e.target.value)}
+                  disabled={!formState.city || isLoadingDistricts}
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">
+                    {!formState.city
+                      ? t("address.selectCityFirst")
+                      : isLoadingDistricts
+                        ? t("address.loadingDistricts")
+                        : t("address.districtPlaceholder")}
                   </option>
-                ))}
-              </NativeSelect>
+                  {districts.map((dist) => (
+                    <option key={dist.id} value={dist.name}>
+                      {dist.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* 5. Postal Code / Kode Pos */}
           <div className="space-y-2">
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.postalCodeLabel")} <span className="text-rose-500">*</span>
+              {t("address.postalCodeLabel")}{" "}
+              <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
               <Mail className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
               <Input
                 type="text"
                 value={formState.postal_code}
-                onChange={(e) => handleFieldChange("postal_code", e.target.value)}
-                placeholder={t("address.postalCodePlaceholder")}
+                onChange={(e) =>
+                  handleFieldChange("postal_code", e.target.value)
+                }
+                placeholder={
+                  isIndonesia
+                    ? t("address.postalCodePlaceholder")
+                    : t("address.postalCodeInternationalPlaceholder")
+                }
                 maxLength={10}
                 required
                 variant="rounded"
-                className="h-11 pr-4 pl-10 sm:text-sm"
+                className="h-11 pr-4 pl-10 sm:text-sm font-medium"
               />
             </div>
           </div>
@@ -289,7 +344,8 @@ export function UserAddressForm() {
         {/* 6. Street Address / Alamat Lengkap */}
         <div className="space-y-2 pt-1">
           <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-            {t("address.streetAddressLabel")} <span className="text-rose-500">*</span>
+            {t("address.streetAddressLabel")}{" "}
+            <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <Textarea
@@ -302,49 +358,44 @@ export function UserAddressForm() {
               className="p-3.5 leading-relaxed font-medium sm:text-sm"
             />
           </div>
-          <p className="text-foreground-muted text-[11px]">{t("address.streetAddressHelp")}</p>
+          <p className="text-foreground-muted text-[11px]">
+            {t("address.streetAddressHelp")}
+          </p>
         </div>
 
-        {/* Footer Security Notice & Action Button */}
-        <div className="border-border/60 flex flex-col justify-between gap-4 border-t pt-4 sm:flex-row sm:items-center">
-          <div className="text-foreground-muted flex items-center gap-2 text-xs">
-            <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
-            <span>{t("address.securityNote")}</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {from === "billing" && (
-              <Button
-                type="button"
-                variant="outlinePill"
-                size="lg"
-                onClick={() => router.push("/billing")}
-                className="cursor-pointer gap-1.5 text-xs font-bold"
-              >
-                <ArrowLeft className="size-4" />
-                <span>Batal & Kembali ke Tagihan</span>
-              </Button>
-            )}
+        {/* Footer Action Button */}
+        <div className="border-border/60 flex flex-col justify-end gap-3 border-t pt-4 sm:flex-row sm:items-center">
+          {from === "billing" && (
             <Button
-              type="submit"
-              variant="primaryPill"
+              type="button"
+              variant="outlinePill"
               size="lg"
-              disabled={isSaving}
-              className="w-full min-w-44 cursor-pointer gap-2 font-bold shadow-sm sm:w-auto"
+              onClick={() => router.push("/billing")}
+              className="cursor-pointer gap-1.5 text-xs font-bold"
             >
-              {isSaving ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" />
-                  <span>{t("address.saving")}</span>
-                </>
-              ) : (
-                <>
-                  <Save className="size-4" />
-                  <span>{t("address.saveBtn")}</span>
-                </>
-              )}
+              <ArrowLeft className="size-4" />
+              <span>{t("address.cancelAndBackToBilling")}</span>
             </Button>
-          </div>
+          )}
+          <Button
+            type="submit"
+            variant="primaryPill"
+            size="lg"
+            disabled={isSaving}
+            className="w-full min-w-44 cursor-pointer gap-2 font-bold shadow-sm sm:w-auto"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>{t("address.saving")}</span>
+              </>
+            ) : (
+              <>
+                <Save className="size-4" />
+                <span>{t("address.saveBtn")}</span>
+              </>
+            )}
+          </Button>
         </div>
       </form>
     </div>

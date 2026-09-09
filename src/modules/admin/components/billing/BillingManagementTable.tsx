@@ -3,8 +3,16 @@
 import React, { useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import { useAdminBilling } from "@/modules/admin/hooks/useAdminBilling";
+import dynamic from "next/dynamic";
 import { AdminBillingItem } from "@/modules/admin/types/admin.types";
-import { UpdateBillingStatusModal } from "./UpdateBillingStatusModal";
+
+const UpdateBillingStatusModal = dynamic(
+  () =>
+    import("./UpdateBillingStatusModal").then(
+      (m) => m.UpdateBillingStatusModal,
+    ),
+  { ssr: false },
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";
@@ -34,7 +42,10 @@ import {
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { useTableSort } from "@/hooks/useTableSort";
 
-function getStatusBadge(status: string, t: (key: string, params?: Record<string, string | number>) => string) {
+function getStatusBadge(
+  status: string,
+  t: (key: string, params?: Record<string, string | number>) => string,
+) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
     case "PAID":
@@ -88,7 +99,8 @@ function formatPaymentMethod(method: string, locale: string) {
   if (upper.includes("DUITKU")) return "Duitku Gateway";
   if (upper.includes("MIDTRANS")) return "Midtrans Gateway";
   if (upper.includes("XENDIT")) return "Xendit Gateway";
-  if (upper.includes("MANUAL")) return locale === "en" ? "Manual Transfer" : "Transfer Manual";
+  if (upper.includes("MANUAL"))
+    return locale === "en" ? "Manual Transfer" : "Transfer Manual";
   return method || "Payment Gateway";
 }
 
@@ -116,19 +128,21 @@ export function BillingManagementTable() {
   } = useAdminBilling();
 
   const [searchInput, setSearchInput] = useState("");
-  const [selectedBillingForStatus, setSelectedBillingForStatus] = useState<AdminBillingItem | null>(
-    null
-  );
+  const [selectedBillingForStatus, setSelectedBillingForStatus] =
+    useState<AdminBillingItem | null>(null);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminBillingItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminBillingItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedBillings = sortData(billings);
 
-  const formatLocalizedDateTime = (dateInput: string | Date | number): string => {
+  const formatLocalizedDateTime = (
+    dateInput: string | Date | number,
+  ): string => {
     const date = new Date(dateInput);
     if (isNaN(date.getTime())) return "-";
     return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "id-ID", {
@@ -162,7 +176,10 @@ export function BillingManagementTable() {
             <CheckCircle2 className="dark:text-wise-green size-4 text-emerald-600" />
           </div>
           <div className="dark:text-wise-green font-mono text-lg font-black text-emerald-700 sm:text-xl">
-            Rp {metrics.paidTotal.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+            Rp{" "}
+            {metrics.paidTotal.toLocaleString(
+              locale === "en" ? "en-US" : "id-ID",
+            )}
           </div>
           <span className="text-foreground-muted text-[10px]">
             {t("admin.billing.metricPaidDesc")}
@@ -238,10 +255,18 @@ export function BillingManagementTable() {
             >
               <option value="ALL">{t("admin.devices.filterAll")}</option>
               <option value="PAID">{t("admin.billing.statusPaid")}</option>
-              <option value="PENDING">{t("admin.billing.statusPending")}</option>
-              <option value="PROCESSING">{t("admin.billing.statusProcessing")}</option>
-              <option value="EXPIRED">{t("admin.billing.statusExpired")}</option>
-              <option value="CANCELLED">{t("admin.billing.statusCancelled")}</option>
+              <option value="PENDING">
+                {t("admin.billing.statusPending")}
+              </option>
+              <option value="PROCESSING">
+                {t("admin.billing.statusProcessing")}
+              </option>
+              <option value="EXPIRED">
+                {t("admin.billing.statusExpired")}
+              </option>
+              <option value="CANCELLED">
+                {t("admin.billing.statusCancelled")}
+              </option>
             </NativeSelect>
 
             {/* Refresh Button */}
@@ -253,7 +278,9 @@ export function BillingManagementTable() {
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.billing.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("common.refresh")}</span>
             </Button>
           </div>
@@ -284,7 +311,8 @@ export function BillingManagementTable() {
             {/* Mobile View: Cards (< 1024px) */}
             <div className="divide-border/60 divide-y lg:hidden">
               {sortedBillings.map((b) => {
-                const canChangeStatus = b.status === "PENDING" || b.status === "PROCESSING";
+                const canChangeStatus =
+                  b.status === "PENDING" || b.status === "PROCESSING";
 
                 return (
                   <div key={b.id} className="bg-surface space-y-3 p-4">
@@ -304,7 +332,9 @@ export function BillingManagementTable() {
                         </div>
                       </div>
 
-                      <div className="shrink-0">{getStatusBadge(b.status, t)}</div>
+                      <div className="shrink-0">
+                        {getStatusBadge(b.status, t)}
+                      </div>
                     </div>
 
                     {/* Amount & Method Grid */}
@@ -314,7 +344,10 @@ export function BillingManagementTable() {
                           {t("admin.billing.colAmount")}
                         </span>
                         <span className="dark:text-wise-green font-mono text-sm font-bold text-emerald-700">
-                          Rp {b.amount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                          Rp{" "}
+                          {b.amount.toLocaleString(
+                            locale === "en" ? "en-US" : "id-ID",
+                          )}
                         </span>
                       </div>
 
@@ -330,7 +363,9 @@ export function BillingManagementTable() {
 
                     {/* Reference & Date */}
                     <div className="text-foreground-muted flex items-center justify-between pt-1 text-[11px]">
-                      <span className="font-mono">ID: {b.id.slice(0, 16)}...</span>
+                      <span className="font-mono">
+                        ID: {b.id.slice(0, 16)}...
+                      </span>
                       <span>{formatLocalizedDateTime(b.createdAt)}</span>
                     </div>
 
@@ -427,14 +462,20 @@ export function BillingManagementTable() {
                 </TableHeader>
                 <TableBody>
                   {sortedBillings.map((b) => {
-                    const canChangeStatus = b.status === "PENDING" || b.status === "PROCESSING";
+                    const canChangeStatus =
+                      b.status === "PENDING" || b.status === "PROCESSING";
 
                     return (
-                      <TableRow key={b.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={b.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* 1. ID Transaksi */}
                         <TableCell className="px-5 py-3.5 align-middle font-mono text-xs">
                           <div className="flex items-center gap-1.5">
-                            <span className="text-foreground font-bold">{b.id.slice(0, 16)}</span>
+                            <span className="text-foreground font-bold">
+                              {b.id.slice(0, 16)}
+                            </span>
                             {b.invoiceUrl && (
                               <a
                                 href={b.invoiceUrl}
@@ -469,7 +510,10 @@ export function BillingManagementTable() {
                         {/* 3. Nominal Topup */}
                         <TableCell className="px-4 py-3.5 text-right align-middle font-mono font-bold">
                           <span className="dark:text-wise-green text-sm text-emerald-700">
-                            Rp {b.amount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                            Rp{" "}
+                            {b.amount.toLocaleString(
+                              locale === "en" ? "en-US" : "id-ID",
+                            )}
                           </span>
                         </TableCell>
 

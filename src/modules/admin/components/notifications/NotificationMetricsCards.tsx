@@ -14,7 +14,9 @@ interface NotificationMetricsCardsProps {
   metrics: NotificationMetrics;
 }
 
-export function NotificationMetricsCards({ metrics }: NotificationMetricsCardsProps) {
+export function NotificationMetricsCards({
+  metrics,
+}: NotificationMetricsCardsProps) {
   const { t } = useI18n();
 
   return (
@@ -57,7 +59,8 @@ export function NotificationMetricsCards({ metrics }: NotificationMetricsCardsPr
           <RotateCcw className="size-4 text-blue-500" />
         </div>
         <div className="font-mono text-lg font-black text-blue-600 sm:text-xl dark:text-blue-400">
-          {metrics.processingCount + metrics.pendingCount} {t("admin.notifications.taskUnit")}
+          {metrics.processingCount + metrics.pendingCount}{" "}
+          {t("admin.notifications.taskUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
           {t("admin.notifications.processingQueuesDesc")}

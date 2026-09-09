@@ -11,7 +11,8 @@ import {
 } from "../types/finance.types";
 import { userApi } from "@/modules/iam/api/user.api";
 
-const BILLING_BASE = env.NEXT_PUBLIC_FINANCE_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
+const BILLING_BASE =
+  env.NEXT_PUBLIC_FINANCE_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 export const DEFAULT_INVOICES: Invoice[] = [];
 
@@ -24,19 +25,23 @@ export function normalizeInvoice(raw: Record<string, unknown>): Invoice {
         ? "EXPIRED"
         : "PENDING";
 
-  const amount = Number(raw.amount ?? raw.total_price ?? raw.gross_amount ?? raw.price ?? 0);
+  const amount = Number(
+    raw.amount ?? raw.total_price ?? raw.gross_amount ?? raw.price ?? 0,
+  );
   const invoiceNumber = String(
     raw.invoiceNumber ||
       raw.invoice_number ||
       raw.ref ||
       raw.id ||
-      `INV/2026/08/WAH-${Date.now().toString().slice(-4)}`
+      `INV/2026/08/WAH-${Date.now().toString().slice(-4)}`,
   );
   const description = String(
-    raw.description || raw.title || `Top-Up Saldo Deposit Rp ${amount.toLocaleString("id-ID")}`
+    raw.description ||
+      raw.title ||
+      `Top-Up Saldo Deposit Rp ${amount.toLocaleString("id-ID")}`,
   );
   const paymentMethod = String(
-    raw.paymentMethod || raw.payment_method || raw.method || "QRIS"
+    raw.paymentMethod || raw.payment_method || raw.method || "QRIS",
   ) as PaymentMethod;
 
   const rawUrl =
@@ -58,9 +63,14 @@ export function normalizeInvoice(raw: Record<string, unknown>): Invoice {
 
   const paymentUrl = rawUrl ? String(rawUrl) : undefined;
   const invoiceUrl =
-    raw.invoiceUrl || raw.invoice_url ? String(raw.invoiceUrl || raw.invoice_url) : paymentUrl;
-  const createdAt = String(raw.createdAt || raw.created_at || new Date().toISOString());
-  const paidAt = raw.paidAt || raw.paid_at ? String(raw.paidAt || raw.paid_at) : undefined;
+    raw.invoiceUrl || raw.invoice_url
+      ? String(raw.invoiceUrl || raw.invoice_url)
+      : paymentUrl;
+  const createdAt = String(
+    raw.createdAt || raw.created_at || new Date().toISOString(),
+  );
+  const paidAt =
+    raw.paidAt || raw.paid_at ? String(raw.paidAt || raw.paid_at) : undefined;
 
   return {
     id: String(raw.id || invoiceNumber),
@@ -76,7 +86,9 @@ export function normalizeInvoice(raw: Record<string, unknown>): Invoice {
   };
 }
 
-export function normalizeBalance(raw: Record<string, unknown> | null | undefined): TenantBalance {
+export function normalizeBalance(
+  raw: Record<string, unknown> | null | undefined,
+): TenantBalance {
   if (!raw) {
     return {
       amount: 0,
@@ -108,7 +120,10 @@ export const financeApi = {
     }
   },
 
-  getInvoices: async (params?: GetInvoicesParams, signal?: AbortSignal): Promise<InvoiceListResponse> => {
+  getInvoices: async (
+    params?: GetInvoicesParams,
+    signal?: AbortSignal,
+  ): Promise<InvoiceListResponse> => {
     try {
       const page = params?.page ?? 1;
       const pageSize = params?.pageSize ?? 10;
@@ -124,20 +139,24 @@ export const financeApi = {
       const queryString = `?${query.toString()}`;
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${BILLING_BASE}/billing/invoices${queryString}`,
-        { signal }
+        { signal },
       );
 
       const rawList = res.payload || (Array.isArray(res) ? res : []);
       const invoices =
         Array.isArray(rawList) && rawList.length > 0
-          ? rawList.map((item) => normalizeInvoice(item as Record<string, unknown>))
+          ? rawList.map((item) =>
+              normalizeInvoice(item as Record<string, unknown>),
+            )
           : [];
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : invoices.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : invoices.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         invoices,
@@ -157,7 +176,7 @@ export const financeApi = {
   },
 
   createTopUp: async (
-    payload: CreateTopUpInput
+    payload: CreateTopUpInput,
   ): Promise<{ invoiceUrl?: string; invoice: Invoice }> => {
     const idempotencyKey =
       typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
@@ -174,7 +193,7 @@ export const financeApi = {
         headers: {
           "Idempotency-Key": idempotencyKey,
         },
-      }
+      },
     );
 
     const data = res.payload || {};

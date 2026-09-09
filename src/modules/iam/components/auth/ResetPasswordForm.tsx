@@ -8,7 +8,10 @@ import { Alert } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
 import { TurnstileWidget } from "@/components/shared/TurnstileWidget";
 import { TurnstileInstance } from "@marsidev/react-turnstile";
-import { resetPasswordSchema, ResetPasswordInput } from "@/modules/iam/schemas/auth.schema";
+import {
+  resetPasswordSchema,
+  ResetPasswordInput,
+} from "@/modules/iam/schemas/auth.schema";
 import { authApi } from "@/modules/iam/api/auth.api";
 import { useI18n } from "@/lib/i18n/context";
 import {
@@ -61,7 +64,9 @@ export function ResetPasswordForm() {
 
     const result = resetPasswordSchema.safeParse(formData);
     if (!result.success) {
-      setError(result.error.issues[0]?.message || "Data konfirmasi tidak valid");
+      setError(
+        result.error.issues[0]?.message || "Data konfirmasi tidak valid",
+      );
       return;
     }
 
@@ -83,9 +88,7 @@ export function ResetPasswordForm() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError(
-          "Gagal mereset password. Pastikan token verifikasi Anda valid dan belum kadaluarsa."
-        );
+        setError(t("auth.resetPassword.errorResetFailed"));
       }
     } finally {
       setIsLoading(false);
@@ -140,7 +143,10 @@ export function ResetPasswordForm() {
               type="text"
               value={formData.token}
               onChange={(e) => {
-                setFormData((prev) => ({ ...prev, token: e.target.value.trim() }));
+                setFormData((prev) => ({
+                  ...prev,
+                  token: e.target.value.trim(),
+                }));
                 setError(null);
               }}
               placeholder={t("auth.resetPassword.tokenPlaceholder")}
@@ -174,7 +180,11 @@ export function ResetPasswordForm() {
               className="text-foreground-muted hover:text-foreground absolute top-1/2 right-4 -translate-y-1/2 transition"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+              {showPassword ? (
+                <EyeOff className="size-5" />
+              ) : (
+                <Eye className="size-5" />
+              )}
             </button>
           </div>
         </div>
@@ -190,7 +200,10 @@ export function ResetPasswordForm() {
               type={showConfirmPassword ? "text" : "password"}
               value={formData.confirmPassword}
               onChange={(e) => {
-                setFormData((prev) => ({ ...prev, confirmPassword: e.target.value }));
+                setFormData((prev) => ({
+                  ...prev,
+                  confirmPassword: e.target.value,
+                }));
                 setError(null);
               }}
               placeholder={t("auth.resetPassword.confirmPasswordPlaceholder")}
@@ -201,9 +214,15 @@ export function ResetPasswordForm() {
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="text-foreground-muted hover:text-foreground absolute top-1/2 right-4 -translate-y-1/2 transition"
-              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              aria-label={
+                showConfirmPassword ? "Hide password" : "Show password"
+              }
             >
-              {showConfirmPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+              {showConfirmPassword ? (
+                <EyeOff className="size-5" />
+              ) : (
+                <Eye className="size-5" />
+              )}
             </button>
           </div>
         </div>
@@ -211,9 +230,15 @@ export function ResetPasswordForm() {
         {/* Turnstile Protection */}
         <TurnstileWidget
           ref={turnstileRef}
-          onVerify={(token: string) => setFormData((prev) => ({ ...prev, turnstileToken: token }))}
-          onError={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
-          onExpire={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
+          onVerify={(token: string) =>
+            setFormData((prev) => ({ ...prev, turnstileToken: token }))
+          }
+          onError={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
+          onExpire={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
         />
 
         {/* Submit Button */}
@@ -239,7 +264,10 @@ export function ResetPasswordForm() {
       <div className="space-y-3 pt-2 text-center text-xs font-semibold">
         <p className="text-foreground-secondary">
           {t("auth.resetPassword.resendPrompt")}{" "}
-          <Link href="/forgot-password" className="text-foreground hover:text-wise-green underline">
+          <Link
+            href="/forgot-password"
+            className="text-foreground hover:text-wise-green underline"
+          >
             {t("auth.resetPassword.resendLink")}
           </Link>
         </p>

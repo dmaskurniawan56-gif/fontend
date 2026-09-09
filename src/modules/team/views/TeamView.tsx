@@ -2,9 +2,23 @@
 
 import React, { useState, useMemo } from "react";
 import { useTeam } from "@/modules/team/hooks/useTeam";
+import dynamic from "next/dynamic";
 import { Agent } from "@/modules/team/types/team.types";
-import { DeleteTeamMemberModal } from "@/modules/team/components/modals/DeleteTeamMemberModal";
-import { AddTeamMemberModal } from "@/modules/team/components/modals/AddTeamMemberModal";
+
+const DeleteTeamMemberModal = dynamic(
+  () =>
+    import("@/modules/team/components/modals/DeleteTeamMemberModal").then(
+      (m) => m.DeleteTeamMemberModal,
+    ),
+  { ssr: false },
+);
+const AddTeamMemberModal = dynamic(
+  () =>
+    import("@/modules/team/components/modals/AddTeamMemberModal").then(
+      (m) => m.AddTeamMemberModal,
+    ),
+  { ssr: false },
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";
@@ -34,7 +48,8 @@ import { useTableSort } from "@/hooks/useTableSort";
 
 export function TeamView() {
   const { t } = useI18n();
-  const { agents, isLoading, fetchAgents, createAgent, deleteAgent } = useTeam();
+  const { agents, isLoading, fetchAgents, createAgent, deleteAgent } =
+    useTeam();
 
   // Search & Pagination State
   const [searchInput, setSearchInput] = useState("");
@@ -57,7 +72,7 @@ export function TeamView() {
         agt.name.toLowerCase().includes(term) ||
         agt.email.toLowerCase().includes(term) ||
         agt.phone.includes(term) ||
-        agt.role.toLowerCase().includes(term)
+        agt.role.toLowerCase().includes(term),
     );
   }, [agents, activeSearch]);
 
@@ -134,8 +149,8 @@ export function TeamView() {
               setPage(1);
             }}
             onClear={handleClearSearch}
-            placeholder="Cari nama, email, atau nomor staf..."
-            buttonText="Cari"
+            placeholder={t("team.searchPlaceholder")}
+            buttonText={t("common.search")}
           />
         </div>
 
@@ -146,18 +161,18 @@ export function TeamView() {
           onClick={fetchAgents}
           disabled={isLoading}
           className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
-          aria-label="Refresh Anggota Tim"
-          title="Refresh Anggota Tim"
+          aria-label={t("team.refreshAgents")}
+          title={t("team.refreshAgents")}
         >
           <RefreshCw
             className={`size-3.5 ${isLoading ? "dark:text-wise-green animate-spin text-emerald-700" : ""}`}
           />
-          <span className="hidden sm:inline">Refresh</span>
+          <span className="hidden sm:inline">{t("common.refresh")}</span>
         </Button>
       </div>
 
       {/* Agents Table with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Tim Staf Agen">
+      <ErrorBoundary fallbackTitle={t("team.errorLoadAgents")}>
         <div className="border-border bg-surface overflow-hidden rounded-xl border shadow-xs">
           {paginatedAgents.length === 0 ? (
             <EmptyState
@@ -165,7 +180,7 @@ export function TeamView() {
               title={t("team.noAgents")}
               description={
                 activeSearch
-                  ? `Tidak ditemukan staf dengan kata kunci "${activeSearch}".`
+                  ? t("team.noAgentsFoundSearch", { query: activeSearch })
                   : t("team.noAgentsDesc")
               }
             />
@@ -206,7 +221,9 @@ export function TeamView() {
                       <span className="text-foreground-muted block truncate font-mono text-[11px]">
                         {agt.email}
                       </span>
-                      <span className="block font-mono font-medium">+{agt.phone}</span>
+                      <span className="block font-mono font-medium">
+                        +{agt.phone}
+                      </span>
                     </div>
 
                     <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-2 text-xs">
@@ -228,7 +245,7 @@ export function TeamView() {
                           onClick={() => setDeletingMember(agt)}
                           className="text-foreground-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition hover:bg-rose-500/10 hover:text-rose-500"
                           aria-label={`${t("actions.delete")} ${agt.name}`}
-                          title="Hapus Anggota Tim"
+                          title={t("team.deleteMemberTitle")}
                         >
                           <Trash2 className="size-4" />
                         </button>
@@ -294,7 +311,10 @@ export function TeamView() {
                   </TableHeader>
                   <TableBody>
                     {paginatedAgents.map((agt) => (
-                      <TableRow key={agt.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={agt.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* Name & Email */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="space-y-0.5">
@@ -361,7 +381,7 @@ export function TeamView() {
                                 onClick={() => setDeletingMember(agt)}
                                 className="text-foreground-muted flex size-8 cursor-pointer items-center justify-center rounded-full transition hover:bg-rose-500/10 hover:text-rose-500"
                                 aria-label={`${t("actions.delete")} ${agt.name}`}
-                                title="Hapus Anggota Tim"
+                                title={t("team.deleteMemberTitle")}
                               >
                                 <Trash2 className="size-4" />
                               </button>

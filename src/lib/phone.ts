@@ -19,7 +19,10 @@ export const E164_PHONE_REGEX = /^[1-9][0-9]{6,14}$/;
  * @param defaultCountryCode - Country code to prepend for local formats (default: "62").
  * @returns Clean E.164 numeric string.
  */
-export function normalizePhoneNumber(raw: string, defaultCountryCode = "62"): string {
+export function normalizePhoneNumber(
+  raw: string,
+  defaultCountryCode = "62",
+): string {
   if (!raw) return "";
 
   const trimmed = raw.trim();
@@ -32,7 +35,12 @@ export function normalizePhoneNumber(raw: string, defaultCountryCode = "62"): st
   }
   // Local Indonesia format omitting leading 0 (e.g., 81234567890 -> 6281234567890)
   // Only apply if user did NOT explicitly specify an international leading '+'
-  else if (!hasPlus && clean.startsWith("8") && clean.length >= 9 && clean.length <= 13) {
+  else if (
+    !hasPlus &&
+    clean.startsWith("8") &&
+    clean.length >= 9 &&
+    clean.length <= 13
+  ) {
     clean = defaultCountryCode + clean;
   }
 

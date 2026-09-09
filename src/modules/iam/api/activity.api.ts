@@ -18,7 +18,9 @@ function normalizeUserActivity(raw: Record<string, unknown>): UserActivityItem {
       : raw.tenantId
         ? String(raw.tenantId)
         : undefined,
-    activityType: String(raw.activity_type || raw.type || raw.activityType || ""),
+    activityType: String(
+      raw.activity_type || raw.type || raw.activityType || "",
+    ),
     type: String(raw.type || raw.activity_type || raw.activityType || ""),
     description: String(raw.description || ""),
     createdAt: String(raw.created_at || raw.createdAt || ""),
@@ -51,7 +53,7 @@ function normalizeUserActivity(raw: Record<string, unknown>): UserActivityItem {
 export const activityApi = {
   getUserActivities: async (
     params?: GetUserActivitiesParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<UserActivityListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -65,16 +67,18 @@ export const activityApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${IAM_BASE}/users/activities?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawActivities = Array.isArray(res.payload) ? res.payload : [];
       const activities = rawActivities.map(normalizeUserActivity);
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : activities.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : activities.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         activities,

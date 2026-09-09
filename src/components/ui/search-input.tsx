@@ -60,7 +60,10 @@ export function SearchInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cn("flex flex-1 items-center gap-2", className)}>
+    <form
+      onSubmit={handleSubmit}
+      className={cn("flex flex-1 items-center gap-2", className)}
+    >
       <div className="relative flex-1">
         <Search className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
         <input
@@ -72,7 +75,7 @@ export function SearchInput({
           autoFocus={autoFocus}
           className={cn(
             "bg-surface text-foreground border-border hover:border-foreground-muted placeholder:text-muted-foreground h-10 w-full rounded-full border pr-9 pl-10 text-xs font-semibold transition outline-none focus:border-emerald-600 disabled:opacity-50 dark:bg-[#10110e] dark:focus:border-emerald-500",
-            inputClassName
+            inputClassName,
           )}
         />
         {currentValue && !disabled && (

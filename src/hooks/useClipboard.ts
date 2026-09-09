@@ -39,7 +39,7 @@ export function useClipboard<T = boolean>(options: UseClipboardOptions = {}) {
         return false;
       }
     },
-    [clearTimer, timeout]
+    [clearTimer, timeout],
   );
 
   const reset = useCallback(() => {

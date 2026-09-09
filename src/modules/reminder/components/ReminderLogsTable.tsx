@@ -2,7 +2,14 @@
 
 import React from "react";
 import { ReminderLog } from "../types/reminder.types";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,7 +21,11 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import {
   Send,
@@ -100,9 +111,14 @@ export function ReminderLogsTable({
       <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between p-0">
         <div>
           <div className="flex items-center gap-2">
-            <CardTitle className="text-sm font-bold">{t("reminder.logs.title")}</CardTitle>
+            <CardTitle className="text-sm font-bold">
+              {t("reminder.logs.title")}
+            </CardTitle>
             <Badge variant="outline" className="text-[10px]">
-              {total} {t("reminder.logs.colPhase") === "Phase" ? "audit logs" : "log audit"}
+              {total}{" "}
+              {t("reminder.logs.colPhase") === "Phase"
+                ? "audit logs"
+                : "log audit"}
             </Badge>
           </div>
           <CardDescription className="text-xs">
@@ -125,7 +141,9 @@ export function ReminderLogsTable({
                 />
               }
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
             </TooltipTrigger>
             <TooltipContent>{t("reminder.actions.refresh")}</TooltipContent>
           </Tooltip>
@@ -162,32 +180,61 @@ export function ReminderLogsTable({
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="text-xs font-semibold">{t("reminder.logs.colPhase")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.logs.colRecipient")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.quick.phoneLabel")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.logs.colMessage")}</TableHead>
-                <TableHead className="text-center text-xs font-semibold">{t("reminder.logs.colStatus")}</TableHead>
-                <TableHead className="text-right text-xs font-semibold">{t("reminder.logs.colTime")}</TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.logs.colPhase")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.logs.colRecipient")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.quick.phoneLabel")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.logs.colMessage")}
+                </TableHead>
+                <TableHead className="text-center text-xs font-semibold">
+                  {t("reminder.logs.colStatus")}
+                </TableHead>
+                <TableHead className="text-right text-xs font-semibold">
+                  {t("reminder.logs.colTime")}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-48" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="mx-auto h-4 w-16" /></TableCell>
-                    <TableCell className="text-right"><Skeleton className="ml-auto h-4 w-24" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-12" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-28" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-48" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="mx-auto h-4 w-16" />
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Skeleton className="ml-auto h-4 w-24" />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : logs.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="py-12 text-center text-foreground-muted">
+                  <TableCell
+                    colSpan={6}
+                    className="py-12 text-center text-foreground-muted"
+                  >
                     <div className="flex flex-col items-center justify-center gap-2">
                       <Clock className="size-8 text-foreground-muted/40" />
-                      <p className="text-sm font-medium">{t("reminder.logs.empty")}</p>
+                      <p className="text-sm font-medium">
+                        {t("reminder.logs.empty")}
+                      </p>
                       <p className="text-xs text-foreground-muted/70">
                         {t("reminder.logs.emptyDesc")}
                       </p>
@@ -196,7 +243,10 @@ export function ReminderLogsTable({
                 </TableRow>
               ) : (
                 logs.map((log) => (
-                  <TableRow key={log.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow
+                    key={log.id}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
                     <TableCell className="text-xs">
                       {getOffsetBadge(log.daysOffset)}
                     </TableCell>
@@ -222,7 +272,10 @@ export function ReminderLogsTable({
                     </TableCell>
                     <TableCell className="text-center text-xs">
                       {log.status === "SENT" ? (
-                        <Badge variant="success" className="gap-1 text-[11px] font-semibold">
+                        <Badge
+                          variant="success"
+                          className="gap-1 text-[11px] font-semibold"
+                        >
                           <CheckCircle2 className="size-3" />
                           <span>{t("reminder.logs.statusSuccess")}</span>
                         </Badge>
@@ -230,13 +283,19 @@ export function ReminderLogsTable({
                         <Tooltip>
                           <TooltipTrigger
                             render={
-                              <Badge variant="destructive" className="gap-1 text-[11px] font-semibold cursor-help">
+                              <Badge
+                                variant="destructive"
+                                className="gap-1 text-[11px] font-semibold cursor-help"
+                              >
                                 <AlertCircle className="size-3" />
                                 <span>{t("reminder.logs.statusFailed")}</span>
                               </Badge>
                             }
                           >
-                            <span>{log.errorReason || t("reminder.logs.statusFailed")}</span>
+                            <span>
+                              {log.errorReason ||
+                                t("reminder.logs.statusFailed")}
+                            </span>
                           </TooltipTrigger>
                         </Tooltip>
                       )}
@@ -256,8 +315,10 @@ export function ReminderLogsTable({
       {totalPages > 1 && (
         <CardFooter className="flex items-center justify-between p-0 pt-2 text-xs text-foreground-muted">
           <span>
-            Menampilkan halaman <strong className="text-foreground">{page}</strong> dari{" "}
-            <strong className="text-foreground">{totalPages}</strong> (Total {total} log audit)
+            Menampilkan halaman{" "}
+            <strong className="text-foreground">{page}</strong> dari{" "}
+            <strong className="text-foreground">{totalPages}</strong> (Total{" "}
+            {total} log audit)
           </span>
           <div className="flex items-center gap-1.5">
             <Button

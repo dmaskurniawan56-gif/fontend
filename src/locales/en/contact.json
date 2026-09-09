@@ -58,10 +58,17 @@
   "errPhonePrefix": "Invalid WhatsApp number format (Use 08xx or international format).",
   "errPhoneTooShort": "WhatsApp number is too short.",
   "errNoValidContacts": "No valid WhatsApp contacts found in CSV file.",
+  "errCsvParseFailed": "Failed to parse CSV file. Ensure CSV format is valid.",
+  "errImportFailed": "Failed to import contacts",
   "errSaveFailed": "Failed to save contact",
   "tagSegmentationLabel": "Contact Tags / Segmentation",
   "optional": "Optional",
   "noTagsAvailable": "No contact tags available yet.",
   "newTagPlaceholder": "+ Create new tag (e.g. VIP)...",
-  "addTagBtn": "Add"
+  "addTagBtn": "Add",
+  "selectContactAria": "Select {name}",
+  "editContactAria": "Edit {name}",
+  "editContact": "Edit Contact",
+  "deleteContactAria": "Delete {name}",
+  "deleteContact": "Delete Contact"
 }

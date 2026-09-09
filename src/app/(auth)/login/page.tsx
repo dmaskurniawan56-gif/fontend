@@ -21,7 +21,11 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <AuthLayout>
-      <Suspense fallback={<div className="flex h-96 animate-pulse items-center justify-center" />}>
+      <Suspense
+        fallback={
+          <div className="flex h-96 animate-pulse items-center justify-center" />
+        }
+      >
         <LoginForm />
       </Suspense>
     </AuthLayout>

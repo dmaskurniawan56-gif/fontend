@@ -155,13 +155,21 @@ export function DailyAgendaList({
         <div className="w-full sm:w-44">
           <NativeSelect
             value={status}
-            onChange={(e) => onStatusChange(e.target.value as ReservationStatus | "ALL")}
+            onChange={(e) =>
+              onStatusChange(e.target.value as ReservationStatus | "ALL")
+            }
             className="h-9 text-xs"
           >
             <option value="ALL">{t("reservation.allStatuses")}</option>
-            <option value="CONFIRMED">{t("reservation.statusConfirmed")}</option>
-            <option value="COMPLETED">{t("reservation.statusCompleted")}</option>
-            <option value="CANCELLED">{t("reservation.statusCancelled")}</option>
+            <option value="CONFIRMED">
+              {t("reservation.statusConfirmed")}
+            </option>
+            <option value="COMPLETED">
+              {t("reservation.statusCompleted")}
+            </option>
+            <option value="CANCELLED">
+              {t("reservation.statusCancelled")}
+            </option>
             <option value="NO_SHOW">{t("reservation.statusNoShow")}</option>
           </NativeSelect>
         </div>

@@ -11,7 +11,14 @@ import {
   CheckCircle2,
   Layers,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
@@ -98,7 +105,10 @@ export function BusinessSolutionsSection() {
   ];
 
   return (
-    <section id="solutions" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+    <section
+      id="solutions"
+      className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-8 px-4 sm:px-6"
+    >
       {/* Header Section */}
       <div className="mx-auto max-w-2xl space-y-2.5 text-center">
         <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
@@ -143,7 +153,9 @@ export function BusinessSolutionsSection() {
 
                   <div>
                     <CardTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
-                      <h3 className="text-inherit font-inherit inline">{t(item.titleKey)}</h3>
+                      <h3 className="text-inherit font-inherit inline">
+                        {t(item.titleKey)}
+                      </h3>
                     </CardTitle>
                     <CardDescription className="text-foreground-secondary mt-1.5 text-xs font-medium leading-relaxed sm:text-sm">
                       {t(item.descKey)}
@@ -176,7 +188,7 @@ export function BusinessSolutionsSection() {
                     href="/register"
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "sm" }),
-                      "text-dark-green hover:text-dark-green dark:text-wise-green dark:hover:text-wise-green group-hover:translate-x-0.5 gap-1.5 px-2.5 text-xs font-bold transition-transform"
+                      "text-dark-green hover:text-dark-green dark:text-wise-green dark:hover:text-wise-green group-hover:translate-x-0.5 gap-1.5 px-2.5 text-xs font-bold transition-transform",
                     )}
                   >
                     <span>{t("common.landing.solutions.ctaTry")}</span>

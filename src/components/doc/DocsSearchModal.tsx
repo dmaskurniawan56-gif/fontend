@@ -133,7 +133,9 @@ export function DocsSearchModal({ isOpen, onClose }: DocsSearchModalProps) {
             </div>
           ) : results.length === 0 ? (
             <div className="p-6 text-center text-xs text-muted-foreground">
-              No documentation found for &ldquo;<span className="text-foreground font-medium">{query}</span>&rdquo;.
+              No documentation found for &ldquo;
+              <span className="text-foreground font-medium">{query}</span>
+              &rdquo;.
             </div>
           ) : (
             results.map((item) => (

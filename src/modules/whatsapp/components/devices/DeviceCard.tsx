@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { Device } from "@/modules/whatsapp/types/whatsapp.types";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useClipboard } from "@/hooks/useClipboard";
@@ -32,6 +36,7 @@ import {
   Check,
   Info,
   ExternalLink,
+  Webhook,
 } from "lucide-react";
 import { formatDisplayPhone } from "@/lib/phone";
 
@@ -60,7 +65,10 @@ export function DeviceCard({
   const [isActionLoading, setIsActionLoading] = useState(false);
   const { isCopied: copiedId, copy } = useClipboard();
 
-  const handleAction = async (e: React.MouseEvent, actionFn: (id: string) => Promise<void>) => {
+  const handleAction = async (
+    e: React.MouseEvent,
+    actionFn: (id: string) => Promise<void>,
+  ) => {
     e.stopPropagation();
     setIsActionLoading(true);
     try {
@@ -76,7 +84,9 @@ export function DeviceCard({
     e.stopPropagation();
     const success = await copy(device.id);
     if (success) {
-      toast.success(t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!");
+      toast.success(
+        t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!",
+      );
     }
   };
 
@@ -85,7 +95,10 @@ export function DeviceCard({
   const renderStatusBadge = () => {
     if (isOverLimit) {
       return (
-        <Badge variant="destructive" className="gap-1.5 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">
+        <Badge
+          variant="destructive"
+          className="gap-1.5 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20"
+        >
           <span className="size-2 rounded-full bg-rose-500 animate-pulse" />
           {t("whatsapp.statusOverLimit") || "Melebihi Kuota"}
         </Badge>
@@ -130,7 +143,7 @@ export function DeviceCard({
       onClick={() => onViewDetail?.(device)}
       className={`group relative flex cursor-pointer flex-col justify-between space-y-5 p-5 transition-all hover:shadow-lg sm:p-6 ${
         isOverLimit
-          ? "border-rose-500/40 bg-rose-500/[0.02] hover:border-rose-500/60"
+          ? "border-rose-500/40 bg-rose-500/2 hover:border-rose-500/60"
           : "hover:border-wise-green/60"
       }`}
     >
@@ -143,7 +156,10 @@ export function DeviceCard({
           <div>
             <div className="flex items-center gap-1.5">
               <h2 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-1 text-base font-extrabold tracking-tight transition sm:text-lg">
-                {device.push_name || device.pushName || device.name || "WhatsApp Device"}
+                {device.push_name ||
+                  device.pushName ||
+                  device.name ||
+                  "WhatsApp Device"}
               </h2>
               <ExternalLink className="text-foreground-muted size-3.5 opacity-0 transition group-hover:opacity-100" />
             </div>
@@ -151,24 +167,47 @@ export function DeviceCard({
               {device.phone ? (
                 <>
                   <Phone className="text-foreground-muted size-3 shrink-0" />
-                  <span className="font-mono">{formatPhoneNumber(device.phone)}</span>
+                  <span className="font-mono">
+                    {formatPhoneNumber(device.phone)}
+                  </span>
                 </>
               ) : (
                 <span className="text-foreground-muted font-sans text-[11px] italic">
-                  {device.status === "PAIRING" ? "Menunggu Scan QR..." : "Nomor Belum Tertaut"}
+                  {device.status === "PAIRING"
+                    ? t("whatsapp.waitingScanQR")
+                    : t("whatsapp.numberNotLinked")}
                 </span>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="flex items-center gap-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {Boolean(device.webhook_url || device.webhookUrl) && (
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                  <Webhook className="size-2.5" />
+                  <span>Hook</span>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>
+                  {t("whatsapp.customWebhookActive")}{" "}
+                  {device.webhook_url || device.webhookUrl}
+                </span>
+              </TooltipContent>
+            </Tooltip>
+          )}
           {renderStatusBadge()}
 
           <DropdownMenu>
             <DropdownMenuTrigger
               className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-8 cursor-pointer items-center justify-center rounded-full transition outline-none"
-              aria-label="Opsi Perangkat"
+              aria-label={t("whatsapp.deviceOptionsAria")}
             >
               <MoreVertical className="size-4" />
             </DropdownMenuTrigger>
@@ -260,7 +299,9 @@ export function DeviceCard({
                   )}
                 </TooltipTrigger>
                 <TooltipContent>
-                  {copiedId ? "Tersalin!" : (t("whatsapp.copyDeviceId") || "Salin Device ID")}
+                  {copiedId
+                    ? t("whatsapp.copied")
+                    : t("whatsapp.copyDeviceId") || "Salin Device ID"}
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -302,7 +343,9 @@ export function DeviceCard({
             ) : (
               <Trash2 className="size-3.5" />
             )}
-            <span>{t("whatsapp.deleteOverlimitDevice") || "Hapus Perangkat Ini"}</span>
+            <span>
+              {t("whatsapp.deleteOverlimitDevice") || "Hapus Perangkat Ini"}
+            </span>
           </Button>
         ) : device.status === "CONNECTED" ? (
           <div className="flex items-center gap-2">

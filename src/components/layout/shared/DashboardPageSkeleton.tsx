@@ -83,7 +83,10 @@ export function DashboardPageSkeleton({
 
         {/* Table Rows */}
         {Array.from({ length: rowCount }).map((_, i) => (
-          <div key={i} className="flex items-center justify-between gap-4 p-3.5 sm:p-4">
+          <div
+            key={i}
+            className="flex items-center justify-between gap-4 p-3.5 sm:p-4"
+          >
             <div className="flex min-w-0 flex-1 items-center gap-3">
               <Skeleton className="size-4 shrink-0 rounded" />
               <Skeleton className="size-9 shrink-0 rounded-full" />

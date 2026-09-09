@@ -70,7 +70,9 @@ export function useReminderRules() {
     return () => controller.abort();
   }, [fetchRules]);
 
-  const updateRule = async (input: UpdateReminderRuleInput): Promise<boolean> => {
+  const updateRule = async (
+    input: UpdateReminderRuleInput,
+  ): Promise<boolean> => {
     setIsSaving(true);
     try {
       const updated = await reminderApi.updateRules(input);
@@ -79,9 +81,7 @@ export function useReminderRules() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reminder.rulesUpdateFailed");
+        err instanceof Error ? err.message : t("reminder.rulesUpdateFailed");
       toast.error(msg);
       return false;
     } finally {

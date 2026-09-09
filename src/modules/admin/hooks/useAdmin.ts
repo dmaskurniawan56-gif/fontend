@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { UserItem, AdjustBalanceInput, UpdateUserInput } from "../types/admin.types";
+import {
+  UserItem,
+  AdjustBalanceInput,
+  UpdateUserInput,
+} from "../types/admin.types";
 import { adminApi } from "../api/admin.api";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n/context";
@@ -32,7 +36,10 @@ export function useAdmin() {
     const controller = new AbortController();
     const init = async () => {
       try {
-        const usrData = await adminApi.getUsers({ page: 1, pageSize: 100 }, controller.signal);
+        const usrData = await adminApi.getUsers(
+          { page: 1, pageSize: 100 },
+          controller.signal,
+        );
         if (!controller.signal.aborted) {
           setUsers(usrData.users);
           setIsLoading(false);
@@ -68,19 +75,26 @@ export function useAdmin() {
             };
           }
           return u;
-        })
+        }),
       );
       toast.success(
         payload.type === "ADD"
           ? t("admin.users.toastAddBalanceSuccess", {
-              amount: payload.amount.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+              amount: payload.amount.toLocaleString(
+                locale === "en" ? "en-US" : "id-ID",
+              ),
             })
           : t("admin.users.toastReduceBalanceSuccess", {
-              amount: payload.amount.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
-            })
+              amount: payload.amount.toLocaleString(
+                locale === "en" ? "en-US" : "id-ID",
+              ),
+            }),
       );
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.users.toastAdjustBalanceFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.users.toastAdjustBalanceFailed");
       toast.error(msg);
       throw err;
     }
@@ -97,7 +111,8 @@ export function useAdmin() {
               name: payload.name ?? u.name,
               email: payload.email ?? u.email,
               phone: payload.phoneNumber ?? payload.phone ?? u.phone,
-              phoneNumber: payload.phoneNumber ?? payload.phone ?? u.phoneNumber,
+              phoneNumber:
+                payload.phoneNumber ?? payload.phone ?? u.phoneNumber,
               role: payload.role ?? u.role,
               roleName: payload.role ?? u.roleName,
               status:
@@ -106,15 +121,19 @@ export function useAdmin() {
                     ? "ACTIVE"
                     : "SUSPENDED"
                   : u.status,
-              isActive: payload.isActive !== undefined ? payload.isActive : u.isActive,
+              isActive:
+                payload.isActive !== undefined ? payload.isActive : u.isActive,
             };
           }
           return u;
-        })
+        }),
       );
       toast.success(t("admin.users.toastUpdateUserSuccess"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.users.toastUpdateUserFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.users.toastUpdateUserFailed");
       toast.error(msg);
       throw err;
     }

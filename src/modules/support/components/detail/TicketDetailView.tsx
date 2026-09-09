@@ -98,7 +98,10 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
         }
       } catch (err: unknown) {
         if (isMounted) {
-          const msg = err instanceof Error ? err.message : t("support.ticketNotFoundDesc");
+          const msg =
+            err instanceof Error
+              ? err.message
+              : t("support.ticketNotFoundDesc");
           setError(msg);
         }
       } finally {
@@ -143,7 +146,8 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
       const url = await supportApi.uploadImage(file);
       setAttachmentUrl(url);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("support.errUploadFailed");
+      const msg =
+        err instanceof Error ? err.message : t("support.errUploadFailed");
       setUploadError(msg);
       setAttachmentUrl("");
       if (previewUrl && previewUrl.startsWith("blob:")) {
@@ -174,7 +178,8 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
 
   const handleSendReply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if ((!replyText.trim() && !attachmentUrl && !attachmentFile) || !ticket) return;
+    if ((!replyText.trim() && !attachmentUrl && !attachmentFile) || !ticket)
+      return;
 
     const text = replyText.trim();
     setIsSending(true);
@@ -184,7 +189,11 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
         finalAttachmentUrl = await supportApi.uploadImage(attachmentFile);
       }
 
-      const newMsg = await supportApi.replyTicket(ticket.id, text, finalAttachmentUrl || undefined);
+      const newMsg = await supportApi.replyTicket(
+        ticket.id,
+        text,
+        finalAttachmentUrl || undefined,
+      );
 
       setReplies((prev) => [...prev, newMsg]);
       setReplyText("");
@@ -194,7 +203,8 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
       // If status was WAITING_FOR_REPLY, user reply sets it back to OPEN
       setTicket((prev) => (prev ? { ...prev, status: "OPEN" } : prev));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("support.errReplyFailed");
+      const msg =
+        err instanceof Error ? err.message : t("support.errReplyFailed");
       toast.error(msg);
     } finally {
       setIsSending(false);
@@ -209,7 +219,8 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
       setTicket((prev) => (prev ? { ...prev, status: "CLOSED" } : prev));
       toast.success(t("support.ticketClosedSuccess"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("support.ticketCloseFailed");
+      const msg =
+        err instanceof Error ? err.message : t("support.ticketCloseFailed");
       toast.error(msg);
     } finally {
       setIsClosing(false);
@@ -261,7 +272,9 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
     }
     return (
       <Badge variant="neutral">
-        {priority === "MEDIUM" ? t("support.priorityMedium") : t("support.priorityLow")}
+        {priority === "MEDIUM"
+          ? t("support.priorityMedium")
+          : t("support.priorityLow")}
       </Badge>
     );
   };
@@ -311,7 +324,9 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
         </Link>
         <div className="space-y-3 rounded-md border border-rose-500/20 bg-rose-500/10 p-8 text-center">
           <AlertCircle className="mx-auto size-10 text-rose-600 dark:text-rose-400" />
-          <h2 className="text-foreground text-lg font-bold">{t("support.ticketNotFound")}</h2>
+          <h2 className="text-foreground text-lg font-bold">
+            {t("support.ticketNotFound")}
+          </h2>
           <p className="text-foreground-muted mx-auto max-w-md text-xs">
             {error || t("support.ticketNotFoundDesc")}
           </p>
@@ -397,7 +412,9 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
                   <User className="size-3.5" />
                 </div>
                 <div>
-                  <span className="text-foreground font-bold">{t("support.senderYou")}</span>
+                  <span className="text-foreground font-bold">
+                    {t("support.senderYou")}
+                  </span>
                   <span className="text-foreground-muted ml-2 text-[11px]">
                     {t("support.ticketAuthor")}
                   </span>
@@ -482,7 +499,8 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
                     <span className="text-foreground font-bold">
                       {reply.isStaff
                         ? t("support.staffSupport")
-                        : reply.senderName === "Anda" || reply.senderName === "You"
+                        : reply.senderName === "Anda" ||
+                            reply.senderName === "You"
                           ? t("support.senderYou")
                           : reply.senderName}
                     </span>
@@ -522,7 +540,9 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
                   </div>
                 )}
 
-                {reply.content && <p className="whitespace-pre-wrap">{reply.content}</p>}
+                {reply.content && (
+                  <p className="whitespace-pre-wrap">{reply.content}</p>
+                )}
               </div>
             </div>
           ))}
@@ -531,7 +551,9 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
           {ticket.status !== "CLOSED" ? (
             <div className="border-border bg-surface space-y-4 rounded-xl border p-5 shadow-xs sm:p-6">
               <div className="border-border flex items-center justify-between border-b pb-3">
-                <h3 className="text-foreground text-sm font-bold">{t("support.replyToTicket")}</h3>
+                <h3 className="text-foreground text-sm font-bold">
+                  {t("support.replyToTicket")}
+                </h3>
               </div>
 
               <form onSubmit={handleSendReply} className="space-y-4">
@@ -567,12 +589,15 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
                               role="img"
                               aria-label="Preview"
                               className="size-full bg-cover bg-center"
-                              style={{ backgroundImage: `url("${getSafeMediaUrl(previewUrl)!}")` }}
+                              style={{
+                                backgroundImage: `url("${getSafeMediaUrl(previewUrl)!}")`,
+                              }}
                             />
                           </div>
                           <div className="overflow-hidden">
                             <span className="text-foreground block truncate font-bold">
-                              {attachmentFile?.name || t("support.screenshotUploaded")}
+                              {attachmentFile?.name ||
+                                t("support.screenshotUploaded")}
                             </span>
                             <span className="text-foreground-muted text-[11px]">
                               {isUploading
@@ -667,39 +692,59 @@ export function TicketDetailView({ ticketId }: TicketDetailViewProps) {
 
             <div className="divide-border/60 divide-y text-xs font-semibold">
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailStatus")}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailStatus")}
+                </span>
                 <div>{renderStatusBadge(ticket.status)}</div>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailPriority")}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailPriority")}
+                </span>
                 <div>{renderPriorityBadge(ticket.priority)}</div>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailCategory")}</span>
-                <span className="text-foreground font-bold">{ticket.category}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailCategory")}
+                </span>
+                <span className="text-foreground font-bold">
+                  {ticket.category}
+                </span>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailRefNumber")}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailRefNumber")}
+                </span>
                 <span className="text-dark-green dark:text-wise-green font-mono font-bold">
                   {ticket.ticketNumber}
                 </span>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailCreatedAt")}</span>
-                <span className="text-foreground">{formatDate(ticket.createdAt)}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailCreatedAt")}
+                </span>
+                <span className="text-foreground">
+                  {formatDate(ticket.createdAt)}
+                </span>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailUpdatedAt")}</span>
-                <span className="text-foreground">{formatDate(ticket.updatedAt)}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailUpdatedAt")}
+                </span>
+                <span className="text-foreground">
+                  {formatDate(ticket.updatedAt)}
+                </span>
               </div>
 
               <div className="flex items-center justify-between gap-2 py-2.5">
-                <span className="text-foreground-muted">{t("support.detailTotalReplies")}</span>
+                <span className="text-foreground-muted">
+                  {t("support.detailTotalReplies")}
+                </span>
                 <span className="bg-muted text-foreground rounded-full px-2 py-0.5 text-[11px] font-bold">
                   {replies.length}
                 </span>

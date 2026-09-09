@@ -20,63 +20,75 @@ import {
   Receipt,
   ChevronDown,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export interface AdminNavSubItem {
-  title: string;
+  titleKey: string;
+  defaultTitle: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
 export interface AdminNavItem {
-  title: string;
+  titleKey: string;
+  defaultTitle: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   subItems?: AdminNavSubItem[];
 }
 
 export interface AdminNavGroup {
-  groupTitle: string;
+  groupKey: string;
+  defaultTitle: string;
   items: AdminNavItem[];
 }
 
 export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
-    groupTitle: "Kontrol Platform",
+    groupKey: "admin.adminMenu.groupPlatformControl",
+    defaultTitle: "Kontrol Platform",
     items: [
       {
-        title: "Pengguna & Member",
+        titleKey: "admin.adminMenu.usersAndMembers",
+        defaultTitle: "Pengguna & Member",
         href: "/admin/users",
         icon: Users,
         subItems: [
           {
-            title: "Daftar Member",
+            titleKey: "admin.adminMenu.memberList",
+            defaultTitle: "Daftar Member",
             href: "/admin/users",
             icon: UserCheck,
           },
           {
-            title: "Log Aktivitas",
+            titleKey: "admin.adminMenu.activityLogs",
+            defaultTitle: "Log Aktivitas",
             href: "/admin/activities",
             icon: Activity,
           },
           {
-            title: "Billing & Topup",
+            titleKey: "admin.adminMenu.billingAndTopup",
+            defaultTitle: "Billing & Topup",
             href: "/admin/billing",
             icon: Receipt,
           },
         ],
       },
       {
-        title: "Langganan & Paket SaaS",
+        titleKey: "admin.adminMenu.subscriptionsAndPlans",
+        defaultTitle: "Langganan & Paket SaaS",
         href: "/admin/subscriptions",
         icon: CreditCard,
         subItems: [
           {
-            title: "Daftar Langganan",
+            titleKey: "admin.adminMenu.subscriptionList",
+            defaultTitle: "Daftar Langganan",
             href: "/admin/subscriptions",
             icon: Receipt,
           },
           {
-            title: "Paket & Harga SaaS",
+            titleKey: "admin.adminMenu.saasPlansAndPricing",
+            defaultTitle: "Paket & Harga SaaS",
             href: "/admin/plans",
             icon: CreditCard,
           },
@@ -85,32 +97,38 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     ],
   },
   {
-    groupTitle: "Operasional & Monitoring",
+    groupKey: "admin.adminMenu.groupOpsAndMonitoring",
+    defaultTitle: "Operasional & Monitoring",
     items: [
       {
-        title: "WhatsApp Gateway",
+        titleKey: "admin.adminMenu.whatsappGateway",
+        defaultTitle: "WhatsApp Gateway",
         href: "/admin/devices",
         icon: Smartphone,
         subItems: [
           {
-            title: "Perangkat WhatsApp",
+            titleKey: "admin.adminMenu.whatsappDevices",
+            defaultTitle: "Perangkat WhatsApp",
             href: "/admin/devices",
             icon: Smartphone,
           },
           {
-            title: "Log Pesan WhatsApp",
+            titleKey: "admin.adminMenu.whatsappMessageLogs",
+            defaultTitle: "Log Pesan WhatsApp",
             href: "/admin/messages",
             icon: MessageSquare,
           },
         ],
       },
       {
-        title: "Siaran & Notifikasi",
+        titleKey: "admin.adminMenu.broadcastAndNotifications",
+        defaultTitle: "Siaran & Notifikasi",
         href: "/admin/notifications",
         icon: Radio,
       },
       {
-        title: "Pusat Bantuan",
+        titleKey: "admin.adminMenu.supportCenter",
+        defaultTitle: "Pusat Bantuan",
         href: "/admin/support",
         icon: LifeBuoy,
       },
@@ -126,14 +144,17 @@ interface AdminSidebarProps {
 export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
   const pathname = usePathname();
   const user = useAuth((s) => s.user);
+  const { t } = useI18n();
 
-  // User manual toggle overrides for accordions (keyed by item title)
-  const [manuallyToggled, setManuallyToggled] = useState<Record<string, boolean>>({});
+  // User manual toggle overrides for accordions (keyed by item titleKey)
+  const [manuallyToggled, setManuallyToggled] = useState<
+    Record<string, boolean>
+  >({});
 
-  const toggleGroup = (title: string, currentIsOpen: boolean) => {
+  const toggleGroup = (key: string, currentIsOpen: boolean) => {
     setManuallyToggled((prev) => ({
       ...prev,
-      [title]: !currentIsOpen,
+      [key]: !currentIsOpen,
     }));
   };
 
@@ -141,12 +162,16 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
     <aside
       className={cn(
         "bg-surface text-foreground border-border flex h-full w-64 flex-col border-r select-none dark:bg-[#121310]",
-        className
+        className,
       )}
     >
       {/* Brand Header */}
       <div className="border-border bg-muted/20 flex h-16 items-center justify-between border-b px-5">
-        <Link href="/admin/users" onClick={onItemClick} className="flex items-center gap-2.5">
+        <Link
+          href="/admin/users"
+          onClick={onItemClick}
+          className="flex items-center gap-2.5"
+        >
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-rose-600 font-bold text-white shadow-xs">
             <ShieldAlert className="size-4" />
           </div>
@@ -164,33 +189,38 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
       {/* Navigation Groups */}
       <div className="flex-1 space-y-6 overflow-y-auto px-3.5 py-5">
         {ADMIN_NAV_GROUPS.map((group) => (
-          <div key={group.groupTitle} className="space-y-1">
+          <div key={group.groupKey} className="space-y-1">
             <p className="text-foreground-muted mb-2 px-3 text-[10px] font-extrabold tracking-wider uppercase">
-              {group.groupTitle}
+              {t(group.groupKey) || group.defaultTitle}
             </p>
 
             {group.items.map((item) => {
-              const hasSubItems = Boolean(item.subItems && item.subItems.length > 0);
+              const hasSubItems = Boolean(
+                item.subItems && item.subItems.length > 0,
+              );
               const isParentActive = hasSubItems
                 ? item.subItems?.some((sub) => pathname === sub.href)
                 : pathname === item.href ||
-                  (item.href !== "/admin" && pathname.startsWith(item.href + "/"));
-              const isOpen = hasSubItems ? (manuallyToggled[item.title] ?? isParentActive) : false;
+                  (item.href !== "/admin" &&
+                    pathname.startsWith(item.href + "/"));
+              const isOpen = hasSubItems
+                ? (manuallyToggled[item.titleKey] ?? isParentActive)
+                : false;
               const Icon = item.icon;
 
               return (
-                <div key={item.title} className="space-y-1">
+                <div key={item.titleKey} className="space-y-1">
                   {hasSubItems ? (
                     // Interactive Accordion Trigger Button
                     <button
                       type="button"
-                      onClick={() => toggleGroup(item.title, isOpen)}
+                      onClick={() => toggleGroup(item.titleKey, isOpen)}
                       aria-expanded={isOpen}
                       className={cn(
                         "flex w-full cursor-pointer items-center justify-between rounded-full px-3.5 py-2 text-xs transition-all duration-150 select-none",
                         isParentActive
                           ? "bg-muted/40 font-bold text-rose-600 dark:text-rose-400"
-                          : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold"
+                          : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold",
                       )}
                     >
                       <div className="flex min-w-0 items-center gap-3">
@@ -199,10 +229,12 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                             "size-4 shrink-0",
                             isParentActive
                               ? "text-rose-600 dark:text-rose-400"
-                              : "text-foreground-muted"
+                              : "text-foreground-muted",
                           )}
                         />
-                        <span className="truncate">{item.title}</span>
+                        <span className="truncate">
+                          {t(item.titleKey) || item.defaultTitle}
+                        </span>
                       </div>
 
                       <ChevronDown
@@ -210,7 +242,7 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                           "size-3.5 shrink-0 transition-transform duration-200",
                           isOpen
                             ? "rotate-0 text-rose-600 dark:text-rose-400"
-                            : "text-foreground-muted -rotate-90"
+                            : "text-foreground-muted -rotate-90",
                         )}
                       />
                     </button>
@@ -223,7 +255,7 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                         "relative flex items-center justify-between rounded-full px-3.5 py-2 text-xs transition-all duration-150",
                         isParentActive
                           ? "border border-rose-500/20 bg-rose-500/10 font-bold text-rose-600 shadow-xs dark:text-rose-400"
-                          : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold"
+                          : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold",
                       )}
                     >
                       <div className="flex min-w-0 items-center gap-3">
@@ -232,10 +264,12 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                             "size-4 shrink-0",
                             isParentActive
                               ? "text-rose-600 dark:text-rose-400"
-                              : "text-foreground-muted"
+                              : "text-foreground-muted",
                           )}
                         />
-                        <span className="truncate">{item.title}</span>
+                        <span className="truncate">
+                          {t(item.titleKey) || item.defaultTitle}
+                        </span>
                       </div>
 
                       {isParentActive && (
@@ -251,7 +285,7 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                         "grid transition-all duration-200 ease-in-out",
                         isOpen
                           ? "grid-rows-[1fr] opacity-100"
-                          : "pointer-events-none grid-rows-[0fr] opacity-0"
+                          : "pointer-events-none grid-rows-[0fr] opacity-0",
                       )}
                     >
                       <div className="border-border/70 my-1 ml-4.5 space-y-1 overflow-hidden border-l-2 py-0.5 pr-1 pl-3.5">
@@ -268,7 +302,7 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                                 "relative flex items-center justify-between rounded-full px-3 py-1.5 text-[11px] transition-all duration-150",
                                 isSubActive
                                   ? "border border-rose-500/20 bg-rose-500/10 font-bold text-rose-600 shadow-2xs dark:text-rose-400"
-                                  : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold"
+                                  : "text-foreground-secondary hover:text-foreground hover:bg-muted font-semibold",
                               )}
                             >
                               <div className="flex min-w-0 items-center gap-2">
@@ -277,10 +311,12 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
                                     "size-3.5 shrink-0",
                                     isSubActive
                                       ? "text-rose-600 dark:text-rose-400"
-                                      : "text-foreground-muted"
+                                      : "text-foreground-muted",
                                   )}
                                 />
-                                <span className="truncate">{sub.title}</span>
+                                <span className="truncate">
+                                  {t(sub.titleKey) || sub.defaultTitle}
+                                </span>
                               </div>
 
                               {isSubActive && (
@@ -326,7 +362,9 @@ export function AdminSidebar({ onItemClick, className }: AdminSidebarProps) {
           className="bg-wise-green text-dark-green flex w-full cursor-pointer items-center justify-center gap-2 rounded-full px-3 py-2 text-xs font-bold shadow-xs transition hover:scale-[1.02] active:scale-[0.98]"
         >
           <ArrowLeft className="size-3.5" />
-          <span>Kembali ke Tenant App</span>
+          <span>
+            {t("admin.adminMenu.backToTenantApp") || "Kembali ke Tenant App"}
+          </span>
         </Link>
       </div>
     </aside>

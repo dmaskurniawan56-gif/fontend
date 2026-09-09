@@ -36,7 +36,11 @@ interface CreateTicketModalProps {
   onSubmit: (data: CreateTicketInput) => Promise<unknown>;
 }
 
-export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketModalProps) {
+export function CreateTicketModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: CreateTicketModalProps) {
   const { t } = useI18n();
   const [subject, setSubject] = useState("");
   const [category, setCategory] = useState<TicketCategory>("WHATSAPP");
@@ -88,7 +92,8 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
       const url = await supportApi.uploadImage(file);
       setAttachmentUrl(url);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("support.errUploadFailed");
+      const msg =
+        err instanceof Error ? err.message : t("support.errUploadFailed");
       setError(msg);
       setAttachmentUrl("");
       setAttachmentFileName("");
@@ -137,7 +142,8 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
       });
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal membuat tiket bantuan";
+      const msg =
+        err instanceof Error ? err.message : t("support.errCreateFailed");
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -145,7 +151,10 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Modal Header */}
         <DialogHeader className="border-border/80 flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -163,7 +172,10 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
             {error && (
               <div className="rounded-md border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-600 dark:text-rose-400">
@@ -195,14 +207,18 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
                 </label>
                 <NativeSelect
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as TicketCategory)}
+                  onChange={(e) =>
+                    setCategory(e.target.value as TicketCategory)
+                  }
                   disabled={isLoading}
                   variant="rounded"
                 >
                   <option value="WHATSAPP">{t("support.catWhatsApp")}</option>
                   <option value="BILLING">{t("support.catBilling")}</option>
                   <option value="ACCOUNT">{t("support.catAccount")}</option>
-                  <option value="FEATURE_REQUEST">{t("support.catFeature")}</option>
+                  <option value="FEATURE_REQUEST">
+                    {t("support.catFeature")}
+                  </option>
                   <option value="OTHER">{t("support.catOther")}</option>
                 </NativeSelect>
               </div>
@@ -213,7 +229,9 @@ export function CreateTicketModal({ isOpen, onClose, onSubmit }: CreateTicketMod
                 </label>
                 <NativeSelect
                   value={priority}
-                  onChange={(e) => setPriority(e.target.value as TicketPriority)}
+                  onChange={(e) =>
+                    setPriority(e.target.value as TicketPriority)
+                  }
                   disabled={isLoading}
                   variant="rounded"
                 >

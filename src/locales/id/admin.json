@@ -353,6 +353,8 @@
     "createdAtLabel": "Dibuat Pada:",
     "copiedToast": "{label} disalin ke clipboard",
     "copyFailedToast": "Gagal menyalin teks",
+    "copyTenantId": "Salin Tenant ID",
+    "copySubscriptionId": "Salin Subscription ID",
     "entityName": "langganan"
   },
   "notifications": {
@@ -640,6 +642,25 @@
     "emptyTitle": "Tidak Ada Aktivitas Ditemukan",
     "emptySearchDesc": "Tidak ada rekaman yang sesuai dengan kata kunci \"{query}\".",
     "emptyDesc": "Belum ada log aktivitas operasional pengguna.",
+    "noDescription": "Tidak ada deskripsi detail kejadian.",
     "entityName": "rekaman aktivitas"
+  },
+  "adminMenu": {
+    "groupPlatformControl": "Kontrol Platform",
+    "usersAndMembers": "Pengguna & Member",
+    "memberList": "Daftar Member",
+    "activityLogs": "Log Aktivitas",
+    "billingAndTopup": "Billing & Topup",
+    "subscriptionsAndPlans": "Langganan & Paket SaaS",
+    "subscriptionList": "Daftar Langganan",
+    "saasPlansAndPricing": "Paket & Harga SaaS",
+    "groupOpsAndMonitoring": "Operasional & Monitoring",
+    "whatsappGateway": "WhatsApp Gateway",
+    "whatsappDevices": "Perangkat WhatsApp",
+    "whatsappMessageLogs": "Log Pesan WhatsApp",
+    "broadcastAndNotifications": "Siaran & Notifikasi",
+    "supportCenter": "Pusat Bantuan",
+    "backToTenantApp": "Kembali ke Tenant App",
+    "closeAdminMenuAria": "Tutup Menu Admin"
   }
 }

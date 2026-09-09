@@ -38,4 +38,29 @@ export interface WebhookConfig {
   url: string;
   secret: string;
   isEnabled: boolean;
+  events?: string[];
+}
+
+export interface WebhookLogItem {
+  id: string;
+  tenant_id: string;
+  device_id?: string;
+  event_name: string;
+  target_url: string;
+  request_headers?: string;
+  request_payload?: string;
+  response_status: number;
+  response_body?: string;
+  latency_ms: number;
+  attempt: number;
+  error_message?: string;
+  created_at: string;
+}
+
+export interface WebhookLogFilters {
+  page?: number;
+  page_size?: number;
+  search?: string;
+  event_name?: string;
+  response_status?: number;
 }

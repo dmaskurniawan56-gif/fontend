@@ -9,7 +9,10 @@ interface VariableQuickInsertProps {
   customVariables?: string[];
 }
 
-export function VariableQuickInsert({ onInsert, customVariables }: VariableQuickInsertProps) {
+export function VariableQuickInsert({
+  onInsert,
+  customVariables,
+}: VariableQuickInsertProps) {
   const { t } = useI18n();
 
   const defaultVariables = [
@@ -24,8 +27,12 @@ export function VariableQuickInsert({ onInsert, customVariables }: VariableQuick
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between text-xs text-foreground-muted">
-        <span className="font-medium">{t("template.variables.quickTitle")}</span>
-        <span className="text-[11px] opacity-75">{t("template.variables.format")}</span>
+        <span className="font-medium">
+          {t("template.variables.quickTitle")}
+        </span>
+        <span className="text-[11px] opacity-75">
+          {t("template.variables.format")}
+        </span>
       </div>
       <div className="flex flex-wrap gap-1.5 py-0.5">
         {defaultVariables.map((v) => (
@@ -38,7 +45,9 @@ export function VariableQuickInsert({ onInsert, customVariables }: VariableQuick
           >
             <Plus className="size-3 text-primary transition-transform group-hover/chip:rotate-90" />
             <span className="font-mono">{`{{${v.key}}}`}</span>
-            <span className="text-[10px] text-foreground-muted font-normal">({v.label})</span>
+            <span className="text-[10px] text-foreground-muted font-normal">
+              ({v.label})
+            </span>
           </button>
         ))}
         {customVariables?.map((v) => (

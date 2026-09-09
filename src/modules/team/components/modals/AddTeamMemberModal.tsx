@@ -21,7 +21,11 @@ interface AddTeamMemberModalProps {
   onSubmit: (data: CreateAgentInput) => Promise<unknown>;
 }
 
-export function AddTeamMemberModal({ isOpen, onClose, onSubmit }: AddTeamMemberModalProps) {
+export function AddTeamMemberModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: AddTeamMemberModalProps) {
   const { t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -87,7 +91,10 @@ export function AddTeamMemberModal({ isOpen, onClose, onSubmit }: AddTeamMemberM
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
             <div>
               <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
@@ -144,7 +151,8 @@ export function AddTeamMemberModal({ isOpen, onClose, onSubmit }: AddTeamMemberM
 
             <div>
               <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                {t("team.passwordLabel")} <span className="text-red-500">*</span>
+                {t("team.passwordLabel")}{" "}
+                <span className="text-red-500">*</span>
               </label>
               <Input
                 type="password"
@@ -160,7 +168,9 @@ export function AddTeamMemberModal({ isOpen, onClose, onSubmit }: AddTeamMemberM
                 isError={!!passwordError}
               />
               {passwordError && (
-                <p className="mt-1.5 pl-3 text-xs font-semibold text-rose-500">{passwordError}</p>
+                <p className="mt-1.5 pl-3 text-xs font-semibold text-rose-500">
+                  {passwordError}
+                </p>
               )}
             </div>
           </div>

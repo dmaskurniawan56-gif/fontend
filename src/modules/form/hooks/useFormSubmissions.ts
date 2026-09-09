@@ -1,10 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import {
-  FormSubmission,
-  SubmissionStatus,
-} from "../types/form.types";
+import { FormSubmission, SubmissionStatus } from "../types/form.types";
 import { formApi } from "../api/form.api";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n/context";
@@ -50,15 +47,13 @@ export function useFormSubmissions(formId: string | null) {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         const msg =
-          err instanceof Error
-            ? err.message
-            : t("form.submissionsFetchFailed");
+          err instanceof Error ? err.message : t("form.submissionsFetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [formId, page, pageSize, search, status, t]
+    [formId, page, pageSize, search, status, t],
   );
 
   useEffect(() => {
@@ -70,20 +65,16 @@ export function useFormSubmissions(formId: string | null) {
   // 2. Update Status
   const updateStatus = async (
     id: string,
-    newStatus: SubmissionStatus
+    newStatus: SubmissionStatus,
   ): Promise<boolean> => {
     try {
       const updated = await formApi.updateSubmissionStatus(id, newStatus);
-      setSubmissions((prev) =>
-        prev.map((s) => (s.id === id ? updated : s))
-      );
+      setSubmissions((prev) => prev.map((s) => (s.id === id ? updated : s)));
       toast.success(t("form.statusUpdated"));
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.statusUpdateFailed");
+        err instanceof Error ? err.message : t("form.statusUpdateFailed");
       toast.error(msg);
       return false;
     }
@@ -99,9 +90,7 @@ export function useFormSubmissions(formId: string | null) {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.submissionDeleteFailed");
+        err instanceof Error ? err.message : t("form.submissionDeleteFailed");
       toast.error(msg);
       return false;
     }

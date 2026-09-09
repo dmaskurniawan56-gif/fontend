@@ -45,5 +45,12 @@
   "prevPage": "Previous",
   "nextPage": "Next",
   "toastTopUpError": "Failed to process deposit top-up transaction.",
-  "addressRequiredForTopUp": "Please complete your business address details before making a top-up deposit."
+  "addressRequiredForTopUp": "Please complete your business address details before making a top-up deposit.",
+  "searchPlaceholder": "Search invoice number or description...",
+  "refreshInvoices": "Refresh Invoice History",
+  "errorLoadBalance": "Failed to Load Deposit Balance",
+  "errorLoadInvoices": "Failed to Load Invoice History",
+  "qrisInstantTitle": "Instant QRIS (Auto-Settlement)",
+  "qrisInstantBadge": "0s Instant",
+  "qrisScanSupport": "Scan via BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay"
 }

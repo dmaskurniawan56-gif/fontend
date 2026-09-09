@@ -5,7 +5,10 @@ import { useAuth } from "./useAuth";
 import { isAdmin } from "../types/auth.types";
 import { userApi } from "../api/user.api";
 import { adminApi } from "@/modules/admin/api/admin.api";
-import { UserDashboardStats, AdminDashboardStats } from "../types/dashboard.types";
+import {
+  UserDashboardStats,
+  AdminDashboardStats,
+} from "../types/dashboard.types";
 import { ApiError } from "@/lib/api/http-client";
 
 export function useDashboardStats() {
@@ -14,7 +17,9 @@ export function useDashboardStats() {
   const isSuperAdmin = isAdmin(userRole);
 
   const [userStats, setUserStats] = useState<UserDashboardStats | null>(null);
-  const [adminStats, setAdminStats] = useState<AdminDashboardStats | null>(null);
+  const [adminStats, setAdminStats] = useState<AdminDashboardStats | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState<boolean>(isAuthenticated);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,8 +44,10 @@ export function useDashboardStats() {
           if (currentTenant) {
             // Guard against unnecessary state updates to prevent render cascades
             const hasChanged =
-              currentTenant.planName !== (data.plan_name || currentTenant.planName) ||
-              currentTenant.maxDevices !== (data.device_limit || currentTenant.maxDevices) ||
+              currentTenant.planName !==
+                (data.plan_name || currentTenant.planName) ||
+              currentTenant.maxDevices !==
+                (data.device_limit || currentTenant.maxDevices) ||
               currentTenant.monthlyQuota !== data.monthly_message_limit ||
               currentTenant.usedQuota !== data.total_messages_sent ||
               currentTenant.activeDevicesCount !== data.connected_devices;
@@ -66,7 +73,10 @@ export function useDashboardStats() {
           err.code === "USER_NOT_FOUND" ||
           err.code === "ACCOUNT_INACTIVE")
       ) {
-        useAuth.getState().logout().catch(() => null);
+        useAuth
+          .getState()
+          .logout()
+          .catch(() => null);
         if (
           typeof window !== "undefined" &&
           window.location.pathname !== "/login" &&
@@ -77,7 +87,8 @@ export function useDashboardStats() {
         }
         return;
       }
-      const msg = err instanceof Error ? err.message : "Gagal memuat statistik dasbor";
+      const msg =
+        err instanceof Error ? err.message : "Gagal memuat statistik dasbor";
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -103,8 +114,10 @@ export function useDashboardStats() {
               const currentTenant = useAuth.getState().tenant;
               if (currentTenant) {
                 const hasChanged =
-                  currentTenant.planName !== (data.plan_name || currentTenant.planName) ||
-                  currentTenant.maxDevices !== (data.device_limit || currentTenant.maxDevices) ||
+                  currentTenant.planName !==
+                    (data.plan_name || currentTenant.planName) ||
+                  currentTenant.maxDevices !==
+                    (data.device_limit || currentTenant.maxDevices) ||
                   currentTenant.monthlyQuota !== data.monthly_message_limit ||
                   currentTenant.usedQuota !== data.total_messages_sent ||
                   currentTenant.activeDevicesCount !== data.connected_devices;
@@ -131,7 +144,10 @@ export function useDashboardStats() {
             err.code === "USER_NOT_FOUND" ||
             err.code === "ACCOUNT_INACTIVE")
         ) {
-          useAuth.getState().logout().catch(() => null);
+          useAuth
+            .getState()
+            .logout()
+            .catch(() => null);
           if (
             typeof window !== "undefined" &&
             window.location.pathname !== "/login" &&
@@ -143,7 +159,11 @@ export function useDashboardStats() {
           return;
         }
         if (isMounted) {
-          setError(err instanceof Error ? err.message : "Gagal memuat statistik dasbor");
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Gagal memuat statistik dasbor",
+          );
         }
       } finally {
         if (isMounted) {

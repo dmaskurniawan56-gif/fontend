@@ -5,7 +5,10 @@ import dynamic from "next/dynamic";
 import { useContacts } from "@/modules/contact/hooks/useContacts";
 import { ContactTable } from "@/modules/contact/components/list/ContactTable";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
-import { Contact, CreateContactInput } from "@/modules/contact/types/contact.types";
+import {
+  Contact,
+  CreateContactInput,
+} from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty";
 import { SearchInput } from "@/components/ui/search-input";
@@ -13,22 +16,35 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n/context";
 
 const ContactModal = dynamic(
-  () => import("@/modules/contact/components/modals/ContactModal").then((m) => m.ContactModal),
-  { ssr: false }
+  () =>
+    import("@/modules/contact/components/modals/ContactModal").then(
+      (m) => m.ContactModal,
+    ),
+  { ssr: false },
 );
 const ImportCsvModal = dynamic(
-  () => import("@/modules/contact/components/modals/ImportCsvModal").then((m) => m.ImportCsvModal),
-  { ssr: false }
+  () =>
+    import("@/modules/contact/components/modals/ImportCsvModal").then(
+      (m) => m.ImportCsvModal,
+    ),
+  { ssr: false },
 );
 const DeleteContactModal = dynamic(
   () =>
     import("@/modules/contact/components/modals/DeleteContactModal").then(
-      (m) => m.DeleteContactModal
+      (m) => m.DeleteContactModal,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
-import { Users, UserPlus, FileSpreadsheet, Download, Trash2, RefreshCw } from "lucide-react";
+import {
+  Users,
+  UserPlus,
+  FileSpreadsheet,
+  Download,
+  Trash2,
+  RefreshCw,
+} from "lucide-react";
 
 export function ContactsView() {
   const { t } = useI18n();
@@ -111,13 +127,18 @@ export function ContactsView() {
     if (contacts.length === 0) return;
     const header = "name,phone,tags\n";
     const rows = contacts
-      .map((c) => `"${c.name}","${c.phone}","${c.tags ? c.tags.join(";") : ""}"`)
+      .map(
+        (c) => `"${c.name}","${c.phone}","${c.tags ? c.tags.join(";") : ""}"`,
+      )
       .join("\n");
     const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `contacts_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute(
+      "download",
+      `contacts_export_${new Date().toISOString().slice(0, 10)}.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -208,7 +229,11 @@ export function ContactsView() {
               className="h-9 cursor-pointer gap-1.5 rounded-full border-rose-500/20 px-3.5 text-xs font-bold text-rose-600 hover:bg-rose-500/10 dark:text-rose-400"
             >
               <Trash2 className="size-3.5" />
-              <span>{t("contact.selectedCount", { count: selectedIds.size.toString() })}</span>
+              <span>
+                {t("contact.selectedCount", {
+                  count: selectedIds.size.toString(),
+                })}
+              </span>
             </Button>
           )}
 
@@ -221,7 +246,9 @@ export function ContactsView() {
             aria-label="Refresh Kontak"
             title="Refresh Kontak"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>
@@ -233,7 +260,11 @@ export function ContactsView() {
       ) : filteredContacts.length === 0 ? (
         <EmptyState
           icon={<Users className="size-6" />}
-          title={activeSearch ? t("contact.noSearchResults") : t("contact.noContacts")}
+          title={
+            activeSearch
+              ? t("contact.noSearchResults")
+              : t("contact.noContacts")
+          }
           description={
             activeSearch
               ? `Tidak ditemukan kontak dengan kata kunci "${activeSearch}". Silakan periksa kembali ejaan atau hapus filter.`
@@ -268,7 +299,7 @@ export function ContactsView() {
           }
         />
       ) : (
-        <ErrorBoundary fallbackTitle="Gagal Merender Tabel Kontak Virtual">
+        <ErrorBoundary>
           <ContactTable
             contacts={filteredContacts}
             selectedIds={selectedIds}

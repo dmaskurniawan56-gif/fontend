@@ -57,8 +57,12 @@ export function DeleteContactModal({
     ? t("contact.deleteBulkTitle", { count: String(bulkCount) })
     : t("contact.deleteConfirmTitle");
 
-  const desc = isBulk ? t("contact.deleteBulkDesc") : t("contact.deleteConfirmDesc");
-  const confirmText = isBulk ? t("contact.confirmBulkDelete") : t("contact.confirmDelete");
+  const desc = isBulk
+    ? t("contact.deleteBulkDesc")
+    : t("contact.deleteConfirmDesc");
+  const confirmText = isBulk
+    ? t("contact.confirmBulkDelete")
+    : t("contact.confirmDelete");
 
   return (
     <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
@@ -80,7 +84,9 @@ export function DeleteContactModal({
           {/* Target Identity Highlight */}
           {!isBulk && contact && (
             <div className="bg-muted/40 border-border/80 space-y-1 rounded-lg border p-3.5">
-              <div className="text-foreground text-sm font-bold sm:text-base">{contact.name}</div>
+              <div className="text-foreground text-sm font-bold sm:text-base">
+                {contact.name}
+              </div>
               <div className="text-foreground-secondary font-mono text-xs sm:text-sm">
                 +{contact.phone}
               </div>

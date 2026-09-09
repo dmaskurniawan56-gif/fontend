@@ -2,7 +2,14 @@
 
 import React, { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { CheckCheck, Check, AlertCircle, RefreshCw, Loader2, Phone } from "lucide-react";
+import {
+  CheckCheck,
+  Check,
+  AlertCircle,
+  RefreshCw,
+  Loader2,
+  Phone,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";
@@ -14,7 +21,7 @@ import { useMessageLogs } from "../../hooks/useMessageLogs";
 
 const MessageDetailModal = dynamic(
   () => import("./MessageDetailModal").then((m) => m.MessageDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import {
   Table,
@@ -42,18 +49,21 @@ export function MessageLogsTable() {
   const { t } = useI18n();
   const {
     logs,
-    total: serverTotal,
+    total,
     page,
     setPage,
     pageSize,
     setPageSize,
     isLoading,
     fetchLogs,
+    searchQuery,
+    setSearchQuery,
+    statusFilter,
+    setStatusFilter,
   } = useMessageLogs(1, 20);
   const [searchInput, setSearchInput] = useState("");
-  const [activeSearch, setActiveSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("ALL");
-  const [selectedLogForDetail, setSelectedLogForDetail] = useState<MessageLogItem | null>(null);
+  const [selectedLogForDetail, setSelectedLogForDetail] =
+    useState<MessageLogItem | null>(null);
 
   const mappedLogs = useMemo<MessageLogItem[]>(() => {
     return logs.map((m) => {
@@ -73,40 +83,26 @@ export function MessageLogsTable() {
     });
   }, [logs]);
 
-  const filteredLogs = useMemo(() => {
-    return mappedLogs.filter((l) => {
-      const matchSearch =
-        activeSearch === "" ||
-        l.recipientPhone.includes(activeSearch) ||
-        (l.recipientName && l.recipientName.toLowerCase().includes(activeSearch.toLowerCase())) ||
-        l.campaignName.toLowerCase().includes(activeSearch.toLowerCase()) ||
-        l.messageSnippet.toLowerCase().includes(activeSearch.toLowerCase());
-
-      const matchStatus = statusFilter === "ALL" || l.status === statusFilter;
-      return matchSearch && matchStatus;
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<MessageLogItem>({
+      initialKey: "sentAt",
+      initialOrder: "desc",
     });
-  }, [mappedLogs, activeSearch, statusFilter]);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<MessageLogItem>({
-    initialKey: "sentAt",
-    initialOrder: "desc",
-  });
+  const sortedLogs = useMemo(() => {
+    return sortData(mappedLogs);
+  }, [mappedLogs, sortData]);
 
-  const sortedFilteredLogs = useMemo(() => {
-    return sortData(filteredLogs);
-  }, [filteredLogs, sortData]);
-
-  const total = serverTotal || sortedFilteredLogs.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const handleClearSearch = () => {
     setSearchInput("");
-    setActiveSearch("");
+    setSearchQuery("");
     setPage(1);
   };
 
-  const handleStatusChange = (status: string) => {
-    setStatusFilter(status);
+  const handleSearchSubmit = (val: string) => {
+    setSearchQuery(val);
     setPage(1);
   };
 
@@ -150,10 +146,12 @@ export function MessageLogsTable() {
       <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4">
         <SearchInput
           value={searchInput}
-          onChange={setSearchInput}
+          onChange={(val) => {
+            setSearchInput(val);
+            setSearchQuery(val);
+          }}
           onSearch={() => {
-            setActiveSearch(searchInput.trim());
-            setPage(1);
+            handleSearchSubmit(searchInput.trim());
           }}
           onClear={handleClearSearch}
           placeholder={t("campaign.searchLogsPlaceholder")}
@@ -169,13 +167,15 @@ export function MessageLogsTable() {
             className="border-border hover:border-foreground-muted h-10 cursor-pointer gap-1 rounded-full px-3 text-xs font-bold"
             title="Refresh Log"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
 
           <NativeSelect
             value={statusFilter}
-            onChange={(e) => handleStatusChange(e.target.value)}
+            onChange={(e) => setStatusFilter(e.target.value)}
             variant="pill"
             wrapperClassName="w-full sm:w-auto"
           >
@@ -193,24 +193,24 @@ export function MessageLogsTable() {
           <div className="space-y-3 p-8 text-center sm:p-12">
             <Loader2 className="text-wise-green mx-auto size-8 animate-spin" />
             <p className="text-foreground-secondary text-xs font-semibold">
-              Memuat log pesan dari server...
+              {t("campaign.logsLoading")}
             </p>
           </div>
-        ) : filteredLogs.length === 0 ? (
+        ) : sortedLogs.length === 0 ? (
           <EmptyState
             icon={<AlertCircle />}
-            title="Tidak ada log pesan ditemukan"
+            title={t("campaign.logsEmptyTitle")}
             description={
-              activeSearch
-                ? `Tidak ditemukan pesan dengan kata kunci "${activeSearch}".`
-                : "Belum ada riwayat pengiriman pesan."
+              searchQuery
+                ? t("campaign.logsEmptySearch", { query: searchQuery })
+                : t("campaign.logsEmptyDesc")
             }
           />
         ) : (
           <div>
             {/* Mobile View: Card-based Message Logs (Visible on < 1024px) */}
             <div className="divide-border/50 divide-y lg:hidden">
-              {sortedFilteredLogs.map((log) => (
+              {sortedLogs.map((log) => (
                 <div
                   key={log.id}
                   onClick={() => setSelectedLogForDetail(log)}
@@ -222,7 +222,8 @@ export function MessageLogsTable() {
                         <Phone className="size-3.5" />
                       </div>
                       <div className="min-w-0">
-                        {log.recipientName && log.recipientName !== log.recipientPhone ? (
+                        {log.recipientName &&
+                        log.recipientName !== log.recipientPhone ? (
                           <>
                             <span className="text-foreground block truncate text-xs font-bold">
                               {log.recipientName}
@@ -245,7 +246,9 @@ export function MessageLogsTable() {
                   </div>
 
                   <div className="bg-muted/40 text-foreground-secondary rounded p-2 text-xs">
-                    <p className="line-clamp-2 leading-relaxed">{log.messageSnippet}</p>
+                    <p className="line-clamp-2 leading-relaxed">
+                      {log.messageSnippet}
+                    </p>
                     {log.errorMessage && (
                       <span className="mt-1 block truncate font-mono text-xs text-rose-500">
                         {log.errorMessage}
@@ -254,7 +257,9 @@ export function MessageLogsTable() {
                   </div>
 
                   <div className="text-foreground-muted flex items-center justify-between text-[11px]">
-                    <span className="truncate font-medium">{log.campaignName}</span>
+                    <span className="truncate font-medium">
+                      {log.campaignName}
+                    </span>
                     <span className="font-mono">
                       {log.sentAt
                         ? new Date(log.sentAt).toLocaleString("id-ID", {
@@ -321,7 +326,7 @@ export function MessageLogsTable() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sortedFilteredLogs.map((log) => {
+                  {sortedLogs.map((log) => {
                     const formattedDate = log.sentAt
                       ? new Date(log.sentAt).toLocaleDateString("id-ID", {
                           day: "numeric",
@@ -351,7 +356,8 @@ export function MessageLogsTable() {
                               <Phone className="size-3.5" />
                             </div>
                             <div className="min-w-0">
-                              {log.recipientName && log.recipientName !== log.recipientPhone ? (
+                              {log.recipientName &&
+                              log.recipientName !== log.recipientPhone ? (
                                 <>
                                   <span className="text-foreground block truncate text-xs font-bold sm:text-sm">
                                     {log.recipientName}
@@ -378,7 +384,9 @@ export function MessageLogsTable() {
 
                         {/* Message Snippet */}
                         <TableCell className="text-foreground-secondary px-4 py-3.5 align-middle text-xs leading-relaxed">
-                          <span className="block max-w-xs truncate">{log.messageSnippet}</span>
+                          <span className="block max-w-xs truncate">
+                            {log.messageSnippet}
+                          </span>
                           {log.errorMessage && (
                             <span className="mt-0.5 block truncate font-mono text-[11px] font-medium text-rose-500">
                               {log.errorMessage}

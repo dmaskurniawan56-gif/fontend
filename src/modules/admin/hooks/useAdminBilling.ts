@@ -46,7 +46,7 @@ export function useAdminBilling() {
             search: searchQuery,
             status: statusFilter !== "ALL" ? statusFilter : undefined,
           },
-          controller.signal
+          controller.signal,
         );
         if (!controller.signal.aborted) {
           setBillings(res.billings);
@@ -68,15 +68,20 @@ export function useAdminBilling() {
     try {
       await adminApi.updateAdminBillingStatus(id, { status });
       setBillings((prev) =>
-        prev.map((b) => (b.id === id ? { ...b, status: status as BillingStatus } : b))
+        prev.map((b) =>
+          b.id === id ? { ...b, status: status as BillingStatus } : b,
+        ),
       );
       toast.success(
         status === "EXPIRED"
           ? t("admin.billing.toastExpiredSuccess")
-          : t("admin.billing.toastCancelledSuccess")
+          : t("admin.billing.toastCancelledSuccess"),
       );
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.billing.toastUpdateFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.billing.toastUpdateFailed");
       toast.error(msg);
       throw err;
     }
@@ -89,7 +94,10 @@ export function useAdminBilling() {
       setTotal((prev) => Math.max(0, prev - 1));
       toast.success(t("admin.billing.deleteBillingSuccessToast"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.billing.toastDeleteFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.billing.toastDeleteFailed");
       toast.error(msg);
       throw err;
     }
@@ -137,10 +145,10 @@ export function useAdminBilling() {
       .filter((b) => b.status === "PAID")
       .reduce((acc, curr) => acc + curr.amount, 0);
     const pendingCount = billings.filter(
-      (b) => b.status === "PENDING" || b.status === "PROCESSING"
+      (b) => b.status === "PENDING" || b.status === "PROCESSING",
     ).length;
     const closedCount = billings.filter(
-      (b) => b.status === "EXPIRED" || b.status === "CANCELLED"
+      (b) => b.status === "EXPIRED" || b.status === "CANCELLED",
     ).length;
 
     return {

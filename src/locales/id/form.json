@@ -125,6 +125,14 @@
   "fieldTypeSelect": "Pilihan Dropdown (Select)",
   "newQuestion": "Pertanyaan Baru",
   "presetNeeds": "Kebutuhan Anda",
-  "presetNeedsPlaceholder": "Ceritakan kebutuhan atau produk yang dicari..."
+  "presetNeedsPlaceholder": "Ceritakan kebutuhan atau produk yang dicari...",
+  "statusAll": "Semua",
+  "statusPending": "Pending",
+  "statusProcessed": "Diproses",
+  "statusArchived": "Arsip",
+  "loadingSubmissions": "Memuat respons...",
+  "previewTextareaPlaceholder": "Tuliskan jawaban lengkap di sini...",
+  "previewSelectOption": "-- Pilih {label} --",
+  "previewNoOptions": "Pilihan belum diisi",
+  "previewInputPlaceholder": "Masukkan {label}..."
 }
-

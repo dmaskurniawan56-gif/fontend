@@ -19,7 +19,7 @@ const inputVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface InputProps
@@ -34,8 +34,9 @@ function Input({ className, variant, isError, type, ...props }: InputProps) {
       data-slot="input"
       className={cn(
         inputVariants({ variant }),
-        isError && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/30",
-        className
+        isError &&
+          "border-rose-500 focus:border-rose-500 focus:ring-rose-500/30",
+        className,
       )}
       {...props}
     />

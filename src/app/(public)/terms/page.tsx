@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     canonical: "/terms",
   },
   openGraph: {
-    title: "Syarat & Ketentuan Layanan (Terms of Service) — Hide Group & Wahide",
+    title:
+      "Syarat & Ketentuan Layanan (Terms of Service) — Hide Group & Wahide",
     description:
       "Syarat & Ketentuan Layanan resmi Hide Group, SLA ketersediaan 99.9%, dan Acceptable Use Policy untuk Wahide Gateway.",
     url: "/terms",

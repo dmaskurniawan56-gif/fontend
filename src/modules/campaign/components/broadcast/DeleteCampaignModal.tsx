@@ -67,7 +67,9 @@ export function DeleteCampaignModal({
 
         <div className="text-foreground-secondary min-h-0 flex-1 space-y-4 overflow-y-auto p-6 text-sm">
           <AlertDialogDescription className="text-foreground-secondary text-sm leading-relaxed">
-            {t("campaign.deleteModalDesc", { name: campaign.name || "Kampanye" })}
+            {t("campaign.deleteModalDesc", {
+              name: campaign.name || "Kampanye",
+            })}
           </AlertDialogDescription>
         </div>
 

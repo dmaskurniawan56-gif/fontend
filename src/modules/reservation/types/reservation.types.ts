@@ -3,7 +3,8 @@
 // Strictly synchronized with Wahide Go Backend: internal/modules/reservation/domain
 // ==============================================================================
 
-export type ReservationStatus = "CONFIRMED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+export type ReservationStatus =
+  "CONFIRMED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
 
 export interface Reservation {
   id: string;

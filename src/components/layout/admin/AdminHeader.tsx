@@ -66,7 +66,9 @@ export function AdminHeader({ onOpenMobileNav }: AdminHeaderProps) {
             <span className="text-foreground font-bold">Admin</span>
           </div>
           <span>/</span>
-          <span className="text-foreground-muted hidden sm:inline">{currentRoute.section}</span>
+          <span className="text-foreground-muted hidden sm:inline">
+            {currentRoute.section}
+          </span>
           <span className="hidden sm:inline">/</span>
           <span className="text-foreground max-w-40 truncate font-bold sm:max-w-none">
             {currentRoute.title}

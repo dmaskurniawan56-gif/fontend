@@ -47,7 +47,7 @@ export function useAdminNotifications() {
             search: searchQuery,
             status: statusFilter !== "ALL" ? statusFilter : undefined,
           },
-          controller.signal
+          controller.signal,
         );
         if (!controller.signal.aborted) {
           setQueues(res.queues);
@@ -72,7 +72,10 @@ export function useAdminNotifications() {
       setTotal((prev) => Math.max(0, prev - 1));
       toast.success(t("admin.notifications.toastDeleteSuccess"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.notifications.toastDeleteFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.notifications.toastDeleteFailed");
       toast.error(msg);
       throw err;
     }
@@ -85,7 +88,10 @@ export function useAdminNotifications() {
       toast.success(res.message);
       await fetchQueues();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.notifications.toastBroadcastFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.notifications.toastBroadcastFailed");
       toast.error(msg);
       throw err;
     } finally {
@@ -93,14 +99,25 @@ export function useAdminNotifications() {
     }
   };
 
-  const sendBroadcastSpecific = async (userIds: string[], subject: string, message: string) => {
+  const sendBroadcastSpecific = async (
+    userIds: string[],
+    subject: string,
+    message: string,
+  ) => {
     setIsSending(true);
     try {
-      const res = await adminApi.broadcastToSpecificUsers({ userIds, subject, message });
+      const res = await adminApi.broadcastToSpecificUsers({
+        userIds,
+        subject,
+        message,
+      });
       toast.success(res.message);
       await fetchQueues();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.notifications.toastTargetBroadcastFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.notifications.toastTargetBroadcastFailed");
       toast.error(msg);
       throw err;
     } finally {
@@ -108,7 +125,12 @@ export function useAdminNotifications() {
     }
   };
 
-  const sendDirectEmail = async (email: string, name: string, subject: string, message: string) => {
+  const sendDirectEmail = async (
+    email: string,
+    name: string,
+    subject: string,
+    message: string,
+  ) => {
     setIsSending(true);
     try {
       const res = await adminApi.createDirectEmailQueue({
@@ -121,7 +143,10 @@ export function useAdminNotifications() {
       toast.success(res.message);
       await fetchQueues();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.notifications.toastEnqueueFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.notifications.toastEnqueueFailed");
       toast.error(msg);
       throw err;
     } finally {
@@ -132,7 +157,7 @@ export function useAdminNotifications() {
   const sendDirectEmailsBatch = async (
     targets: { email: string; name?: string }[],
     subject: string,
-    message: string
+    message: string,
   ) => {
     if (targets.length === 0) return;
     setIsSending(true);
@@ -148,10 +173,17 @@ export function useAdminNotifications() {
         });
         successCount++;
       }
-      toast.success(t("admin.notifications.toastBatchEnqueueSuccess", { count: successCount }));
+      toast.success(
+        t("admin.notifications.toastBatchEnqueueSuccess", {
+          count: successCount,
+        }),
+      );
       await fetchQueues();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.notifications.toastEnqueueFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.notifications.toastEnqueueFailed");
       toast.error(msg);
       throw err;
     } finally {
@@ -196,8 +228,12 @@ export function useAdminNotifications() {
   };
 
   const metrics = useMemo(() => {
-    const completedCount = queues.filter((q) => q.status === "COMPLETED").length;
-    const processingCount = queues.filter((q) => q.status === "PROCESSING").length;
+    const completedCount = queues.filter(
+      (q) => q.status === "COMPLETED",
+    ).length;
+    const processingCount = queues.filter(
+      (q) => q.status === "PROCESSING",
+    ).length;
     const pendingCount = queues.filter((q) => q.status === "PENDING").length;
     const failedCount = queues.filter((q) => q.status === "FAILED").length;
 

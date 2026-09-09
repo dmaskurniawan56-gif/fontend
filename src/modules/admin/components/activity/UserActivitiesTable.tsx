@@ -1,8 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { UserActivityItem } from "@/modules/admin/types/admin.types";
-import { DeleteActivityConfirmModal } from "./DeleteActivityConfirmModal";
+
+const DeleteActivityConfirmModal = dynamic(
+  () =>
+    import("./DeleteActivityConfirmModal").then(
+      (m) => m.DeleteActivityConfirmModal,
+    ),
+  { ssr: false },
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";
@@ -40,7 +48,7 @@ import { useTableSort } from "@/hooks/useTableSort";
 
 export function formatHumanActivityDate(
   rawDate?: string,
-  locale = "id"
+  locale = "id",
 ): {
   formattedDate: string;
   formattedTime: string;
@@ -58,11 +66,14 @@ export function formatHumanActivityDate(
     return { formattedDate: rawDate, formattedTime: "", fullHuman: rawDate };
   }
 
-  const formattedDate = new Intl.DateTimeFormat(locale === "en" ? "en-US" : "id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(dateObj);
+  const formattedDate = new Intl.DateTimeFormat(
+    locale === "en" ? "en-US" : "id-ID",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  ).format(dateObj);
 
   const hours = String(dateObj.getHours()).padStart(2, "0");
   const minutes = String(dateObj.getMinutes()).padStart(2, "0");
@@ -110,12 +121,14 @@ export function UserActivitiesTable({
 }: UserActivitiesTableProps) {
   const { t, locale } = useI18n();
   const [searchInput, setSearchInput] = useState("");
-  const [activityToDelete, setActivityToDelete] = useState<UserActivityItem | null>(null);
+  const [activityToDelete, setActivityToDelete] =
+    useState<UserActivityItem | null>(null);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<UserActivityItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<UserActivityItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedActivities = sortData(activities);
 
@@ -260,7 +273,9 @@ export function UserActivitiesTable({
             title={t("activities.refreshTitle")}
             aria-label={t("admin.activities.refreshAria")}
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin text-rose-500" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin text-rose-500" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>
@@ -306,7 +321,9 @@ export function UserActivitiesTable({
             <div className="mx-auto flex size-9 animate-spin items-center justify-center rounded-full bg-rose-500/15 text-rose-600">
               <RefreshCw className="size-4.5" />
             </div>
-            <p className="text-foreground text-xs font-bold">{t("activities.loading")}</p>
+            <p className="text-foreground text-xs font-bold">
+              {t("activities.loading")}
+            </p>
           </div>
         ) : activities.length === 0 ? (
           <EmptyState
@@ -336,7 +353,10 @@ export function UserActivitiesTable({
             {/* Mobile View: Card List (Visible on < 768px) */}
             <div className="divide-border/50 w-full min-w-0 divide-y md:hidden">
               {sortedActivities.map((act) => {
-                const { fullHuman } = formatHumanActivityDate(act.createdAt, locale);
+                const { fullHuman } = formatHumanActivityDate(
+                  act.createdAt,
+                  locale,
+                );
                 return (
                   <div
                     key={act.id}
@@ -434,9 +454,13 @@ export function UserActivitiesTable({
                 </TableHeader>
                 <TableBody>
                   {sortedActivities.map((act) => {
-                    const { formattedDate, formattedTime } = formatHumanActivityDate(act.createdAt, locale);
+                    const { formattedDate, formattedTime } =
+                      formatHumanActivityDate(act.createdAt, locale);
                     return (
-                      <TableRow key={act.id} className="hover:bg-muted/40 transition-colors">
+                      <TableRow
+                        key={act.id}
+                        className="hover:bg-muted/40 transition-colors"
+                      >
                         {/* Col 1: Pengguna */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="flex min-w-0 items-center gap-2.5">
@@ -468,7 +492,8 @@ export function UserActivitiesTable({
                         {/* Col 3: Deskripsi */}
                         <TableCell className="text-foreground-secondary px-4 py-3.5 align-middle text-xs font-medium">
                           <span className="line-clamp-2 leading-relaxed">
-                            {act.description || t("activities.defaultDescription")}
+                            {act.description ||
+                              t("activities.defaultDescription")}
                           </span>
                         </TableCell>
 
@@ -493,7 +518,9 @@ export function UserActivitiesTable({
                               onClick={() => setActivityToDelete(act)}
                               className="text-foreground-muted flex size-8 cursor-pointer items-center justify-center rounded-full border border-transparent transition hover:border-rose-500/30 hover:bg-rose-500/10 hover:text-rose-600"
                               title={t("admin.activities.deleteModalTitle")}
-                              aria-label={t("admin.activities.deleteModalTitle")}
+                              aria-label={t(
+                                "admin.activities.deleteModalTitle",
+                              )}
                             >
                               <Trash2 className="size-3.5" />
                             </button>

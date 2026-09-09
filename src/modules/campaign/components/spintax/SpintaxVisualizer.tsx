@@ -10,7 +10,10 @@ interface SpintaxVisualizerProps {
   onRandomize: () => void;
 }
 
-export function SpintaxVisualizer({ previewText, onRandomize }: SpintaxVisualizerProps) {
+export function SpintaxVisualizer({
+  previewText,
+  onRandomize,
+}: SpintaxVisualizerProps) {
   const { t } = useI18n();
 
   return (
@@ -43,7 +46,10 @@ export function SpintaxVisualizer({ previewText, onRandomize }: SpintaxVisualize
           </p>
         </div>
         <span className="text-foreground-muted mt-2 block text-right font-mono text-[10px]">
-          {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+          {new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </span>
       </div>
     </div>

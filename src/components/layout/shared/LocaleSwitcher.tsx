@@ -15,7 +15,7 @@ function useIsMounted() {
   return useSyncExternalStore(
     subscribe,
     () => true,
-    () => false
+    () => false,
   );
 }
 
@@ -28,24 +28,36 @@ export function LocaleSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger
         className="hover:bg-surface hover:border-border border-border flex cursor-pointer items-center gap-1.5 rounded-full border bg-transparent px-3 py-1.5 text-xs font-bold tracking-wider uppercase transition outline-none dark:hover:bg-[#161715]"
-        aria-label="Pilih Bahasa / Select Language"
+        aria-label={t("common.selectLanguage")}
       >
         <Globe className="text-dark-green dark:text-wise-green size-3.5" />
         <span>{currentLocale.toUpperCase()}</span>
         <ChevronDown className="text-foreground-muted size-3" />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" sideOffset={6} className="w-52 p-1.5 shadow-xl">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={6}
+        className="w-52 p-1.5 shadow-xl"
+      >
         <DropdownMenuItem
           onClick={() => setLocale("id")}
           className="flex cursor-pointer items-center justify-between gap-3 rounded-md px-3 py-2 text-xs font-semibold"
         >
           <div className="flex items-center gap-2">
             <span className="text-sm">🇮🇩</span>
-            <span className={currentLocale === "id" ? "text-foreground font-bold" : "text-foreground-secondary"}>
+            <span
+              className={
+                currentLocale === "id"
+                  ? "text-foreground font-bold"
+                  : "text-foreground-secondary"
+              }
+            >
               {t("common.langIndonesian")}
             </span>
-            <span className="text-foreground-muted text-[10px] font-bold">ID</span>
+            <span className="text-foreground-muted text-[10px] font-bold">
+              ID
+            </span>
           </div>
           {currentLocale === "id" && (
             <Check className="text-dark-green dark:text-wise-green stroke-2.5 size-3.5" />
@@ -58,10 +70,18 @@ export function LocaleSwitcher() {
         >
           <div className="flex items-center gap-2">
             <span className="text-sm">🇬🇧</span>
-            <span className={currentLocale === "en" ? "text-foreground font-bold" : "text-foreground-secondary"}>
+            <span
+              className={
+                currentLocale === "en"
+                  ? "text-foreground font-bold"
+                  : "text-foreground-secondary"
+              }
+            >
               {t("common.langEnglish")}
             </span>
-            <span className="text-foreground-muted text-[10px] font-bold">EN</span>
+            <span className="text-foreground-muted text-[10px] font-bold">
+              EN
+            </span>
           </div>
           {currentLocale === "en" && (
             <Check className="text-dark-green dark:text-wise-green stroke-2.5 size-3.5" />

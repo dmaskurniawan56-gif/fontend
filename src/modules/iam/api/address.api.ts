@@ -1,6 +1,12 @@
 import { httpClient } from "@/lib/api/http-client";
 import { env } from "@/lib/config/env";
-import { Province, City, District, UserAddress, UpsertAddressInput } from "../types/address.types";
+import {
+  Province,
+  City,
+  District,
+  UserAddress,
+  UpsertAddressInput,
+} from "../types/address.types";
 
 const IAM_BASE = env.NEXT_PUBLIC_IAM_API_URL;
 const CODEPOS_BASE = "https://apicodepos.hidessh.com/api";
@@ -10,6 +16,7 @@ function normalizeUserAddress(raw: Record<string, unknown>): UserAddress {
     id: String(raw.id || ""),
     userId: String(raw.user_id || raw.userId || ""),
     name: String(raw.name || ""),
+    country: String(raw.country || "Indonesia"),
     address: String(raw.address || ""),
     city: String(raw.city || ""),
     state: String(raw.state || ""),
@@ -25,7 +32,7 @@ export const addressApi = {
     try {
       const res = await httpClient.get<Record<string, unknown>>(
         `${IAM_BASE}/users/address/user`,
-        { signal }
+        { signal },
       );
       if (res.payload && typeof res.payload === "object") {
         return normalizeUserAddress(res.payload as Record<string, unknown>);
@@ -39,9 +46,12 @@ export const addressApi = {
   },
 
   upsertUserAddress: async (
-    payload: UpsertAddressInput
+    payload: UpsertAddressInput,
   ): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post(`${IAM_BASE}/users/address/upsert`, payload);
+    const res = await httpClient.post(
+      `${IAM_BASE}/users/address/upsert`,
+      payload,
+    );
     return {
       success: res.success,
       message: res.message || "Alamat berhasil diperbarui",
@@ -66,13 +76,19 @@ export const addressApi = {
     }
   },
 
-  getCities: async (provinceId: string, signal?: AbortSignal): Promise<City[]> => {
+  getCities: async (
+    provinceId: string,
+    signal?: AbortSignal,
+  ): Promise<City[]> => {
     if (!provinceId) return [];
     try {
-      const response = await fetch(`${CODEPOS_BASE}/regencies/${provinceId}.json`, {
-        headers: { Accept: "application/json" },
-        signal,
-      });
+      const response = await fetch(
+        `${CODEPOS_BASE}/regencies/${provinceId}.json`,
+        {
+          headers: { Accept: "application/json" },
+          signal,
+        },
+      );
       if (!response.ok) throw new Error("Gagal mengambil data kota/kabupaten");
       const data = await response.json();
       return Array.isArray(data) ? data : [];
@@ -83,7 +99,10 @@ export const addressApi = {
     }
   },
 
-  getDistricts: async (cityId: string, signal?: AbortSignal): Promise<District[]> => {
+  getDistricts: async (
+    cityId: string,
+    signal?: AbortSignal,
+  ): Promise<District[]> => {
     if (!cityId) return [];
     try {
       const response = await fetch(`${CODEPOS_BASE}/districts/${cityId}.json`, {

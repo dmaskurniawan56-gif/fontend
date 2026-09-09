@@ -59,13 +59,15 @@ export function DeleteTeamMemberModal({
 
         {/* Modal Body with Member Context */}
         <div className="text-foreground-secondary min-h-0 flex-1 space-y-4 overflow-y-auto p-5 text-xs font-semibold">
-          <p className="leading-relaxed">
-            {t("team.deleteConfirmDesc")}
-          </p>
+          <p className="leading-relaxed">{t("team.deleteConfirmDesc")}</p>
 
           <div className="border-border bg-muted/40 space-y-1 rounded-lg border p-3.5">
-            <div className="text-foreground text-sm font-bold">{targetMember.name}</div>
-            <div className="text-foreground-secondary text-xs">{targetMember.email}</div>
+            <div className="text-foreground text-sm font-bold">
+              {targetMember.name}
+            </div>
+            <div className="text-foreground-secondary text-xs">
+              {targetMember.email}
+            </div>
             <div className="text-foreground-muted font-mono text-xs">
               +{targetMember.phone} • {targetMember.role}
             </div>

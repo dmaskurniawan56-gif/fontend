@@ -42,9 +42,16 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
   if (!post) {
     return (
       <div className="max-w-3xl mx-auto p-12 text-center space-y-4">
-        <h1 className="text-2xl font-black text-foreground">{t("content.notFoundTitle")}</h1>
-        <p className="text-xs font-semibold text-foreground-secondary">{t("content.notFoundDesc")}</p>
-        <Link href="/blog" className="text-xs font-bold text-emerald-700 dark:text-wise-green hover:underline">
+        <h1 className="text-2xl font-black text-foreground">
+          {t("content.notFoundTitle")}
+        </h1>
+        <p className="text-xs font-semibold text-foreground-secondary">
+          {t("content.notFoundDesc")}
+        </p>
+        <Link
+          href="/blog"
+          className="text-xs font-bold text-emerald-700 dark:text-wise-green hover:underline"
+        >
           &larr; {t("content.backToBlog")}
         </Link>
       </div>
@@ -100,7 +107,12 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
           <span>•</span>
           <span className="flex items-center gap-1.5">
             <Calendar className="size-3.5" />
-            <span>{new Date(post.publishedAt).toLocaleDateString(locale === "en" ? "en-US" : "id-ID", { day: "numeric", month: "long", year: "numeric" })}</span>
+            <span>
+              {new Date(post.publishedAt).toLocaleDateString(
+                locale === "en" ? "en-US" : "id-ID",
+                { day: "numeric", month: "long", year: "numeric" },
+              )}
+            </span>
           </span>
         </div>
       </div>

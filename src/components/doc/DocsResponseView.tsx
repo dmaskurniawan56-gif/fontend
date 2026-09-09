@@ -14,7 +14,7 @@ export function DocsResponseView({
   title = "Response Formats",
 }: DocsResponseViewProps) {
   const [selectedStatus, setSelectedStatus] = useState<number>(
-    responses[0]?.status || 200
+    responses[0]?.status || 200,
   );
   const [copied, setCopied] = useState(false);
 
@@ -57,9 +57,7 @@ export function DocsResponseView({
   return (
     <div className="space-y-4">
       {title && (
-        <h3 className="text-base font-bold text-foreground">
-          {title}
-        </h3>
+        <h3 className="text-base font-bold text-foreground">{title}</h3>
       )}
 
       {/* Response Status Selector Tabs */}
@@ -73,7 +71,7 @@ export function DocsResponseView({
               type="button"
               className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium border transition-all ${getStatusBadgeStyle(
                 resp.status,
-                isActive
+                isActive,
               )}`}
             >
               <span className="font-bold">{resp.status}</span> {resp.statusText}
@@ -93,7 +91,8 @@ export function DocsResponseView({
       <div className="rounded-xl border border-border bg-[#0d1117] text-[#e6edf3] shadow-md overflow-hidden dark:border-border/80">
         <div className="flex items-center justify-between border-b border-[#30363d] bg-[#161b22] px-4 py-2 text-xs">
           <span className="font-mono text-[11px] text-[#8b949e]">
-            application/json • {activeResponse.status} {activeResponse.statusText}
+            application/json • {activeResponse.status}{" "}
+            {activeResponse.statusText}
           </span>
           <button
             onClick={handleCopy}
@@ -121,7 +120,7 @@ export function DocsResponseView({
         </div>
       </div>
 
-      {/* Response Attributes Breakdown Table (Whatspie Style) */}
+      {/* Response Attributes Breakdown Table */}
       {activeResponse.attributes && activeResponse.attributes.length > 0 && (
         <div className="space-y-2 pt-2">
           <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">

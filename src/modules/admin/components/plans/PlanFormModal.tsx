@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { AdminPlanItem, CreatePlanInput } from "@/modules/admin/types/admin.types";
+import {
+  AdminPlanItem,
+  CreatePlanInput,
+} from "@/modules/admin/types/admin.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,25 +48,39 @@ interface PlanFormModalContentProps {
   onSubmit: (data: CreatePlanInput) => Promise<unknown>;
 }
 
-function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentProps) {
+function PlanFormModalContent({
+  plan,
+  onClose,
+  onSubmit,
+}: PlanFormModalContentProps) {
   const { t } = useI18n();
   const isEdit = Boolean(plan);
 
   const [name, setName] = useState(plan?.name || "");
   const [price, setPrice] = useState<number>(plan?.price ?? 50000);
   const [monthlyMessageLimit, setMonthlyMessageLimit] = useState<number>(
-    plan?.monthly_message_limit ?? 25000
+    plan?.monthly_message_limit ?? 25000,
   );
   const [maxDevices, setMaxDevices] = useState<number>(plan?.max_devices ?? 5);
   const [maxAgents, setMaxAgents] = useState<number>(plan?.max_agents ?? 2);
-  const [hasWatermark, setHasWatermark] = useState<boolean>(plan?.has_watermark ?? false);
-  const [watermarkText, setWatermarkText] = useState<string>(
-    plan?.watermark_text || "\n\n_Sent via Wahide WhatsApp Gateway_"
+  const [hasWatermark, setHasWatermark] = useState<boolean>(
+    plan?.has_watermark ?? false,
   );
-  const [allowAttachment, setAllowAttachment] = useState<boolean>(plan?.allow_attachment ?? true);
-  const [allowCampaign, setAllowCampaign] = useState<boolean>(plan?.allow_campaign ?? true);
-  const [allowAutoreply, setAllowAutoreply] = useState<boolean>(plan?.allow_autoreply ?? true);
-  const [allowSchedule, setAllowSchedule] = useState<boolean>(plan?.allow_schedule ?? true);
+  const [watermarkText, setWatermarkText] = useState<string>(
+    plan?.watermark_text || "\n\n_Sent via Wahide WhatsApp Gateway_",
+  );
+  const [allowAttachment, setAllowAttachment] = useState<boolean>(
+    plan?.allow_attachment ?? true,
+  );
+  const [allowCampaign, setAllowCampaign] = useState<boolean>(
+    plan?.allow_campaign ?? true,
+  );
+  const [allowAutoreply, setAllowAutoreply] = useState<boolean>(
+    plan?.allow_autoreply ?? true,
+  );
+  const [allowSchedule, setAllowSchedule] = useState<boolean>(
+    plan?.allow_schedule ?? true,
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,7 +115,11 @@ function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentP
       {/* Header */}
       <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
         <div className="dark:text-wise-green flex size-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">
-          {isEdit ? <Edit3 className="size-5" /> : <PlusCircle className="size-5" />}
+          {isEdit ? (
+            <Edit3 className="size-5" />
+          ) : (
+            <PlusCircle className="size-5" />
+          )}
         </div>
         <div>
           <DialogTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
@@ -108,14 +129,19 @@ function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentP
           </DialogTitle>
           <DialogDescription className="text-foreground-secondary text-xs font-semibold">
             {isEdit
-              ? t("admin.plans.formModalSubtitleEdit", { name: plan?.name ?? "" })
+              ? t("admin.plans.formModalSubtitleEdit", {
+                  name: plan?.name ?? "",
+                })
               : t("admin.plans.formModalSubtitleAdd")}
           </DialogDescription>
         </div>
       </DialogHeader>
 
       {/* Scrollable Form Body */}
-      <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <form
+        onSubmit={handleSubmit}
+        className="flex min-h-0 flex-1 flex-col overflow-hidden"
+      >
         <div className="flex-1 space-y-4.5 p-5 text-xs sm:p-6">
           {/* Nama Paket & Harga */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -182,7 +208,9 @@ function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentP
                   min={100}
                   required
                   value={monthlyMessageLimit}
-                  onChange={(e) => setMonthlyMessageLimit(Number(e.target.value))}
+                  onChange={(e) =>
+                    setMonthlyMessageLimit(Number(e.target.value))
+                  }
                   variant="rounded"
                   className="h-9 font-mono font-bold"
                 />
@@ -389,7 +417,9 @@ function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentP
               <>
                 <Save className="size-3.5" />
                 <span>
-                  {isEdit ? t("admin.plans.saveEditBtn") : t("admin.plans.saveAddBtn")}
+                  {isEdit
+                    ? t("admin.plans.saveEditBtn")
+                    : t("admin.plans.saveAddBtn")}
                 </span>
               </>
             )}
@@ -400,7 +430,12 @@ function PlanFormModalContent({ plan, onClose, onSubmit }: PlanFormModalContentP
   );
 }
 
-export function PlanFormModal({ plan, isOpen, onClose, onSubmit }: PlanFormModalProps) {
+export function PlanFormModal({
+  plan,
+  isOpen,
+  onClose,
+  onSubmit,
+}: PlanFormModalProps) {
   if (!isOpen) return null;
 
   return (

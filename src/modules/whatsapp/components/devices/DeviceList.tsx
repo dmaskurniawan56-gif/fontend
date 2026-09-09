@@ -11,19 +11,25 @@ import { EmptyState } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n/context";
 
-const LiveQRModal = dynamic(() => import("./LiveQRModal").then((m) => m.LiveQRModal), {
-  ssr: false,
-});
-const AddDeviceModal = dynamic(() => import("./AddDeviceModal").then((m) => m.AddDeviceModal), {
-  ssr: false,
-});
+const LiveQRModal = dynamic(
+  () => import("./LiveQRModal").then((m) => m.LiveQRModal),
+  {
+    ssr: false,
+  },
+);
+const AddDeviceModal = dynamic(
+  () => import("./AddDeviceModal").then((m) => m.AddDeviceModal),
+  {
+    ssr: false,
+  },
+);
 const SendMessageModal = dynamic(
   () => import("../messages/SendMessageModal").then((m) => m.SendMessageModal),
-  { ssr: false }
+  { ssr: false },
 );
 const DeviceDetailModal = dynamic(
   () => import("./DeviceDetailModal").then((m) => m.DeviceDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import Link from "next/link";
 import { useSubscription } from "@/modules/subscription/hooks/useSubscription";
@@ -58,20 +64,47 @@ export function DeviceList() {
     hibernateDevice,
     wakeDevice,
     updateDeviceStatus,
+    updateDeviceSettings,
   } = useDevices();
   const { subscription } = useSubscription();
 
-  const overlimitDevices = devices.filter((d) => Boolean(d.is_over_limit || d.isOverLimit));
+  const overlimitDevices = devices.filter((d) =>
+    Boolean(d.is_over_limit || d.isOverLimit),
+  );
   const hasOverlimit = overlimitDevices.length > 0;
   const planName = subscription?.planName || "FREE";
   const totalSlots = devices.length;
-  const maxAllowedSlots = subscription?.deviceSlotsMax || Math.max(1, totalSlots - overlimitDevices.length);
+  const maxAllowedSlots =
+    subscription?.deviceSlotsMax ||
+    Math.max(1, totalSlots - overlimitDevices.length);
 
-  const [selectedDeviceForQR, setSelectedDeviceForQR] = useState<Device | null>(null);
+  const [selectedDeviceForQR, setSelectedDeviceForQR] = useState<Device | null>(
+    null,
+  );
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
-  const [selectedDeviceForDetail, setSelectedDeviceForDetail] = useState<Device | null>(null);
+  const [selectedDeviceForDetail, setSelectedDeviceForDetail] =
+    useState<Device | null>(null);
+
+  // Local uncommitted input for submit-based search
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchSubmit = (val: string) => {
+    setSearchQuery(val.trim());
+  };
+
+  const handleSearchChange = (val: string) => {
+    setSearchInput(val);
+    if (!val.trim() && searchQuery) {
+      setSearchQuery("");
+    }
+  };
+
+  const handleSearchClear = () => {
+    setSearchInput("");
+    setSearchQuery("");
+  };
 
   const handleOpenQR = (device: Device) => {
     setSelectedDeviceForQR(device);
@@ -93,6 +126,20 @@ export function DeviceList() {
     await fetchDevices();
   };
 
+  const handleUpdateSettings = async (
+    id: string,
+    data: {
+      push_name?: string;
+      webhook_url?: string | null;
+      webhook_secret?: string | null;
+    },
+  ) => {
+    const updated = await updateDeviceSettings(id, data);
+    if (selectedDeviceForDetail && selectedDeviceForDetail.id === id) {
+      setSelectedDeviceForDetail(updated);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Top Action Bar & Stat Cards */}
@@ -103,9 +150,11 @@ export function DeviceList() {
           </div>
           <div className="min-w-0">
             <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
-              Total Slot
+              {t("whatsapp.totalSlot")}
             </span>
-            <span className="text-foreground text-lg font-black sm:text-xl">{stats.total}</span>
+            <span className="text-foreground text-lg font-black sm:text-xl">
+              {stats.total}
+            </span>
           </div>
         </div>
 
@@ -161,10 +210,18 @@ export function DeviceList() {
             </div>
             <div className="space-y-1">
               <h4 className="text-sm font-black tracking-tight text-amber-950 sm:text-base dark:text-amber-100">
-                ⚠️ Perangkat Melebihi Kuota Paket {planName} ({totalSlots}/{maxAllowedSlots} Perangkat)
+                {t("whatsapp.overlimitBannerTitle", {
+                  planName,
+                  totalSlots: String(totalSlots),
+                  maxAllowedSlots: String(maxAllowedSlots),
+                })}
               </h4>
               <p className="max-w-3xl text-xs font-semibold leading-relaxed text-amber-800/90 sm:text-sm dark:text-amber-300/90">
-                Paket {planName} Anda hanya mencakup {maxAllowedSlots} perangkat. Terdapat {overlimitDevices.length} perangkat berlebih yang dinonaktifkan sementara. Silakan hapus perangkat yang ditandai atau upgrade paket untuk mengaktifkan seluruh perangkat Anda kembali.
+                {t("whatsapp.overlimitBannerDesc", {
+                  planName,
+                  maxAllowedSlots: String(maxAllowedSlots),
+                  overlimitCount: String(overlimitDevices.length),
+                })}
               </p>
             </div>
           </div>
@@ -175,7 +232,7 @@ export function DeviceList() {
                 size="sm"
                 className="w-full gap-2 text-xs font-bold shadow-xs sm:w-auto"
               >
-                <span>Upgrade Paket</span>
+                <span>{t("whatsapp.upgradePlanBtn")}</span>
                 <ArrowRight className="size-3.5" />
               </Button>
             </Link>
@@ -190,10 +247,10 @@ export function DeviceList() {
           {/* Search Input */}
           <div className="flex-1">
             <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              onSearch={(val) => setSearchQuery(val)}
-              onClear={() => setSearchQuery("")}
+              value={searchInput}
+              onChange={handleSearchChange}
+              onSearch={handleSearchSubmit}
+              onClear={handleSearchClear}
               placeholder={t("whatsapp.searchPlaceholder")}
             />
           </div>
@@ -207,8 +264,12 @@ export function DeviceList() {
               className="border-border hover:border-foreground-muted h-10 flex-1 cursor-pointer justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold sm:flex-initial sm:px-4"
             >
               <Send className="dark:text-wise-green size-3.5 text-emerald-700" />
-              <span className="hidden sm:inline">Kirim Pesan Instan</span>
-              <span className="sm:hidden">Pesan Cepat</span>
+              <span className="hidden sm:inline">
+                {t("whatsapp.instantMessageBtn")}
+              </span>
+              <span className="sm:hidden">
+                {t("whatsapp.instantMessageBtn")}
+              </span>
             </Button>
 
             <Button
@@ -227,35 +288,37 @@ export function DeviceList() {
         <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-1">
           {/* Scrollable Filter Chips */}
           <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
-            {(["ALL", "CONNECTED", "DISCONNECTED", "HIBERNATED"] as (DeviceStatus | "ALL")[]).map(
-              (status) => {
-                const label =
-                  status === "ALL"
-                    ? t("whatsapp.filterAll")
-                    : status === "CONNECTED"
-                      ? t("whatsapp.filterConnected")
-                      : status === "DISCONNECTED"
-                        ? t("whatsapp.filterDisconnected")
-                        : t("whatsapp.filterHibernated");
+            {(
+              ["ALL", "CONNECTED", "DISCONNECTED", "HIBERNATED"] as (
+                DeviceStatus | "ALL"
+              )[]
+            ).map((status) => {
+              const label =
+                status === "ALL"
+                  ? t("whatsapp.filterAll")
+                  : status === "CONNECTED"
+                    ? t("whatsapp.filterConnected")
+                    : status === "DISCONNECTED"
+                      ? t("whatsapp.filterDisconnected")
+                      : t("whatsapp.filterHibernated");
 
-                const isActive = statusFilter === status;
+              const isActive = statusFilter === status;
 
-                return (
-                  <button
-                    key={status}
-                    type="button"
-                    onClick={() => setStatusFilter(status)}
-                    className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition ${
-                      isActive
-                        ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
-                        : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              }
-            )}
+              return (
+                <button
+                  key={status}
+                  type="button"
+                  onClick={() => setStatusFilter(status)}
+                  className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition ${
+                    isActive
+                      ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
+                      : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Refresh Action */}
@@ -265,10 +328,12 @@ export function DeviceList() {
             onClick={() => fetchDevices()}
             disabled={isLoading}
             className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
-            aria-label="Refresh Daftar"
+            aria-label={t("whatsapp.refreshListBtn")}
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
-            <span className="hidden sm:inline">Refresh</span>
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
+            <span className="hidden sm:inline">{t("common.refresh")}</span>
           </Button>
         </div>
       </div>
@@ -344,6 +409,7 @@ export function DeviceList() {
         onDisconnect={disconnectDevice}
         onHibernate={hibernateDevice}
         onWake={wakeDevice}
+        onUpdateSettings={handleUpdateSettings}
       />
 
       {/* Live QR Modal */}

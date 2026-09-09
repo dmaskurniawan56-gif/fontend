@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Contact, CreateContactInput, Tag } from "@/modules/contact/types/contact.types";
+import {
+  Contact,
+  CreateContactInput,
+  Tag,
+} from "@/modules/contact/types/contact.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -42,7 +46,9 @@ function ContactForm({
   const { t } = useI18n();
   const [name, setName] = useState(contact?.name || "");
   const [phone, setPhone] = useState(contact?.phone || "");
-  const initialTagIds = (contact?.tags || []).map((t) => (typeof t === "string" ? t : t.id));
+  const initialTagIds = (contact?.tags || []).map((t) =>
+    typeof t === "string" ? t : t.id,
+  );
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>(initialTagIds);
   const [newTagName, setNewTagName] = useState("");
   const [isAddingTag, setIsAddingTag] = useState(false);
@@ -54,7 +60,9 @@ function ContactForm({
     setIsAddingTag(true);
     try {
       const created = await onCreateTag(newTagName.trim());
-      setSelectedTagIds((prev) => (prev.includes(created.id) ? prev : [...prev, created.id]));
+      setSelectedTagIds((prev) =>
+        prev.includes(created.id) ? prev : [...prev, created.id],
+      );
       setNewTagName("");
     } catch {
       // toast is already handled in useContacts
@@ -88,7 +96,8 @@ function ContactForm({
       });
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("contact.errSaveFailed");
+      const msg =
+        err instanceof Error ? err.message : t("contact.errSaveFailed");
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -96,7 +105,10 @@ function ContactForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+    <form
+      onSubmit={handleSubmit}
+      className="flex min-h-0 flex-1 flex-col overflow-hidden"
+    >
       <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
         {error && (
           <div className="rounded-md border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-600 dark:text-rose-400">
@@ -141,7 +153,9 @@ function ContactForm({
               <TagIcon className="dark:text-wise-green size-3 text-emerald-600" />
               <span>{t("contact.tagSegmentationLabel")}</span>
             </Label>
-            <span className="text-foreground-muted text-[11px]">{t("contact.optional")}</span>
+            <span className="text-foreground-muted text-[11px]">
+              {t("contact.optional")}
+            </span>
           </div>
 
           {/* Tag Badges List */}
@@ -149,7 +163,8 @@ function ContactForm({
             {availableTags && availableTags.length > 0 ? (
               availableTags.map((tag) => {
                 const isSelected =
-                  selectedTagIds.includes(tag.id) || selectedTagIds.includes(tag.name);
+                  selectedTagIds.includes(tag.id) ||
+                  selectedTagIds.includes(tag.name);
                 return (
                   <button
                     key={tag.id}
@@ -157,8 +172,10 @@ function ContactForm({
                     onClick={() => {
                       setSelectedTagIds((prev) =>
                         isSelected
-                          ? prev.filter((id) => id !== tag.id && id !== tag.name)
-                          : [...prev, tag.id]
+                          ? prev.filter(
+                              (id) => id !== tag.id && id !== tag.name,
+                            )
+                          : [...prev, tag.id],
                       );
                     }}
                     className={`inline-flex cursor-pointer items-center gap-1 rounded-full border px-3 py-1 text-xs font-semibold transition ${
@@ -245,7 +262,9 @@ function ContactForm({
           ) : (
             <>
               <Save className="size-3.5" />
-              <span>{contact ? t("contact.submitEdit") : t("contact.submitAdd")}</span>
+              <span>
+                {contact ? t("contact.submitEdit") : t("contact.submitAdd")}
+              </span>
             </>
           )}
         </Button>
@@ -274,10 +293,14 @@ export function ContactModal({
           </div>
           <div>
             <DialogTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
-              {contact ? t("contact.editModalTitle") : t("contact.addModalTitle")}
+              {contact
+                ? t("contact.editModalTitle")
+                : t("contact.addModalTitle")}
             </DialogTitle>
             <DialogDescription className="text-foreground-secondary text-xs font-semibold">
-              {contact ? t("contact.editModalSubtitle") : t("contact.addModalSubtitle")}
+              {contact
+                ? t("contact.editModalSubtitle")
+                : t("contact.addModalSubtitle")}
             </DialogDescription>
           </div>
         </DialogHeader>

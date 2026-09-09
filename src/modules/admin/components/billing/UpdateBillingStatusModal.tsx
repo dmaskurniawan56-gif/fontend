@@ -12,7 +12,15 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { AlertTriangle, Loader2, Save, Clock, Ban, Receipt, User } from "lucide-react";
+import {
+  AlertTriangle,
+  Loader2,
+  Save,
+  Clock,
+  Ban,
+  Receipt,
+  User,
+} from "lucide-react";
 
 interface UpdateBillingStatusModalProps {
   billing: AdminBillingItem | null;
@@ -28,7 +36,9 @@ export function UpdateBillingStatusModal({
   onSubmit,
 }: UpdateBillingStatusModalProps) {
   const { t, locale } = useI18n();
-  const [selectedStatus, setSelectedStatus] = useState<"EXPIRED" | "CANCELLED">("CANCELLED");
+  const [selectedStatus, setSelectedStatus] = useState<"EXPIRED" | "CANCELLED">(
+    "CANCELLED",
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   if (!billing) return null;
@@ -45,7 +55,10 @@ export function UpdateBillingStatusModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         {/* Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -57,13 +70,18 @@ export function UpdateBillingStatusModal({
               {t("admin.billing.updateStatusModalTitle")}
             </DialogTitle>
             <DialogDescription className="text-foreground-secondary text-xs font-semibold">
-              {t("admin.billing.updateStatusModalSubtitle", { invoiceNumber: billing.id.slice(0, 8) })}
+              {t("admin.billing.updateStatusModalSubtitle", {
+                invoiceNumber: billing.id.slice(0, 8),
+              })}
             </DialogDescription>
           </div>
         </DialogHeader>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 text-xs sm:p-6">
             {/* Transaction Detail Card */}
             <div className="border-border bg-muted/20 space-y-2 rounded-lg border p-3.5">
@@ -77,13 +95,20 @@ export function UpdateBillingStatusModal({
                 </span>
               </div>
               <div className="border-border/50 flex items-center justify-between border-t pt-1.5 text-xs">
-                <span className="text-foreground-secondary font-semibold">{t("admin.billing.colAmount")}:</span>
+                <span className="text-foreground-secondary font-semibold">
+                  {t("admin.billing.colAmount")}:
+                </span>
                 <span className="text-foreground font-mono font-bold">
-                  Rp {billing.amount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                  Rp{" "}
+                  {billing.amount.toLocaleString(
+                    locale === "en" ? "en-US" : "id-ID",
+                  )}
                 </span>
               </div>
               <div className="border-border/50 flex items-center justify-between border-t pt-1.5 text-xs">
-                <span className="text-foreground-secondary font-semibold">{t("admin.billing.currentStatusLabel")}</span>
+                <span className="text-foreground-secondary font-semibold">
+                  {t("admin.billing.currentStatusLabel")}
+                </span>
                 <span className="rounded border border-amber-500/20 bg-amber-500/15 px-2 py-0.5 text-[10px] font-black tracking-wider text-amber-700 uppercase dark:text-amber-400">
                   {billing.status}
                 </span>
@@ -156,9 +181,7 @@ export function UpdateBillingStatusModal({
             {/* Information Alert */}
             <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-[11px] text-amber-700 dark:text-amber-400">
               <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-              <span>
-                {t("admin.billing.paidWebhookNotice")}
-              </span>
+              <span>{t("admin.billing.paidWebhookNotice")}</span>
             </div>
           </div>
 

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "WhatsApp Multi Device API",
     "WhatsApp Gateway Indonesia",
     "WhatsApp API Documentation",
-    "Kirim Pesan WhatsApp API",
+    "Send WhatsApp Message API",
   ],
   authors: [{ name: "Wahide Engineering" }],
   creator: "Wahide",

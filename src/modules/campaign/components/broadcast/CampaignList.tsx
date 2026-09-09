@@ -2,13 +2,20 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { Campaign, CampaignStatus } from "@/modules/campaign/types/campaign.types";
+import {
+  Campaign,
+  CampaignStatus,
+} from "@/modules/campaign/types/campaign.types";
 import { useCampaigns } from "@/modules/campaign/hooks/useCampaigns";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { EmptyState } from "@/components/ui/empty";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,17 +23,17 @@ import { useI18n } from "@/lib/i18n/context";
 
 const CampaignWizardModal = dynamic(
   () => import("./CampaignWizardModal").then((m) => m.CampaignWizardModal),
-  { ssr: false }
+  { ssr: false },
 );
 
 const DeleteCampaignModal = dynamic(
   () => import("./DeleteCampaignModal").then((m) => m.DeleteCampaignModal),
-  { ssr: false }
+  { ssr: false },
 );
 
 const CampaignDetailModal = dynamic(
   () => import("./CampaignDetailModal").then((m) => m.CampaignDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -67,8 +74,11 @@ export function CampaignList() {
 
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [isCheckingPreflight, setIsCheckingPreflight] = useState(false);
-  const [campaignToDelete, setCampaignToDelete] = useState<Campaign | null>(null);
-  const [selectedCampaignForDetail, setSelectedCampaignForDetail] = useState<Campaign | null>(null);
+  const [campaignToDelete, setCampaignToDelete] = useState<Campaign | null>(
+    null,
+  );
+  const [selectedCampaignForDetail, setSelectedCampaignForDetail] =
+    useState<Campaign | null>(null);
 
   const { locale } = useI18n();
 
@@ -100,7 +110,7 @@ export function CampaignList() {
         (d) =>
           (d.status === "CONNECTED" || (d.status as string) === "ONLINE") &&
           !d.is_over_limit &&
-          !d.isOverLimit
+          !d.isOverLimit,
       );
 
       if (onlineDevices.length === 0) {
@@ -112,14 +122,15 @@ export function CampaignList() {
       // 2. Cek Ketersediaan Data Kontak (Pre-flight Validation)
       const contactRes = await contactApi.getContacts({ page: 1, pageSize: 1 });
       if (contactRes.total === 0) {
-        toast.warning(t("campaign.noContactsRedirect") || "Buku kontak Anda masih kosong. Silakan tambah atau impor kontak terlebih dahulu.");
+        toast.warning(t("campaign.noContactsRedirect"));
         router.push("/contacts");
         return;
       }
 
       setIsWizardOpen(true);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memeriksa status prasyarat kampanye";
+      const msg =
+        err instanceof Error ? err.message : t("campaign.errPreflightCheck");
       toast.error(msg);
     } finally {
       setIsCheckingPreflight(false);
@@ -129,7 +140,10 @@ export function CampaignList() {
   const renderStatusBadge = (status: CampaignStatus, scheduledAt?: string) => {
     if (scheduledAt && status === "DRAFT") {
       return (
-        <Badge variant="warning" className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold">
+        <Badge
+          variant="warning"
+          className="gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold"
+        >
           <Clock className="size-3" />
           <span>{t("campaign.statusScheduled")}</span>
         </Badge>
@@ -210,7 +224,9 @@ export function CampaignList() {
             aria-label="Refresh Kampanye"
             title="Refresh Kampanye"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
 
@@ -291,10 +307,14 @@ export function CampaignList() {
                         <Smartphone className="size-3.5" />
                         {campaign.deviceIds && campaign.deviceIds.length > 1 ? (
                           <span className="font-bold text-emerald-700 dark:text-wise-green">
-                            {t("campaign.poolMultiDevice", { count: String(campaign.deviceIds.length) })}
+                            {t("campaign.poolMultiDevice", {
+                              count: String(campaign.deviceIds.length),
+                            })}
                           </span>
                         ) : (
-                          <span>{campaign.deviceName || "Perangkat Utama"}</span>
+                          <span>
+                            {campaign.deviceName || "Perangkat Utama"}
+                          </span>
                         )}
                       </div>
                       <span>•</span>
@@ -307,12 +327,12 @@ export function CampaignList() {
                         <Users className="size-3.5" />
                         <span>
                           {campaign.targetType === "CUSTOM"
-                            ? `Input Manual (${campaign.totalRecipients ?? 0} no)`
+                            ? `${t("campaign.audienceCustomTitle")} (${campaign.totalRecipients ?? 0})`
                             : campaign.targetType === "TAGS" &&
                                 campaign.targetTags &&
                                 campaign.targetTags.length > 0
                               ? `#${campaign.targetTags[0]}`
-                              : "Semua Kontak"}
+                              : t("campaign.audienceAllTitle")}
                         </span>
                       </div>
                     </div>
@@ -333,20 +353,23 @@ export function CampaignList() {
                 )}
 
                 {/* Partial Dispatch Warm-up auto-paused banner */}
-                {campaign.status === "PAUSED" && (campaign.processedOffset ?? 0) > 0 && (
-                  <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
-                    <Pause className="size-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
-                    <div>
-                      <span className="font-bold">{t("campaign.warmupPausedBanner")}</span>
-                      <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
-                        {t("campaign.warmupPausedDesc", {
-                          offset: String(campaign.processedOffset),
-                          total: String(totalRecipients),
-                        })}
-                      </p>
+                {campaign.status === "PAUSED" &&
+                  (campaign.processedOffset ?? 0) > 0 && (
+                    <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-[11px] font-semibold text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                      <Pause className="size-3.5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+                      <div>
+                        <span className="font-bold">
+                          {t("campaign.warmupPausedBanner")}
+                        </span>
+                        <p className="mt-0.5 text-foreground-secondary text-[11px] leading-relaxed">
+                          {t("campaign.warmupPausedDesc", {
+                            offset: String(campaign.processedOffset),
+                            total: String(totalRecipients),
+                          })}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Template preview */}
                 <div className="bg-muted/40 border-border/50 text-foreground-secondary line-clamp-2 rounded-md border p-3 text-xs leading-relaxed font-semibold">
@@ -377,11 +400,15 @@ export function CampaignList() {
                   <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
-                      {t("campaign.createdAtLabel")}: {formatDateTime(campaign.createdAt)}
+                      {t("campaign.createdAtLabel")}:{" "}
+                      {formatDateTime(campaign.createdAt)}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                  <div
+                    className="flex items-center gap-1.5"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {campaign.status === "DRAFT" && (
                       <Button
                         variant="primaryPill"
@@ -393,7 +420,9 @@ export function CampaignList() {
                         className="gap-1.5 text-xs font-bold"
                       >
                         <Play className="size-3 fill-current" />
-                        <span>{t("campaign.startCampaign") || "Mulai Siaran"}</span>
+                        <span>
+                          {t("campaign.startCampaign") || "Mulai Siaran"}
+                        </span>
                       </Button>
                     )}
 
@@ -438,13 +467,17 @@ export function CampaignList() {
                               setCampaignToDelete(campaign);
                             }}
                             className="size-8 cursor-pointer rounded-full border-rose-500/20 p-0 text-rose-500 hover:bg-rose-500/10"
-                            aria-label={t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
+                            aria-label={
+                              t("campaign.deleteConfirmBtn") || "Hapus Kampanye"
+                            }
                           >
                             <Trash2 className="size-3.5" />
                           </Button>
                         }
                       />
-                      <TooltipContent>{t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}</TooltipContent>
+                      <TooltipContent>
+                        {t("campaign.deleteConfirmBtn") || "Hapus Kampanye"}
+                      </TooltipContent>
                     </Tooltip>
                   </div>
                 </div>
@@ -463,19 +496,19 @@ export function CampaignList() {
           onStartCampaign={async (id) => {
             await startCampaign(id);
             setSelectedCampaignForDetail((prev) =>
-              prev && prev.id === id ? { ...prev, status: "RUNNING" } : prev
+              prev && prev.id === id ? { ...prev, status: "RUNNING" } : prev,
             );
           }}
           onPauseCampaign={async (id) => {
             await pauseCampaign(id);
             setSelectedCampaignForDetail((prev) =>
-              prev && prev.id === id ? { ...prev, status: "PAUSED" } : prev
+              prev && prev.id === id ? { ...prev, status: "PAUSED" } : prev,
             );
           }}
           onResumeCampaign={async (id) => {
             await resumeCampaign(id);
             setSelectedCampaignForDetail((prev) =>
-              prev && prev.id === id ? { ...prev, status: "RUNNING" } : prev
+              prev && prev.id === id ? { ...prev, status: "RUNNING" } : prev,
             );
           }}
         />

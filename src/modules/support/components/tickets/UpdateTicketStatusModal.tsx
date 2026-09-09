@@ -40,7 +40,9 @@ export function UpdateTicketStatusModal({
   onSuccess,
 }: UpdateTicketStatusModalProps) {
   const { t } = useI18n();
-  const [selectedStatus, setSelectedStatus] = useState<TicketStatus>(ticket?.status || "OPEN");
+  const [selectedStatus, setSelectedStatus] = useState<TicketStatus>(
+    ticket?.status || "OPEN",
+  );
   const [confirmChange, setConfirmChange] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -59,7 +61,8 @@ export function UpdateTicketStatusModal({
       label: t("support.statusOpen"),
       description: t("support.statusOptionOpenDesc"),
       icon: AlertCircle,
-      accentClass: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+      accentClass:
+        "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
       borderActiveClass: "border-sky-500 ring-1 ring-sky-500 bg-sky-500/5",
     },
     {
@@ -67,16 +70,20 @@ export function UpdateTicketStatusModal({
       label: t("support.statusInProgress"),
       description: t("support.statusOptionProgressDesc"),
       icon: Clock,
-      accentClass: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-      borderActiveClass: "border-amber-500 ring-1 ring-amber-500 bg-amber-500/5",
+      accentClass:
+        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+      borderActiveClass:
+        "border-amber-500 ring-1 ring-amber-500 bg-amber-500/5",
     },
     {
       value: "RESOLVED",
       label: t("support.statusResolved"),
       description: t("support.statusOptionResolvedDesc"),
       icon: CheckCircle2,
-      accentClass: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-      borderActiveClass: "border-emerald-500 ring-1 ring-emerald-500 bg-emerald-500/5",
+      accentClass:
+        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+      borderActiveClass:
+        "border-emerald-500 ring-1 ring-emerald-500 bg-emerald-500/5",
     },
     {
       value: "CLOSED",
@@ -84,7 +91,8 @@ export function UpdateTicketStatusModal({
       description: t("support.statusOptionClosedDesc"),
       icon: Lock,
       accentClass: "bg-muted text-foreground-muted border-border",
-      borderActiveClass: "border-foreground-muted ring-1 ring-foreground-muted bg-muted/20",
+      borderActiveClass:
+        "border-foreground-muted ring-1 ring-foreground-muted bg-muted/20",
     },
   ];
 
@@ -102,7 +110,8 @@ export function UpdateTicketStatusModal({
       onSuccess();
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("support.statusUpdatedError");
+      const msg =
+        err instanceof Error ? err.message : t("support.statusUpdatedError");
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -110,7 +119,10 @@ export function UpdateTicketStatusModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isSubmitting && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isSubmitting && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -128,7 +140,10 @@ export function UpdateTicketStatusModal({
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4.5 overflow-y-auto p-5 text-xs sm:p-6">
             {/* Target Ticket Identity Snippet */}
             <div className="border-border bg-muted/20 space-y-2 rounded-lg border p-3.5">
@@ -146,7 +161,9 @@ export function UpdateTicketStatusModal({
               <div className="text-foreground-muted border-border/40 flex items-center gap-3 border-t pt-2 text-[11px]">
                 <div className="flex items-center gap-1 truncate">
                   <User className="size-3 shrink-0" />
-                  <span className="truncate">{ticket.user?.name || "Pengguna"}</span>
+                  <span className="truncate">
+                    {ticket.user?.name || "Pengguna"}
+                  </span>
                 </div>
                 <div className="flex items-center gap-1 truncate font-mono">
                   <Mail className="size-3 shrink-0" />

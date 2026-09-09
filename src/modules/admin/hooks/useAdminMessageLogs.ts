@@ -31,7 +31,10 @@ export function useAdminMessageLogs() {
       setLogs(res.logs);
       setTotal(res.total);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.messages.toastFetchFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.messages.toastFetchFailed");
       toast.error(msg);
       setLogs([]);
       setTotal(0);
@@ -53,7 +56,7 @@ export function useAdminMessageLogs() {
             status: statusFilter !== "ALL" ? statusFilter : undefined,
             direction: directionFilter !== "ALL" ? directionFilter : undefined,
           },
-          controller.signal
+          controller.signal,
         );
         if (!controller.signal.aborted) {
           setLogs(res.logs);
@@ -82,7 +85,10 @@ export function useAdminMessageLogs() {
       setTotal((prev) => Math.max(0, prev - 1));
       toast.success(t("admin.messages.toastDeleteSuccess"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.messages.toastDeleteFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.messages.toastDeleteFailed");
       toast.error(msg);
       throw err;
     }

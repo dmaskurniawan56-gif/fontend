@@ -8,7 +8,10 @@ const IAM_BASE = env.NEXT_PUBLIC_IAM_API_URL;
 
 export const userApi = {
   getProfile: async (signal?: AbortSignal): Promise<User> => {
-    const res = await httpClient.get<BackendUserPayload>(`${IAM_BASE}/auth/profile`, { signal });
+    const res = await httpClient.get<BackendUserPayload>(
+      `${IAM_BASE}/auth/profile`,
+      { signal },
+    );
     const p = res.payload || (res as unknown as BackendUserPayload);
     return {
       id: p.id || "",
@@ -26,11 +29,11 @@ export const userApi = {
 
   updateProfile: async (
     userId: string,
-    payload: { name: string }
+    payload: { name: string },
   ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.put<{ success: boolean; message: string }>(
       `${IAM_BASE}/users/${userId}`,
-      payload
+      payload,
     );
     return {
       success: res.success,
@@ -41,7 +44,12 @@ export const userApi = {
   changePassword: async (
     payload:
       | ChangePasswordInput
-      | { oldPassword: string; newPassword: string; old_password?: string; new_password?: string }
+      | {
+          oldPassword: string;
+          newPassword: string;
+          old_password?: string;
+          new_password?: string;
+        },
   ): Promise<{ success: boolean; message: string }> => {
     const old_password =
       "old_password" in payload && payload.old_password
@@ -61,7 +69,7 @@ export const userApi = {
       {
         old_password,
         new_password,
-      }
+      },
     );
     return {
       success: res.success,
@@ -69,10 +77,15 @@ export const userApi = {
     };
   },
 
-  getDashboardStats: async (signal?: AbortSignal): Promise<UserDashboardStats> => {
-    const res = await httpClient.get<UserDashboardStats>(`${IAM_BASE}/users/dashboard/stats`, {
-      signal,
-    });
+  getDashboardStats: async (
+    signal?: AbortSignal,
+  ): Promise<UserDashboardStats> => {
+    const res = await httpClient.get<UserDashboardStats>(
+      `${IAM_BASE}/users/dashboard/stats`,
+      {
+        signal,
+      },
+    );
     return (
       res.payload || {
         balance: 0,
@@ -94,7 +107,7 @@ export const userApi = {
   },
 
   getActiveSessions: async (
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<import("../types/auth.types").ActiveSession[]> => {
     const res = await httpClient.get<{
       sessions: import("../types/auth.types").ActiveSession[];
@@ -102,13 +115,18 @@ export const userApi = {
     }>(`${IAM_BASE}/users/sessions`, { signal });
     const payload =
       res.payload ||
-      (res as unknown as { sessions: import("../types/auth.types").ActiveSession[] });
+      (res as unknown as {
+        sessions: import("../types/auth.types").ActiveSession[];
+      });
     return payload?.sessions || [];
   },
 
-  logoutAllSessions: async (): Promise<{ success: boolean; message: string }> => {
+  logoutAllSessions: async (): Promise<{
+    success: boolean;
+    message: string;
+  }> => {
     const res = await httpClient.post<{ success: boolean; message: string }>(
-      `${IAM_BASE}/users/logout-all`
+      `${IAM_BASE}/users/logout-all`,
     );
     return {
       success: res.success,
@@ -116,9 +134,11 @@ export const userApi = {
     };
   },
 
-  revokeSession: async (tokenId: string): Promise<{ success: boolean; message: string }> => {
+  revokeSession: async (
+    tokenId: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete<{ success: boolean; message: string }>(
-      `${IAM_BASE}/users/sessions/${tokenId}`
+      `${IAM_BASE}/users/sessions/${tokenId}`,
     );
     return {
       success: res.success,

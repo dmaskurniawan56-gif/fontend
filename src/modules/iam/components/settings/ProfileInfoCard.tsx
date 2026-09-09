@@ -5,7 +5,15 @@ import { User, Tenant } from "@/modules/iam/types/auth.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { User as UserIcon, Mail, Smartphone, Building, Lock, Save, Loader2 } from "lucide-react";
+import {
+  User as UserIcon,
+  Mail,
+  Smartphone,
+  Building,
+  Lock,
+  Save,
+  Loader2,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface ProfileInfoCardProps {
@@ -14,7 +22,11 @@ interface ProfileInfoCardProps {
   onSaveProfile: (name: string) => Promise<void>;
 }
 
-export function ProfileInfoCard({ user, tenant, onSaveProfile }: ProfileInfoCardProps) {
+export function ProfileInfoCard({
+  user,
+  tenant,
+  onSaveProfile,
+}: ProfileInfoCardProps) {
   const { t } = useI18n();
   const [name, setName] = useState(user?.name || "");
   const [isSaving, setIsSaving] = useState(false);
@@ -23,7 +35,8 @@ export function ProfileInfoCard({ user, tenant, onSaveProfile }: ProfileInfoCard
   const email = user?.email || "";
   const phone = user?.phone || "";
   const tenantName =
-    tenant?.name || (user?.name ? `${user.name}'s Workspace` : "PT Wahide Solusi Digital");
+    tenant?.name ||
+    (user?.name ? `${user.name}'s Workspace` : "PT Wahide Solusi Digital");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +52,8 @@ export function ProfileInfoCard({ user, tenant, onSaveProfile }: ProfileInfoCard
       await onSaveProfile(trimmedName);
       toast.success(t("settings.profileSaved"), { id: "profile-save" });
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("settings.profileSaveError");
+      const msg =
+        err instanceof Error ? err.message : t("settings.profileSaveError");
       toast.error(msg, { id: "profile-save" });
     } finally {
       setIsSaving(false);
@@ -53,7 +67,9 @@ export function ProfileInfoCard({ user, tenant, onSaveProfile }: ProfileInfoCard
           <UserIcon className="size-4" />
         </div>
         <div>
-          <h2 className="text-foreground text-lg font-black">{t("settings.profileInfoTitle")}</h2>
+          <h2 className="text-foreground text-lg font-black">
+            {t("settings.profileInfoTitle")}
+          </h2>
           <p className="text-foreground-secondary text-xs font-semibold">
             {t("settings.profileInfoSubtitle")}
           </p>
@@ -82,7 +98,9 @@ export function ProfileInfoCard({ user, tenant, onSaveProfile }: ProfileInfoCard
             />
           </div>
           {nameError && (
-            <p className="mt-1.5 pl-3 text-xs font-semibold text-rose-500">{nameError}</p>
+            <p className="mt-1.5 pl-3 text-xs font-semibold text-rose-500">
+              {nameError}
+            </p>
           )}
         </div>
 

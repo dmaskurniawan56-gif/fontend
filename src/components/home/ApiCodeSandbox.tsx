@@ -151,7 +151,7 @@ print(response.json())`,
           href={DOCS_URL}
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
-            "border-border hover:border-foreground-muted min-h-9 shrink-0 gap-1.5 rounded-full text-xs font-bold"
+            "border-border hover:border-foreground-muted min-h-9 shrink-0 gap-1.5 rounded-full text-xs font-bold",
           )}
         >
           <span>{t("common.landing.apiSandbox.docsBtn")}</span>

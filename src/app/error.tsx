@@ -4,7 +4,13 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
-import { AlertTriangle, RefreshCw, Home, MessageSquare, ShieldAlert } from "lucide-react";
+import {
+  AlertTriangle,
+  RefreshCw,
+  Home,
+  MessageSquare,
+  ShieldAlert,
+} from "lucide-react";
 
 export default function GlobalAppError({
   error,
@@ -51,7 +57,9 @@ export default function GlobalAppError({
             <span className="text-foreground mr-1.5 font-sans font-bold">
               {t("common.errors.serverError.digestLabel")}
             </span>
-            <code className="dark:text-wise-green font-bold text-emerald-700">{error.digest}</code>
+            <code className="dark:text-wise-green font-bold text-emerald-700">
+              {error.digest}
+            </code>
           </div>
         )}
 
@@ -84,7 +92,7 @@ export default function GlobalAppError({
           <span>Membutuhkan bantuan darurat? </span>
           <a
             href={`https://wa.me/62877111301818?text=Halo%20Tim%20Wahide,%20saya%20mengalami%20kendala%20aplikasi:%20${encodeURIComponent(
-              error?.digest ? `Digest-${error.digest}` : "Runtime-Error"
+              error?.digest ? `Digest-${error.digest}` : "Runtime-Error",
             )}`}
             target="_blank"
             rel="noopener noreferrer"

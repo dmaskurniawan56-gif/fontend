@@ -29,9 +29,9 @@ import {
 const DeleteReminderModal = dynamic(
   () =>
     import("../components/DeleteReminderModal").then(
-      (m) => m.DeleteReminderModal
+      (m) => m.DeleteReminderModal,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 type ActiveTab = "schedules" | "rules" | "logs";
@@ -81,11 +81,16 @@ export function RemindersView() {
   } = useReminderLogs();
 
   // Delete modal state
-  const [deletingReminder, setDeletingReminder] = useState<Reminder | null>(null);
+  const [deletingReminder, setDeletingReminder] = useState<Reminder | null>(
+    null,
+  );
 
   const handleConfirmDelete = async (): Promise<boolean> => {
     if (!deletingReminder) return false;
-    return await deleteReminder(deletingReminder.id, deletingReminder.recipientName);
+    return await deleteReminder(
+      deletingReminder.id,
+      deletingReminder.recipientName,
+    );
   };
 
   const handleGlobalRefresh = () => {
@@ -121,7 +126,9 @@ export function RemindersView() {
                 isRemindersLoading || isLogsLoading ? "animate-spin" : ""
               }`}
             />
-            <span className="hidden sm:inline">{t("reminder.actions.refresh")}</span>
+            <span className="hidden sm:inline">
+              {t("reminder.actions.refresh")}
+            </span>
           </Button>
 
           <Button
@@ -134,7 +141,9 @@ export function RemindersView() {
             title={t("reminder.actions.dispatchTooltip")}
           >
             <Send className="size-3.5" />
-            <span className="hidden sm:inline">{t("reminder.actions.dispatchNow")}</span>
+            <span className="hidden sm:inline">
+              {t("reminder.actions.dispatchNow")}
+            </span>
           </Button>
         </div>
       </div>
@@ -144,53 +153,74 @@ export function RemindersView() {
         {/* Total Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">{t("reminder.stats.total")}</span>
+            <span className="text-xs font-medium">
+              {t("reminder.stats.total")}
+            </span>
             <Calendar className="size-4 text-primary" />
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-foreground">{stats.total}</div>
-          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.totalDesc")}</div>
+          <div className="mt-2 text-2xl font-extrabold text-foreground">
+            {stats.total}
+          </div>
+          <div className="mt-1 text-[11px] text-foreground-muted">
+            {t("reminder.stats.totalDesc")}
+          </div>
         </Card>
 
         {/* Active Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">{t("reminder.stats.active")}</span>
+            <span className="text-xs font-medium">
+              {t("reminder.stats.active")}
+            </span>
             <CheckCircle2 className="size-4 text-emerald-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
             {stats.active}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.activeDesc")}</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">
+            {t("reminder.stats.activeDesc")}
+          </div>
         </Card>
 
         {/* Paused Reminders */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">{t("reminder.stats.paused")}</span>
+            <span className="text-xs font-medium">
+              {t("reminder.stats.paused")}
+            </span>
             <Pause className="size-4 text-amber-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-amber-600 dark:text-amber-400">
             {stats.paused}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.pausedDesc")}</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">
+            {t("reminder.stats.pausedDesc")}
+          </div>
         </Card>
 
         {/* Total Logs Dispatched */}
         <Card className="p-4 shadow-xs">
           <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">{t("reminder.stats.dispatched")}</span>
+            <span className="text-xs font-medium">
+              {t("reminder.stats.dispatched")}
+            </span>
             <Clock className="size-4 text-purple-500" />
           </div>
           <div className="mt-2 text-2xl font-extrabold text-purple-600 dark:text-purple-400">
             {logsTotal}
           </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">{t("reminder.stats.dispatchedDesc")}</div>
+          <div className="mt-1 text-[11px] text-foreground-muted">
+            {t("reminder.stats.dispatchedDesc")}
+          </div>
         </Card>
       </div>
 
       {/* Tabs Navigation (Elevated Segmented Modern Nav) */}
       <div className="overflow-x-auto scrollbar-none pb-1 sm:pb-0 w-full sm:w-fit">
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ActiveTab)}>
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as ActiveTab)}
+        >
           <TabsList className="h-12 sm:h-13 p-1.5 rounded-2xl bg-muted/70 dark:bg-muted/40 border border-border/80 shadow-xs flex items-center gap-1.5 w-full sm:w-auto shrink-0">
             <TabsTrigger
               value="schedules"
@@ -203,7 +233,7 @@ export function RemindersView() {
                   "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",
                   activeTab === "schedules"
                     ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30"
-                    : "bg-background/80 text-muted-foreground border border-border/50"
+                    : "bg-background/80 text-muted-foreground border border-border/50",
                 )}
               >
                 {stats.total}
@@ -229,7 +259,7 @@ export function RemindersView() {
                   "text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-full transition-colors",
                   activeTab === "logs"
                     ? "bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/30"
-                    : "bg-background/80 text-muted-foreground border border-border/50"
+                    : "bg-background/80 text-muted-foreground border border-border/50",
                 )}
               >
                 {logsTotal}
@@ -244,7 +274,9 @@ export function RemindersView() {
         <div className="flex flex-col gap-6">
           <QuickScheduleCard
             onSchedule={createReminder}
-            hasConfiguredDevice={Boolean(rule?.deviceId && rule.deviceId.trim() !== "")}
+            hasConfiguredDevice={Boolean(
+              rule?.deviceId && rule.deviceId.trim() !== "",
+            )}
             onNavigateToRules={() => setActiveTab("rules")}
           />
           <ReminderTable

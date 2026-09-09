@@ -21,7 +21,10 @@ export function useUserActivities() {
       setIsLoading(true);
       try {
         const p = targetPage !== undefined ? targetPage : page;
-        const search = overrideSearch !== undefined ? overrideSearch.trim() : activeSearch.trim();
+        const search =
+          overrideSearch !== undefined
+            ? overrideSearch.trim()
+            : activeSearch.trim();
 
         const res = await adminApi.getUserActivities({
           page: p,
@@ -37,13 +40,16 @@ export function useUserActivities() {
           setActiveSearch(overrideSearch.trim());
         }
       } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Gagal memuat log aktivitas pengguna";
+        const msg =
+          err instanceof Error
+            ? err.message
+            : "Gagal memuat log aktivitas pengguna";
         toast.error(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [activeSearch, page, pageSize]
+    [activeSearch, page, pageSize],
   );
 
   const executeSearch = async (query: string) => {
@@ -71,7 +77,10 @@ export function useUserActivities() {
     const init = async () => {
       setIsLoading(true);
       try {
-        const res = await adminApi.getUserActivities({ page: 1, pageSize: 15 }, controller.signal);
+        const res = await adminApi.getUserActivities(
+          { page: 1, pageSize: 15 },
+          controller.signal,
+        );
         if (!controller.signal.aborted) {
           setActivities(res.activities);
           setTotal(res.total);
@@ -97,7 +106,10 @@ export function useUserActivities() {
       toast.success("Rekaman aktivitas berhasil dihapus");
       await fetchActivities(page);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menghapus rekaman aktivitas";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Gagal menghapus rekaman aktivitas";
       toast.error(msg);
       throw err;
     }

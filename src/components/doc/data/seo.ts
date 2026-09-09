@@ -48,7 +48,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     keywords: [
       "Send WhatsApp Message API",
       "WhatsApp Text Message REST API",
-      "Kirim Pesan WhatsApp API",
+      "Send WhatsApp Message API",
       "WhatsApp cURL Node PHP",
       "WhatsApp Anti Ban API",
     ],
@@ -83,7 +83,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Send WhatsApp PDF API",
       "Send WhatsApp Image API",
       "WhatsApp Media REST API",
-      "Kirim Gambar WhatsApp API",
+      "Send WhatsApp Media API",
     ],
   },
   "messaging/meta-cloud-api": {
@@ -104,7 +104,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     keywords: [
       "Send WhatsApp OTP API",
       "WhatsApp OTP REST API",
-      "Kirim OTP WhatsApp",
+      "Send WhatsApp OTP API",
       "WhatsApp Verification Code API",
       "WhatsApp OTP Gateway Indonesia",
     ],
@@ -115,7 +115,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Atomic WhatsApp OTP verification API. Features single-use auto-burn against replay attacks, 5-attempt brute-force protection, and constant-time validation.",
     keywords: [
       "Verify WhatsApp OTP API",
-      "Validasi OTP WhatsApp",
+      "Verify WhatsApp OTP API",
       "WhatsApp OTP Verification API",
       "Single Use OTP API",
       "WhatsApp Secure Auth API",
@@ -167,10 +167,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Delete WhatsApp Device Slot API",
     seoDescription:
       "Permanently delete a WhatsApp device slot from your tenant organization through the Wahide REST API.",
-    keywords: [
-      "Delete WhatsApp Device API",
-      "Remove WhatsApp Slot",
-    ],
+    keywords: ["Delete WhatsApp Device API", "Remove WhatsApp Slot"],
   },
   "contacts/list": {
     seoTitle: "List & Search WhatsApp Contacts API",
@@ -186,10 +183,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Create WhatsApp Contact API",
     seoDescription:
       "Add individual WhatsApp contact records with custom attributes and tags for broadcast personalization and CRM integration.",
-    keywords: [
-      "Create WhatsApp Contact API",
-      "Add Contact WhatsApp CRM",
-    ],
+    keywords: ["Create WhatsApp Contact API", "Add Contact WhatsApp CRM"],
   },
   "contacts/bulk-import": {
     seoTitle: "Bulk Import WhatsApp Contacts API",
@@ -205,10 +199,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Bulk Delete WhatsApp Contacts API",
     seoDescription:
       "Delete multiple WhatsApp contact records simultaneously by ID array for efficient contact database hygiene.",
-    keywords: [
-      "Bulk Delete WhatsApp Contacts",
-      "Hapus Kontak WhatsApp API",
-    ],
+    keywords: ["Bulk Delete WhatsApp Contacts", "Hapus Kontak WhatsApp API"],
   },
   "contacts/tags": {
     seoTitle: "Manage WhatsApp Contact Tags API",
@@ -236,7 +227,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Configure automated WhatsApp broadcast queues with rate limits, randomized jitter backoff, and targeted contact tags.",
     keywords: [
       "Create WhatsApp Broadcast API",
-      "Kirim Broadcast WhatsApp API",
+      "Send WhatsApp Broadcast API",
       "WhatsApp Blast API",
     ],
   },
@@ -244,19 +235,13 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     seoTitle: "Start WhatsApp Broadcast Campaign",
     seoDescription:
       "Trigger the Redis Streams queue worker to initiate dispatching queued WhatsApp broadcast messages across active devices.",
-    keywords: [
-      "Start WhatsApp Campaign API",
-      "Dispatch WhatsApp Broadcast",
-    ],
+    keywords: ["Start WhatsApp Campaign API", "Dispatch WhatsApp Broadcast"],
   },
   "campaigns/pause": {
     seoTitle: "Pause WhatsApp Broadcast Campaign",
     seoDescription:
       "Temporarily halt active WhatsApp broadcast message dispatching without losing current queue positions or campaign logs.",
-    keywords: [
-      "Pause WhatsApp Broadcast",
-      "Hentikan Sementara Broadcast",
-    ],
+    keywords: ["Pause WhatsApp Broadcast", "Hentikan Sementara Broadcast"],
   },
   "campaigns/logs": {
     seoTitle: "WhatsApp Campaign Delivery Logs API",
@@ -268,6 +253,72 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Laporan Pengiriman WhatsApp",
     ],
   },
+  webhooks: {
+    seoTitle: "WhatsApp Webhook Integration Guide",
+    seoDescription:
+      "Configure secure HTTP Webhooks for real-time incoming WhatsApp messages, delivery receipts, retry policies, and Circuit Breaker architecture.",
+    keywords: [
+      "WhatsApp Webhook",
+      "WhatsApp Real-Time Events",
+      "WhatsApp Webhook Secret",
+      "WhatsApp Webhooks API",
+    ],
+  },
+  "webhooks/events": {
+    seoTitle: "WhatsApp Webhook Events Reference",
+    seoDescription:
+      "Complete JSON payload schemas for WhatsApp incoming messages, delivery receipts, and device status events in Wahide.",
+    keywords: ["WhatsApp Webhook Events", "WhatsApp Message Webhook JSON"],
+  },
+  "webhooks/events/message-received": {
+    seoTitle: "Webhook Event: message.received API",
+    seoDescription:
+      "Receive incoming WhatsApp messages (text, photos, PDF attachments) via HTTP POST with automatic Cloudflare R2 streaming.",
+    keywords: [
+      "WhatsApp Incoming Message Webhook",
+      "WhatsApp Media Attachment Webhook",
+      "message.received JSON Schema",
+    ],
+  },
+  "webhooks/events/message-ack": {
+    seoTitle: "Webhook Event: message.ack Delivery API",
+    seoDescription:
+      "Track WhatsApp delivery receipt checkmarks in real time (Sent, Delivered Double Tick, and Read Blue Tick) via webhook callback.",
+    keywords: [
+      "WhatsApp Delivery Receipt Webhook",
+      "WhatsApp Blue Tick Callback",
+      "message.ack Status Codes",
+    ],
+  },
+  "webhooks/events/message-sent": {
+    seoTitle: "Webhook Event: message.sent Dispatch API",
+    seoDescription:
+      "Immediate confirmation webhook dispatched when outbound WhatsApp messages are successfully handed over to WhatsApp servers.",
+    keywords: [
+      "WhatsApp Message Sent Webhook",
+      "Outbound WhatsApp Confirmation",
+    ],
+  },
+  "webhooks/events/device-status": {
+    seoTitle: "Webhook Event: device.status Health API",
+    seoDescription:
+      "Monitor WhatsApp device connection state changes (ONLINE, OFFLINE, HIBERNATED, LOGGED_OUT) with automatic alerting payloads.",
+    keywords: [
+      "WhatsApp Device Status Webhook",
+      "WhatsApp Disconnect Alert",
+      "Device Health Monitoring API",
+    ],
+  },
+  "webhooks/events/device-qr": {
+    seoTitle: "Webhook Event: device.qr Streaming API",
+    seoDescription:
+      "Real-time streaming Base64 QR code and raw pairing strings for custom WhatsApp web login and pairing screens.",
+    keywords: [
+      "WhatsApp QR Webhook Stream",
+      "Headless WhatsApp Pairing",
+      "Custom WhatsApp QR Login",
+    ],
+  },
 };
 
 /**
@@ -276,7 +327,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
 export function getDocSeoMetadata(
   slug: string,
   fallbackTitle: string,
-  fallbackDesc: string
+  fallbackDesc: string,
 ): DocSeoMetadata {
   const custom = SEO_DIRECTORY[slug];
   if (custom) {
@@ -284,7 +335,10 @@ export function getDocSeoMetadata(
   }
 
   // Smart fallback adhering strictly to 45 chars title & 150 chars description
-  const cleanTitle = fallbackTitle.length > 40 ? `${fallbackTitle.slice(0, 37)}...` : fallbackTitle;
+  const cleanTitle =
+    fallbackTitle.length > 40
+      ? `${fallbackTitle.slice(0, 37)}...`
+      : fallbackTitle;
   const cleanDesc =
     fallbackDesc.length > 155
       ? `${fallbackDesc.slice(0, 150).trim()}...`

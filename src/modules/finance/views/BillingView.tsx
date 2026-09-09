@@ -16,16 +16,19 @@ import { Invoice } from "@/modules/finance/types/finance.types";
 import { Receipt, RefreshCw } from "lucide-react";
 
 const TopUpModal = dynamic(
-  () => import("@/modules/finance/components/balance/TopUpModal").then((m) => m.TopUpModal),
-  { ssr: false }
+  () =>
+    import("@/modules/finance/components/balance/TopUpModal").then(
+      (m) => m.TopUpModal,
+    ),
+  { ssr: false },
 );
 
 const InvoiceReceiptModal = dynamic(
   () =>
     import("@/modules/finance/components/invoices/InvoiceReceiptModal").then(
-      (m) => m.InvoiceReceiptModal
+      (m) => m.InvoiceReceiptModal,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 export function BillingView() {
@@ -69,10 +72,14 @@ export function BillingView() {
   const handleOpenTopUp = async () => {
     try {
       const userAddress = await addressApi.getUserAddress();
-      if (!userAddress || !userAddress.address?.trim() || !userAddress.city?.trim()) {
+      if (
+        !userAddress ||
+        !userAddress.address?.trim() ||
+        !userAddress.city?.trim()
+      ) {
         toast.info(
           t("billing.addressRequiredForTopUp") ||
-            "Silakan lengkapi alamat bisnis Anda terlebih dahulu untuk melanjutkan Top-Up saldo."
+            "Silakan lengkapi alamat bisnis Anda terlebih dahulu untuk melanjutkan Top-Up saldo.",
         );
         router.push("/settings/address?from=billing&action=topup");
         return;
@@ -85,10 +92,10 @@ export function BillingView() {
   };
 
   const statusOptions = [
-    { value: "ALL", label: "Semua" },
-    { value: "PAID", label: "Lunas" },
-    { value: "PENDING", label: "Menunggu" },
-    { value: "EXPIRED", label: "Kadaluarsa" },
+    { value: "ALL", label: t("common.allFilter") },
+    { value: "PAID", label: t("billing.statusPaid") },
+    { value: "PENDING", label: t("billing.statusPending") },
+    { value: "EXPIRED", label: t("billing.statusExpired") },
   ];
 
   return (
@@ -111,7 +118,7 @@ export function BillingView() {
       </div>
 
       {/* Balance Card with Error Boundary & JIT Address Guard */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Saldo Deposit">
+      <ErrorBoundary fallbackTitle={t("billing.errorLoadBalance")}>
         <BalanceCard balance={balance} onOpenTopUp={handleOpenTopUp} />
       </ErrorBoundary>
 
@@ -148,8 +155,8 @@ export function BillingView() {
                 setSearchInput("");
                 clearSearch();
               }}
-              placeholder="Cari nomor faktur atau deskripsi..."
-              buttonText="Cari"
+              placeholder={t("billing.searchPlaceholder")}
+              buttonText={t("common.search")}
             />
           </div>
 
@@ -160,13 +167,13 @@ export function BillingView() {
             onClick={fetchBillingData}
             disabled={isLoading}
             className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
-            aria-label="Refresh Riwayat Faktur"
-            title="Refresh Riwayat Faktur"
+            aria-label={t("billing.refreshInvoices")}
+            title={t("billing.refreshInvoices")}
           >
             <RefreshCw
               className={`size-3.5 ${isLoading ? "dark:text-wise-green animate-spin text-emerald-700" : ""}`}
             />
-            <span className="hidden sm:inline">Refresh</span>
+            <span className="hidden sm:inline">{t("common.refresh")}</span>
           </Button>
         </div>
 
@@ -193,7 +200,7 @@ export function BillingView() {
       </div>
 
       {/* Invoice Table with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Riwayat Faktur">
+      <ErrorBoundary fallbackTitle={t("billing.errorLoadInvoices")}>
         <InvoiceTable
           invoices={filteredInvoices}
           page={page}
@@ -208,7 +215,9 @@ export function BillingView() {
             if (targetUrl) {
               window.open(targetUrl, "_blank", "noopener,noreferrer");
             } else {
-              toast.info(`Membuka instruksi pembayaran faktur ${inv.invoiceNumber}...`);
+              toast.info(
+                `Membuka instruksi pembayaran faktur ${inv.invoiceNumber}...`,
+              );
             }
           }}
         />

@@ -54,10 +54,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
-    languages: {
-      "id-ID": siteUrl,
-      "en-US": `${siteUrl}/en`,
-    },
   },
   icons: {
     icon: [
@@ -67,7 +63,9 @@ export const metadata: Metadata = {
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
     ],
     shortcut: "/favicon.svg",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     title: "Wahide - Platform Otomasi Bisnis & WhatsApp Gateway",
@@ -76,7 +74,6 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Wahide",
     locale: "id_ID",
-    alternateLocale: ["en_US"],
     type: "website",
     images: [
       {
@@ -155,11 +152,16 @@ const jsonLd = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="id"
       className={`h-full font-sans antialiased ${inter.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

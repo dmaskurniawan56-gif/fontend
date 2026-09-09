@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { SubscriptionPlan, TenantSubscription, WebhookConfig } from "../types/subscription.types";
+import {
+  SubscriptionPlan,
+  TenantSubscription,
+  WebhookConfig,
+} from "../types/subscription.types";
 import { subscriptionApi } from "../api/subscription.api";
 import { userApi } from "@/modules/iam/api/user.api";
 import { toast } from "sonner";
@@ -9,9 +13,13 @@ import { useI18n } from "@/lib/i18n/context";
 
 export function useSubscription() {
   const { t } = useI18n();
-  const [subscription, setSubscription] = useState<TenantSubscription | null>(null);
+  const [subscription, setSubscription] = useState<TenantSubscription | null>(
+    null,
+  );
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
-  const [webhookConfig, setWebhookConfig] = useState<WebhookConfig | null>(null);
+  const [webhookConfig, setWebhookConfig] = useState<WebhookConfig | null>(
+    null,
+  );
   const [balance, setBalance] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,12 +49,13 @@ export function useSubscription() {
 
     const init = async () => {
       try {
-        const [subData, plansData, webhookData, profileData] = await Promise.all([
-          subscriptionApi.getSubscription(controller.signal),
-          subscriptionApi.getPlans(controller.signal),
-          subscriptionApi.getWebhookConfig(controller.signal),
-          userApi.getProfile(controller.signal).catch(() => null),
-        ]);
+        const [subData, plansData, webhookData, profileData] =
+          await Promise.all([
+            subscriptionApi.getSubscription(controller.signal),
+            subscriptionApi.getPlans(controller.signal),
+            subscriptionApi.getWebhookConfig(controller.signal),
+            userApi.getProfile(controller.signal).catch(() => null),
+          ]);
         if (isMounted) {
           setSubscription(subData);
           setPlans(plansData);
@@ -70,7 +79,7 @@ export function useSubscription() {
     try {
       const res = await subscriptionApi.upgradePlan(planId);
       toast.success(
-        "Paket langganan berhasil diaktifkan! Invoice tagihan lunas telah diterbitkan."
+        "Paket langganan berhasil diaktifkan! Invoice tagihan lunas telah diterbitkan.",
       );
       await fetchSubscriptionData();
       return res;
@@ -89,13 +98,24 @@ export function useSubscription() {
     }
   };
 
-  const saveWebhook = async (url: string, isEnabled: boolean) => {
+  const saveWebhook = async (
+    url: string,
+    isEnabled: boolean,
+    secret?: string,
+    events?: string[],
+  ) => {
     try {
-      const updated = await subscriptionApi.updateWebhookConfig({ url, isEnabled });
+      const updated = await subscriptionApi.updateWebhookConfig({
+        url,
+        secret,
+        isEnabled,
+        events,
+      });
       setWebhookConfig(updated);
       toast.success(t("subscription.toastWebhookSaved"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan webhook";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menyimpan webhook";
       toast.error(msg);
       throw err;
     }
@@ -107,7 +127,8 @@ export function useSubscription() {
       setWebhookConfig((prev) => (prev ? { ...prev, secret } : null));
       toast.success(t("subscription.toastSecretRegenerated"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal membuat ulang kunci";
+      const msg =
+        err instanceof Error ? err.message : "Gagal membuat ulang kunci";
       toast.error(msg);
       throw err;
     }

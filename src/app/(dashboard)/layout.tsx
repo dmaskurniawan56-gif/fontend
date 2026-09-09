@@ -9,7 +9,11 @@ import { DashboardHeader } from "@/components/layout/dashboard/DashboardHeader";
 import { DashboardMobileNav } from "@/components/layout/dashboard/DashboardMobileNav";
 import { ErrorBoundary } from "@/components/layout/shared/ErrorBoundary";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const router = useRouter();
   const token = useAuth((s) => s.token);
@@ -24,7 +28,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     // 2. Background Identity Anchor check: verify user entity still exists in DB
-    useAuth.getState().fetchProfile().catch(() => null);
+    useAuth
+      .getState()
+      .fetchProfile()
+      .catch(() => null);
   }, [token, isAuthenticated, router]);
 
   return (
@@ -35,15 +42,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Drawer Navigation */}
-      <DashboardMobileNav open={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+      <DashboardMobileNav
+        open={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+      />
 
       {/* Main Content Area */}
       <div className="flex min-w-0 flex-1 flex-col lg:pl-64">
         <DashboardHeader onOpenMobileNav={() => setMobileNavOpen(true)} />
         <main className="min-w-0 flex-1">
-          <ErrorBoundary fallbackTitle="Terjadi Kendala Memuat Halaman Dasbor">
-            {children}
-          </ErrorBoundary>
+          <ErrorBoundary>{children}</ErrorBoundary>
         </main>
       </div>
     </div>

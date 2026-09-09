@@ -29,7 +29,7 @@ export function SupportView() {
       </div>
 
       {/* Main Ticket List Component with Error Boundary */}
-      <ErrorBoundary fallbackTitle="Gagal Memuat Daftar Tiket Bantuan">
+      <ErrorBoundary>
         <TicketList />
       </ErrorBoundary>
     </div>

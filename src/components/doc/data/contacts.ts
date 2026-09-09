@@ -6,7 +6,8 @@ export const contactsEndpoints: EndpointDoc[] = [
     id: "contacts-list",
     slug: "contacts/list",
     title: "List Contacts",
-    description: "Search, filter, and paginate through your stored WhatsApp contact list.",
+    description:
+      "Search, filter, and paginate through your stored WhatsApp contact list.",
     category: "Contacts Management",
     categorySlug: "contacts",
     method: "GET",
@@ -17,7 +18,7 @@ export const contactsEndpoints: EndpointDoc[] = [
         type: "string",
         required: false,
         description: "Filter contacts by name or phone query.",
-        example: "Budi",
+        example: "Alex",
       },
       {
         name: "tag",
@@ -42,7 +43,7 @@ export const contactsEndpoints: EndpointDoc[] = [
       },
     ],
     snippets: {
-      curl: `curl -X GET "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20" \\
+      curl: `curl -X GET "https://api.wahide.com/api/v1/contacts?search=Alex&page=1&size=20" \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
       nodejs: `import axios from "axios";
 
@@ -51,7 +52,7 @@ const res = await axios.get("https://api.wahide.com/api/v1/contacts", {
     Authorization: "Bearer YOUR_API_KEY",
   },
   params: {
-    search: "Budi",
+    search: "Alex",
     page: 1,
     size: 20,
   },
@@ -61,7 +62,7 @@ console.log(res.data);`,
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20",
+  CURLOPT_URL => "https://api.wahide.com/api/v1/contacts?search=Alex&page=1&size=20",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_CUSTOMREQUEST => "GET",
   CURLOPT_HTTPHEADER => [
@@ -80,7 +81,7 @@ headers = {
     "Authorization": "Bearer YOUR_API_KEY",
 }
 params = {
-    "search": "Budi",
+    "search": "Alex",
     "page": 1,
     "size": 20,
 }
@@ -96,7 +97,7 @@ import (
 )
 
 func main() {
-	url := "https://api.wahide.com/api/v1/contacts?search=Budi&page=1&size=20"
+	url := "https://api.wahide.com/api/v1/contacts?search=Alex&page=1&size=20"
 
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("Authorization", "Bearer YOUR_API_KEY")
@@ -122,7 +123,7 @@ func main() {
   "payload": [
     {
       "id": "01M1CT001",
-      "name": "Budi Santoso",
+      "name": "Alex Johnson",
       "phone": "628123456789",
       "tags": ["VIP", "Retail"],
       "custom_fields": { "city": "Jakarta" }
@@ -149,7 +150,7 @@ func main() {
         type: "string",
         required: true,
         description: "Full name of the contact.",
-        example: "Budi Santoso",
+        example: "Alex Johnson",
       },
       {
         name: "phone",
@@ -169,7 +170,8 @@ func main() {
         name: "custom_fields",
         type: "object",
         required: false,
-        description: "Key-value dictionary for dynamic variable substitution in broadcasts.",
+        description:
+          "Key-value dictionary for dynamic variable substitution in broadcasts.",
         example: '{"company": "Acme Corp"}',
       },
     ],
@@ -178,14 +180,14 @@ func main() {
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
-    "name": "Budi Santoso",
+    "name": "Alex Johnson",
     "phone": "628123456789",
     "tags": ["VIP"]
   }'`,
       nodejs: `import axios from "axios";
 
 const res = await axios.post("https://api.wahide.com/api/v1/contacts", {
-  name: "Budi Santoso",
+  name: "Alex Johnson",
   phone: "628123456789",
   tags: ["VIP"],
 }, {
@@ -203,7 +205,7 @@ curl_setopt_array($curl, [
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_CUSTOMREQUEST => "POST",
   CURLOPT_POSTFIELDS => json_encode([
-    "name" => "Budi Santoso",
+    "name" => "Alex Johnson",
     "phone" => "628123456789",
     "tags" => ["VIP"],
   ]),
@@ -225,7 +227,7 @@ headers = {
     "Content-Type": "application/json",
 }
 payload = {
-    "name": "Budi Santoso",
+    "name": "Alex Johnson",
     "phone": "628123456789",
     "tags": ["VIP"],
 }
@@ -245,7 +247,7 @@ import (
 func main() {
 	url := "https://api.wahide.com/api/v1/contacts"
 	payload, _ := json.Marshal(map[string]interface{}{
-		"name":  "Budi Santoso",
+		"name":  "Alex Johnson",
 		"phone": "628123456789",
 		"tags":  []string{"VIP"},
 	})
@@ -275,7 +277,7 @@ func main() {
   "message": "contact created successfully",
   "payload": {
     "id": "01M1CT001",
-    "name": "Budi Santoso",
+    "name": "Alex Johnson",
     "phone": "628123456789"
   }
 }`,
@@ -287,7 +289,8 @@ func main() {
     id: "contacts-bulk-import",
     slug: "contacts/bulk-import",
     title: "Bulk Import Contacts",
-    description: "Imports up to 5,000 contacts in a single asynchronous batch operation.",
+    description:
+      "Imports up to 5,000 contacts in a single asynchronous batch operation.",
     category: "Contacts Management",
     categorySlug: "contacts",
     method: "POST",
@@ -298,7 +301,8 @@ func main() {
         name: "contacts",
         type: "array",
         required: true,
-        description: "Array of contact objects (name, phone, tags, custom_fields).",
+        description:
+          "Array of contact objects (name, phone, tags, custom_fields).",
         depth: 0,
       },
       {

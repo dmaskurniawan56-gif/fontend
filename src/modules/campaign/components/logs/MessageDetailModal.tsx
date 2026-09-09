@@ -30,7 +30,11 @@ interface MessageDetailModalProps {
   onClose: () => void;
 }
 
-export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalProps) {
+export function MessageDetailModal({
+  isOpen,
+  log,
+  onClose,
+}: MessageDetailModalProps) {
   const { t } = useI18n();
   const { isCopied: copied, copy } = useClipboard();
 
@@ -68,7 +72,7 @@ export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalP
         return (
           <Badge className="gap-1 rounded-full border-rose-500/20 bg-rose-500/10 px-2.5 py-0.5 text-xs font-semibold text-rose-500">
             <AlertCircle className="size-3.5" />
-            <span>Gagal</span>
+            <span>{t("campaign.statusFailed")}</span>
           </Badge>
         );
       default:
@@ -151,12 +155,14 @@ export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalP
                 {copied ? (
                   <>
                     <Check className="size-3 text-emerald-500" />
-                    <span className="text-emerald-500">Tersalin</span>
+                    <span className="text-emerald-500">
+                      {t("campaign.copied")}
+                    </span>
                   </>
                 ) : (
                   <>
                     <Copy className="size-3" />
-                    <span>Salin Pesan</span>
+                    <span>{t("campaign.copyTemplate")}</span>
                   </>
                 )}
               </button>

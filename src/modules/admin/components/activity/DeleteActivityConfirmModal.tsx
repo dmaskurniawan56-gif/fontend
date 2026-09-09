@@ -13,7 +13,14 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Trash2, Loader2, Clock, User, Mail } from "lucide-react";
+import {
+  AlertTriangle,
+  Trash2,
+  Loader2,
+  Clock,
+  User,
+  Mail,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface DeleteActivityConfirmModalProps {
@@ -71,13 +78,18 @@ export function DeleteActivityConfirmModal({
               {t("admin.activities.deleteModalTitle")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-foreground-secondary text-xs font-semibold">
-              {t("admin.activities.deleteModalSubtitle", { id: activity.id.slice(-6) })}
+              {t("admin.activities.deleteModalSubtitle", {
+                id: activity.id.slice(-6),
+              })}
             </AlertDialogDescription>
           </div>
         </AlertDialogHeader>
 
         {/* Form Body */}
-        <form onSubmit={handleDelete} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleDelete}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 text-xs font-semibold">
             {/* Target Activity Summary Card */}
             <div className="border-border bg-muted/40 space-y-2 rounded-lg border p-3.5">
@@ -108,14 +120,19 @@ export function DeleteActivityConfirmModal({
 
               {/* Description Box */}
               <div className="bg-surface border-border/60 text-foreground-secondary rounded-md border p-2.5 text-xs leading-relaxed dark:bg-[#121310]">
-                {activity.description || "Tidak ada deskripsi detail kejadian."}
+                {activity.description || t("admin.activities.noDescription")}
               </div>
 
               {/* Timestamp & ID */}
               <div className="text-foreground-muted border-border/40 flex items-center justify-between border-t pt-1 text-[11px]">
                 <div className="text-foreground-secondary flex items-center gap-1.5 font-medium">
                   <Clock className="text-foreground-muted size-3" />
-                  <span>{formatHumanActivityDate(activity.createdAt, locale).fullHuman}</span>
+                  <span>
+                    {
+                      formatHumanActivityDate(activity.createdAt, locale)
+                        .fullHuman
+                    }
+                  </span>
                 </div>
                 <span className="font-mono text-[9px]">ID: {activity.id}</span>
               </div>

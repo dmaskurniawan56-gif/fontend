@@ -2,6 +2,7 @@
 
 import { AdminSidebar } from "./AdminSidebar";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
+import { useI18n } from "@/lib/i18n/context";
 import { X } from "lucide-react";
 
 interface AdminMobileNavProps {
@@ -10,13 +11,18 @@ interface AdminMobileNavProps {
 }
 
 export function AdminMobileNav({ open, onClose }: AdminMobileNavProps) {
+  const { t } = useI18n();
   // Universal Escape key dismissal with zero listener churn
   useEscapeKey(open, onClose);
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-50 lg:hidden"
+      role="dialog"
+      aria-modal="true"
+    >
       {/* Backdrop Overlay */}
       <div
         onClick={onClose}
@@ -29,7 +35,9 @@ export function AdminMobileNav({ open, onClose }: AdminMobileNavProps) {
           <button
             onClick={onClose}
             className="text-foreground-secondary hover:text-foreground hover:bg-muted/60 flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-full p-2.5 transition"
-            aria-label="Tutup Menu Admin"
+            aria-label={
+              t("admin.adminMenu.closeAdminMenuAria") || "Tutup Menu Admin"
+            }
           >
             <X className="size-5" />
           </button>

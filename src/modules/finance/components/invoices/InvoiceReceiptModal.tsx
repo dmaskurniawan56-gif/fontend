@@ -18,7 +18,11 @@ interface InvoiceReceiptModalProps {
   invoice: Invoice | null;
 }
 
-export function InvoiceReceiptModal({ isOpen, onClose, invoice }: InvoiceReceiptModalProps) {
+export function InvoiceReceiptModal({
+  isOpen,
+  onClose,
+  invoice,
+}: InvoiceReceiptModalProps) {
   const { t } = useI18n();
 
   if (!invoice) return null;
@@ -29,13 +33,16 @@ export function InvoiceReceiptModal({ isOpen, onClose, invoice }: InvoiceReceipt
     }
   };
 
-  const formattedDate = new Date(invoice.createdAt).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const formattedDate = new Date(invoice.createdAt).toLocaleDateString(
+    "id-ID",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    },
+  );
 
   const safeAmount = Number(invoice.amount ?? 0);
 
@@ -87,7 +94,9 @@ export function InvoiceReceiptModal({ isOpen, onClose, invoice }: InvoiceReceipt
                 <CheckCircle2 className="size-3.5" />
                 <span>{t("billing.statusPaid")}</span>
               </div>
-              <p className="text-foreground-muted mt-1 font-mono text-[11px]">Tgl: {paidDate}</p>
+              <p className="text-foreground-muted mt-1 font-mono text-[11px]">
+                Tgl: {paidDate}
+              </p>
             </div>
           </div>
 
@@ -106,7 +115,9 @@ export function InvoiceReceiptModal({ isOpen, onClose, invoice }: InvoiceReceipt
               <span className="text-foreground-muted block text-[10px] font-bold tracking-wider uppercase">
                 Tanggal Terbit
               </span>
-              <span className="text-foreground block font-semibold">{formattedDate}</span>
+              <span className="text-foreground block font-semibold">
+                {formattedDate}
+              </span>
             </div>
 
             <div className="col-span-2 space-y-0.5 sm:col-span-1">
@@ -156,9 +167,10 @@ export function InvoiceReceiptModal({ isOpen, onClose, invoice }: InvoiceReceipt
           <div className="bg-muted/30 border-border/60 text-foreground-secondary space-y-1 rounded-md border p-3.5 text-[11px]">
             <p className="text-foreground font-bold">Catatan Resmi:</p>
             <p>
-              Faktur ini merupakan bukti pembayaran elektronik yang sah dan diterbitkan secara
-              otomatis oleh sistem Wahide Enterprise. Saldo deposit telah dikreditkan ke akun
-              organisasi Anda secara real-time.
+              Faktur ini merupakan bukti pembayaran elektronik yang sah dan
+              diterbitkan secara otomatis oleh sistem Wahide Enterprise. Saldo
+              deposit telah dikreditkan ke akun organisasi Anda secara
+              real-time.
             </p>
           </div>
         </div>

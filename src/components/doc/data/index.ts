@@ -7,6 +7,16 @@ import { messagingEndpoints } from "./messaging";
 import { contactsEndpoints } from "./contacts";
 import { campaignsEndpoints } from "./campaigns";
 import { otpEndpoints } from "./otp";
+import {
+  webhooksGuideDoc,
+  webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
+} from "./webhooks";
+import { n8nDoc } from "./n8n";
 
 export { docNavigation } from "./navigation";
 export { introDoc } from "./intro";
@@ -17,10 +27,26 @@ export { messagingEndpoints } from "./messaging";
 export { otpEndpoints } from "./otp";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
+export { n8nDoc } from "./n8n";
+export {
+  webhooksGuideDoc,
+  webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
+} from "./webhooks";
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
 export { getApiBaseUrl, getApiHost } from "./env";
 
-export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc];
+export const allGuides: GuideDoc[] = [
+  introDoc,
+  authenticationDoc,
+  errorsDoc,
+  webhooksGuideDoc,
+  n8nDoc,
+];
 
 export const allEndpoints: EndpointDoc[] = [
   ...devicesEndpoints,
@@ -28,6 +54,12 @@ export const allEndpoints: EndpointDoc[] = [
   ...otpEndpoints,
   ...contactsEndpoints,
   ...campaignsEndpoints,
+  webhooksEventsDoc,
+  webhooksReceivedDoc,
+  webhooksAckDoc,
+  webhooksSentDoc,
+  webhooksStatusDoc,
+  webhooksQrDoc,
 ];
 
 export const allDocs: DocItem[] = [...allGuides, ...allEndpoints];
@@ -61,11 +93,23 @@ export function searchDocs(query: string): DocItem[] {
     if (doc.description.toLowerCase().includes(q)) return true;
     if (doc.type === "endpoint") {
       if (doc.path.toLowerCase().includes(q)) return true;
-      if (doc.parameters.some((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))) {
+      if (
+        doc.parameters.some(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q),
+        )
+      ) {
         return true;
       }
     } else {
-      if (doc.sections.some((s) => s.title.toLowerCase().includes(q) || s.content.toLowerCase().includes(q))) {
+      if (
+        doc.sections.some(
+          (s) =>
+            s.title.toLowerCase().includes(q) ||
+            s.content.toLowerCase().includes(q),
+        )
+      ) {
         return true;
       }
     }

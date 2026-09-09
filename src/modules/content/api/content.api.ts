@@ -41,7 +41,9 @@ export const contentApi = {
 
   getPostBySlug: async (slug: string): Promise<BlogPost | null> => {
     try {
-      const res = await httpClient.get<BlogPost>(`${PUBLIC_BASE}/posts/${slug}`);
+      const res = await httpClient.get<BlogPost>(
+        `${PUBLIC_BASE}/posts/${slug}`,
+      );
       return res.payload || DEFAULT_POSTS.find((p) => p.slug === slug) || null;
     } catch {
       return DEFAULT_POSTS.find((p) => p.slug === slug) || null;
@@ -50,7 +52,9 @@ export const contentApi = {
 
   getPublicSettings: async (): Promise<SystemSettings> => {
     try {
-      const res = await httpClient.get<SystemSettings>(`${PUBLIC_BASE}/settings`);
+      const res = await httpClient.get<SystemSettings>(
+        `${PUBLIC_BASE}/settings`,
+      );
       return (
         res.payload || {
           siteName: "Wahide",

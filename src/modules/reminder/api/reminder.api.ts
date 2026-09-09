@@ -17,7 +17,8 @@ import {
   DispatchResult,
 } from "../types/reminder.types";
 
-const REMINDER_BASE = env.NEXT_PUBLIC_REMINDER_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
+const REMINDER_BASE =
+  env.NEXT_PUBLIC_REMINDER_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendReminder = (r: any): Reminder => {
@@ -67,19 +68,22 @@ const mapBackendReminderRule = (rule: any): ReminderRule => {
           daysOffset: -1,
           name: "Pengingat H-1",
           isEnabled: true,
-          template: "Halo Kak {{nama}}, besok {{tanggal}} ada jadwal: {{catatan}}.",
+          template:
+            "Halo Kak {{nama}}, besok {{tanggal}} ada jadwal: {{catatan}}.",
         },
         {
           daysOffset: 0,
           name: "Pengingat Hari H",
           isEnabled: true,
-          template: "Halo Kak {{nama}}, hari ini kami tunggu untuk jadwal: {{catatan}}.",
+          template:
+            "Halo Kak {{nama}}, hari ini kami tunggu untuk jadwal: {{catatan}}.",
         },
         {
           daysOffset: 3,
           name: "Follow Up H+3",
           isEnabled: false,
-          template: "Halo Kak {{nama}}, bagaimana kondisi setelah kunjungan tanggal {{tanggal}}?",
+          template:
+            "Halo Kak {{nama}}, bagaimana kondisi setelah kunjungan tanggal {{tanggal}}?",
         },
       ],
     };
@@ -123,7 +127,8 @@ const mapBackendReminderLog = (log: any): ReminderLog => {
     recipientName: log.recipient_name || log.recipientName || "",
     phone: log.phone || "",
     messageContent: log.message_content || log.messageContent || "",
-    status: (log.status || "SENT").toUpperCase() === "FAILED" ? "FAILED" : "SENT",
+    status:
+      (log.status || "SENT").toUpperCase() === "FAILED" ? "FAILED" : "SENT",
     errorReason: log.error_reason || log.errorReason || undefined,
     sentAt: log.sent_at || log.sentAt || new Date().toISOString(),
   };
@@ -138,12 +143,15 @@ export interface PaginatedResult<T> {
 
 export const reminderApi = {
   // Reminder CRUD
-  getReminders: async (params?: ListRemindersQuery): Promise<PaginatedResult<Reminder>> => {
+  getReminders: async (
+    params?: ListRemindersQuery,
+  ): Promise<PaginatedResult<Reminder>> => {
     const query = new URLSearchParams();
     if (params?.page) query.set("page", params.page.toString());
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
-    if (params?.status && params.status !== "ALL") query.set("status", params.status);
+    if (params?.status && params.status !== "ALL")
+      query.set("status", params.status);
     if (params?.startDate) query.set("start_date", params.startDate);
     if (params?.endDate) query.set("end_date", params.endDate);
 
@@ -153,11 +161,12 @@ export const reminderApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
     const rawItems = res.payload || (Array.isArray(res) ? res : []);
-    const items = Array.isArray(rawItems) ? rawItems.map(mapBackendReminder) : [];
+    const items = Array.isArray(rawItems)
+      ? rawItems.map(mapBackendReminder)
+      : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       items,
@@ -182,20 +191,30 @@ export const reminderApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${REMINDER_BASE}/reminders`, payload);
+    const res = await httpClient.post<any>(
+      `${REMINDER_BASE}/reminders`,
+      payload,
+    );
     return mapBackendReminder(res.payload || res);
   },
 
-  updateReminder: async (id: string, input: UpdateReminderInput): Promise<Reminder> => {
+  updateReminder: async (
+    id: string,
+    input: UpdateReminderInput,
+  ): Promise<Reminder> => {
     const payload: Record<string, unknown> = {};
-    if (input.recipientName !== undefined) payload.recipient_name = input.recipientName;
+    if (input.recipientName !== undefined)
+      payload.recipient_name = input.recipientName;
     if (input.phone !== undefined) payload.phone = input.phone;
     if (input.targetDate !== undefined) payload.target_date = input.targetDate;
     if (input.notes !== undefined) payload.notes = input.notes;
     if (input.status !== undefined) payload.status = input.status;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${REMINDER_BASE}/reminders/${id}`, payload);
+    const res = await httpClient.put<any>(
+      `${REMINDER_BASE}/reminders/${id}`,
+      payload,
+    );
     return mapBackendReminder(res.payload || res);
   },
 
@@ -210,7 +229,9 @@ export const reminderApi = {
     return mapBackendReminderRule(res.payload || res);
   },
 
-  updateRules: async (input: UpdateReminderRuleInput): Promise<ReminderRule> => {
+  updateRules: async (
+    input: UpdateReminderRuleInput,
+  ): Promise<ReminderRule> => {
     const payload = {
       device_id: input.deviceId || "",
       send_time: input.sendTime,
@@ -224,18 +245,24 @@ export const reminderApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${REMINDER_BASE}/reminders/rules`, payload);
+    const res = await httpClient.put<any>(
+      `${REMINDER_BASE}/reminders/rules`,
+      payload,
+    );
     return mapBackendReminderRule(res.payload || res);
   },
 
   // Reminder Logs
-  getLogs: async (params?: ListReminderLogsQuery): Promise<PaginatedResult<ReminderLog>> => {
+  getLogs: async (
+    params?: ListReminderLogsQuery,
+  ): Promise<PaginatedResult<ReminderLog>> => {
     const query = new URLSearchParams();
     if (params?.page) query.set("page", params.page.toString());
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
     if (params?.reminderId) query.set("reminder_id", params.reminderId);
-    if (params?.status && params.status !== "ALL") query.set("status", params.status);
+    if (params?.status && params.status !== "ALL")
+      query.set("status", params.status);
 
     const qs = query.toString();
     const endpoint = `${REMINDER_BASE}/reminders/logs${qs ? `?${qs}` : ""}`;
@@ -243,11 +270,12 @@ export const reminderApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
     const rawItems = res.payload || (Array.isArray(res) ? res : []);
-    const items = Array.isArray(rawItems) ? rawItems.map(mapBackendReminderLog) : [];
+    const items = Array.isArray(rawItems)
+      ? rawItems.map(mapBackendReminderLog)
+      : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       items,
@@ -260,7 +288,9 @@ export const reminderApi = {
   // Manual Trigger Cron Dispatch
   dispatchNow: async (): Promise<DispatchResult> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${REMINDER_BASE}/cronjob/reminders/dispatch`);
+    const res = await httpClient.post<any>(
+      `${REMINDER_BASE}/cronjob/reminders/dispatch`,
+    );
     const p = res.payload || res;
     return {
       dispatched: Number(p.dispatched ?? 0),

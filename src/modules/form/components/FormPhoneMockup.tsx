@@ -46,18 +46,25 @@ export function FormPhoneMockup({
   className = "",
 }: FormPhoneMockupProps) {
   const { t } = useI18n();
-  const [activePreviewTab, setActivePreviewTab] = useState<"form" | "success">("form");
+  const [activePreviewTab, setActivePreviewTab] = useState<"form" | "success">(
+    "form",
+  );
 
   // Determine Form Type Badge
   const typeBadgeLabel =
     type === "RESERVATION"
       ? t("form.typeReservation")
       : type === "LEAD"
-      ? t("form.typeLead")
-      : t("form.preview.officialBadge");
+        ? t("form.typeLead")
+        : t("form.preview.officialBadge");
 
   return (
-    <div className={cn("mx-auto flex w-full max-w-85 sm:max-w-90 flex-col", className)}>
+    <div
+      className={cn(
+        "mx-auto flex w-full max-w-85 sm:max-w-90 flex-col",
+        className,
+      )}
+    >
       {/* Top Device Segmented View Mode Toggle */}
       <div className="mb-2 flex items-center justify-between px-2">
         <span className="text-[11px] font-bold uppercase tracking-wider text-foreground-muted">
@@ -68,10 +75,16 @@ export function FormPhoneMockup({
           onValueChange={(v) => setActivePreviewTab(v as "form" | "success")}
         >
           <TabsList className="h-7 p-0.5 rounded-lg bg-muted/80 border border-border/60">
-            <TabsTrigger value="form" className="text-[11px] px-2.5 py-0.5 rounded-md gap-1">
+            <TabsTrigger
+              value="form"
+              className="text-[11px] px-2.5 py-0.5 rounded-md gap-1"
+            >
               {t("form.preview.tabForm")}
             </TabsTrigger>
-            <TabsTrigger value="success" className="text-[11px] px-2.5 py-0.5 rounded-md gap-1">
+            <TabsTrigger
+              value="success"
+              className="text-[11px] px-2.5 py-0.5 rounded-md gap-1"
+            >
               {t("form.preview.tabSuccess")}
             </TabsTrigger>
           </TabsList>
@@ -82,7 +95,9 @@ export function FormPhoneMockup({
       <div className="flex h-150 w-full flex-col overflow-hidden rounded-xl border-[7px] border-neutral-900 bg-neutral-900 shadow-2xl dark:border-neutral-800">
         {/* Top Notch & Status Bar */}
         <div className="flex h-7 w-full items-center justify-between bg-neutral-950 px-5 pt-1 text-white shrink-0">
-          <span className="text-[11px] font-semibold tracking-tight">09:41</span>
+          <span className="text-[11px] font-semibold tracking-tight">
+            09:41
+          </span>
           {/* Dynamic Island / Camera pill */}
           <div className="flex h-3.5 w-20 items-center justify-center rounded-full bg-neutral-800">
             <div className="size-1.5 rounded-full bg-neutral-950/80 mr-2" />
@@ -178,26 +193,36 @@ export function FormPhoneMockup({
                             ) : (
                               <FileText className="size-3 text-slate-400" />
                             )}
-                            <span className="truncate">{f.label || "Pertanyaan Tanpa Judul"}</span>
-                            {f.required && <span className="text-rose-500">*</span>}
+                            <span className="truncate">
+                              {f.label || "Pertanyaan Tanpa Judul"}
+                            </span>
+                            {f.required && (
+                              <span className="text-rose-500">*</span>
+                            )}
                           </label>
 
                           {f.fieldType === "textarea" ? (
                             <div className="h-14 w-full rounded-lg border border-slate-200 bg-slate-50/50 p-2 text-[10px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60 leading-tight">
-                              {f.placeholder || "Tuliskan jawaban lengkap di sini..."}
+                              {f.placeholder ||
+                                t("form.previewTextareaPlaceholder")}
                             </div>
                           ) : f.fieldType === "select" ? (
                             <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center justify-between text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60">
                               <span className="truncate">
                                 {f.options && f.options.length > 0
-                                  ? `-- Pilih ${f.label} --`
-                                  : "Pilihan belum diisi"}
+                                  ? t("form.previewSelectOption", {
+                                      label: f.label,
+                                    })
+                                  : t("form.previewNoOptions")}
                               </span>
                               <ChevronDown className="size-3 text-slate-400" />
                             </div>
                           ) : (
                             <div className="h-8 w-full rounded-lg border border-slate-200 bg-slate-50/50 px-2.5 flex items-center text-[11px] text-slate-400 dark:border-neutral-800 dark:bg-neutral-950/60">
-                              {f.placeholder || `Masukkan ${f.label.toLowerCase()}...`}
+                              {f.placeholder ||
+                                t("form.previewInputPlaceholder", {
+                                  label: f.label,
+                                })}
                             </div>
                           )}
                         </div>
@@ -237,7 +262,8 @@ export function FormPhoneMockup({
                   {t("form.preview.successTitle")}
                 </h4>
                 <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
-                  {successMessage || "Terima kasih! Formulir Anda telah berhasil kami terima."}
+                  {successMessage ||
+                    "Terima kasih! Formulir Anda telah berhasil kami terima."}
                 </p>
 
                 {/* WhatsApp Confirmation Callout */}

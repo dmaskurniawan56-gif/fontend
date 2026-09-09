@@ -13,7 +13,13 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Trash2, Loader2, MessageSquare, Smartphone } from "lucide-react";
+import {
+  AlertTriangle,
+  Trash2,
+  Loader2,
+  MessageSquare,
+  Smartphone,
+} from "lucide-react";
 
 interface DeleteMessageModalProps {
   message: AdminMessageLogItem | null;
@@ -71,7 +77,9 @@ export function DeleteMessageModal({
         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-5 text-xs sm:p-6">
           <div className="border-border bg-muted/20 space-y-2 rounded-xl border p-3.5 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-foreground-secondary font-semibold">{t("admin.messages.messageIdLabel")}</span>
+              <span className="text-foreground-secondary font-semibold">
+                {t("admin.messages.messageIdLabel")}
+              </span>
               <span className="text-foreground font-mono font-bold">
                 {message.id.slice(0, 16)}...
               </span>
@@ -82,7 +90,9 @@ export function DeleteMessageModal({
                 <MessageSquare className="text-foreground-muted size-3" />
                 <span>{t("admin.messages.recipientLabel")}</span>
               </span>
-              <span className="text-foreground font-mono font-bold">{message.recipientJid}</span>
+              <span className="text-foreground font-mono font-bold">
+                {message.recipientJid}
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
@@ -96,7 +106,9 @@ export function DeleteMessageModal({
             </div>
 
             <div className="border-border/50 border-t pt-1.5">
-              <span className="text-foreground-muted mb-1 block text-[11px]">{t("admin.messages.snippetLabel")}</span>
+              <span className="text-foreground-muted mb-1 block text-[11px]">
+                {t("admin.messages.snippetLabel")}
+              </span>
               <p className="text-foreground bg-surface border-border/60 line-clamp-2 rounded border p-2 text-[11px] font-semibold italic dark:bg-[#10110e]">
                 &quot;{message.messageBody}&quot;
               </p>

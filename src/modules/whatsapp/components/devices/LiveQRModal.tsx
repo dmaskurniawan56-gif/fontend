@@ -39,7 +39,12 @@ interface LiveQRModalProps {
   onSuccess: (device: Device) => void;
 }
 
-export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalProps) {
+export function LiveQRModal({
+  device,
+  isOpen,
+  onClose,
+  onSuccess,
+}: LiveQRModalProps) {
   const { t } = useI18n();
   const authUserPhone = useAuth((s) => s.user?.phone || "");
   const [customPhone, setCustomPhone] = useState<string | null>(null);
@@ -80,7 +85,9 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
     if (!rawPhone.trim()) return;
     const fullE164Phone = normalizePhoneNumber(rawPhone);
     if (!isValidE164(fullE164Phone)) {
-      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid");
+      toast.error(
+        t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid",
+      );
       return;
     }
     await requestPairingCode(fullE164Phone);
@@ -110,7 +117,10 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
             <DialogDescription className="text-foreground-secondary text-xs font-semibold">
               {t("whatsapp.slotLabel")}{" "}
               <span className="text-foreground font-bold">
-                {device.push_name || device.pushName || device.name || "WhatsApp Device"}
+                {device.push_name ||
+                  device.pushName ||
+                  device.name ||
+                  "WhatsApp Device"}
               </span>
             </DialogDescription>
           </div>
@@ -169,7 +179,9 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                 <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-rose-500/10 text-rose-500">
                   <AlertCircle className="size-7" />
                 </div>
-                <h3 className="text-foreground text-base font-bold">{t("whatsapp.qrError")}</h3>
+                <h3 className="text-foreground text-base font-bold">
+                  {t("whatsapp.qrError")}
+                </h3>
                 <p className="text-foreground-secondary max-w-xs text-xs font-semibold">
                   {errorMessage || t("whatsapp.qrErrorDesc")}
                 </p>
@@ -202,7 +214,11 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                   {countdown > 0 ? (
                     <div className="text-foreground-secondary flex items-center gap-2 text-xs font-semibold">
                       <RefreshCw className="dark:text-wise-green size-3.5 animate-spin text-emerald-700" />
-                      <span>{t("whatsapp.qrExpiresIn", { seconds: countdown.toString() })}</span>
+                      <span>
+                        {t("whatsapp.qrExpiresIn", {
+                          seconds: countdown.toString(),
+                        })}
+                      </span>
                     </div>
                   ) : (
                     <Button
@@ -273,7 +289,10 @@ export function LiveQRModal({ device, isOpen, onClose, onSuccess }: LiveQRModalP
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleRequestCode} className="w-full space-y-3">
+                  <form
+                    onSubmit={handleRequestCode}
+                    className="w-full space-y-3"
+                  >
                     <div className="space-y-1 text-left">
                       <Label className="text-foreground text-xs font-bold">
                         {t("whatsapp.phoneLabel")}

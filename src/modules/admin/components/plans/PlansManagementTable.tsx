@@ -2,9 +2,21 @@
 
 import React, { useState } from "react";
 import { useAdminPlans } from "@/modules/admin/hooks/useAdminPlans";
-import { AdminPlanItem, CreatePlanInput, UpdatePlanInput } from "@/modules/admin/types/admin.types";
-import { PlanFormModal } from "./PlanFormModal";
-import { DeletePlanModal } from "./DeletePlanModal";
+import dynamic from "next/dynamic";
+import {
+  AdminPlanItem,
+  CreatePlanInput,
+  UpdatePlanInput,
+} from "@/modules/admin/types/admin.types";
+
+const PlanFormModal = dynamic(
+  () => import("./PlanFormModal").then((m) => m.PlanFormModal),
+  { ssr: false },
+);
+const DeletePlanModal = dynamic(
+  () => import("./DeletePlanModal").then((m) => m.DeletePlanModal),
+  { ssr: false },
+);
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty";
@@ -59,15 +71,18 @@ export function PlansManagementTable() {
   } = useAdminPlans();
 
   const [searchInput, setSearchInput] = useState("");
-  const [selectedPlanForEdit, setSelectedPlanForEdit] = useState<AdminPlanItem | null>(null);
-  const [selectedPlanForDelete, setSelectedPlanForDelete] = useState<AdminPlanItem | null>(null);
+  const [selectedPlanForEdit, setSelectedPlanForEdit] =
+    useState<AdminPlanItem | null>(null);
+  const [selectedPlanForDelete, setSelectedPlanForDelete] =
+    useState<AdminPlanItem | null>(null);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminPlanItem>({
-    initialKey: "price",
-    initialOrder: "asc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminPlanItem>({
+      initialKey: "price",
+      initialOrder: "asc",
+    });
 
   const sortedPlans = sortData(paginatedPlans);
 
@@ -129,7 +144,9 @@ export function PlansManagementTable() {
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.plans.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("refresh")}</span>
             </Button>
 
@@ -151,7 +168,9 @@ export function PlansManagementTable() {
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.plans.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.plans.loadingText")}
+            </span>
           </div>
         ) : paginatedPlans.length === 0 ? (
           <EmptyState
@@ -180,15 +199,24 @@ export function PlansManagementTable() {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-foreground text-sm font-bold">{p.name}</span>
+                            <span className="text-foreground text-sm font-bold">
+                              {p.name}
+                            </span>
                             {isFree ? (
-                              <Badge variant="info">{t("admin.plans.freeTier")}</Badge>
+                              <Badge variant="info">
+                                {t("admin.plans.freeTier")}
+                              </Badge>
                             ) : (
-                              <Badge variant="success">{t("admin.plans.paidTier")}</Badge>
+                              <Badge variant="success">
+                                {t("admin.plans.paidTier")}
+                              </Badge>
                             )}
                           </div>
                           <span className="dark:text-wise-green font-mono text-xs font-bold text-emerald-700">
-                            Rp {p.price.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                            Rp{" "}
+                            {p.price.toLocaleString(
+                              locale === "en" ? "en-US" : "id-ID",
+                            )}
                             <span className="text-foreground-muted text-[10px] font-normal">
                               {" "}
                               {t("admin.plans.perMonth")}
@@ -226,7 +254,9 @@ export function PlansManagementTable() {
                           {t("admin.plans.quota")}
                         </span>
                         <span className="text-foreground font-mono font-bold">
-                          {p.monthly_message_limit.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                          {p.monthly_message_limit.toLocaleString(
+                            locale === "en" ? "en-US" : "id-ID",
+                          )}
                         </span>
                       </div>
                       <div>
@@ -361,7 +391,10 @@ export function PlansManagementTable() {
                     const isFree = p.price === 0;
 
                     return (
-                      <TableRow key={p.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={p.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* 1. Nama Paket */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="flex items-center gap-2.5">
@@ -370,11 +403,17 @@ export function PlansManagementTable() {
                             </div>
                             <div>
                               <div className="flex items-center gap-1.5">
-                                <span className="text-foreground text-sm font-bold">{p.name}</span>
+                                <span className="text-foreground text-sm font-bold">
+                                  {p.name}
+                                </span>
                                 {isFree ? (
-                                  <Badge variant="info">{t("admin.plans.free")}</Badge>
+                                  <Badge variant="info">
+                                    {t("admin.plans.free")}
+                                  </Badge>
                                 ) : (
-                                  <Badge variant="success">{t("admin.plans.pro")}</Badge>
+                                  <Badge variant="success">
+                                    {t("admin.plans.pro")}
+                                  </Badge>
                                 )}
                               </div>
                             </div>
@@ -384,7 +423,10 @@ export function PlansManagementTable() {
                         {/* 2. Harga / Bulan */}
                         <TableCell className="px-4 py-3.5 text-right align-middle font-mono font-bold">
                           <span className="dark:text-wise-green text-sm text-emerald-700">
-                            Rp {p.price.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                            Rp{" "}
+                            {p.price.toLocaleString(
+                              locale === "en" ? "en-US" : "id-ID",
+                            )}
                           </span>
                           <span className="text-foreground-muted block text-[10px] font-normal">
                             {t("admin.plans.perMonth")}
@@ -393,7 +435,11 @@ export function PlansManagementTable() {
 
                         {/* 3. Batas Kuota Pesan */}
                         <TableCell className="text-foreground px-4 py-3.5 text-right align-middle font-mono font-bold">
-                          <span>{p.monthly_message_limit.toLocaleString(locale === "en" ? "en-US" : "id-ID")}</span>
+                          <span>
+                            {p.monthly_message_limit.toLocaleString(
+                              locale === "en" ? "en-US" : "id-ID",
+                            )}
+                          </span>
                           <span className="text-foreground-muted block text-[10px] font-normal">
                             {t("admin.plans.messagesPerMonth")}
                           </span>
@@ -401,12 +447,16 @@ export function PlansManagementTable() {
 
                         {/* 4. Slot WhatsApp */}
                         <TableCell className="text-foreground px-3 py-3.5 text-center align-middle font-mono font-bold">
-                          <span>{p.max_devices} {t("admin.plans.deviceUnit")}</span>
+                          <span>
+                            {p.max_devices} {t("admin.plans.deviceUnit")}
+                          </span>
                         </TableCell>
 
                         {/* 5. Batas CS Agent */}
                         <TableCell className="text-foreground px-3 py-3.5 text-center align-middle font-mono font-bold">
-                          <span>{p.max_agents} {t("admin.plans.agentUnit")}</span>
+                          <span>
+                            {p.max_agents} {t("admin.plans.agentUnit")}
+                          </span>
                         </TableCell>
 
                         {/* 6. Fitur & Kemampuan */}
@@ -415,10 +465,14 @@ export function PlansManagementTable() {
                             {p.allow_attachment && (
                               <span
                                 className="bg-muted text-foreground-secondary border-border inline-flex items-center gap-0.5 rounded border px-1.5 py-0.5 text-[10px] font-bold"
-                                title={t("admin.plans.featureAttachmentTooltip")}
+                                title={t(
+                                  "admin.plans.featureAttachmentTooltip",
+                                )}
                               >
                                 <Paperclip className="size-2.5" />
-                                <span>{t("admin.plans.featureAttachment")}</span>
+                                <span>
+                                  {t("admin.plans.featureAttachment")}
+                                </span>
                               </span>
                             )}
                             {p.allow_campaign && (

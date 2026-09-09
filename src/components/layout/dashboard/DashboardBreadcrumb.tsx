@@ -52,7 +52,7 @@ export function DashboardBreadcrumb() {
       case "subscriptions":
         return t("admin.subscriptionsTitle");
       case "messages":
-        return t("admin.messagesTitle");
+        return t("dashboardMenu.messages");
       case "notifications":
         return t("admin.notificationsTitle");
       default:
@@ -65,7 +65,10 @@ export function DashboardBreadcrumb() {
       className="text-foreground-muted flex items-center gap-1.5 text-xs font-semibold"
       aria-label="Breadcrumb"
     >
-      <Link href="/dashboard" className="hover:text-foreground flex items-center gap-1">
+      <Link
+        href="/dashboard"
+        className="hover:text-foreground flex items-center gap-1"
+      >
         <Home className="size-3.5" />
         <span className="hidden sm:inline">{t("common.breadcrumbHome")}</span>
       </Link>

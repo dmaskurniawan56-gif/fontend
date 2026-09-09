@@ -48,7 +48,8 @@ export const messagingEndpoints: EndpointDoc[] = [
         required: true,
         description:
           "Text message body to send. Supports full UTF-8 emojis, WhatsApp bold (*bold*), italic (_italic_), strikethrough (~strike~), monospace (```code```), and Spintax format `{Hello|Hi|Greetings}`.",
-        example: "Hello from Wahide WhatsApp API! Your verification code is 884920.",
+        example:
+          "Hello from Wahide WhatsApp API! Your verification code is 884920.",
       },
       {
         name: "device_id",
@@ -213,29 +214,34 @@ func main() {
           {
             name: "messaging_product",
             type: "string",
-            description: "Identifies the messaging platform. Always returns 'whatsapp'.",
+            description:
+              "Identifies the messaging platform. Always returns 'whatsapp'.",
           },
           {
             name: "contacts[].input",
             type: "string",
-            description: "The original phone number string provided in the request.",
+            description:
+              "The original phone number string provided in the request.",
           },
           {
             name: "contacts[].wa_id",
             type: "string",
-            description: "Normalized international WhatsApp JID identifier without suffixes.",
+            description:
+              "Normalized international WhatsApp JID identifier without suffixes.",
           },
           {
             name: "messages[].id",
             type: "string",
-            description: "Unique WhatsApp message ID assigned by WhatsApp servers (e.g., 3EB0...). Can be tracked via webhooks for delivery status.",
+            description:
+              "Unique WhatsApp message ID assigned by WhatsApp servers (e.g., 3EB0...). Can be tracked via webhooks for delivery status.",
           },
         ],
       },
       {
         status: 400,
         statusText: "Bad Request",
-        description: "Invalid phone number format or missing required payload parameters.",
+        description:
+          "Invalid phone number format or missing required payload parameters.",
         json: `{
   "success": false,
   "message": "Invalid recipient phone number format",
@@ -254,7 +260,8 @@ func main() {
           {
             name: "message",
             type: "string",
-            description: "Human-readable explanation of why the validation failed.",
+            description:
+              "Human-readable explanation of why the validation failed.",
           },
           {
             name: "error",
@@ -292,8 +299,10 @@ func main() {
       {
         code: 400,
         error: "INVALID_PHONE_NUMBER",
-        description: "Phone number contains non-numeric characters, too few digits, or starts with 0.",
-        solution: "Format phone number to international E.164 (e.g., 628123456789).",
+        description:
+          "Phone number contains non-numeric characters, too few digits, or starts with 0.",
+        solution:
+          "Format phone number to international E.164 (e.g., 628123456789).",
       },
       {
         code: 401,
@@ -304,8 +313,10 @@ func main() {
       {
         code: 429,
         error: "WARMUP_LIMIT_EXCEEDED",
-        description: "Device is still in warmup period and reached its daily send ceiling.",
-        solution: "Distribute across older devices or configure round-robin auto rotation.",
+        description:
+          "Device is still in warmup period and reached its daily send ceiling.",
+        solution:
+          "Distribute across older devices or configure round-robin auto rotation.",
       },
       {
         code: 503,
@@ -353,7 +364,8 @@ func main() {
         type: "string",
         required: false,
         defaultValue: `"auto"`,
-        description: "Set to 'auto' to trigger round-robin across all active devices in your tenant.",
+        description:
+          "Set to 'auto' to trigger round-robin across all active devices in your tenant.",
         example: "auto",
       },
       {
@@ -500,8 +512,10 @@ func main() {
         name: "message",
         type: "string",
         required: true,
-        description: "Spintax formatted message string using `{option1|option2}` syntax.",
-        example: "{Hello|Hi|Good day} {Kak|Bro}, {thank you for your order|your order has been received}!",
+        description:
+          "Spintax formatted message string using `{option1|option2}` syntax.",
+        example:
+          "{Hello|Hi|Good day} {Kak|Bro}, {thank you for your order|your order has been received}!",
       },
     ],
     snippets: {
@@ -646,7 +660,8 @@ func main() {
         name: "filename",
         type: "string",
         required: false,
-        description: "Custom filename for PDF / document files shown to the recipient.",
+        description:
+          "Custom filename for PDF / document files shown to the recipient.",
         example: "Invoice-September-2026.pdf",
       },
     ],
@@ -808,7 +823,8 @@ func main() {
         name: "type",
         type: "string",
         required: true,
-        description: "Message type: 'text', 'image', 'document', or 'template'.",
+        description:
+          "Message type: 'text', 'image', 'document', or 'template'.",
         example: "text",
       },
       {
@@ -822,7 +838,8 @@ func main() {
         name: "text.body",
         type: "string",
         required: true,
-        description: "The actual message content string inside the text object.",
+        description:
+          "The actual message content string inside the text object.",
         depth: 1,
         parent: "text",
         example: "Hello from Meta-compatible route!",

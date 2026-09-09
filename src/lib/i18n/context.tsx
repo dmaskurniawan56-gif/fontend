@@ -24,6 +24,7 @@ import idTemplate from "@/locales/id/template.json";
 import idReminder from "@/locales/id/reminder.json";
 import idReservation from "@/locales/id/reservation.json";
 import idForm from "@/locales/id/form.json";
+import idLandingPages from "@/locales/id/landing_pages.json";
 
 import enCommon from "@/locales/en/common.json";
 import enAuth from "@/locales/en/auth.json";
@@ -44,6 +45,7 @@ import enTemplate from "@/locales/en/template.json";
 import enReminder from "@/locales/en/reminder.json";
 import enReservation from "@/locales/en/reservation.json";
 import enForm from "@/locales/en/form.json";
+import enLandingPages from "@/locales/en/landing_pages.json";
 
 const dictionaries: Record<Locale, Record<string, unknown>> = {
   id: {
@@ -66,6 +68,7 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     reminder: idReminder,
     reservation: idReservation,
     form: idForm,
+    landingPages: idLandingPages,
   },
   en: {
     common: enCommon,
@@ -87,6 +90,7 @@ const dictionaries: Record<Locale, Record<string, unknown>> = {
     reminder: enReminder,
     reservation: enReservation,
     form: enForm,
+    landingPages: enLandingPages,
   },
 };
 
@@ -113,11 +117,14 @@ export const useI18nStore = create<I18nStoreState>()(
     {
       name: "wahide_locale_storage",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
-function resolvePath(dict: Record<string, unknown>, parts: string[]): string | undefined {
+function resolvePath(
+  dict: Record<string, unknown>,
+  parts: string[],
+): string | undefined {
   let result: unknown = dict;
   for (const part of parts) {
     if (result && typeof result === "object" && part in result) {
@@ -133,7 +140,11 @@ function resolvePath(dict: Record<string, unknown>, parts: string[]): string | u
   if (dict.common && typeof dict.common === "object") {
     let commonResult: unknown = dict.common;
     for (const part of parts) {
-      if (commonResult && typeof commonResult === "object" && part in commonResult) {
+      if (
+        commonResult &&
+        typeof commonResult === "object" &&
+        part in commonResult
+      ) {
         commonResult = (commonResult as Record<string, unknown>)[part];
       } else {
         commonResult = undefined;
@@ -173,7 +184,7 @@ export function useI18n() {
 
       return text;
     },
-    [locale]
+    [locale],
   );
 
   return {
@@ -183,12 +194,19 @@ export function useI18n() {
   };
 }
 
-const I18nContext = createContext<{ locale: Locale; setLocale: (locale: Locale) => void }>({
+const I18nContext = createContext<{
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+}>({
   locale: DEFAULT_LOCALE,
   setLocale: () => {},
 });
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const { locale, setLocale } = useI18nStore();
-  return <I18nContext.Provider value={{ locale, setLocale }}>{children}</I18nContext.Provider>;
+  return (
+    <I18nContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </I18nContext.Provider>
+  );
 }

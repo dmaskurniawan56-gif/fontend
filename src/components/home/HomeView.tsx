@@ -8,6 +8,7 @@ import { useI18n } from "@/lib/i18n/context";
 import dynamic from "next/dynamic";
 import { FaqAccordion } from "./FaqAccordion";
 import { SmartFeatureTabs } from "./SmartFeatureTabs";
+import { BusinessSolutionsSection } from "./BusinessSolutionsSection";
 
 const MessageSimulator = dynamic(
   () => import("./MessageSimulator").then((mod) => mod.MessageSimulator),
@@ -16,7 +17,7 @@ const MessageSimulator = dynamic(
     loading: () => (
       <div className="border-border bg-muted/30 h-96 w-full animate-pulse rounded-2xl border" />
     ),
-  }
+  },
 );
 
 import {
@@ -35,29 +36,29 @@ export function HomeView() {
   const { t } = useI18n();
 
   return (
-    <div className="space-y-20 py-6 sm:space-y-28 sm:py-10">
+    <div className="space-y-14 py-4 sm:space-y-20 sm:py-8">
       {/* 1. Hero Section */}
       <section className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold shadow-xs">
             <span className="bg-wise-green h-2 w-2 animate-pulse rounded-full" />
             <span>{t("common.hero.badge")}</span>
           </div>
 
-          <h1 className="text-foreground max-w-3xl text-3xl leading-[1.04] font-black tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="text-foreground max-w-4xl text-3xl leading-[1.04] font-black tracking-tight sm:text-5xl lg:text-6xl text-center mx-auto">
             {t("common.hero.title")}
           </h1>
 
-          <p className="text-foreground-secondary max-w-2xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg">
+          <p className="text-foreground-secondary max-w-2xl text-sm leading-relaxed font-semibold sm:text-base lg:text-lg text-center mx-auto">
             {t("common.hero.subtitle")}
           </p>
 
-          <div className="flex flex-wrap items-center gap-3.5 pt-1">
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-1">
             <Link
               href="/register"
               className={cn(
                 buttonVariants({ variant: "primaryPill", size: "default" }),
-                "min-h-12 gap-2.5 px-6 py-5 text-sm font-bold shadow-sm sm:px-7 sm:py-6 sm:text-base"
+                "min-h-12 gap-2.5 px-6 py-5 text-sm font-bold shadow-sm sm:px-7 sm:py-6 sm:text-base",
               )}
             >
               <span>{t("common.hero.ctaTrial")}</span>
@@ -67,19 +68,19 @@ export function HomeView() {
               href="/login"
               className={cn(
                 buttonVariants({ variant: "outline", size: "default" }),
-                "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:px-7 sm:py-6 sm:text-base"
+                "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:px-7 sm:py-6 sm:text-base",
               )}
             >
               {t("common.hero.ctaLogin")}
             </Link>
           </div>
 
-          <div className="text-foreground-muted flex items-center gap-2 pt-1 text-xs font-semibold">
+          <div className="text-foreground-muted flex items-center justify-center gap-2 pt-1 text-xs font-semibold">
             <CheckCircle2 className="text-dark-green dark:text-wise-green size-3.5" />
             <span>{t("common.hero.trustBadge")}</span>
           </div>
           {/* High-Impact Trust Strip */}
-          <div className="border-border/60 flex flex-wrap items-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary">
+          <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="size-3.5" /> 99.9% Uptime Delivery
             </span>
@@ -104,11 +105,17 @@ export function HomeView() {
         <MessageSimulator />
       </section>
 
-      {/* 3. Smart Interactive Solution Tabs (OTP API, Broadcast Anti-Ban, Business Tools) */}
+      {/* 3. Dedicated Business Solutions (Reservasi, Pengingat, Form, Template) */}
+      <BusinessSolutionsSection />
+
+      {/* 4. Smart Interactive Solution Tabs (OTP API, Broadcast, Business Tools) */}
       <SmartFeatureTabs />
 
-      {/* 4. How It Works (3 Steps) */}
-      <section id="how-it-works" className="mx-auto max-w-5xl space-y-8 px-4 sm:px-6">
+      {/* 5. How It Works (3 Steps) */}
+      <section
+        id="how-it-works"
+        className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-8 px-4 sm:px-6"
+      >
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
             <Workflow className="size-3.5" />
@@ -128,7 +135,9 @@ export function HomeView() {
               <QrCode className="size-5" />
             </div>
             <div>
-              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step1Title")}</h3>
+              <h3 className="text-foreground text-base font-bold">
+                {t("common.landing.howItWorks.step1Title")}
+              </h3>
               <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
                 {t("common.landing.howItWorks.step1Desc")}
               </p>
@@ -140,7 +149,9 @@ export function HomeView() {
               <Sliders className="size-5" />
             </div>
             <div>
-              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step2Title")}</h3>
+              <h3 className="text-foreground text-base font-bold">
+                {t("common.landing.howItWorks.step2Title")}
+              </h3>
               <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
                 {t("common.landing.howItWorks.step2Desc")}
               </p>
@@ -152,7 +163,9 @@ export function HomeView() {
               <CheckCircle2 className="size-5" />
             </div>
             <div>
-              <h3 className="text-foreground text-base font-bold">{t("common.landing.howItWorks.step3Title")}</h3>
+              <h3 className="text-foreground text-base font-bold">
+                {t("common.landing.howItWorks.step3Title")}
+              </h3>
               <p className="text-foreground-secondary mt-2 text-xs font-medium leading-relaxed">
                 {t("common.landing.howItWorks.step3Desc")}
               </p>
@@ -161,8 +174,11 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 7. Transparent 3-Tier Pricing Grid */}
-      <section id="pricing" className="mx-auto max-w-5xl space-y-10 px-4 sm:px-6">
+      {/* 6. Transparent 3-Tier Pricing Grid */}
+      <section
+        id="pricing"
+        className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl space-y-10 px-4 sm:px-6"
+      >
         <div className="mx-auto max-w-xl space-y-2.5 text-center">
           <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold">
             <CreditCard className="size-3.5" />
@@ -178,8 +194,11 @@ export function HomeView() {
 
         {/* Cost Comparison Callout Banner */}
         <div className="mx-auto max-w-2xl rounded-xl border border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 p-3.5 text-center text-xs font-bold text-foreground sm:text-sm shadow-xs">
-          <span className="text-dark-green dark:text-wise-green mr-1.5">⚡ Bandingkan Biaya:</span>
-          Hemat hingga 98% dibanding Meta WhatsApp Cloud API resmi (~Rp 500/chat). Di Wahide, kirim 25.000 pesan mulai Rp 10.000/bulan!
+          <span className="text-dark-green dark:text-wise-green mr-1.5">
+            ⚡ Bandingkan Biaya:
+          </span>
+          Hemat hingga 98% dibanding Meta WhatsApp Cloud API resmi (~Rp
+          500/chat). Di Wahide, kirim 25.000 pesan mulai Rp 10.000/bulan!
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
@@ -225,7 +244,7 @@ export function HomeView() {
                 href="/register"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "default" }),
-                  "border-border hover:border-foreground-muted min-h-11 w-full text-xs font-bold"
+                  "border-border hover:border-foreground-muted min-h-11 w-full text-xs font-bold",
                 )}
               >
                 {t("common.landing.pricing.p1Btn")}
@@ -280,7 +299,7 @@ export function HomeView() {
                 href="/register"
                 className={cn(
                   buttonVariants({ variant: "primaryPill", size: "default" }),
-                  "min-h-11 w-full text-xs font-bold shadow-sm"
+                  "min-h-11 w-full text-xs font-bold shadow-sm",
                 )}
               >
                 {t("common.landing.pricing.p2Btn")}
@@ -331,7 +350,7 @@ export function HomeView() {
                 href="/contact"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "default" }),
-                  "border-border hover:border-foreground-muted min-h-11 w-full text-xs font-bold"
+                  "border-border hover:border-foreground-muted min-h-11 w-full text-xs font-bold",
                 )}
               >
                 {t("common.landing.pricing.p3Btn")}
@@ -341,8 +360,11 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* 8. FAQ Accordion */}
-      <section id="faq" className="content-visibility-auto mx-auto max-w-3xl px-4 sm:px-6">
+      {/* 7. FAQ Accordion */}
+      <section
+        id="faq"
+        className="scroll-mt-20 sm:scroll-mt-24 content-visibility-auto mx-auto max-w-3xl px-4 sm:px-6"
+      >
         <FaqAccordion />
       </section>
 
@@ -363,7 +385,7 @@ export function HomeView() {
               href="/register"
               className={cn(
                 buttonVariants({ variant: "primaryPill", size: "default" }),
-                "min-h-12 gap-2 px-7 py-5 text-sm font-bold shadow-sm sm:text-base"
+                "min-h-12 gap-2 px-7 py-5 text-sm font-bold shadow-sm sm:text-base",
               )}
             >
               <span>{t("common.landing.cta.btnTrial")}</span>
@@ -373,7 +395,7 @@ export function HomeView() {
               href="/contact"
               className={cn(
                 buttonVariants({ variant: "secondaryPill", size: "default" }),
-                "min-h-12 px-7 py-5 text-sm font-bold sm:text-base"
+                "min-h-12 px-7 py-5 text-sm font-bold sm:text-base",
               )}
             >
               <span>{t("common.landing.cta.btnContact")}</span>

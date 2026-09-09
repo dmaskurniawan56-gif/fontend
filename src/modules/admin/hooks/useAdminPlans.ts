@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { AdminPlanItem, CreatePlanInput, UpdatePlanInput } from "../types/admin.types";
+import {
+  AdminPlanItem,
+  CreatePlanInput,
+  UpdatePlanInput,
+} from "../types/admin.types";
 import { adminApi } from "../api/admin.api";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n/context";
@@ -50,10 +54,13 @@ export function useAdminPlans() {
     try {
       const newPlan = await adminApi.createAdminPlan(input);
       setPlans((prev) => [newPlan, ...prev]);
-      toast.success(t("admin.plans.toastCreateSuccess", { name: newPlan.name }));
+      toast.success(
+        t("admin.plans.toastCreateSuccess", { name: newPlan.name }),
+      );
       return newPlan;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.plans.toastCreateFailed");
+      const msg =
+        err instanceof Error ? err.message : t("admin.plans.toastCreateFailed");
       toast.error(msg);
       throw err;
     }
@@ -63,10 +70,13 @@ export function useAdminPlans() {
     try {
       const updated = await adminApi.updateAdminPlan(id, input);
       setPlans((prev) => prev.map((p) => (p.id === id ? updated : p)));
-      toast.success(t("admin.plans.toastUpdateSuccess", { name: updated.name }));
+      toast.success(
+        t("admin.plans.toastUpdateSuccess", { name: updated.name }),
+      );
       return updated;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.plans.toastUpdateFailed");
+      const msg =
+        err instanceof Error ? err.message : t("admin.plans.toastUpdateFailed");
       toast.error(msg);
       throw err;
     }
@@ -78,7 +88,8 @@ export function useAdminPlans() {
       setPlans((prev) => prev.filter((p) => p.id !== id));
       toast.success(t("admin.plans.toastDeleteSuccess", { name: planName }));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.plans.toastDeleteFailed");
+      const msg =
+        err instanceof Error ? err.message : t("admin.plans.toastDeleteFailed");
       toast.error(msg);
       throw err;
     }

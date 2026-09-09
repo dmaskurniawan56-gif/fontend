@@ -8,11 +8,11 @@ import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { useI18n } from "@/lib/i18n/context";
+import { CountrySearchCombobox } from "./CountrySearchCombobox";
 import {
   MapPin,
   Building,
   Navigation,
-  Globe,
   Mail,
   Loader2,
   Save,
@@ -21,7 +21,6 @@ import {
   Info,
   ArrowLeft,
 } from "lucide-react";
-import { COUNTRIES } from "@/lib/countryCodes";
 
 export function UserAddressForm() {
   const router = useRouter();
@@ -158,22 +157,11 @@ export function UserAddressForm() {
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
               {t("address.countryLabel")} <span className="text-rose-500">*</span>
             </label>
-            <div className="relative">
-              <Globe className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.country || "Indonesia"}
-                onChange={(e) => handleCountryChange(e.target.value)}
-                required
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm font-semibold"
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.name}>
-                    {c.flag} {c.name} ({c.code})
-                  </option>
-                ))}
-              </NativeSelect>
-            </div>
+            <CountrySearchCombobox
+              value={formState.country || "Indonesia"}
+              onChange={(countryName) => handleCountryChange(countryName)}
+              required
+            />
           </div>
 
           {/* 2. State / Provinsi */}

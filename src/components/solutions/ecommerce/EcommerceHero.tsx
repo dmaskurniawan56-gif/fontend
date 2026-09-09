@@ -5,7 +5,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { ArrowRight, ShoppingBag, CheckCircle2, ShoppingCart, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  ShoppingBag,
+  CheckCircle2,
+  ShoppingCart,
+  Zap,
+} from "lucide-react";
 
 export function EcommerceHero() {
   const { t } = useI18n();

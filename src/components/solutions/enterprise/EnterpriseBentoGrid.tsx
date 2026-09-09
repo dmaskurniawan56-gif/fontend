@@ -10,34 +10,26 @@ export function EnterpriseBentoGrid() {
   const features = [
     {
       icon: <Users className="size-5 text-wise-green" />,
-      title:
-        t("landingPages.enterprise.featureWorkflowsTitle"),
-      desc:
-        t("landingPages.enterprise.featureWorkflowsDesc"),
+      title: t("landingPages.enterprise.featureWorkflowsTitle"),
+      desc: t("landingPages.enterprise.featureWorkflowsDesc"),
       badge: "Kolaborasi Tim",
     },
     {
       icon: <ShieldCheck className="size-5 text-blue-500" />,
-      title:
-        t("landingPages.enterprise.featureSecurityTitle"),
-      desc:
-        t("landingPages.enterprise.featureSecurityDesc"),
+      title: t("landingPages.enterprise.featureSecurityTitle"),
+      desc: t("landingPages.enterprise.featureSecurityDesc"),
       badge: "Kontrol Privasi",
     },
     {
       icon: <Layers className="size-5 text-purple-500" />,
-      title:
-        t("landingPages.enterprise.featureIntegrationTitle"),
-      desc:
-        t("landingPages.enterprise.featureIntegrationDesc"),
+      title: t("landingPages.enterprise.featureIntegrationTitle"),
+      desc: t("landingPages.enterprise.featureIntegrationDesc"),
       badge: "Integrasi Fleksibel",
     },
     {
       icon: <Headphones className="size-5 text-emerald-500" />,
-      title:
-        t("landingPages.enterprise.featureSupportTitle"),
-      desc:
-        t("landingPages.enterprise.featureSupportDesc"),
+      title: t("landingPages.enterprise.featureSupportTitle"),
+      desc: t("landingPages.enterprise.featureSupportDesc"),
       badge: "Bantuan Prioritas",
     },
   ];

@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { Search, Compass, Rocket, TrendingUp, CheckCircle2 } from "lucide-react";
+import {
+  Search,
+  Compass,
+  Rocket,
+  TrendingUp,
+  CheckCircle2,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 export function ComplianceSecuritySection() {
@@ -12,29 +18,25 @@ export function ComplianceSecuritySection() {
       num: "01",
       icon: <Search className="size-5 text-emerald-500" />,
       title: t("landingPages.enterprise.step1Title"),
-      desc:
-        t("landingPages.enterprise.step1Desc"),
+      desc: t("landingPages.enterprise.step1Desc"),
     },
     {
       num: "02",
       icon: <Compass className="size-5 text-blue-500" />,
       title: t("landingPages.enterprise.step2Title"),
-      desc:
-        t("landingPages.enterprise.step2Desc"),
+      desc: t("landingPages.enterprise.step2Desc"),
     },
     {
       num: "03",
       icon: <Rocket className="size-5 text-amber-500" />,
       title: t("landingPages.enterprise.step3Title"),
-      desc:
-        t("landingPages.enterprise.step3Desc"),
+      desc: t("landingPages.enterprise.step3Desc"),
     },
     {
       num: "04",
       icon: <TrendingUp className="size-5 text-purple-500" />,
       title: t("landingPages.enterprise.step4Title"),
-      desc:
-        t("landingPages.enterprise.step4Desc"),
+      desc: t("landingPages.enterprise.step4Desc"),
     },
   ];
 

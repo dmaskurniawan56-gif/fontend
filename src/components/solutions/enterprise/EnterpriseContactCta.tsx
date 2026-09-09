@@ -23,7 +23,8 @@ export function EnterpriseContactCta() {
             Diskusikan Kebutuhan Komunikasi Perusahaan Anda
           </h2>
           <p className="text-foreground-secondary text-xs sm:text-sm font-semibold leading-relaxed">
-            Konsultasikan alur komunikasi pelanggan, perkiraan kebutuhan pesan, serta integrasi ke sistem kantor Anda bersama tim konsultan kami.
+            Konsultasikan alur komunikasi pelanggan, perkiraan kebutuhan pesan,
+            serta integrasi ke sistem kantor Anda bersama tim konsultan kami.
           </p>
         </div>
 
@@ -56,11 +57,13 @@ export function EnterpriseContactCta() {
           </span>
           <span className="text-border hidden sm:inline">•</span>
           <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="size-3.5 text-blue-500" /> Perjanjian Kerahasiaan & Faktur Resmi
+            <CheckCircle2 className="size-3.5 text-blue-500" /> Perjanjian
+            Kerahasiaan & Faktur Resmi
           </span>
           <span className="text-border hidden sm:inline">•</span>
           <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="size-3.5 text-indigo-500" /> Panduan Penggunaan Lengkap
+            <CheckCircle2 className="size-3.5 text-indigo-500" /> Panduan
+            Penggunaan Lengkap
           </span>
         </div>
       </div>

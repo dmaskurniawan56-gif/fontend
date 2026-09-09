@@ -5,7 +5,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { ArrowRight, Building2, Headphones, ShieldCheck, Clock } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  Headphones,
+  ShieldCheck,
+  Clock,
+} from "lucide-react";
 
 export function EnterpriseHero() {
   const { t } = useI18n();

@@ -23,7 +23,8 @@ export function EcommerceCtaSection() {
             Tingkatkan Penjualan Toko Online Anda Hari Ini
           </h2>
           <p className="text-foreground-secondary text-xs sm:text-sm font-semibold leading-relaxed">
-            Hubungkan WhatsApp toko ke sistem checkout Anda dalam hitungan menit dan biarkan bot menangani notifikasi otomatis 24/7.
+            Hubungkan WhatsApp toko ke sistem checkout Anda dalam hitungan menit
+            dan biarkan bot menangani notifikasi otomatis 24/7.
           </p>
         </div>
 

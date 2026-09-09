@@ -12,7 +12,9 @@ export function useMessageLogs(initialPage = 1, initialPageSize = 20) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
-  const [deviceIdFilter, setDeviceIdFilter] = useState<string | undefined>(undefined);
+  const [deviceIdFilter, setDeviceIdFilter] = useState<string | undefined>(
+    undefined,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

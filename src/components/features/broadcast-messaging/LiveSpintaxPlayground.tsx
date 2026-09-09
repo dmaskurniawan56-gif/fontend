@@ -81,9 +81,7 @@ export function LiveSpintaxPlayground() {
             className="gap-2 px-6 font-bold cursor-pointer"
           >
             <RefreshCw className="size-4 animate-spin-once" />
-            <span>
-              {t("landingPages.broadcast.playgroundButton")}
-            </span>
+            <span>{t("landingPages.broadcast.playgroundButton")}</span>
           </Button>
         </div>
 
@@ -91,9 +89,7 @@ export function LiveSpintaxPlayground() {
         <div className="space-y-2 pt-2">
           <span className="text-xs font-bold text-foreground-secondary flex items-center gap-1.5">
             <MessageSquare className="size-3.5 text-wise-green" />
-            <span>
-              {t("landingPages.broadcast.playgroundResult")}
-            </span>
+            <span>{t("landingPages.broadcast.playgroundResult")}</span>
           </span>
 
           <div className="rounded-2xl border border-border/80 bg-muted/30 p-4 sm:p-5">

@@ -20,7 +20,8 @@ export function AutomationCtaSection() {
             Otomatiskan Operasional Bisnis Anda Sekarang
           </h2>
           <p className="text-foreground-secondary text-xs sm:text-sm font-semibold leading-relaxed">
-            Aktifkan sistem reservasi jadwal, pengingat otomatis, dan formulir publik dalam beberapa klik saja.
+            Aktifkan sistem reservasi jadwal, pengingat otomatis, dan formulir
+            publik dalam beberapa klik saja.
           </p>
         </div>
 

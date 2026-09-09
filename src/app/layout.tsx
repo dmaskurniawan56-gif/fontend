@@ -54,10 +54,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
-    languages: {
-      "id-ID": siteUrl,
-      "en-US": `${siteUrl}/en`,
-    },
   },
   icons: {
     icon: [
@@ -78,7 +74,6 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Wahide",
     locale: "id_ID",
-    alternateLocale: ["en_US"],
     type: "website",
     images: [
       {

@@ -19,50 +19,44 @@ export function AntiBan5LayersVisual() {
       num: "01",
       icon: <Shuffle className="size-5 text-wise-green" />,
       title: t("landingPages.broadcast.layer1Title"),
-      desc:
-        t("landingPages.broadcast.layer1Desc"),
+      desc: t("landingPages.broadcast.layer1Desc"),
       tag: "Anti-Hash Detection",
     },
     {
       num: "02",
       icon: <Keyboard className="size-5 text-blue-500" />,
-      title:
-        t("landingPages.broadcast.layer2Title"),
-      desc:
-        t("landingPages.broadcast.layer2Desc"),
+      title: t("landingPages.broadcast.layer2Title"),
+      desc: t("landingPages.broadcast.layer2Desc"),
       tag: "Human Emulation",
     },
     {
       num: "03",
       icon: <Clock className="size-5 text-amber-500" />,
-      title:
-        t("landingPages.broadcast.layer3Title"),
-      desc:
-        t("landingPages.broadcast.layer3Desc"),
+      title: t("landingPages.broadcast.layer3Title"),
+      desc: t("landingPages.broadcast.layer3Desc"),
       tag: "Traffic Pacing",
     },
     {
       num: "04",
       icon: <TrendingUp className="size-5 text-emerald-500" />,
-      title:
-        t("landingPages.broadcast.layer4Title"),
-      desc:
-        t("landingPages.broadcast.layer4Desc"),
+      title: t("landingPages.broadcast.layer4Title"),
+      desc: t("landingPages.broadcast.layer4Desc"),
       tag: "Reputation Guard",
     },
     {
       num: "05",
       icon: <RotateCw className="size-5 text-indigo-500" />,
-      title:
-        t("landingPages.broadcast.layer5Title"),
-      desc:
-        t("landingPages.broadcast.layer5Desc"),
+      title: t("landingPages.broadcast.layer5Title"),
+      desc: t("landingPages.broadcast.layer5Desc"),
       tag: "Failover Balancing",
     },
   ];
 
   return (
-    <section id="anti-ban" className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
+    <section
+      id="anti-ban"
+      className="scroll-mt-20 sm:scroll-mt-24 mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6"
+    >
       <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-wise-green/15 text-dark-green dark:text-wise-green text-xs font-bold">
           <ShieldCheck className="size-3.5" />

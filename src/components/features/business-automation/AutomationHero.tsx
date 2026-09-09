@@ -5,7 +5,13 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { ArrowRight, Briefcase, CheckCircle2, Sparkles, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Briefcase,
+  CheckCircle2,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 
 export function AutomationHero() {
   const { t } = useI18n();

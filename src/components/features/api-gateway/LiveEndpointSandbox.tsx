@@ -130,7 +130,8 @@ export function LiveEndpointSandbox() {
   const [activeLang, setActiveLang] = useState<Lang>("curl");
   const [copied, setCopied] = useState(false);
 
-  const currentSnippet = SNIPPETS.find((s) => s.id === activeLang) || SNIPPETS[0];
+  const currentSnippet =
+    SNIPPETS.find((s) => s.id === activeLang) || SNIPPETS[0];
 
   const handleCopy = async () => {
     try {

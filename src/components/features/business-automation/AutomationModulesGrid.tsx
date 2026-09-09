@@ -17,10 +17,8 @@ export function AutomationModulesGrid() {
     {
       id: "reservation",
       icon: <CalendarDays className="size-6 text-emerald-500" />,
-      title:
-        t("landingPages.automation.reservationTitle"),
-      desc:
-        t("landingPages.automation.reservationDesc"),
+      title: t("landingPages.automation.reservationTitle"),
+      desc: t("landingPages.automation.reservationDesc"),
       benefits: [
         "Link booking publik mandiri",
         "Pencegahan jadwal bentrok otomatis",
@@ -31,10 +29,8 @@ export function AutomationModulesGrid() {
     {
       id: "reminder",
       icon: <BellRing className="size-6 text-amber-500" />,
-      title:
-        t("landingPages.automation.reminderTitle"),
-      desc:
-        t("landingPages.automation.reminderDesc"),
+      title: t("landingPages.automation.reminderTitle"),
+      desc: t("landingPages.automation.reminderDesc"),
       benefits: [
         "Jadwal pengingat berkala otomatis",
         "Pengurangan risiko tagihan macet",
@@ -45,10 +41,8 @@ export function AutomationModulesGrid() {
     {
       id: "form",
       icon: <FormInput className="size-6 text-blue-500" />,
-      title:
-        t("landingPages.automation.formTitle"),
-      desc:
-        t("landingPages.automation.formDesc"),
+      title: t("landingPages.automation.formTitle"),
+      desc: t("landingPages.automation.formDesc"),
       benefits: [
         "Link instan siap bagikan di bio medsos",
         "Validasi input nomor telepon WhatsApp",
@@ -59,10 +53,8 @@ export function AutomationModulesGrid() {
     {
       id: "template",
       icon: <BookOpenCheck className="size-6 text-indigo-500" />,
-      title:
-        t("landingPages.automation.templateTitle"),
-      desc:
-        t("landingPages.automation.templateDesc"),
+      title: t("landingPages.automation.templateTitle"),
+      desc: t("landingPages.automation.templateDesc"),
       benefits: [
         "Standarisasi komunikasi tim CS",
         "Kategori pesan lengkap (Sales, Billing, CS)",

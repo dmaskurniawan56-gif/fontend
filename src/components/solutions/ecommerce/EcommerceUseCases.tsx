@@ -2,13 +2,7 @@
 
 import React from "react";
 import { useI18n } from "@/lib/i18n/context";
-import {
-  FileText,
-  Truck,
-  ShoppingCart,
-  Users,
-  CheckCheck,
-} from "lucide-react";
+import { FileText, Truck, ShoppingCart, Users, CheckCheck } from "lucide-react";
 
 export function EcommerceUseCases() {
   const { t } = useI18n();
@@ -16,10 +10,8 @@ export function EcommerceUseCases() {
   const useCases = [
     {
       icon: <FileText className="size-5 text-emerald-500" />,
-      title:
-        t("landingPages.ecommerce.useCaseOrderTitle"),
-      desc:
-        t("landingPages.ecommerce.useCaseOrderDesc"),
+      title: t("landingPages.ecommerce.useCaseOrderTitle"),
+      desc: t("landingPages.ecommerce.useCaseOrderDesc"),
       badge: "Instant Order",
       mockup: {
         time: "10:14",
@@ -28,10 +20,8 @@ export function EcommerceUseCases() {
     },
     {
       icon: <Truck className="size-5 text-blue-500" />,
-      title:
-        t("landingPages.ecommerce.useCaseShippingTitle"),
-      desc:
-        t("landingPages.ecommerce.useCaseShippingDesc"),
+      title: t("landingPages.ecommerce.useCaseShippingTitle"),
+      desc: t("landingPages.ecommerce.useCaseShippingDesc"),
       badge: "Automated Resi",
       mockup: {
         time: "14:30",
@@ -40,10 +30,8 @@ export function EcommerceUseCases() {
     },
     {
       icon: <ShoppingCart className="size-5 text-amber-500" />,
-      title:
-        t("landingPages.ecommerce.useCaseCartTitle"),
-      desc:
-        t("landingPages.ecommerce.useCaseCartDesc"),
+      title: t("landingPages.ecommerce.useCaseCartTitle"),
+      desc: t("landingPages.ecommerce.useCaseCartDesc"),
       badge: "Cart Recovery",
       mockup: {
         time: "16:45",
@@ -52,10 +40,8 @@ export function EcommerceUseCases() {
     },
     {
       icon: <Users className="size-5 text-purple-500" />,
-      title:
-        t("landingPages.ecommerce.useCaseSupportTitle"),
-      desc:
-        t("landingPages.ecommerce.useCaseSupportDesc"),
+      title: t("landingPages.ecommerce.useCaseSupportTitle"),
+      desc: t("landingPages.ecommerce.useCaseSupportDesc"),
       badge: "Multi-Agent Support",
       mockup: {
         time: "09:00",
@@ -71,7 +57,8 @@ export function EcommerceUseCases() {
           {t("landingPages.ecommerce.useCasesTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          Ubah proses manual menjadi serba otomatis dengan pemicu webhook dari platform toko online Anda.
+          Ubah proses manual menjadi serba otomatis dengan pemicu webhook dari
+          platform toko online Anda.
         </p>
       </div>
 

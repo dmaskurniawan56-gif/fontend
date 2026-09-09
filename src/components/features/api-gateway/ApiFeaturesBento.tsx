@@ -18,47 +18,37 @@ export function ApiFeaturesBento() {
     {
       icon: <Zap className="size-5 text-amber-500" />,
       title: t("landingPages.apiGateway.featureFastTitle"),
-      desc:
-        t("landingPages.apiGateway.featureFastDesc"),
+      desc: t("landingPages.apiGateway.featureFastDesc"),
       badge: "Sub-Second",
     },
     {
       icon: <Layers className="size-5 text-wise-green" />,
       title: t("landingPages.apiGateway.featureOtpTitle"),
-      desc:
-        t("landingPages.apiGateway.featureOtpDesc"),
+      desc: t("landingPages.apiGateway.featureOtpDesc"),
       badge: "Preemption",
     },
     {
       icon: <Webhook className="size-5 text-blue-500" />,
-      title:
-        t("landingPages.apiGateway.featureWebhookTitle"),
-      desc:
-        t("landingPages.apiGateway.featureWebhookDesc"),
+      title: t("landingPages.apiGateway.featureWebhookTitle"),
+      desc: t("landingPages.apiGateway.featureWebhookDesc"),
       badge: "Two-Way",
     },
     {
       icon: <ShieldCheck className="size-5 text-emerald-500" />,
-      title:
-        t("landingPages.apiGateway.featureMultiTitle"),
-      desc:
-        t("landingPages.apiGateway.featureMultiDesc"),
+      title: t("landingPages.apiGateway.featureMultiTitle"),
+      desc: t("landingPages.apiGateway.featureMultiDesc"),
       badge: "Hibernation",
     },
     {
       icon: <Lock className="size-5 text-rose-500" />,
-      title:
-        t("landingPages.apiGateway.featureSecurityTitle"),
-      desc:
-        t("landingPages.apiGateway.featureSecurityDesc"),
+      title: t("landingPages.apiGateway.featureSecurityTitle"),
+      desc: t("landingPages.apiGateway.featureSecurityDesc"),
       badge: "ULID Isolation",
     },
     {
       icon: <RotateCcw className="size-5 text-indigo-500" />,
-      title:
-        t("landingPages.apiGateway.featureRetryTitle"),
-      desc:
-        t("landingPages.apiGateway.featureRetryDesc"),
+      title: t("landingPages.apiGateway.featureRetryTitle"),
+      desc: t("landingPages.apiGateway.featureRetryDesc"),
       badge: "Zero Dropped",
     },
   ];

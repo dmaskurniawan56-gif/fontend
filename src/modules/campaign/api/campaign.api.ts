@@ -266,7 +266,8 @@ export const campaignApi = {
       if (s.trim()) searchParams.set("search", s.trim());
       if (st.trim() && st !== "ALL") searchParams.set("status", st.trim());
       if (devId.trim()) searchParams.set("device_id", devId.trim());
-      if (dir.trim() && dir !== "ALL") searchParams.set("direction", dir.trim());
+      if (dir.trim() && dir !== "ALL")
+        searchParams.set("direction", dir.trim());
       if (campId.trim()) searchParams.set("campaign_id", campId.trim());
 
       const res = await httpClient.get<MessageLogResponse[]>(

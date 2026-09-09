@@ -10,31 +10,23 @@ export function BroadcastFeaturesGrid() {
   const features = [
     {
       icon: <FileSpreadsheet className="size-5 text-emerald-500" />,
-      title:
-        t("landingPages.broadcast.featureCsvTitle"),
-      desc:
-        t("landingPages.broadcast.featureCsvDesc"),
+      title: t("landingPages.broadcast.featureCsvTitle"),
+      desc: t("landingPages.broadcast.featureCsvDesc"),
     },
     {
       icon: <Tags className="size-5 text-blue-500" />,
-      title:
-        t("landingPages.broadcast.featureTagTitle"),
-      desc:
-        t("landingPages.broadcast.featureTagDesc"),
+      title: t("landingPages.broadcast.featureTagTitle"),
+      desc: t("landingPages.broadcast.featureTagDesc"),
     },
     {
       icon: <CalendarClock className="size-5 text-amber-500" />,
-      title:
-        t("landingPages.broadcast.featureScheduleTitle"),
-      desc:
-        t("landingPages.broadcast.featureScheduleDesc"),
+      title: t("landingPages.broadcast.featureScheduleTitle"),
+      desc: t("landingPages.broadcast.featureScheduleDesc"),
     },
     {
       icon: <BarChart3 className="size-5 text-purple-500" />,
-      title:
-        t("landingPages.broadcast.featureAnalyticsTitle"),
-      desc:
-        t("landingPages.broadcast.featureAnalyticsDesc"),
+      title: t("landingPages.broadcast.featureAnalyticsTitle"),
+      desc: t("landingPages.broadcast.featureAnalyticsDesc"),
     },
   ];
 

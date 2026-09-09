@@ -192,5 +192,10 @@
   "messagesSendSuccess": "WhatsApp message sent successfully!",
   "messagesErrorLoadHistory": "Failed to load WhatsApp message history",
   "messagesErrorLoadComposer": "Failed to load message composer",
-  "messagesLocationPrefix": "📍 Location:"
+  "messagesLocationPrefix": "📍 Location:",
+  "messagesNoActiveDevicesTitle": "No Active WhatsApp Devices",
+  "messagesNoActiveDevicesDesc": "To send direct messages, please connect your WhatsApp device first via QR code scan.",
+  "messagesLinkDeviceBtn": "Go to Devices",
+  "messagesNoConnectedOption": "-- No connected devices (CONNECTED) --",
+  "messagesErrDeviceNotConnected": "Device is not connected or still in pairing stage."
 }

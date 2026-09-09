@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Smartphone,
   MessageSquare,
@@ -12,6 +13,7 @@ import {
   Sparkles,
   Calendar,
   AlertCircle,
+  ArrowRight,
 } from "lucide-react";
 import { useDevices } from "../../hooks/useDevices";
 import { whatsappApi } from "../../api/whatsapp.api";
@@ -19,6 +21,9 @@ import { useI18n } from "@/lib/i18n/context";
 import { Button } from "@/components/ui/button";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -65,22 +70,36 @@ export function ComposeMessageCard({
   const [isSending, setIsSending] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Filter strictly connected and non-overlimit devices
+  const connectedDevices = devices.filter(
+    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit
+  );
+  const hasActiveDevice = connectedDevices.length > 0;
+
   // Auto-select first connected device
   useEffect(() => {
-    if (devices.length > 0 && !selectedDeviceId) {
-      const connectedDevice = devices.find((d) => d.status === "CONNECTED") || devices[0];
-      setSelectedDeviceId(connectedDevice.id);
-      const name = connectedDevice.name || connectedDevice.pushName || connectedDevice.phone || "Device";
+    if (connectedDevices.length > 0 && !selectedDeviceId) {
+      setSelectedDeviceId(connectedDevices[0].id);
+      const name =
+        connectedDevices[0].name ||
+        connectedDevices[0].pushName ||
+        connectedDevices[0].phone ||
+        "Device";
       onDeviceChange?.(name);
+    } else if (connectedDevices.length === 0 && selectedDeviceId) {
+      setSelectedDeviceId("");
+      onDeviceChange?.("");
     }
-  }, [devices, selectedDeviceId, onDeviceChange]);
+  }, [connectedDevices, selectedDeviceId, onDeviceChange]);
 
   const handleDeviceSelect = (id: string) => {
     setSelectedDeviceId(id);
-    const d = devices.find((dev) => dev.id === id);
+    const d = connectedDevices.find((dev) => dev.id === id);
     if (d) {
       const name = d.name || d.pushName || d.phone || "Device";
       onDeviceChange?.(name);
+    } else {
+      onDeviceChange?.("");
     }
   };
 
@@ -196,18 +215,50 @@ export function ComposeMessageCard({
     }
   };
 
-  const selectedDevice = devices.find((d) => d.id === selectedDeviceId);
+  const selectedDevice = connectedDevices.find((d) => d.id === selectedDeviceId);
 
   return (
     <div className="border-border bg-surface overflow-hidden rounded-2xl border p-5 shadow-xs sm:rounded-3xl sm:p-7">
-      <div className="mb-6">
-        <h2 className="text-xl font-black text-foreground tracking-tight sm:text-2xl">
+      <div className="mb-6 space-y-1">
+        <h2 className="text-base sm:text-lg font-bold text-foreground tracking-tight">
           {t("whatsapp.messagesComposeTitle")}
         </h2>
-        <p className="text-xs text-foreground-secondary mt-1 sm:text-sm font-semibold">
+        <p className="text-xs sm:text-sm text-foreground-secondary font-medium">
           {t("whatsapp.messagesComposeSubtitle")}
         </p>
       </div>
+
+      {/* Active Device Alert Banner (Directs to /devices if no connected devices) */}
+      {!hasActiveDevice && !isLoadingDevices && (
+        <div className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 sm:p-5 text-xs text-foreground space-y-3 animate-fadeIn">
+          <div className="flex items-start gap-3">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">
+              <Smartphone className="size-4.5" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-sm font-bold text-foreground">
+                {t("whatsapp.messagesNoActiveDevicesTitle")}
+              </h4>
+              <p className="text-xs text-foreground-secondary leading-relaxed">
+                {t("whatsapp.messagesNoActiveDevicesDesc")}
+              </p>
+            </div>
+          </div>
+          <div className="pl-12">
+            <Link href="/devices">
+              <Button
+                type="button"
+                variant="primaryPill"
+                size="sm"
+                className="gap-1.5 text-xs font-bold shadow-xs cursor-pointer"
+              >
+                <span>{t("whatsapp.messagesLinkDeviceBtn")}</span>
+                <ArrowRight className="size-3.5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {errorMessage && (
         <div className="mb-5 flex items-center gap-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 p-3.5 text-xs font-medium text-rose-700 dark:text-rose-400">
@@ -219,43 +270,47 @@ export function ComposeMessageCard({
       <form onSubmit={handleSend} className="space-y-5">
         {/* 1. Select Device */}
         <div className="space-y-1.5">
-          <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("whatsapp.messagesSelectDevice")}
-          </label>
+          </Label>
           <div className="relative">
             <NativeSelect
               value={selectedDeviceId}
               onChange={(e) => handleDeviceSelect(e.target.value)}
-              disabled={isLoadingDevices || isSending}
+              disabled={isLoadingDevices || isSending || !hasActiveDevice}
               variant="rounded"
               wrapperClassName="w-full"
               className="pl-10 text-xs sm:text-sm font-semibold h-11"
             >
-              <option value="" disabled>
-                {isLoadingDevices
-                  ? t("whatsapp.messagesLoadingDevices")
-                  : t("whatsapp.messagesStatusSelectDevice")}
-              </option>
-              {devices.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.name || d.pushName || "Device"} ({d.phone || "No phone"}) - [{d.status}]
+              {connectedDevices.length === 0 ? (
+                <option value="" disabled>
+                  {isLoadingDevices
+                    ? t("whatsapp.messagesLoadingDevices")
+                    : t("whatsapp.messagesNoConnectedOption")}
                 </option>
-              ))}
+              ) : (
+                <>
+                  <option value="" disabled>
+                    {t("whatsapp.messagesStatusSelectDevice")}
+                  </option>
+                  {connectedDevices.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name || d.pushName || "Device"} (
+                      {d.phone ? `+${d.phone.replace(/^\+/, "")}` : "Nomor Belum Ada"})
+                    </option>
+                  ))}
+                </>
+              )}
             </NativeSelect>
             <Smartphone className="absolute left-3.5 top-3.5 size-4 text-foreground-muted pointer-events-none z-10" />
           </div>
           {selectedDevice && (
             <div className="flex items-center gap-2 pt-1">
               <Badge
-                variant={selectedDevice.status === "CONNECTED" ? "success" : "warning"}
+                variant="success"
                 className="gap-1.5 text-[11px] font-semibold"
               >
-                <span
-                  className={cn(
-                    "size-1.5 rounded-full",
-                    selectedDevice.status === "CONNECTED" ? "bg-emerald-500" : "bg-amber-500"
-                  )}
-                />
+                <span className="size-1.5 rounded-full bg-emerald-500" />
                 <span>{selectedDevice.status}</span>
               </Badge>
               {selectedDevice.phone && (
@@ -265,16 +320,22 @@ export function ComposeMessageCard({
               )}
             </div>
           )}
+          {!hasActiveDevice && !isLoadingDevices && (
+            <p className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1.5 pt-0.5">
+              <AlertCircle className="size-3.5 shrink-0" />
+              <span>{t("whatsapp.messagesErrDeviceNotConnected")}</span>
+            </p>
+          )}
         </div>
 
         {/* 2. Recipient Phone */}
         <div className="space-y-1.5">
-          <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+          <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("whatsapp.messagesRecipient")}
-          </label>
-          <div className="flex rounded-xl border border-border bg-surface shadow-xs focus-within:border-emerald-600 dark:focus-within:border-wise-green transition-all hover:border-foreground-muted">
+          </Label>
+          <div className="flex h-10 sm:h-11 rounded-xl border border-border bg-surface shadow-xs focus-within:ring-2 focus-within:ring-wise-green focus-within:border-wise-green transition-all hover:border-foreground-muted overflow-hidden">
             {/* Country flag selector */}
-            <div className="flex items-center gap-1.5 border-r border-border px-3 py-2 text-xs sm:text-sm font-bold bg-muted/40 text-foreground rounded-l-xl select-none">
+            <div className="flex items-center gap-1.5 border-r border-border px-3 text-xs sm:text-sm font-bold bg-muted/40 text-foreground select-none">
               <span>🇮🇩</span>
               <span>+{countryCode}</span>
             </div>
@@ -285,7 +346,7 @@ export function ComposeMessageCard({
               onChange={(e) => handlePhoneInput(e.target.value)}
               disabled={isSending}
               placeholder="81234567890"
-              className="flex-1 rounded-r-xl bg-transparent px-3 py-2 text-xs sm:text-sm font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
+              className="flex-1 bg-transparent px-3 text-xs sm:text-sm font-mono font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
             />
           </div>
           <p className="text-[11px] text-foreground-secondary font-medium">
@@ -353,18 +414,18 @@ export function ComposeMessageCard({
           {/* Tab Content: Image */}
           {activeTab === "image" && (
             <div className="space-y-1.5 animate-fadeIn">
-              <label className="text-xs font-semibold text-foreground">
+              <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.messagesImageUrl")}
-              </label>
-              <input
+              </Label>
+              <Input
                 type="url"
+                variant="rounded"
                 value={mediaUrl}
                 onChange={(e) => {
                   setMediaUrl(e.target.value);
                   onMediaUrlChange?.(e.target.value);
                 }}
                 placeholder="https://example.com/photo.jpg"
-                className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs sm:text-sm text-foreground hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green focus:outline-none shadow-xs"
               />
             </div>
           )}
@@ -373,33 +434,33 @@ export function ComposeMessageCard({
           {activeTab === "file" && (
             <div className="space-y-3 animate-fadeIn">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-foreground">
+                <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                   {t("whatsapp.messagesFileUrl")}
-                </label>
-                <input
+                </Label>
+                <Input
                   type="url"
+                  variant="rounded"
                   value={mediaUrl}
                   onChange={(e) => {
                     setMediaUrl(e.target.value);
                     onMediaUrlChange?.(e.target.value);
                   }}
                   placeholder="https://example.com/invoice.pdf"
-                  className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs sm:text-sm text-foreground hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green focus:outline-none shadow-xs"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-foreground">
+                <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                   {t("whatsapp.messagesFileName")}
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
+                  variant="rounded"
                   value={fileName}
                   onChange={(e) => {
                     setFileName(e.target.value);
                     onFileNameChange?.(e.target.value);
                   }}
                   placeholder="Invoice-1029.pdf"
-                  className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs sm:text-sm text-foreground hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green focus:outline-none shadow-xs"
                 />
               </div>
             </div>
@@ -408,18 +469,18 @@ export function ComposeMessageCard({
           {/* Tab Content: Location */}
           {activeTab === "location" && (
             <div className="space-y-1.5 animate-fadeIn">
-              <label className="text-xs font-semibold text-foreground">
+              <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {t("whatsapp.messagesLocationAddr")}
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
+                variant="rounded"
                 value={locationAddress}
                 onChange={(e) => {
                   setLocationAddress(e.target.value);
                   onLocationChange?.(e.target.value);
                 }}
                 placeholder="Jl. Jend. Sudirman No. 1, Jakarta Selatan"
-                className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-xs sm:text-sm text-foreground hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green focus:outline-none shadow-xs"
               />
             </div>
           )}
@@ -427,11 +488,11 @@ export function ComposeMessageCard({
           {/* Message Textarea (Common for all tabs as caption or main text) */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-foreground uppercase tracking-wider">
+              <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
                 {activeTab === "chat"
                   ? t("whatsapp.messagesTextLabel")
                   : t("whatsapp.messagesCaptionLabel")}
-              </label>
+              </Label>
               <button
                 type="button"
                 onClick={() => insertSpintax("{Halo|Hai|Selamat Pagi}")}
@@ -441,13 +502,14 @@ export function ComposeMessageCard({
                 {t("whatsapp.messagesSpintaxHelper")}
               </button>
             </div>
-            <textarea
+            <Textarea
               rows={4}
+              variant="rounded"
               value={messageText}
               onChange={(e) => handleTextChange(e.target.value)}
               disabled={isSending}
               placeholder={t("whatsapp.messagesPlaceholder")}
-              className="w-full rounded-2xl border border-border bg-surface p-3 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground hover:border-foreground-muted focus:border-emerald-600 dark:focus:border-wise-green focus:outline-none shadow-xs transition-all resize-y disabled:opacity-50"
+              className="resize-y"
             />
             <div className="flex items-center justify-between text-[11px] text-foreground-secondary font-medium">
               <span>{t("whatsapp.messagesSpintaxHint")}</span>
@@ -489,8 +551,8 @@ export function ComposeMessageCard({
             type="submit"
             variant="primaryPill"
             size="default"
-            disabled={isSending || !selectedDeviceId || !recipientNumber.trim()}
-            className="w-full sm:w-auto h-11 px-8 text-sm font-bold shadow-xs cursor-pointer"
+            disabled={!hasActiveDevice || isSending || !selectedDeviceId || !recipientNumber.trim()}
+            className="w-full sm:w-auto h-11 px-8 text-sm font-bold shadow-xs cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isSending ? (
               <>

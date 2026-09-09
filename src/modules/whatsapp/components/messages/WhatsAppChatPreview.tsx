@@ -46,9 +46,9 @@ export function WhatsAppChatPreview({
   return (
     <div className="space-y-4">
       {/* Container Title */}
-      <h3 className="text-base font-bold text-foreground">
+      <h3 className="text-base sm:text-lg font-bold text-foreground">
         {t("whatsapp.messagesPreviewTitle")}{" "}
-        <span className="text-xs font-normal text-muted-foreground">
+        <span className="text-xs sm:text-sm font-normal text-muted-foreground">
           {t("whatsapp.messagesPreviewChat")}
         </span>
       </h3>
@@ -147,7 +147,7 @@ export function WhatsAppChatPreview({
 
       {/* Message Status Widget (Below Chat Preview) */}
       <div className="border-border bg-surface rounded-2xl border p-4 shadow-xs space-y-2.5 sm:rounded-3xl">
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        <p className="text-foreground-secondary text-xs font-semibold uppercase tracking-wider">
           {t("whatsapp.messagesStatusTitle")}
         </p>
         <div className="flex flex-wrap items-center gap-2">

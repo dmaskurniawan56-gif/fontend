@@ -192,5 +192,10 @@
   "messagesSendSuccess": "Pesan WhatsApp berhasil dikirim!",
   "messagesErrorLoadHistory": "Gagal Memuat Riwayat Pesan WhatsApp",
   "messagesErrorLoadComposer": "Gagal Memuat Komposer Pesan",
-  "messagesLocationPrefix": "📍 Lokasi:"
+  "messagesLocationPrefix": "📍 Lokasi:",
+  "messagesNoActiveDevicesTitle": "Belum Ada Perangkat Aktif",
+  "messagesNoActiveDevicesDesc": "Untuk mengirim pesan langsung, hubungkan perangkat WhatsApp Anda terlebih dahulu melalui pemindaian QR code.",
+  "messagesLinkDeviceBtn": "Buka Menu Perangkat",
+  "messagesNoConnectedOption": "-- Tidak ada perangkat aktif (CONNECTED) --",
+  "messagesErrDeviceNotConnected": "Perangkat belum terhubung atau sedang dalam tahap pairing."
 }

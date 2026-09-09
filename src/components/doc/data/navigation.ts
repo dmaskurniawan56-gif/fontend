@@ -205,6 +205,12 @@ export const docNavigation: NavSection[] = [
         path: "/docs/webhooks",
       },
       {
+        id: "webhooks-n8n",
+        title: "Integrasi n8n & AI Bot",
+        path: "/docs/webhooks/n8n",
+        badge: "Workflow",
+      },
+      {
         id: "webhook-event-received",
         title: "Event: message.received",
         path: "/docs/webhooks/events/message-received",

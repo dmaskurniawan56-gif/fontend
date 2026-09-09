@@ -16,6 +16,7 @@ import {
   webhooksStatusDoc,
   webhooksQrDoc,
 } from "./webhooks";
+import { n8nDoc } from "./n8n";
 
 export { docNavigation } from "./navigation";
 export { introDoc } from "./intro";
@@ -26,6 +27,7 @@ export { messagingEndpoints } from "./messaging";
 export { otpEndpoints } from "./otp";
 export { contactsEndpoints } from "./contacts";
 export { campaignsEndpoints } from "./campaigns";
+export { n8nDoc } from "./n8n";
 export {
   webhooksGuideDoc,
   webhooksEventsDoc,
@@ -38,7 +40,7 @@ export {
 export { getDocSeoMetadata, generateDocJsonLd } from "./seo";
 export { getApiBaseUrl, getApiHost } from "./env";
 
-export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc, webhooksGuideDoc];
+export const allGuides: GuideDoc[] = [introDoc, authenticationDoc, errorsDoc, webhooksGuideDoc, n8nDoc];
 
 export const allEndpoints: EndpointDoc[] = [
   ...devicesEndpoints,

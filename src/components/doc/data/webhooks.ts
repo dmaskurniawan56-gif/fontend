@@ -23,9 +23,9 @@ export const webhooksGuideDoc: GuideDoc = {
         "When an event occurs on your connected WhatsApp devices (inbound message, status delivery tick, device disconnect, or QR stream), the Wahide engine immediately processes the event through a resilient, event-driven pipeline:\n\n1. **Zero-Heap Event Filtering**: Unnecessary noisy events (groups, stories, channel newsletters) are filtered out to protect your server from overload.\n2. **Standardized JSON Envelope**: The event data, device identifier, sender details, and timestamps are packaged into a structured schema.\n3. **Asynchronous HTTP POST Delivery**: Wahide dispatches an HTTP POST request to the webhook URL configured in your dashboard.\n4. **Instant Acknowledgment**: Your server acknowledges receipt by returning an HTTP `200 OK` response within 8 seconds.",
       callout: {
         type: "tip",
-        title: "Public HTTPS Endpoint Required",
+        title: "Public HTTPS Endpoint & n8n / AI Bot Integration",
         content:
-          "Your webhook URL must be publicly accessible over valid HTTPS. For local development, use tunneling solutions such as Ngrok or Cloudflare Tunnels.",
+          "Your webhook URL must be publicly accessible over valid HTTPS. For local development, use tunneling solutions such as Cloudflare Tunnels or Ngrok.\n\n💡 **Building with n8n or AI Agents (OpenAI/Claude)?** Check out our dedicated [n8n AI Chatbot & Automation Guide](/docs/webhooks/n8n) with a ready-to-import zero-timeout workflow template.",
       },
     },
     {
@@ -40,7 +40,11 @@ export const webhooksGuideDoc: GuideDoc = {
 Host: api.your-business.com
 Content-Type: application/json
 User-Agent: Wahide-WhatsApp-Webhook-Engine/2.0
-X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210`,
+X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210
+X-Wahide-Delivery-ID: 01JPLAN0000000000000000099
+X-Wahide-Event: message.received
+X-Wahide-Device-ID: 01JPLAN0000000000000000001
+X-Wahide-Timestamp: 1725845000`,
       },
       callout: {
         type: "warning",
@@ -286,6 +290,30 @@ export const webhooksReceivedDoc: EndpointDoc = {
       value: "whsec_live_...",
       required: true,
       description: "Official authentication header containing your Tenant or Device Webhook Secret (whsec_live_... or whsec_dev_...).",
+    },
+    {
+      key: "X-Wahide-Delivery-ID",
+      value: "01JPLAN0000000000000000099",
+      required: true,
+      description: "Unique ULID delivery identifier generated per webhook attempt for idempotency and de-duplication.",
+    },
+    {
+      key: "X-Wahide-Event",
+      value: "message.received",
+      required: true,
+      description: "Granular event type header matching the event field in payload.",
+    },
+    {
+      key: "X-Wahide-Device-ID",
+      value: "01JPLAN0000000000000000001",
+      required: true,
+      description: "Unique WhatsApp device slot ID that received the message.",
+    },
+    {
+      key: "X-Wahide-Timestamp",
+      value: "1725845000",
+      required: true,
+      description: "Unix epoch timestamp in seconds when the webhook was dispatched.",
     },
     {
       key: "User-Agent",

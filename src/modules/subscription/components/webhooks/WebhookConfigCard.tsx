@@ -34,6 +34,7 @@ import {
   Radio,
   SlidersHorizontal,
   Check,
+  Sparkles,
 } from "lucide-react";
 
 export interface WebhookEventDefinition {
@@ -259,6 +260,26 @@ export function WebhookConfigCard({
             variant="pill"
             className="h-11 font-mono"
           />
+
+          {/* n8n / AI Bot Integration Callout */}
+          <div className="mt-2.5 flex items-start gap-2.5 rounded-xl border border-sky-500/25 bg-sky-500/5 p-3 text-xs text-foreground-secondary dark:border-sky-400/20 dark:bg-sky-500/10">
+            <Sparkles className="size-4 shrink-0 text-sky-600 dark:text-sky-400 mt-0.5" />
+            <div className="leading-relaxed space-y-1">
+              <p>
+                <span className="font-bold text-foreground">Tips Integrasi n8n / AI Bot:</span> Jika menghubungkan webhook ke AI Agent (OpenAI/Claude/Gemini), pastikan node Webhook n8n diatur ke <span className="font-semibold text-foreground">Response Mode: Immediately (200 OK)</span> agar proses berpikir AI yang lama tidak memicu batas timeout atau eksekusi ganda.
+              </p>
+              <div>
+                <Link
+                  href="/docs/webhooks/n8n"
+                  target="_blank"
+                  className="inline-flex items-center gap-1 font-bold text-sky-600 dark:text-sky-400 hover:underline"
+                >
+                  <span>Buka Panduan & Template n8n Siap Pakai</span>
+                  <ExternalLink className="size-3" />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Signing Secret Box */}

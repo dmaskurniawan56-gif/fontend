@@ -47,34 +47,34 @@ export function PublicFooter() {
             <ul className="space-y-2.5 text-xs font-semibold text-foreground-secondary">
               <li>
                 <Link
-                  href="/#solutions"
+                  href="/solutions/enterprise"
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("footer.solutionReservation")}
+                  Enterprise & Dedicated
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#solutions"
+                  href="/solutions/ecommerce"
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("footer.solutionReminder")}
+                  E-Commerce & Retail
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#solutions"
+                  href="/features/business-automation"
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("footer.solutionForms")}
+                  Business Automation
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#features"
+                  href="/features/broadcast-messaging"
                   className="hover:text-foreground transition-colors"
                 >
-                  {t("footer.solutionBroadcast")}
+                  Smart Broadcast
                 </Link>
               </li>
             </ul>
@@ -88,6 +88,14 @@ export function PublicFooter() {
             <ul className="space-y-2.5 text-xs font-semibold text-foreground-secondary">
               <li>
                 <Link
+                  href="/features/api-gateway"
+                  className="hover:text-foreground transition-colors"
+                >
+                  API Gateway RESTful
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/docs/intro"
                   className="inline-flex items-center gap-1 hover:text-foreground text-dark-green dark:text-wise-green font-bold transition-colors group"
                 >
@@ -97,7 +105,7 @@ export function PublicFooter() {
               </li>
               <li>
                 <Link
-                  href="/#features"
+                  href="/features/api-gateway#otp-express-lane"
                   className="hover:text-foreground transition-colors"
                 >
                   {t("footer.devOtp")}

@@ -9,7 +9,18 @@ import { LocaleSwitcher } from "@/components/layout/shared/LocaleSwitcher";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
-import { User, Menu, X, ArrowRight } from "lucide-react";
+import {
+  User,
+  Menu,
+  X,
+  ArrowRight,
+  ChevronDown,
+  Building2,
+  ShoppingBag,
+  Code2,
+  Radio,
+  Sparkles,
+} from "lucide-react";
 
 const emptySubscribe = () => () => {};
 const getClientSnapshot = () => true;
@@ -67,22 +78,143 @@ export function PublicHeader() {
           </span>
         </Link>
 
-        {/* Desktop Navigation: Solusi, Fitur, Harga, FAQ */}
+        {/* Desktop Navigation: Solusi (Dropdown), Fitur (Dropdown), Harga, FAQ */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs xl:text-sm font-bold text-foreground-secondary">
-          <Link
-            href="/#solutions"
-            onClick={(e) => handleAnchorClick(e, "solutions")}
-            className="hover:text-foreground transition-colors"
-          >
-            {t("common.nav.solutions")}
-          </Link>
-          <Link
-            href="/#features"
-            onClick={(e) => handleAnchorClick(e, "features")}
-            className="hover:text-foreground transition-colors"
-          >
-            {t("common.nav.features")}
-          </Link>
+          {/* Solusi Hover Dropdown */}
+          <div className="relative group py-2">
+            <button
+              type="button"
+              className="flex items-center gap-1 hover:text-foreground transition-colors outline-none cursor-pointer"
+            >
+              <span>{t("common.nav.solutions")}</span>
+              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
+            </button>
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-80 z-50 pointer-events-none group-hover:pointer-events-auto">
+              <div className="rounded-2xl border border-border bg-surface p-2.5 shadow-xl ring-1 ring-border/50 space-y-1">
+                <Link
+                  href="/solutions/enterprise"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
+                >
+                  <div className="size-9 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <Building2 className="size-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
+                      Enterprise & Dedicated
+                    </div>
+                    <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
+                      Private VPS, SLA 99.9%, isolasi data korporat
+                    </div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/solutions/ecommerce"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
+                >
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                    <ShoppingBag className="size-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
+                      E-Commerce & Retail
+                    </div>
+                    <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
+                      Konfirmasi order otomatis, kirim resi & cart recovery
+                    </div>
+                  </div>
+                </Link>
+
+                <div className="border-t border-border/60 pt-1.5 mt-1">
+                  <Link
+                    href="/#solutions"
+                    onClick={(e) => handleAnchorClick(e, "solutions")}
+                    className="flex items-center justify-between px-2.5 py-1.5 text-[11px] font-bold text-dark-green dark:text-wise-green hover:underline"
+                  >
+                    <span>Lihat Ringkasan Solusi</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Fitur Hover Dropdown */}
+          <div className="relative group py-2">
+            <button
+              type="button"
+              className="flex items-center gap-1 hover:text-foreground transition-colors outline-none cursor-pointer"
+            >
+              <span>{t("common.nav.features")}</span>
+              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
+            </button>
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-84 z-50 pointer-events-none group-hover:pointer-events-auto">
+              <div className="rounded-2xl border border-border bg-surface p-2.5 shadow-xl ring-1 ring-border/50 space-y-1">
+                <Link
+                  href="/features/api-gateway"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
+                >
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                    <Code2 className="size-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
+                      WhatsApp API Gateway
+                    </div>
+                    <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
+                      REST API, 2-way Webhooks, antrean OTP &lt;400ms
+                    </div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/features/broadcast-messaging"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
+                >
+                  <div className="size-9 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <Radio className="size-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
+                      Smart Broadcast Messaging
+                    </div>
+                    <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
+                      5-lapis anti-ban, spintax simulator, kampanye massal
+                    </div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/features/business-automation"
+                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
+                >
+                  <div className="size-9 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center shrink-0 mt-0.5">
+                    <Sparkles className="size-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
+                      Business Automation
+                    </div>
+                    <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
+                      Sistem booking jadwal, auto-reminder, web forms
+                    </div>
+                  </div>
+                </Link>
+
+                <div className="border-t border-border/60 pt-1.5 mt-1">
+                  <Link
+                    href="/#features"
+                    onClick={(e) => handleAnchorClick(e, "features")}
+                    className="flex items-center justify-between px-2.5 py-1.5 text-[11px] font-bold text-dark-green dark:text-wise-green hover:underline"
+                  >
+                    <span>Lihat Semua Fitur & Ringkasan</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Link
             href="/#pricing"
             onClick={(e) => handleAnchorClick(e, "pricing")}
@@ -162,36 +294,75 @@ export function PublicHeader() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-b border-border bg-surface px-6 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200 shadow-xl">
+        <div className="lg:hidden border-b border-border bg-surface px-6 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200 shadow-xl max-h-[85vh] overflow-y-auto">
           <nav className="flex flex-col gap-1 text-sm font-bold text-foreground">
-            <Link
-              href="/#solutions"
-              onClick={(e) => handleMobileAnchorClick(e, "solutions")}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
-            >
+            {/* Solusi Section */}
+            <div className="py-2 px-1 text-xs font-bold uppercase tracking-wider text-foreground-muted">
               {t("common.nav.solutions")}
+            </div>
+            <Link
+              href="/solutions/enterprise"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+            >
+              <Building2 className="size-3.5 text-blue-500" />
+              <span>Enterprise & Dedicated</span>
             </Link>
             <Link
-              href="/#features"
-              onClick={(e) => handleMobileAnchorClick(e, "features")}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+              href="/solutions/ecommerce"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
+              <ShoppingBag className="size-3.5 text-wise-green" />
+              <span>E-Commerce & Retail</span>
+            </Link>
+
+            {/* Fitur Section */}
+            <div className="pt-3 pb-1 px-1 text-xs font-bold uppercase tracking-wider text-foreground-muted">
               {t("common.nav.features")}
+            </div>
+            <Link
+              href="/features/api-gateway"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+            >
+              <Code2 className="size-3.5 text-wise-green" />
+              <span>WhatsApp API Gateway</span>
             </Link>
             <Link
-              href="/#pricing"
-              onClick={(e) => handleMobileAnchorClick(e, "pricing")}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+              href="/features/broadcast-messaging"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              {t("common.nav.pricing")}
+              <Radio className="size-3.5 text-amber-500" />
+              <span>Smart Broadcast Messaging</span>
             </Link>
             <Link
-              href="/#faq"
-              onClick={(e) => handleMobileAnchorClick(e, "faq")}
-              className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+              href="/features/business-automation"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              {t("common.nav.faq")}
+              <Sparkles className="size-3.5 text-purple-500" />
+              <span>Business Automation</span>
             </Link>
+
+            {/* Standalone Links */}
+            <div className="pt-2 border-t border-border/40 mt-2 flex flex-col gap-1">
+              <Link
+                href="/#pricing"
+                onClick={(e) => handleMobileAnchorClick(e, "pricing")}
+                className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+              >
+                {t("common.nav.pricing")}
+              </Link>
+              <Link
+                href="/#faq"
+                onClick={(e) => handleMobileAnchorClick(e, "faq")}
+                className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+              >
+                {t("common.nav.faq")}
+              </Link>
+            </div>
           </nav>
 
           <div className="pt-3 border-t border-border/70 flex flex-col gap-2.5">

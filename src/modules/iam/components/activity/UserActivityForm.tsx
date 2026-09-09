@@ -25,7 +25,7 @@ import { useI18n } from "@/lib/i18n/context";
 
 export function formatHumanActivityDate(
   rawDate?: string,
-  locale = "id"
+  locale = "id",
 ): {
   formattedDate: string;
   formattedTime: string;
@@ -43,11 +43,14 @@ export function formatHumanActivityDate(
     return { formattedDate: rawDate, formattedTime: "", fullHuman: rawDate };
   }
 
-  const formattedDate = new Intl.DateTimeFormat(locale === "en" ? "en-US" : "id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(dateObj);
+  const formattedDate = new Intl.DateTimeFormat(
+    locale === "en" ? "en-US" : "id-ID",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  ).format(dateObj);
 
   const hours = String(dateObj.getHours()).padStart(2, "0");
   const minutes = String(dateObj.getMinutes()).padStart(2, "0");
@@ -274,7 +277,9 @@ export function UserActivityForm({
         ) : activities.length === 0 ? (
           <div className="space-y-2.5 p-10 text-center sm:p-14">
             <Activity className="text-foreground-muted mx-auto size-10" />
-            <h3 className="text-foreground text-sm font-bold">{t("activities.emptyTitle")}</h3>
+            <h3 className="text-foreground text-sm font-bold">
+              {t("activities.emptyTitle")}
+            </h3>
             <p className="text-foreground-secondary mx-auto max-w-sm text-xs">
               {activeSearch
                 ? t("activities.emptySearchDesc", { query: activeSearch })
@@ -297,7 +302,10 @@ export function UserActivityForm({
             {/* Mobile View: Card List (Visible on < 768px) */}
             <div className="divide-border/50 divide-y md:hidden">
               {activities.map((act) => {
-                const { fullHuman } = formatHumanActivityDate(act.createdAt, locale);
+                const { fullHuman } = formatHumanActivityDate(
+                  act.createdAt,
+                  locale,
+                );
                 return (
                   <div key={act.id} className="bg-surface space-y-2.5 p-4">
                     <div className="flex items-center justify-between gap-2">
@@ -327,14 +335,19 @@ export function UserActivityForm({
               {/* Header (No Action Column, Generous Layout) */}
               <div className="bg-muted/60 border-border text-foreground-muted grid grid-cols-12 gap-3 border-b px-5 py-3.5 text-xs font-extrabold tracking-wider uppercase select-none">
                 <div className="col-span-3">{t("activities.colType")}</div>
-                <div className="col-span-6">{t("activities.colDescription")}</div>
-                <div className="col-span-3 text-right">{t("activities.colTime")}</div>
+                <div className="col-span-6">
+                  {t("activities.colDescription")}
+                </div>
+                <div className="col-span-3 text-right">
+                  {t("activities.colTime")}
+                </div>
               </div>
 
               {/* Rows */}
               <div className="divide-border/50 divide-y text-xs font-semibold">
                 {activities.map((act) => {
-                  const { formattedDate, formattedTime } = formatHumanActivityDate(act.createdAt, locale);
+                  const { formattedDate, formattedTime } =
+                    formatHumanActivityDate(act.createdAt, locale);
                   return (
                     <div
                       key={act.id}
@@ -348,7 +361,8 @@ export function UserActivityForm({
                       {/* Col 2: Deskripsi */}
                       <div className="text-foreground-secondary col-span-6 pr-2 text-xs font-medium">
                         <span className="line-clamp-2 leading-relaxed">
-                          {act.description || t("activities.defaultDescription")}
+                          {act.description ||
+                            t("activities.defaultDescription")}
                         </span>
                       </div>
 

@@ -8,7 +8,10 @@ import { Alert } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
 import { TurnstileWidget } from "@/components/shared/TurnstileWidget";
 import { TurnstileInstance } from "@marsidev/react-turnstile";
-import { forgotPasswordSchema, ForgotPasswordInput } from "@/modules/iam/schemas/auth.schema";
+import {
+  forgotPasswordSchema,
+  ForgotPasswordInput,
+} from "@/modules/iam/schemas/auth.schema";
 import { authApi } from "@/modules/iam/api/auth.api";
 import { useI18n } from "@/lib/i18n/context";
 import { Mail, ArrowLeft, CheckCircle2, AlertCircle } from "lucide-react";
@@ -49,14 +52,18 @@ export function ForgotPasswordForm() {
     setIsLoading(true);
     try {
       const res = await authApi.forgotPassword({ email: result.data.email });
-      setSuccessMessage(res.message || t("auth.forgotPassword.redirectingNotice"));
+      setSuccessMessage(
+        res.message || t("auth.forgotPassword.redirectingNotice"),
+      );
 
       // Auto redirect to /reset-password after 1.5s with safe cleanup
       if (redirectTimerRef.current !== null) {
         clearTimeout(redirectTimerRef.current);
       }
       redirectTimerRef.current = setTimeout(() => {
-        router.push(`/reset-password?email=${encodeURIComponent(result.data.email)}`);
+        router.push(
+          `/reset-password?email=${encodeURIComponent(result.data.email)}`,
+        );
       }, 1500);
     } catch (err: unknown) {
       turnstileRef.current?.reset();
@@ -94,7 +101,9 @@ export function ForgotPasswordForm() {
               variant="primaryPill"
               size="sm"
               onClick={() =>
-                router.push(`/reset-password?email=${encodeURIComponent(formData.email)}`)
+                router.push(
+                  `/reset-password?email=${encodeURIComponent(formData.email)}`,
+                )
               }
               className="w-full text-xs font-bold"
             >
@@ -133,9 +142,15 @@ export function ForgotPasswordForm() {
         {/* Turnstile Protection */}
         <TurnstileWidget
           ref={turnstileRef}
-          onVerify={(token) => setFormData((prev) => ({ ...prev, turnstileToken: token }))}
-          onError={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
-          onExpire={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
+          onVerify={(token) =>
+            setFormData((prev) => ({ ...prev, turnstileToken: token }))
+          }
+          onError={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
+          onExpire={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
         />
 
         <Button

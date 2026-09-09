@@ -21,18 +21,25 @@ export const contactApi = {
   },
 
   createTag: async (name: string): Promise<Tag> => {
-    const res = await httpClient.post<Tag>(`${CONTACT_BASE}/contacts/tags`, { name: name.trim() });
+    const res = await httpClient.post<Tag>(`${CONTACT_BASE}/contacts/tags`, {
+      name: name.trim(),
+    });
     return res.payload || (res as unknown as Tag);
   },
 
-  deleteTag: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteTag: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${CONTACT_BASE}/contacts/tags/${id}`);
-    return { success: res.success, message: res.message || "Tag berhasil dihapus" };
+    return {
+      success: res.success,
+      message: res.message || "Tag berhasil dihapus",
+    };
   },
 
   getContacts: async (
     params?: GetContactsParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<ContactListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -44,17 +51,22 @@ export const contactApi = {
         query.set("search", params.search.trim());
       }
       const queryString = `?${query.toString()}`;
-      const res = await httpClient.get<Contact[]>(`${CONTACT_BASE}/contacts${queryString}`, {
-        signal,
-      });
+      const res = await httpClient.get<Contact[]>(
+        `${CONTACT_BASE}/contacts${queryString}`,
+        {
+          signal,
+        },
+      );
       const rawList = res.payload || (Array.isArray(res) ? res : []);
       const contacts = Array.isArray(rawList) ? rawList : [];
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : contacts.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : contacts.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         contacts,
@@ -79,37 +91,58 @@ export const contactApi = {
       phone: payload.phone,
       tag_ids: payload.tag_ids || payload.tags || [],
     };
-    const res = await httpClient.post<Contact>(`${CONTACT_BASE}/contacts`, body);
+    const res = await httpClient.post<Contact>(
+      `${CONTACT_BASE}/contacts`,
+      body,
+    );
     return res.payload || (res as unknown as Contact);
   },
 
-  updateContact: async (id: string, payload: Partial<CreateContactInput>): Promise<Contact> => {
+  updateContact: async (
+    id: string,
+    payload: Partial<CreateContactInput>,
+  ): Promise<Contact> => {
     const body: Record<string, unknown> = {};
     if (payload.name !== undefined) body.name = payload.name;
     if (payload.phone !== undefined) body.phone = payload.phone;
     if (payload.tag_ids !== undefined || payload.tags !== undefined) {
       body.tag_ids = payload.tag_ids || payload.tags || [];
     }
-    const res = await httpClient.put<Contact>(`${CONTACT_BASE}/contacts/${id}`, body);
+    const res = await httpClient.put<Contact>(
+      `${CONTACT_BASE}/contacts/${id}`,
+      body,
+    );
     return res.payload || (res as unknown as Contact);
   },
 
-  deleteContact: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteContact: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${CONTACT_BASE}/contacts/${id}`);
-    return { success: res.success, message: res.message || "Kontak berhasil dihapus" };
+    return {
+      success: res.success,
+      message: res.message || "Kontak berhasil dihapus",
+    };
   },
 
-  bulkDeleteContacts: async (ids: string[]): Promise<{ success: boolean; count: number }> => {
-    const res = await httpClient.post<{ count: number }>(`${CONTACT_BASE}/contacts/bulk-delete`, {
-      ids,
-    });
+  bulkDeleteContacts: async (
+    ids: string[],
+  ): Promise<{ success: boolean; count: number }> => {
+    const res = await httpClient.post<{ count: number }>(
+      `${CONTACT_BASE}/contacts/bulk-delete`,
+      {
+        ids,
+      },
+    );
     return { success: res.success, count: res.payload?.count || ids.length };
   },
 
-  importCsv: async (contacts: CreateContactInput[]): Promise<{ importedCount: number }> => {
+  importCsv: async (
+    contacts: CreateContactInput[],
+  ): Promise<{ importedCount: number }> => {
     const res = await httpClient.post<{ importedCount: number }>(
       `${CONTACT_BASE}/contacts/import-csv`,
-      { contacts }
+      { contacts },
     );
     return { importedCount: res.payload?.importedCount || contacts.length };
   },

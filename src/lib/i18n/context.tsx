@@ -113,11 +113,14 @@ export const useI18nStore = create<I18nStoreState>()(
     {
       name: "wahide_locale_storage",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 
-function resolvePath(dict: Record<string, unknown>, parts: string[]): string | undefined {
+function resolvePath(
+  dict: Record<string, unknown>,
+  parts: string[],
+): string | undefined {
   let result: unknown = dict;
   for (const part of parts) {
     if (result && typeof result === "object" && part in result) {
@@ -133,7 +136,11 @@ function resolvePath(dict: Record<string, unknown>, parts: string[]): string | u
   if (dict.common && typeof dict.common === "object") {
     let commonResult: unknown = dict.common;
     for (const part of parts) {
-      if (commonResult && typeof commonResult === "object" && part in commonResult) {
+      if (
+        commonResult &&
+        typeof commonResult === "object" &&
+        part in commonResult
+      ) {
         commonResult = (commonResult as Record<string, unknown>)[part];
       } else {
         commonResult = undefined;
@@ -173,7 +180,7 @@ export function useI18n() {
 
       return text;
     },
-    [locale]
+    [locale],
   );
 
   return {
@@ -183,12 +190,19 @@ export function useI18n() {
   };
 }
 
-const I18nContext = createContext<{ locale: Locale; setLocale: (locale: Locale) => void }>({
+const I18nContext = createContext<{
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+}>({
   locale: DEFAULT_LOCALE,
   setLocale: () => {},
 });
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const { locale, setLocale } = useI18nStore();
-  return <I18nContext.Provider value={{ locale, setLocale }}>{children}</I18nContext.Provider>;
+  return (
+    <I18nContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </I18nContext.Provider>
+  );
 }

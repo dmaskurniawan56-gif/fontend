@@ -47,7 +47,8 @@ export class ApiError extends Error {
   public statusCode: number;
   public code?: string;
   public data?: ApiErrorPayload | unknown;
-  public fieldErrors?: Record<string, string[]> | Array<{ field: string; message: string }>;
+  public fieldErrors?:
+    Record<string, string[]> | Array<{ field: string; message: string }>;
 
   constructor(message: string, statusCode: number, data?: unknown) {
     super(message);
@@ -57,7 +58,10 @@ export class ApiError extends Error {
 
     if (typeof data === "object" && data !== null) {
       const payload = data as ApiErrorPayload;
-      if (typeof payload.additional_info === "object" && payload.additional_info !== null) {
+      if (
+        typeof payload.additional_info === "object" &&
+        payload.additional_info !== null
+      ) {
         if ("code" in (payload.additional_info as Record<string, unknown>)) {
           this.code = (payload.additional_info as Record<string, string>).code;
         } else if (Array.isArray(payload.additional_info)) {
@@ -111,7 +115,7 @@ class HttpClient {
 
   private buildUrl(
     url: string,
-    params?: Record<string, string | number | boolean | undefined>
+    params?: Record<string, string | number | boolean | undefined>,
   ): string {
     if (!params) return url;
     const searchParams = new URLSearchParams();
@@ -126,7 +130,7 @@ class HttpClient {
 
   public async request<T = unknown>(
     endpoint: string,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ApiResponse<T>> {
     const {
       params,
@@ -139,7 +143,8 @@ class HttpClient {
     } = options;
 
     const authToken = token || this.getAuthToken();
-    const isFormData = typeof FormData !== "undefined" && customConfig.body instanceof FormData;
+    const isFormData =
+      typeof FormData !== "undefined" && customConfig.body instanceof FormData;
 
     const defaultHeaders: Record<string, string> = {
       Accept: "application/json",
@@ -164,7 +169,9 @@ class HttpClient {
       method === "GET" &&
       !customConfig.body &&
       !customConfig.signal;
-    const dedupeKey = shouldDedupe ? `${method}:${fullUrl}:${authToken || "anon"}` : null;
+    const dedupeKey = shouldDedupe
+      ? `${method}:${fullUrl}:${authToken || "anon"}`
+      : null;
 
     if (dedupeKey && this.inFlightRequests.has(dedupeKey)) {
       return this.inFlightRequests.get(dedupeKey) as Promise<ApiResponse<T>>;
@@ -175,140 +182,178 @@ class HttpClient {
       const timeoutController = new AbortController();
       const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
 
-    let combinedSignal: AbortSignal = timeoutController.signal;
-    let cleanupSignalListeners: (() => void) | null = null;
-    if (customConfig.signal) {
-      if (typeof AbortSignal !== "undefined" && typeof AbortSignal.any === "function") {
-        combinedSignal = AbortSignal.any([timeoutController.signal, customConfig.signal]);
-      } else {
-        const compositeController = new AbortController();
-        const onAbort = () => compositeController.abort();
-        timeoutController.signal.addEventListener("abort", onAbort, { once: true });
-        customConfig.signal.addEventListener("abort", onAbort, { once: true });
-        combinedSignal = compositeController.signal;
-        cleanupSignalListeners = () => {
-          timeoutController.signal.removeEventListener("abort", onAbort);
-          customConfig.signal?.removeEventListener("abort", onAbort);
-        };
-      }
-    }
-
-    const config: RequestInit = {
-      ...customConfig,
-      signal: combinedSignal,
-      headers: {
-        ...defaultHeaders,
-        ...(headers as Record<string, string>),
-      },
-    };
-
-    try {
-      const response = await fetch(fullUrl, config);
-      clearTimeout(timeoutId);
-
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok) {
-        // Retry policy for idempotent GET on 502/503/504
-        const method = (customConfig.method || "GET").toUpperCase();
-        if (retries > 0 && method === "GET" && [502, 503, 504].includes(response.status)) {
-          const backoff = Math.floor(300 + Math.random() * 500);
-          await new Promise((res) => setTimeout(res, backoff));
-          return this.request<T>(endpoint, { ...options, retries: retries - 1 });
-        }
-
-        // Precision Auto-Logout & Session Cleanup:
-        // 1. HTTP 401: Universal session expired / revoked / deleted token
-        // 2. HTTP 403: Explicit account inactive / suspended
-        // 3. HTTP 404: ONLY on Identity Anchor endpoints (/users/profile) proving user is deleted in DB
-        const isAuthEndpoint =
-          endpoint.includes("/auth/login") ||
-          endpoint.includes("/auth/register") ||
-          endpoint.includes("/auth/forgot-password") ||
-          endpoint.includes("/auth/reset-password");
-
-        const errorCode =
-          (typeof data?.additional_info === "object" && data?.additional_info !== null && "code" in (data.additional_info as Record<string, unknown>)
-            ? String((data.additional_info as Record<string, unknown>).code)
-            : "") ||
-          (typeof data?.code === "string" ? data.code : "") ||
-          "";
-
-        const isIdentityEndpoint =
-          endpoint.includes("/users/profile") ||
-          endpoint.includes("/users/me") ||
-          endpoint.includes("/auth/profile") ||
-          endpoint.includes("/auth/me");
-
-        const is401SessionFatal = response.status === 401;
-        const is403AccountFatal =
-          response.status === 403 && (errorCode === "ACCOUNT_INACTIVE" || errorCode === "SESSION_REVOKED");
-        const is404IdentityFatal =
-          response.status === 404 &&
-          isIdentityEndpoint &&
-          (errorCode === "USER_NOT_FOUND" ||
-            errorCode === "TENANT_NOT_FOUND" ||
-            String(data?.message || "").toLowerCase().includes("user not found") ||
-            !errorCode);
-
+      let combinedSignal: AbortSignal = timeoutController.signal;
+      let cleanupSignalListeners: (() => void) | null = null;
+      if (customConfig.signal) {
         if (
-          (is401SessionFatal || is403AccountFatal || is404IdentityFatal) &&
-          typeof window !== "undefined" &&
-          !isAuthEndpoint
+          typeof AbortSignal !== "undefined" &&
+          typeof AbortSignal.any === "function"
         ) {
-          clearAllAuthStorage();
+          combinedSignal = AbortSignal.any([
+            timeoutController.signal,
+            customConfig.signal,
+          ]);
+        } else {
+          const compositeController = new AbortController();
+          const onAbort = () => compositeController.abort();
+          timeoutController.signal.addEventListener("abort", onAbort, {
+            once: true,
+          });
+          customConfig.signal.addEventListener("abort", onAbort, {
+            once: true,
+          });
+          combinedSignal = compositeController.signal;
+          cleanupSignalListeners = () => {
+            timeoutController.signal.removeEventListener("abort", onAbort);
+            customConfig.signal?.removeEventListener("abort", onAbort);
+          };
+        }
+      }
 
-          const currentPath = window.location.pathname;
-          if (currentPath !== "/login" && currentPath !== "/register" && !isRedirectingToLogin) {
-            isRedirectingToLogin = true;
-            setTimeout(() => {
-              isRedirectingToLogin = false;
-            }, 3000);
-            const redirectParam = is401SessionFatal ? "session_expired=1" : "session_invalid=1";
-            // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-            window.location.href = `/login?${redirectParam}`;
+      const config: RequestInit = {
+        ...customConfig,
+        signal: combinedSignal,
+        headers: {
+          ...defaultHeaders,
+          ...(headers as Record<string, string>),
+        },
+      };
+
+      try {
+        const response = await fetch(fullUrl, config);
+        clearTimeout(timeoutId);
+
+        const data = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          // Retry policy for idempotent GET on 502/503/504
+          const method = (customConfig.method || "GET").toUpperCase();
+          if (
+            retries > 0 &&
+            method === "GET" &&
+            [502, 503, 504].includes(response.status)
+          ) {
+            const backoff = Math.floor(300 + Math.random() * 500);
+            await new Promise((res) => setTimeout(res, backoff));
+            return this.request<T>(endpoint, {
+              ...options,
+              retries: retries - 1,
+            });
           }
-        }
 
-        let errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
-        if (typeof data?.message === "string" && data.message) {
-          errorMessage = data.message;
-        } else if (typeof data?.error === "string" && data.error) {
-          errorMessage = data.error;
-        } else if (data?.error && typeof data.error === "object" && "message" in data.error) {
-          errorMessage = String((data.error as Record<string, unknown>).message);
-        }
-        throw new ApiError(errorMessage, response.status, data);
-      }
+          // Precision Auto-Logout & Session Cleanup:
+          // 1. HTTP 401: Universal session expired / revoked / deleted token
+          // 2. HTTP 403: Explicit account inactive / suspended
+          // 3. HTTP 404: ONLY on Identity Anchor endpoints (/users/profile) proving user is deleted in DB
+          const isAuthEndpoint =
+            endpoint.includes("/auth/login") ||
+            endpoint.includes("/auth/register") ||
+            endpoint.includes("/auth/forgot-password") ||
+            endpoint.includes("/auth/reset-password");
 
-      return data as ApiResponse<T>;
-    } catch (err: unknown) {
-      if (err instanceof ApiError) {
-        throw err;
-      }
-      if (err instanceof Error) {
-        if (
-          err.name === "AbortError" ||
-          (err instanceof DOMException && err.name === "AbortError")
-        ) {
-          if (timeoutController.signal.aborted) {
-            throw new ApiError(
-              "Batas waktu koneksi habis (Timeout 15 detik). Server tidak merespons.",
-              408
+          const errorCode =
+            (typeof data?.additional_info === "object" &&
+            data?.additional_info !== null &&
+            "code" in (data.additional_info as Record<string, unknown>)
+              ? String((data.additional_info as Record<string, unknown>).code)
+              : "") ||
+            (typeof data?.code === "string" ? data.code : "") ||
+            "";
+
+          const isIdentityEndpoint =
+            endpoint.includes("/users/profile") ||
+            endpoint.includes("/users/me") ||
+            endpoint.includes("/auth/profile") ||
+            endpoint.includes("/auth/me");
+
+          const is401SessionFatal = response.status === 401;
+          const is403AccountFatal =
+            response.status === 403 &&
+            (errorCode === "ACCOUNT_INACTIVE" ||
+              errorCode === "SESSION_REVOKED");
+          const is404IdentityFatal =
+            response.status === 404 &&
+            isIdentityEndpoint &&
+            (errorCode === "USER_NOT_FOUND" ||
+              errorCode === "TENANT_NOT_FOUND" ||
+              String(data?.message || "")
+                .toLowerCase()
+                .includes("user not found") ||
+              !errorCode);
+
+          if (
+            (is401SessionFatal || is403AccountFatal || is404IdentityFatal) &&
+            typeof window !== "undefined" &&
+            !isAuthEndpoint
+          ) {
+            clearAllAuthStorage();
+
+            const currentPath = window.location.pathname;
+            if (
+              currentPath !== "/login" &&
+              currentPath !== "/register" &&
+              !isRedirectingToLogin
+            ) {
+              isRedirectingToLogin = true;
+              setTimeout(() => {
+                isRedirectingToLogin = false;
+              }, 3000);
+              const redirectParam = is401SessionFatal
+                ? "session_expired=1"
+                : "session_invalid=1";
+              // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+              window.location.href = `/login?${redirectParam}`;
+            }
+          }
+
+          let errorMessage = `HTTP Error ${response.status}: ${response.statusText}`;
+          if (typeof data?.message === "string" && data.message) {
+            errorMessage = data.message;
+          } else if (typeof data?.error === "string" && data.error) {
+            errorMessage = data.error;
+          } else if (
+            data?.error &&
+            typeof data.error === "object" &&
+            "message" in data.error
+          ) {
+            errorMessage = String(
+              (data.error as Record<string, unknown>).message,
             );
           }
-          const abortErr = new Error("Permintaan dibatalkan.");
-          abortErr.name = "AbortError";
-          throw abortErr;
+          throw new ApiError(errorMessage, response.status, data);
         }
-        throw new ApiError(err.message, 500);
+
+        return data as ApiResponse<T>;
+      } catch (err: unknown) {
+        if (err instanceof ApiError) {
+          throw err;
+        }
+        if (err instanceof Error) {
+          if (
+            err.name === "AbortError" ||
+            (err instanceof DOMException && err.name === "AbortError")
+          ) {
+            if (timeoutController.signal.aborted) {
+              throw new ApiError(
+                "Batas waktu koneksi habis (Timeout 15 detik). Server tidak merespons.",
+                408,
+              );
+            }
+            const abortErr = new Error("Permintaan dibatalkan.");
+            abortErr.name = "AbortError";
+            throw abortErr;
+          }
+          throw new ApiError(err.message, 500);
+        }
+        throw new ApiError(
+          "Gagal menghubungi server. Periksa koneksi internet.",
+          500,
+        );
+      } finally {
+        clearTimeout(timeoutId);
+        cleanupSignalListeners?.();
       }
-      throw new ApiError("Gagal menghubungi server. Periksa koneksi internet.", 500);
-    } finally {
-      clearTimeout(timeoutId);
-      cleanupSignalListeners?.();
-    }
-  };
+    };
 
     if (dedupeKey) {
       const pendingPromise = execute().finally(() => {
@@ -321,50 +366,75 @@ class HttpClient {
     return execute();
   }
 
-  public get<T = unknown>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
-    return this.request<T>(endpoint, { ...options, method: "GET", retries: options?.retries ?? 1 });
+  public get<T = unknown>(
+    endpoint: string,
+    options?: RequestOptions,
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      ...options,
+      method: "GET",
+      retries: options?.retries ?? 1,
+    });
   }
 
   public post<T = unknown>(
     endpoint: string,
     body?: unknown,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ApiResponse<T>> {
-    const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+    const isFormData =
+      typeof FormData !== "undefined" && body instanceof FormData;
     return this.request<T>(endpoint, {
       ...options,
       method: "POST",
-      body: isFormData ? (body as FormData) : body ? JSON.stringify(body) : undefined,
+      body: isFormData
+        ? (body as FormData)
+        : body
+          ? JSON.stringify(body)
+          : undefined,
     });
   }
 
   public put<T = unknown>(
     endpoint: string,
     body?: unknown,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ApiResponse<T>> {
-    const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+    const isFormData =
+      typeof FormData !== "undefined" && body instanceof FormData;
     return this.request<T>(endpoint, {
       ...options,
       method: "PUT",
-      body: isFormData ? (body as FormData) : body ? JSON.stringify(body) : undefined,
+      body: isFormData
+        ? (body as FormData)
+        : body
+          ? JSON.stringify(body)
+          : undefined,
     });
   }
 
   public patch<T = unknown>(
     endpoint: string,
     body?: unknown,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ApiResponse<T>> {
-    const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+    const isFormData =
+      typeof FormData !== "undefined" && body instanceof FormData;
     return this.request<T>(endpoint, {
       ...options,
       method: "PATCH",
-      body: isFormData ? (body as FormData) : body ? JSON.stringify(body) : undefined,
+      body: isFormData
+        ? (body as FormData)
+        : body
+          ? JSON.stringify(body)
+          : undefined,
     });
   }
 
-  public delete<T = unknown>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
+  public delete<T = unknown>(
+    endpoint: string,
+    options?: RequestOptions,
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: "DELETE" });
   }
 }

@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { subscriptionApi } from "../../api/subscription.api";
-import { WebhookLogItem, WebhookLogFilters } from "../../types/subscription.types";
+import {
+  WebhookLogItem,
+  WebhookLogFilters,
+} from "../../types/subscription.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -159,7 +162,8 @@ export function WebhookLogsTable() {
               Riwayat Pengiriman Webhook
             </h3>
             <p className="text-foreground-secondary text-xs font-semibold">
-              Audit log pengiriman event secara real-time. Data otomatis dibersihkan setiap 3 hari (Rolling Retention).
+              Audit log pengiriman event secara real-time. Data otomatis
+              dibersihkan setiap 3 hari (Rolling Retention).
             </p>
           </div>
         </div>
@@ -173,7 +177,9 @@ export function WebhookLogsTable() {
             disabled={isLoading}
             className="gap-1.5 rounded-full text-xs font-bold"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span>Segarkan</span>
           </Button>
         </div>
@@ -188,7 +194,11 @@ export function WebhookLogsTable() {
             placeholder="Cari URL endpoint, Event ID, atau payload..."
             value={filters.search || ""}
             onChange={(e) =>
-              setFilters((prev) => ({ ...prev, search: e.target.value, page: 1 }))
+              setFilters((prev) => ({
+                ...prev,
+                search: e.target.value,
+                page: 1,
+              }))
             }
             className="pl-9 text-xs font-medium"
             variant="pill"
@@ -199,7 +209,11 @@ export function WebhookLogsTable() {
           <select
             value={filters.event_name || "ALL"}
             onChange={(e) =>
-              setFilters((prev) => ({ ...prev, event_name: e.target.value, page: 1 }))
+              setFilters((prev) => ({
+                ...prev,
+                event_name: e.target.value,
+                page: 1,
+              }))
             }
             className="border-border bg-background text-foreground h-10 w-full rounded-full border px-3 text-xs font-bold focus:outline-none"
           >
@@ -215,11 +229,14 @@ export function WebhookLogsTable() {
 
         <div className="sm:col-span-3">
           <select
-            value={filters.response_status ? String(filters.response_status) : "ALL"}
+            value={
+              filters.response_status ? String(filters.response_status) : "ALL"
+            }
             onChange={(e) =>
               setFilters((prev) => ({
                 ...prev,
-                response_status: e.target.value === "ALL" ? undefined : Number(e.target.value),
+                response_status:
+                  e.target.value === "ALL" ? undefined : Number(e.target.value),
                 page: 1,
               }))
             }
@@ -252,32 +269,49 @@ export function WebhookLogsTable() {
             <tbody className="divide-border divide-y font-medium">
               {isLoading && logs.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-foreground-muted px-4 py-12 text-center">
+                  <td
+                    colSpan={6}
+                    className="text-foreground-muted px-4 py-12 text-center"
+                  >
                     <RefreshCw className="mx-auto mb-2 size-5 animate-spin" />
                     Memuat log pengiriman...
                   </td>
                 </tr>
               ) : logs.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-foreground-muted px-4 py-12 text-center">
+                  <td
+                    colSpan={6}
+                    className="text-foreground-muted px-4 py-12 text-center"
+                  >
                     <Activity className="mx-auto mb-2 size-8 opacity-40" />
-                    <p className="text-foreground font-bold">Belum Ada Riwayat Webhook</p>
+                    <p className="text-foreground font-bold">
+                      Belum Ada Riwayat Webhook
+                    </p>
                     <p className="mt-1 text-xs">
-                      Saat event WhatsApp terjadi, Wahide akan mengirimkan HTTP POST callback dan mencatat statusnya di sini.
+                      Saat event WhatsApp terjadi, Wahide akan mengirimkan HTTP
+                      POST callback dan mencatat statusnya di sini.
                     </p>
                   </td>
                 </tr>
               ) : (
                 logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-muted/20 transition-colors">
-                    <td className="px-4 py-3">{renderStatusBadge(log.response_status)}</td>
+                  <tr
+                    key={log.id}
+                    className="hover:bg-muted/20 transition-colors"
+                  >
+                    <td className="px-4 py-3">
+                      {renderStatusBadge(log.response_status)}
+                    </td>
                     <td className="px-4 py-3">
                       <span className="font-mono font-bold text-foreground bg-muted/50 rounded px-2 py-0.5">
                         {log.event_name}
                       </span>
                     </td>
                     <td className="px-4 py-3 max-w-[220px]">
-                      <span className="truncate font-mono block text-foreground-secondary" title={log.target_url}>
+                      <span
+                        className="truncate font-mono block text-foreground-secondary"
+                        title={log.target_url}
+                      >
                         {log.target_url}
                       </span>
                     </td>
@@ -324,7 +358,9 @@ export function WebhookLogsTable() {
                           className="size-7 rounded-full p-0 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-500/10"
                           title="Kirim Ulang (Retry)"
                         >
-                          <RotateCw className={`size-3.5 ${retryingId === log.id ? "animate-spin" : ""}`} />
+                          <RotateCw
+                            className={`size-3.5 ${retryingId === log.id ? "animate-spin" : ""}`}
+                          />
                         </Button>
                         <Button
                           type="button"
@@ -359,7 +395,9 @@ export function WebhookLogsTable() {
               variant="outline"
               size="sm"
               disabled={filters.page === 1 || isLoading}
-              onClick={() => setFilters((p) => ({ ...p, page: (p.page || 1) - 1 }))}
+              onClick={() =>
+                setFilters((p) => ({ ...p, page: (p.page || 1) - 1 }))
+              }
               className="rounded-full h-8 text-xs font-bold"
             >
               Sebelumnya
@@ -372,7 +410,9 @@ export function WebhookLogsTable() {
               variant="outline"
               size="sm"
               disabled={logs.length < (filters.page_size || 15) || isLoading}
-              onClick={() => setFilters((p) => ({ ...p, page: (p.page || 1) + 1 }))}
+              onClick={() =>
+                setFilters((p) => ({ ...p, page: (p.page || 1) + 1 }))
+              }
               className="rounded-full h-8 text-xs font-bold"
             >
               Berikutnya
@@ -401,21 +441,37 @@ export function WebhookLogsTable() {
               {/* Metadata Badges */}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 bg-muted/30 p-3 rounded-lg border border-border">
                 <div>
-                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">Latency</span>
-                  <span className="font-mono font-bold text-foreground">{selectedLog.latency_ms} ms</span>
+                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
+                    Latency
+                  </span>
+                  <span className="font-mono font-bold text-foreground">
+                    {selectedLog.latency_ms} ms
+                  </span>
                 </div>
                 <div>
-                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">Percobaan</span>
-                  <span className="font-mono font-bold text-foreground">Percobaan #{selectedLog.attempt}</span>
+                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
+                    Percobaan
+                  </span>
+                  <span className="font-mono font-bold text-foreground">
+                    Percobaan #{selectedLog.attempt}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">Device ID</span>
-                  <span className="font-mono font-bold text-foreground truncate block">{selectedLog.device_id || "-"}</span>
-                </div>
-                <div>
-                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">Waktu</span>
+                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
+                    Device ID
+                  </span>
                   <span className="font-mono font-bold text-foreground truncate block">
-                    {new Date(selectedLog.created_at).toLocaleTimeString("id-ID")}
+                    {selectedLog.device_id || "-"}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-foreground-secondary block text-[10px] uppercase font-bold">
+                    Waktu
+                  </span>
+                  <span className="font-mono font-bold text-foreground truncate block">
+                    {new Date(selectedLog.created_at).toLocaleTimeString(
+                      "id-ID",
+                    )}
                   </span>
                 </div>
               </div>
@@ -427,7 +483,9 @@ export function WebhookLogsTable() {
                     <ShieldAlert className="size-4" />
                     <span>Pesan Kesalahan:</span>
                   </div>
-                  <p className="font-mono text-xs">{selectedLog.error_message}</p>
+                  <p className="font-mono text-xs">
+                    {selectedLog.error_message}
+                  </p>
                 </div>
               )}
 
@@ -441,7 +499,12 @@ export function WebhookLogsTable() {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleCopy(formatPayload(selectedLog.request_payload), "Payload")}
+                    onClick={() =>
+                      handleCopy(
+                        formatPayload(selectedLog.request_payload),
+                        "Payload",
+                      )
+                    }
                     className="h-6 gap-1 px-2 text-[11px] font-bold"
                   >
                     <Copy className="size-3" />
@@ -464,7 +527,9 @@ export function WebhookLogsTable() {
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleCopy(selectedLog.response_body || "", "Response")}
+                      onClick={() =>
+                        handleCopy(selectedLog.response_body || "", "Response")
+                      }
                       className="h-6 gap-1 px-2 text-[11px] font-bold"
                     >
                       <Copy className="size-3" />
@@ -499,7 +564,9 @@ export function WebhookLogsTable() {
                 disabled={retryingId === selectedLog?.id}
                 className="rounded-full text-xs font-bold gap-1.5"
               >
-                <RotateCw className={`size-3.5 ${retryingId === selectedLog?.id ? "animate-spin" : ""}`} />
+                <RotateCw
+                  className={`size-3.5 ${retryingId === selectedLog?.id ? "animate-spin" : ""}`}
+                />
                 Kirim Ulang
               </Button>
               <Button

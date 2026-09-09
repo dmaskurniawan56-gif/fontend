@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useI18n } from "@/lib/i18n/context";
 import { formatPhoneNumber } from "./DeviceCard";
 import { toast } from "sonner";
@@ -61,7 +65,7 @@ interface DeviceDetailModalProps {
       webhook_url?: string | null;
       webhook_secret?: string | null;
       webhook_events?: string[] | null;
-    }
+    },
   ) => Promise<unknown>;
 }
 
@@ -80,20 +84,29 @@ export function DeviceDetailModal({
   const [isActionLoading, setIsActionLoading] = useState(false);
 
   // Webhook Routing State
-  const [webhookUrl, setWebhookUrl] = useState(device?.webhook_url || device?.webhookUrl || "");
-  const [webhookSecret, setWebhookSecret] = useState(device?.webhook_secret || device?.webhookSecret || "");
+  const [webhookUrl, setWebhookUrl] = useState(
+    device?.webhook_url || device?.webhookUrl || "",
+  );
+  const [webhookSecret, setWebhookSecret] = useState(
+    device?.webhook_secret || device?.webhookSecret || "",
+  );
   const hasInitialCustomEvents = Boolean(
     (device?.webhook_events && device.webhook_events.length > 0) ||
-    (device?.webhookEvents && device.webhookEvents.length > 0)
+    (device?.webhookEvents && device.webhookEvents.length > 0),
   );
   const [isCustomEvents, setIsCustomEvents] = useState(hasInitialCustomEvents);
   const [customEvents, setCustomEvents] = useState<string[]>(
-    device?.webhook_events || device?.webhookEvents || ["message.received", "device.status"]
+    device?.webhook_events ||
+      device?.webhookEvents || ["message.received", "device.status"],
   );
   const [showSecret, setShowSecret] = useState(false);
   const [isSavingWebhook, setIsSavingWebhook] = useState(false);
   const [isPinging, setIsPinging] = useState(false);
-  const [pingResult, setPingResult] = useState<{ success: boolean; latency?: number; error?: string } | null>(null);
+  const [pingResult, setPingResult] = useState<{
+    success: boolean;
+    latency?: number;
+    error?: string;
+  } | null>(null);
 
   React.useEffect(() => {
     if (device) {
@@ -101,11 +114,12 @@ export function DeviceDetailModal({
       setWebhookSecret(device.webhook_secret || device.webhookSecret || "");
       const hasCustom = Boolean(
         (device.webhook_events && device.webhook_events.length > 0) ||
-        (device.webhookEvents && device.webhookEvents.length > 0)
+        (device.webhookEvents && device.webhookEvents.length > 0),
       );
       setIsCustomEvents(hasCustom);
       setCustomEvents(
-        device.webhook_events || device.webhookEvents || ["message.received", "device.status"]
+        device.webhook_events ||
+          device.webhookEvents || ["message.received", "device.status"],
       );
       setPingResult(null);
     }
@@ -113,7 +127,9 @@ export function DeviceDetailModal({
 
   const handleToggleCustomEvent = (eventId: string) => {
     setCustomEvents((prev) =>
-      prev.includes(eventId) ? prev.filter((id) => id !== eventId) : [...prev, eventId]
+      prev.includes(eventId)
+        ? prev.filter((id) => id !== eventId)
+        : [...prev, eventId],
     );
   };
 
@@ -129,10 +145,15 @@ export function DeviceDetailModal({
   const handleSaveWebhook = async () => {
     if (!device) return;
     if (!webhookUrl.trim()) {
-      toast.error("Masukkan URL webhook yang valid atau klik 'Reset ke Default'");
+      toast.error(
+        "Masukkan URL webhook yang valid atau klik 'Reset ke Default'",
+      );
       return;
     }
-    if (!webhookUrl.startsWith("http://") && !webhookUrl.startsWith("https://")) {
+    if (
+      !webhookUrl.startsWith("http://") &&
+      !webhookUrl.startsWith("https://")
+    ) {
       toast.error("URL webhook harus diawali dengan http:// atau https://");
       return;
     }
@@ -158,7 +179,10 @@ export function DeviceDetailModal({
       }
       toast.success("Pengaturan webhook perangkat berhasil disimpan!");
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan webhook perangkat";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Gagal menyimpan webhook perangkat";
       toast.error(msg);
     } finally {
       setIsSavingWebhook(false);
@@ -183,9 +207,12 @@ export function DeviceDetailModal({
       setWebhookSecret("");
       setIsCustomEvents(false);
       setCustomEvents(["message.received", "device.status"]);
-      toast.success("Webhook di-reset! Perangkat kini kembali mewarisi Webhook Workspace.");
+      toast.success(
+        "Webhook di-reset! Perangkat kini kembali mewarisi Webhook Workspace.",
+      );
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal mereset webhook perangkat";
+      const msg =
+        err instanceof Error ? err.message : "Gagal mereset webhook perangkat";
       toast.error(msg);
     } finally {
       setIsSavingWebhook(false);
@@ -202,7 +229,9 @@ export function DeviceDetailModal({
     setPingResult(null);
     const startTime = performance.now();
     try {
-      toast.info("Mengirim simulasi test.ping ke endpoint...", { id: "device-webhook-ping" });
+      toast.info("Mengirim simulasi test.ping ke endpoint...", {
+        id: "device-webhook-ping",
+      });
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 7000);
 
@@ -221,7 +250,8 @@ export function DeviceDetailModal({
             data: {
               phone: device.phone,
               push_name: device.push_name || device.pushName || device.name,
-              message: "Uji coba konektivitas khusus untuk perangkat WhatsApp ini.",
+              message:
+                "Uji coba konektivitas khusus untuk perangkat WhatsApp ini.",
             },
           }),
           signal: controller.signal,
@@ -229,14 +259,21 @@ export function DeviceDetailModal({
         });
         const latency = Math.round(performance.now() - startTime);
         setPingResult({ success: true, latency });
-        toast.success(`Ping berhasil terkirim (~${latency}ms)`, { id: "device-webhook-ping" });
+        toast.success(`Ping berhasil terkirim (~${latency}ms)`, {
+          id: "device-webhook-ping",
+        });
       } finally {
         clearTimeout(timeoutId);
       }
     } catch (err: unknown) {
-      const errorMsg = err instanceof Error ? err.message : "Koneksi ke endpoint gagal atau timeout";
+      const errorMsg =
+        err instanceof Error
+          ? err.message
+          : "Koneksi ke endpoint gagal atau timeout";
       setPingResult({ success: false, error: errorMsg });
-      toast.error(`Gagal mengirim ping: ${errorMsg}`, { id: "device-webhook-ping" });
+      toast.error(`Gagal mengirim ping: ${errorMsg}`, {
+        id: "device-webhook-ping",
+      });
     } finally {
       setIsPinging(false);
     }
@@ -247,7 +284,9 @@ export function DeviceDetailModal({
   const handleCopy = async (text: string, fieldName: string) => {
     const success = await copy(text, fieldName);
     if (success) {
-      toast.success(`${fieldName} ${t("whatsapp.deviceIdCopied") || "berhasil disalin!"}`);
+      toast.success(
+        `${fieldName} ${t("whatsapp.deviceIdCopied") || "berhasil disalin!"}`,
+      );
     }
   };
 
@@ -331,7 +370,10 @@ export function DeviceDetailModal({
             <div className="min-w-0 flex-1 space-y-1">
               <div className="flex flex-wrap items-center gap-2.5">
                 <DialogTitle className="text-foreground truncate text-lg font-extrabold tracking-tight sm:text-xl">
-                  {device.push_name || device.pushName || device.name || "WhatsApp Device"}
+                  {device.push_name ||
+                    device.pushName ||
+                    device.name ||
+                    "WhatsApp Device"}
                 </DialogTitle>
                 {renderStatusBadge()}
               </div>
@@ -339,10 +381,14 @@ export function DeviceDetailModal({
                 {device.phone ? (
                   <>
                     <Phone className="text-foreground-muted size-3.5" />
-                    <span className="font-mono">{formatPhoneNumber(device.phone)}</span>
+                    <span className="font-mono">
+                      {formatPhoneNumber(device.phone)}
+                    </span>
                   </>
                 ) : (
-                  <span className="text-foreground-muted italic">Nomor belum terhubung</span>
+                  <span className="text-foreground-muted italic">
+                    Nomor belum terhubung
+                  </span>
                 )}
               </div>
               <DialogDescription className="text-foreground-secondary line-clamp-1 text-[11px] font-medium">
@@ -387,7 +433,9 @@ export function DeviceDetailModal({
                       )}
                     </TooltipTrigger>
                     <TooltipContent>
-                      {copiedField === "Device ID" ? "Tersalin!" : (t("whatsapp.copyDeviceId") || "Salin Device ID")}
+                      {copiedField === "Device ID"
+                        ? "Tersalin!"
+                        : t("whatsapp.copyDeviceId") || "Salin Device ID"}
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -407,7 +455,9 @@ export function DeviceDetailModal({
                       <TooltipTrigger
                         render={
                           <button
-                            onClick={() => handleCopy(device.jid || "", "WhatsApp JID")}
+                            onClick={() =>
+                              handleCopy(device.jid || "", "WhatsApp JID")
+                            }
                             className="hover:bg-muted text-foreground-muted hover:text-foreground flex size-6 shrink-0 cursor-pointer items-center justify-center rounded transition"
                           />
                         }
@@ -419,7 +469,9 @@ export function DeviceDetailModal({
                         )}
                       </TooltipTrigger>
                       <TooltipContent>
-                        {copiedField === "WhatsApp JID" ? "Tersalin!" : "Salin JID"}
+                        {copiedField === "WhatsApp JID"
+                          ? "Tersalin!"
+                          : "Salin JID"}
                       </TooltipContent>
                     </Tooltip>
                   )}
@@ -450,7 +502,9 @@ export function DeviceDetailModal({
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
                   <div
                     className="h-full rounded-full bg-emerald-500 transition-all"
-                    style={{ width: `${Math.min(100, (trustScore / 10) * 100)}%` }}
+                    style={{
+                      width: `${Math.min(100, (trustScore / 10) * 100)}%`,
+                    }}
                   />
                 </div>
               </div>
@@ -461,7 +515,8 @@ export function DeviceDetailModal({
                   {t("whatsapp.warmupDayLabel") || "Fase Pemanasan"}
                 </span>
                 <div className="text-foreground mt-1 text-sm font-extrabold">
-                  {t("whatsapp.dayUnit", { day: String(warmupDay) }) || `Hari ke-${warmupDay}`}
+                  {t("whatsapp.dayUnit", { day: String(warmupDay) }) ||
+                    `Hari ke-${warmupDay}`}
                 </div>
                 <span className="text-foreground-muted mt-1 block text-[10px] font-normal">
                   Anti-ban cooldown aktif
@@ -474,7 +529,9 @@ export function DeviceDetailModal({
                   {t("whatsapp.dailySentCountLabel") || "Pesan Hari Ini"}
                 </span>
                 <div className="text-foreground mt-1 flex items-baseline gap-1">
-                  <span className="font-mono text-lg font-extrabold">{dailySent}</span>
+                  <span className="font-mono text-lg font-extrabold">
+                    {dailySent}
+                  </span>
                   <span className="text-foreground-muted text-xs">pesan</span>
                 </div>
                 <span className="text-foreground-muted mt-1 block text-[10px] font-normal">
@@ -521,12 +578,18 @@ export function DeviceDetailModal({
                 <span>Routing Webhook Perangkat</span>
               </div>
               {device.webhook_url ? (
-                <Badge variant="success" className="gap-1 py-0.5 text-[10px] font-bold">
+                <Badge
+                  variant="success"
+                  className="gap-1 py-0.5 text-[10px] font-bold"
+                >
                   <Radio className="size-2.5 animate-pulse text-emerald-500" />
                   Override Khusus Aktif
                 </Badge>
               ) : (
-                <Badge variant="neutral" className="gap-1 py-0.5 text-[10px] font-bold">
+                <Badge
+                  variant="neutral"
+                  className="gap-1 py-0.5 text-[10px] font-bold"
+                >
                   <ShieldCheck className="size-2.5 text-zinc-500" />
                   Mewarisi Webhook Workspace
                 </Badge>
@@ -534,7 +597,10 @@ export function DeviceDetailModal({
             </div>
 
             <p className="text-foreground-secondary text-[11px] leading-relaxed font-normal">
-              Secara default, nomor WhatsApp ini mewarisi endpoint webhook Workspace. Setel URL khusus di bawah jika nomor ini memerlukan server penerima payload terpisah (misal CRM khusus atau bot terisolasi).
+              Secara default, nomor WhatsApp ini mewarisi endpoint webhook
+              Workspace. Setel URL khusus di bawah jika nomor ini memerlukan
+              server penerima payload terpisah (misal CRM khusus atau bot
+              terisolasi).
             </p>
 
             <div className="space-y-3">
@@ -561,7 +627,11 @@ export function DeviceDetailModal({
                       disabled={isPinging || !webhookUrl}
                       className="h-7 px-2 text-[10px] font-bold gap-1 text-emerald-600 hover:text-emerald-700"
                     >
-                      {isPinging ? <Loader2 className="size-3 animate-spin" /> : <Radio className="size-3" />}
+                      {isPinging ? (
+                        <Loader2 className="size-3 animate-spin" />
+                      ) : (
+                        <Radio className="size-3" />
+                      )}
                       <span>Ping</span>
                     </Button>
                   </div>
@@ -592,7 +662,8 @@ export function DeviceDetailModal({
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-foreground-muted block text-[11px] font-bold">
-                    Secret Key (Header: <code className="text-foreground">X-Wahide-Secret</code>)
+                    Secret Key (Header:{" "}
+                    <code className="text-foreground">X-Wahide-Secret</code>)
                   </label>
                   <button
                     type="button"
@@ -620,14 +691,20 @@ export function DeviceDetailModal({
                       onClick={() => setShowSecret(!showSecret)}
                       className="h-7 w-7 p-0 text-foreground-muted hover:text-foreground"
                     >
-                      {showSecret ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+                      {showSecret ? (
+                        <EyeOff className="size-3.5" />
+                      ) : (
+                        <Eye className="size-3.5" />
+                      )}
                     </Button>
                     {webhookSecret && (
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleCopy(webhookSecret, "Secret Webhook")}
+                        onClick={() =>
+                          handleCopy(webhookSecret, "Secret Webhook")
+                        }
                         className="h-7 w-7 p-0 text-foreground-muted hover:text-foreground"
                       >
                         {copiedField === webhookSecret ? (
@@ -640,7 +717,9 @@ export function DeviceDetailModal({
                   </div>
                 </div>
                 <p className="text-foreground-muted text-[10px]">
-                  Kosongkan secret jika ingin digenerate otomatis oleh backend (<code className="text-[10px]">whsec_dev_&lt;32 hex&gt;</code>).
+                  Kosongkan secret jika ingin digenerate otomatis oleh backend (
+                  <code className="text-[10px]">whsec_dev_&lt;32 hex&gt;</code>
+                  ).
                 </p>
               </div>
 
@@ -694,7 +773,9 @@ export function DeviceDetailModal({
                           </div>
                           <Switch
                             checked={isChecked}
-                            onCheckedChange={() => handleToggleCustomEvent(ev.id)}
+                            onCheckedChange={() =>
+                              handleToggleCustomEvent(ev.id)
+                            }
                             className="shrink-0 scale-90"
                             aria-label={`Toggle custom event ${ev.id}`}
                           />
@@ -791,20 +872,22 @@ export function DeviceDetailModal({
               </Button>
             )}
 
-            {(device.status === "DISCONNECTED" || device.status === "PAIRING") && onScanQR && (
-              <Button
-                variant="primaryPill"
-                size="sm"
-                onClick={() => {
-                  onClose();
-                  onScanQR(device);
-                }}
-                className="gap-2 text-xs font-bold"
-              >
-                <QrCode className="size-3.5" />
-                <span>{t("whatsapp.scanQr")}</span>
-              </Button>
-            )}
+            {(device.status === "DISCONNECTED" ||
+              device.status === "PAIRING") &&
+              onScanQR && (
+                <Button
+                  variant="primaryPill"
+                  size="sm"
+                  onClick={() => {
+                    onClose();
+                    onScanQR(device);
+                  }}
+                  className="gap-2 text-xs font-bold"
+                >
+                  <QrCode className="size-3.5" />
+                  <span>{t("whatsapp.scanQr")}</span>
+                </Button>
+              )}
           </div>
 
           <Button

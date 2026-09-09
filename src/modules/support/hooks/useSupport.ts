@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Ticket, TicketStatus, CreateTicketInput, TicketMessage } from "../types/support.types";
+import {
+  Ticket,
+  TicketStatus,
+  CreateTicketInput,
+  TicketMessage,
+} from "../types/support.types";
 import { supportApi } from "../api/support.api";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n/context";
@@ -19,11 +24,19 @@ export function useSupport() {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const fetchTickets = useCallback(
-    async (overrideSearch?: string, overrideStatus?: TicketStatus | "ALL", targetPage?: number) => {
+    async (
+      overrideSearch?: string,
+      overrideStatus?: TicketStatus | "ALL",
+      targetPage?: number,
+    ) => {
       setIsLoading(true);
       try {
-        const search = overrideSearch !== undefined ? overrideSearch.trim() : activeSearch.trim();
-        const status = overrideStatus !== undefined ? overrideStatus : statusFilter;
+        const search =
+          overrideSearch !== undefined
+            ? overrideSearch.trim()
+            : activeSearch.trim();
+        const status =
+          overrideStatus !== undefined ? overrideStatus : statusFilter;
         const p = targetPage !== undefined ? targetPage : page;
 
         const res = await supportApi.getTickets({
@@ -49,7 +62,7 @@ export function useSupport() {
         setIsLoading(false);
       }
     },
-    [activeSearch, statusFilter, page, pageSize]
+    [activeSearch, statusFilter, page, pageSize],
   );
 
   const executeSearch = async (query: string) => {
@@ -82,7 +95,10 @@ export function useSupport() {
 
     const init = async () => {
       try {
-        const res = await supportApi.getTickets({ page: 1, pageSize: 10 }, controller.signal);
+        const res = await supportApi.getTickets(
+          { page: 1, pageSize: 10 },
+          controller.signal,
+        );
         if (isMounted) {
           setTickets(res.tickets);
           setTotal(res.total);
@@ -118,10 +134,14 @@ export function useSupport() {
   const replyTicket = async (
     ticketId: string,
     content: string,
-    attachment?: string
+    attachment?: string,
   ): Promise<TicketMessage> => {
     try {
-      const newMsg = await supportApi.replyTicket(ticketId, content, attachment);
+      const newMsg = await supportApi.replyTicket(
+        ticketId,
+        content,
+        attachment,
+      );
       setTickets((prev) =>
         prev.map((t) =>
           t.id === ticketId || t.ticketNumber === ticketId
@@ -130,8 +150,8 @@ export function useSupport() {
                 messages: [...t.messages, newMsg],
                 updatedAt: new Date().toISOString(),
               }
-            : t
-        )
+            : t,
+        ),
       );
       toast.success(t("support.toastReplySent"));
       return newMsg;
@@ -150,7 +170,9 @@ export function useSupport() {
     if (activeSearch.trim()) {
       const term = activeSearch.toLowerCase().trim();
       list = list.filter(
-        (t) => t.subject.toLowerCase().includes(term) || t.ticketNumber.toLowerCase().includes(term)
+        (t) =>
+          t.subject.toLowerCase().includes(term) ||
+          t.ticketNumber.toLowerCase().includes(term),
       );
     }
     return list;

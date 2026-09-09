@@ -2,7 +2,12 @@
 
 import React from "react";
 import { useI18n } from "@/lib/i18n/context";
-import { MessageSquare, CheckCircle2, CheckCheck, AlertCircle } from "lucide-react";
+import {
+  MessageSquare,
+  CheckCircle2,
+  CheckCheck,
+  AlertCircle,
+} from "lucide-react";
 
 export interface MessageMetrics {
   totalCount: number;
@@ -31,7 +36,9 @@ export function MessageMetricsCards({ metrics }: MessageMetricsCardsProps) {
           <MessageSquare className="text-foreground-secondary size-4" />
         </div>
         <div className="text-foreground font-mono text-lg font-black sm:text-xl">
-          {metrics.totalCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.totalCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.messages.messageUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
@@ -51,7 +58,7 @@ export function MessageMetricsCards({ metrics }: MessageMetricsCardsProps) {
         </div>
         <div className="dark:text-wise-green font-mono text-lg font-black text-emerald-700 sm:text-xl">
           {(metrics.deliveredCount + metrics.sentCount).toLocaleString(
-            locale === "en" ? "en-US" : "id-ID"
+            locale === "en" ? "en-US" : "id-ID",
           )}{" "}
           {t("admin.messages.messageUnit")}
         </div>
@@ -68,7 +75,9 @@ export function MessageMetricsCards({ metrics }: MessageMetricsCardsProps) {
           <CheckCheck className="size-4 text-blue-500" />
         </div>
         <div className="font-mono text-lg font-black text-blue-600 sm:text-xl dark:text-blue-400">
-          {metrics.readCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.readCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.messages.messageUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
@@ -84,7 +93,9 @@ export function MessageMetricsCards({ metrics }: MessageMetricsCardsProps) {
           <AlertCircle className="size-4 text-rose-500" />
         </div>
         <div className="font-mono text-lg font-black text-rose-600 sm:text-xl dark:text-rose-400">
-          {metrics.failedCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.failedCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.messages.messageUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">

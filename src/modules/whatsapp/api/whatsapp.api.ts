@@ -78,7 +78,10 @@ export const whatsappApi = {
   getDevices: async (signal?: AbortSignal): Promise<Device[]> => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const res = await httpClient.get<any>(`${WHATSAPP_BASE}/whatsapp/devices`, { signal });
+      const res = await httpClient.get<any>(
+        `${WHATSAPP_BASE}/whatsapp/devices`,
+        { signal },
+      );
       const data = res.payload || (Array.isArray(res) ? res : []);
       return data.map(mapBackendDevice);
     } catch (err: unknown) {
@@ -90,30 +93,41 @@ export const whatsappApi = {
 
   getDevice: async (id: string): Promise<Device> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${WHATSAPP_BASE}/whatsapp/devices/${id}`);
+    const res = await httpClient.get<any>(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}`,
+    );
     const data = res.payload || res;
     return mapBackendDevice(data);
   },
 
   createDevice: async (payload: CreateDeviceInput): Promise<Device> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${WHATSAPP_BASE}/whatsapp/devices`, {
-      push_name: payload.push_name,
-    });
+    const res = await httpClient.post<any>(
+      `${WHATSAPP_BASE}/whatsapp/devices`,
+      {
+        push_name: payload.push_name,
+      },
+    );
     const data = res.payload || res;
     return mapBackendDevice(data);
   },
 
-  updateDevice: async (id: string, payload: UpdateDeviceInput): Promise<Device> => {
+  updateDevice: async (
+    id: string,
+    payload: UpdateDeviceInput,
+  ): Promise<Device> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${WHATSAPP_BASE}/whatsapp/devices/${id}`, payload);
+    const res = await httpClient.put<any>(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}`,
+      payload,
+    );
     const data = res.payload || res;
     return mapBackendDevice(data);
   },
 
   pairDevice: async (id: string): Promise<PairDeviceResponse> => {
     const res = await httpClient.post<PairDeviceResponse>(
-      `${WHATSAPP_BASE}/whatsapp/devices/${id}/pair`
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}/pair`,
     );
     return res.payload || (res as unknown as PairDeviceResponse);
   },
@@ -123,29 +137,57 @@ export const whatsappApi = {
       `${WHATSAPP_BASE}/whatsapp/devices/${id}/pair-phone`,
       {
         phone,
-      }
+      },
     );
     return res.payload || (res as unknown as PairPhoneResponse);
   },
 
-  deleteDevice: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.delete(`${WHATSAPP_BASE}/whatsapp/devices/${id}`);
-    return { success: res.success, message: res.message || "Perangkat berhasil dihapus" };
+  deleteDevice: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.delete(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Perangkat berhasil dihapus",
+    };
   },
 
-  disconnectDevice: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post(`${WHATSAPP_BASE}/whatsapp/devices/${id}/disconnect`);
-    return { success: res.success, message: res.message || "Perangkat berhasil diputuskan" };
+  disconnectDevice: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.post(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}/disconnect`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Perangkat berhasil diputuskan",
+    };
   },
 
-  hibernateDevice: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post(`${WHATSAPP_BASE}/whatsapp/devices/${id}/hibernate`);
-    return { success: res.success, message: res.message || "Sesi berhasil dihibernasi" };
+  hibernateDevice: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.post(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}/hibernate`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Sesi berhasil dihibernasi",
+    };
   },
 
-  wakeDevice: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post(`${WHATSAPP_BASE}/whatsapp/devices/${id}/wake`);
-    return { success: res.success, message: res.message || "Sesi berhasil dibangunkan" };
+  wakeDevice: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.post(
+      `${WHATSAPP_BASE}/whatsapp/devices/${id}/wake`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Sesi berhasil dibangunkan",
+    };
   },
 
   sendMessage: async (payload: {
@@ -157,12 +199,18 @@ export const whatsappApi = {
     simulate_typing?: boolean;
     parse_spintax?: boolean;
   }): Promise<{ message_id: string; status: string; sent_at: string }> => {
-    const res = await httpClient.post<{ message_id: string; status: string; sent_at: string }>(
-      `${WHATSAPP_BASE}/whatsapp/messages/send`,
-      payload
-    );
+    const res = await httpClient.post<{
+      message_id: string;
+      status: string;
+      sent_at: string;
+    }>(`${WHATSAPP_BASE}/whatsapp/messages/send`, payload);
     return (
-      res.payload || (res as unknown as { message_id: string; status: string; sent_at: string })
+      res.payload ||
+      (res as unknown as {
+        message_id: string;
+        status: string;
+        sent_at: string;
+      })
     );
   },
 };

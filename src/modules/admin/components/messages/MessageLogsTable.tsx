@@ -7,11 +7,11 @@ import { useI18n } from "@/lib/i18n/context";
 
 const DeleteMessageModal = dynamic(
   () => import("./DeleteMessageModal").then((m) => m.DeleteMessageModal),
-  { ssr: false }
+  { ssr: false },
 );
 const MessageDetailModal = dynamic(
   () => import("./MessageDetailModal").then((m) => m.MessageDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -68,7 +68,7 @@ interface MessageLogsTableProps {
 
 function getMessageStatusBadge(
   status: string,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
 ) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
@@ -164,10 +164,11 @@ export function MessageLogsTable({
     }
   };
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminMessageLogItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminMessageLogItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedLogs = sortData(logs);
 
@@ -208,9 +209,15 @@ export function MessageLogsTable({
               onChange={(e) => onDirectionFilterChange(e.target.value)}
               variant="pill"
             >
-              <option value="ALL">{t("admin.messages.filterAllDirections")}</option>
-              <option value="OUTBOUND">{t("admin.messages.filterOutbound")}</option>
-              <option value="INBOUND">{t("admin.messages.filterInbound")}</option>
+              <option value="ALL">
+                {t("admin.messages.filterAllDirections")}
+              </option>
+              <option value="OUTBOUND">
+                {t("admin.messages.filterOutbound")}
+              </option>
+              <option value="INBOUND">
+                {t("admin.messages.filterInbound")}
+              </option>
             </NativeSelect>
 
             {/* Status Filter */}
@@ -221,9 +228,13 @@ export function MessageLogsTable({
             >
               <option value="ALL">{t("admin.messages.filterAllStatus")}</option>
               <option value="READ">{t("admin.messages.statusRead")}</option>
-              <option value="DELIVERED">{t("admin.messages.statusDelivered")}</option>
+              <option value="DELIVERED">
+                {t("admin.messages.statusDelivered")}
+              </option>
               <option value="SENT">{t("admin.messages.statusSent")}</option>
-              <option value="PENDING">{t("admin.messages.statusPending")}</option>
+              <option value="PENDING">
+                {t("admin.messages.statusPending")}
+              </option>
               <option value="FAILED">{t("admin.messages.statusFailed")}</option>
             </NativeSelect>
 
@@ -235,7 +246,9 @@ export function MessageLogsTable({
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.messages.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("common.refresh")}</span>
             </Button>
           </div>
@@ -247,7 +260,9 @@ export function MessageLogsTable({
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.messages.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.messages.loadingText")}
+            </span>
           </div>
         ) : logs.length === 0 ? (
           <EmptyState
@@ -275,7 +290,9 @@ export function MessageLogsTable({
                               : "border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400"
                           }`}
                         >
-                          {m.direction === "OUTBOUND" ? t("admin.messages.filterOutbound") : t("admin.messages.filterInbound")}
+                          {m.direction === "OUTBOUND"
+                            ? t("admin.messages.filterOutbound")
+                            : t("admin.messages.filterInbound")}
                         </span>
                         {m.mediaUrl && (
                           <span className="bg-muted text-foreground-muted border-border flex items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold">
@@ -289,12 +306,15 @@ export function MessageLogsTable({
                       </span>
                     </div>
 
-                    <div className="shrink-0">{getMessageStatusBadge(m.status, t)}</div>
+                    <div className="shrink-0">
+                      {getMessageStatusBadge(m.status, t)}
+                    </div>
                   </div>
 
                   {/* Message body preview */}
                   <p className="text-foreground bg-muted/30 border-border/60 line-clamp-2 rounded-lg border p-2 text-xs font-medium italic">
-                    &quot;{m.messageBody || t("admin.messages.emptyMessage")}&quot;
+                    &quot;{m.messageBody || t("admin.messages.emptyMessage")}
+                    &quot;
                   </p>
 
                   {m.errorMessage && (
@@ -304,7 +324,9 @@ export function MessageLogsTable({
                   )}
 
                   <div className="text-foreground-muted flex items-center justify-between pt-1 text-[11px]">
-                    <span className="font-mono text-[10px]">Dev: {m.deviceId.slice(0, 10)}...</span>
+                    <span className="font-mono text-[10px]">
+                      Dev: {m.deviceId.slice(0, 10)}...
+                    </span>
                     <span>{formatDate(m.createdAt)}</span>
                   </div>
 
@@ -391,7 +413,10 @@ export function MessageLogsTable({
                 </TableHeader>
                 <TableBody>
                   {sortedLogs.map((m) => (
-                    <TableRow key={m.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow
+                      key={m.id}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
                       {/* 1. Waktu & ID */}
                       <TableCell className="px-5 py-3.5 align-middle">
                         <div className="space-y-0.5">
@@ -408,7 +433,9 @@ export function MessageLogsTable({
                       <TableCell className="px-4 py-3.5 align-middle">
                         <div className="text-foreground flex items-center gap-1.5 font-mono text-xs font-bold">
                           <Smartphone className="text-foreground-muted size-3 shrink-0" />
-                          <span className="max-w-45 truncate">{m.recipientJid}</span>
+                          <span className="max-w-45 truncate">
+                            {m.recipientJid}
+                          </span>
                         </div>
                       </TableCell>
 

@@ -17,7 +17,13 @@ import {
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { useTableSort } from "@/hooks/useTableSort";
 import { useI18n } from "@/lib/i18n/context";
-import { FileText, CheckCircle2, Clock, AlertCircle, CreditCard } from "lucide-react";
+import {
+  FileText,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  CreditCard,
+} from "lucide-react";
 
 interface InvoiceTableProps {
   invoices: Invoice[];
@@ -119,7 +125,9 @@ export function InvoiceTable({
                       <span className="text-foreground font-mono text-base font-black">
                         Rp {safeAmount.toLocaleString("id-ID")}
                       </span>
-                      <span className="text-foreground-muted text-[11px]">{dateStr}</span>
+                      <span className="text-foreground-muted text-[11px]">
+                        {dateStr}
+                      </span>
                     </div>
                   </div>
 
@@ -133,7 +141,7 @@ export function InvoiceTable({
                           window.open(
                             inv.paymentUrl || inv.invoiceUrl,
                             "_blank",
-                            "noopener,noreferrer"
+                            "noopener,noreferrer",
                           );
                         } else if (onPay) {
                           onPay(inv);
@@ -219,14 +227,19 @@ export function InvoiceTable({
                     : "-";
 
                   return (
-                    <TableRow key={inv.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow
+                      key={inv.id}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
                       {/* Invoice Number & Date */}
                       <TableCell className="px-5 py-3.5 align-middle">
                         <div className="space-y-0.5">
                           <span className="text-foreground block truncate font-mono text-sm font-bold tracking-tight">
                             {inv.invoiceNumber || "INV-WAHIDE"}
                           </span>
-                          <span className="text-foreground-muted block text-xs">{dateStr}</span>
+                          <span className="text-foreground-muted block text-xs">
+                            {dateStr}
+                          </span>
                         </div>
                       </TableCell>
 
@@ -261,7 +274,7 @@ export function InvoiceTable({
                                   window.open(
                                     inv.paymentUrl || inv.invoiceUrl,
                                     "_blank",
-                                    "noopener,noreferrer"
+                                    "noopener,noreferrer",
                                   );
                                 } else if (onPay) {
                                   onPay(inv);
@@ -284,7 +297,9 @@ export function InvoiceTable({
                               <span>{t("billing.viewInvoice")}</span>
                             </Button>
                           ) : (
-                            <span className="text-foreground-muted pr-2 font-mono text-xs">-</span>
+                            <span className="text-foreground-muted pr-2 font-mono text-xs">
+                              -
+                            </span>
                           )}
                         </div>
                       </TableCell>

@@ -1,8 +1,13 @@
 import { httpClient } from "@/lib/api/http-client";
 import { env } from "@/lib/config/env";
-import { Campaign, CreateCampaignInput, MessageLogResponse } from "../types/campaign.types";
+import {
+  Campaign,
+  CreateCampaignInput,
+  MessageLogResponse,
+} from "../types/campaign.types";
 
-const CAMPAIGN_BASE = env.NEXT_PUBLIC_CAMPAIGN_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
+const CAMPAIGN_BASE =
+  env.NEXT_PUBLIC_CAMPAIGN_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendCampaign = (c: any): Campaign => {
@@ -45,17 +50,22 @@ const mapBackendCampaign = (c: any): Campaign => {
     deviceIds = c.deviceIds;
   }
 
-  const primaryDeviceId = c.device_id || c.deviceId || (deviceIds && deviceIds.length > 0 ? deviceIds[0] : "");
+  const primaryDeviceId =
+    c.device_id ||
+    c.deviceId ||
+    (deviceIds && deviceIds.length > 0 ? deviceIds[0] : "");
   if ((!deviceIds || deviceIds.length === 0) && primaryDeviceId) {
     deviceIds = [primaryDeviceId];
   }
 
   const autoScrubDeadNumbers = Boolean(
-    c.auto_scrub_dead_numbers ?? c.autoScrubDeadNumbers ?? true
+    c.auto_scrub_dead_numbers ?? c.autoScrubDeadNumbers ?? true,
   );
   const processedOffset = Number(c.processed_offset ?? c.processedOffset ?? 0);
 
-  const rawTags: string[] = Array.isArray(c.tag_ids) ? c.tag_ids : c.targetTags || [];
+  const rawTags: string[] = Array.isArray(c.tag_ids)
+    ? c.tag_ids
+    : c.targetTags || [];
   let derivedTargetType: "ALL" | "TAGS" | "CUSTOM" = "ALL";
   let targetTags: string[] = [];
   let targetNumbers: string[] = Array.isArray(c.target_numbers)
@@ -70,7 +80,10 @@ const mapBackendCampaign = (c: any): Campaign => {
     targetNumbers = rawTags
       .filter((t) => typeof t === "string" && t.startsWith("phone:"))
       .map((t) => t.replace("phone:", ""));
-  } else if (c.target_type === "TAGS" || (rawTags.length > 0 && !rawTags.includes("ALL"))) {
+  } else if (
+    c.target_type === "TAGS" ||
+    (rawTags.length > 0 && !rawTags.includes("ALL"))
+  ) {
     derivedTargetType = "TAGS";
     targetTags = rawTags.filter((t) => t !== "ALL");
   } else {
@@ -84,8 +97,12 @@ const mapBackendCampaign = (c: any): Campaign => {
     deviceIds,
     deviceName: c.device_name || c.deviceName || undefined,
     messageTemplate: c.message_template || c.messageTemplate || "",
-    jitterDelaySeconds: Number(c.jitter_delay_seconds ?? c.jitterDelaySeconds ?? 3),
-    enableHumanTyping: Boolean(c.enable_human_typing ?? c.enableHumanTyping ?? true),
+    jitterDelaySeconds: Number(
+      c.jitter_delay_seconds ?? c.jitterDelaySeconds ?? 3,
+    ),
+    enableHumanTyping: Boolean(
+      c.enable_human_typing ?? c.enableHumanTyping ?? true,
+    ),
     autoScrubDeadNumbers,
     processedOffset: isNaN(processedOffset) ? 0 : processedOffset,
     targetType: derivedTargetType,
@@ -101,12 +118,16 @@ const mapBackendCampaign = (c: any): Campaign => {
 };
 
 export const campaignApi = {
-  getCampaigns: async (page = 1, pageSize = 50, signal?: AbortSignal): Promise<Campaign[]> => {
+  getCampaigns: async (
+    page = 1,
+    pageSize = 50,
+    signal?: AbortSignal,
+  ): Promise<Campaign[]> => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const res = await httpClient.get<any>(
         `${CAMPAIGN_BASE}/campaigns?page=${page}&page_size=${pageSize}`,
-        { signal }
+        { signal },
       );
       const items = res.payload || (Array.isArray(res) ? res : []);
       if (!Array.isArray(items)) return [];
@@ -128,7 +149,8 @@ export const campaignApi = {
     }
 
     const primaryDeviceId =
-      input.deviceId || (input.deviceIds && input.deviceIds.length > 0 ? input.deviceIds[0] : "");
+      input.deviceId ||
+      (input.deviceIds && input.deviceIds.length > 0 ? input.deviceIds[0] : "");
     const deviceIds =
       input.deviceIds && input.deviceIds.length > 0
         ? input.deviceIds
@@ -151,40 +173,62 @@ export const campaignApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${CAMPAIGN_BASE}/campaigns`, payload);
+    const res = await httpClient.post<any>(
+      `${CAMPAIGN_BASE}/campaigns`,
+      payload,
+    );
     const raw = res.payload || res;
     return mapBackendCampaign(raw);
   },
 
-  startCampaign: async (id: string): Promise<{ success: boolean; message: string }> => {
+  startCampaign: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.post(`${CAMPAIGN_BASE}/campaigns/${id}/start`);
-    return { success: res.success, message: res.message || "Kampanye siaran dimulai" };
+    return {
+      success: res.success,
+      message: res.message || "Kampanye siaran dimulai",
+    };
   },
 
-  pauseCampaign: async (id: string): Promise<{ success: boolean; message: string }> => {
+  pauseCampaign: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.post(`${CAMPAIGN_BASE}/campaigns/${id}/pause`);
     return { success: res.success, message: res.message || "Kampanye dijeda" };
   },
 
-  resumeCampaign: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post(`${CAMPAIGN_BASE}/campaigns/${id}/resume`);
-    return { success: res.success, message: res.message || "Kampanye dilanjutkan" };
+  resumeCampaign: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.post(
+      `${CAMPAIGN_BASE}/campaigns/${id}/resume`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Kampanye dilanjutkan",
+    };
   },
 
-  cancelCampaign: async (id: string): Promise<{ success: boolean; message: string }> => {
+  cancelCampaign: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${CAMPAIGN_BASE}/campaigns/${id}`);
-    return { success: res.success, message: res.message || "Kampanye dibatalkan" };
+    return {
+      success: res.success,
+      message: res.message || "Kampanye dibatalkan",
+    };
   },
 
   getMessageLogs: async (
     page = 1,
     pageSize = 20,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<{ logs: MessageLogResponse[]; total: number }> => {
     try {
       const res = await httpClient.get<MessageLogResponse[]>(
         `${CAMPAIGN_BASE}/campaigns/logs?page=${page}&page_size=${pageSize}`,
-        { signal }
+        { signal },
       );
       const logs = res.payload || (Array.isArray(res) ? res : []);
       const info = res.additional_info as { total?: number } | undefined;

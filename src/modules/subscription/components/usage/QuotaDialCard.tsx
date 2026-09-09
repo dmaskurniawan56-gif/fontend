@@ -4,7 +4,14 @@ import React from "react";
 import { TenantSubscription } from "@/modules/subscription/types/subscription.types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n/context";
-import { Zap, Smartphone, ShieldCheck, Calendar, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  Zap,
+  Smartphone,
+  ShieldCheck,
+  Calendar,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 
 interface QuotaDialCardProps {
   subscription: TenantSubscription | null;
@@ -23,12 +30,14 @@ export function QuotaDialCard({ subscription }: QuotaDialCardProps) {
   const deviceSlotsMax = Math.max(1, Number(subscription.deviceSlotsMax ?? 1));
 
   const quotaRemaining = Math.max(0, quotaTotal - quotaUsed);
-  const percentRemaining = quotaTotal > 0 ? Math.round((quotaRemaining / quotaTotal) * 100) : 0;
+  const percentRemaining =
+    quotaTotal > 0 ? Math.round((quotaRemaining / quotaTotal) * 100) : 0;
 
   // SVG Gauge calculations
   const radius = 45;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentRemaining / 100) * circumference;
+  const strokeDashoffset =
+    circumference - (percentRemaining / 100) * circumference;
 
   const expiresDateStr = subscription.expiresAt
     ? new Date(subscription.expiresAt).toLocaleDateString([], {

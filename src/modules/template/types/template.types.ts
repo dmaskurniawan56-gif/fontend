@@ -4,11 +4,7 @@
 // ==============================================================================
 
 export type TemplateCategory =
-  | "MARKETING"
-  | "UTILITY"
-  | "REMINDER"
-  | "RESERVATION"
-  | "QUICK_REPLY";
+  "MARKETING" | "UTILITY" | "REMINDER" | "RESERVATION" | "QUICK_REPLY";
 
 export type TemplateMediaType = "NONE" | "IMAGE" | "DOCUMENT";
 

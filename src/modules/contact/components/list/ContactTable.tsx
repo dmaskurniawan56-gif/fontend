@@ -15,7 +15,11 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { useTableSort } from "@/hooks/useTableSort";
 
@@ -57,7 +61,8 @@ export function ContactTable({
 
   const sortedContacts = sortData(contacts);
 
-  const isAllSelected = sortedContacts.length > 0 && selectedIds.size === sortedContacts.length;
+  const isAllSelected =
+    sortedContacts.length > 0 && selectedIds.size === sortedContacts.length;
 
   return (
     <Card className="border-border bg-surface overflow-hidden rounded-xl border p-0 gap-0 shadow-xs">
@@ -68,10 +73,16 @@ export function ContactTable({
           <div className="flex items-center gap-2">
             <Checkbox
               checked={isAllSelected}
-              onCheckedChange={() => onToggleSelectAll(sortedContacts.map((c) => c.id))}
+              onCheckedChange={() =>
+                onToggleSelectAll(sortedContacts.map((c) => c.id))
+              }
               aria-label={t("contact.selectAll")}
             />
-            <span>{t("contact.selectAllWithCount", { count: sortedContacts.length })}</span>
+            <span>
+              {t("contact.selectAllWithCount", {
+                count: sortedContacts.length,
+              })}
+            </span>
           </div>
           {selectedIds.size > 0 && (
             <span className="dark:text-wise-green font-bold text-emerald-700">
@@ -99,7 +110,9 @@ export function ContactTable({
                     onCheckedChange={() => onToggleSelectOne(contact.id)}
                     aria-label={`Pilih ${contact.name}`}
                   />
-                  <span className="text-foreground truncate text-sm font-bold">{contact.name}</span>
+                  <span className="text-foreground truncate text-sm font-bold">
+                    {contact.name}
+                  </span>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-1">
@@ -173,7 +186,9 @@ export function ContactTable({
                 <div className="flex items-center justify-center">
                   <Checkbox
                     checked={isAllSelected}
-                    onCheckedChange={() => onToggleSelectAll(sortedContacts.map((c) => c.id))}
+                    onCheckedChange={() =>
+                      onToggleSelectAll(sortedContacts.map((c) => c.id))
+                    }
                     aria-label={t("contact.selectAll")}
                   />
                 </div>
@@ -216,7 +231,9 @@ export function ContactTable({
                   key={contact.id}
                   data-state={isSelected ? "selected" : undefined}
                   className={`border-border/40 border-b transition-colors ${
-                    isSelected ? "bg-wise-green/10 dark:bg-wise-green/5" : "hover:bg-muted/40"
+                    isSelected
+                      ? "bg-wise-green/10 dark:bg-wise-green/5"
+                      : "hover:bg-muted/40"
                   }`}
                 >
                   {/* Select Checkbox */}
@@ -256,7 +273,8 @@ export function ContactTable({
                     {contact.tags && contact.tags.length > 0 ? (
                       <div className="flex flex-wrap items-center gap-1.5">
                         {contact.tags.map((tag, idx) => {
-                          const tagName = typeof tag === "string" ? tag : tag.name;
+                          const tagName =
+                            typeof tag === "string" ? tag : tag.name;
                           return (
                             <span
                               key={idx}
@@ -268,7 +286,9 @@ export function ContactTable({
                         })}
                       </div>
                     ) : (
-                      <span className="text-foreground-muted/60 text-xs font-medium italic">-</span>
+                      <span className="text-foreground-muted/60 text-xs font-medium italic">
+                        -
+                      </span>
                     )}
                   </TableCell>
 

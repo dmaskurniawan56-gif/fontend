@@ -7,7 +7,6 @@ import {
   Check,
   FileText,
   MapPin,
-  Image as ImageIcon,
   MoreVertical,
   Phone,
   Video,
@@ -40,9 +39,15 @@ export function WhatsAppChatPreview({
   const { t } = useI18n();
   // Format current time HH:mm
   const now = new Date();
-  const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+  const timeStr = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 
-  const displayName = recipientPhone ? formatDisplayPhone(recipientPhone) : recipientName;
+  const displayName = recipientPhone
+    ? formatDisplayPhone(recipientPhone)
+    : recipientName;
 
   return (
     <div className="space-y-4">
@@ -82,7 +87,8 @@ export function WhatsAppChatPreview({
         <div
           className="relative min-h-65 p-4 flex flex-col justify-end bg-[#efeae2] dark:bg-[#0b141a] transition-colors"
           style={{
-            backgroundImage: "radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 1px, transparent 1px)",
+            backgroundImage:
+              "radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 1px, transparent 1px)",
             backgroundSize: "16px 16px",
           }}
         >
@@ -112,7 +118,9 @@ export function WhatsAppChatPreview({
                     <p className="font-semibold truncate">
                       {fileName || "Document.pdf"}
                     </p>
-                    <p className="text-[10px] text-muted-foreground">{t("whatsapp.messagesPdfDocument")}</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {t("whatsapp.messagesPdfDocument")}
+                    </p>
                   </div>
                 </div>
               )}
@@ -153,11 +161,16 @@ export function WhatsAppChatPreview({
         </p>
         <div className="flex flex-wrap items-center gap-2">
           {/* Recipient Badge */}
-          <Badge variant="neutral" className="h-6 px-2.5 py-1 text-xs gap-1.5 rounded-full">
+          <Badge
+            variant="neutral"
+            className="h-6 px-2.5 py-1 text-xs gap-1.5 rounded-full"
+          >
             <User className="size-3 text-muted-foreground" />
             <span>
               {t("whatsapp.messagesStatusTo")}{" "}
-              {recipientPhone ? formatDisplayPhone(recipientPhone) : t("whatsapp.messagesStatusNotSelected")}
+              {recipientPhone
+                ? formatDisplayPhone(recipientPhone)
+                : t("whatsapp.messagesStatusNotSelected")}
             </span>
           </Badge>
 

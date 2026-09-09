@@ -13,27 +13,30 @@ export interface TurnstileWidgetProps {
   className?: string;
 }
 
-export const TurnstileWidget = forwardRef<TurnstileInstance, TurnstileWidgetProps>(
-  function TurnstileWidget({ onVerify, onError, onExpire, className }, ref) {
-    const { locale } = useI18n();
+export const TurnstileWidget = forwardRef<
+  TurnstileInstance,
+  TurnstileWidgetProps
+>(function TurnstileWidget({ onVerify, onError, onExpire, className }, ref) {
+  const { locale } = useI18n();
 
-    return (
-      <div className={cn("flex min-h-16.25 w-full justify-center py-1", className)}>
-        <Turnstile
-          ref={ref}
-          siteKey={env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-          onSuccess={onVerify}
-          onError={onError}
-          onExpire={onExpire}
-          options={{
-            theme: "auto",
-            language: locale === "en" ? "en" : "id",
-            size: "normal",
-            retry: "auto",
-            refreshExpired: "auto",
-          }}
-        />
-      </div>
-    );
-  }
-);
+  return (
+    <div
+      className={cn("flex min-h-16.25 w-full justify-center py-1", className)}
+    >
+      <Turnstile
+        ref={ref}
+        siteKey={env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+        onSuccess={onVerify}
+        onError={onError}
+        onExpire={onExpire}
+        options={{
+          theme: "auto",
+          language: locale === "en" ? "en" : "id",
+          size: "normal",
+          retry: "auto",
+          refreshExpired: "auto",
+        }}
+      />
+    </div>
+  );
+});

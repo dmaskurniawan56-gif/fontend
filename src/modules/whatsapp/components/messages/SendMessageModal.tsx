@@ -28,10 +28,14 @@ interface SendMessageModalProps {
   onClose: () => void;
 }
 
-export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalProps) {
+export function SendMessageModal({
+  devices,
+  isOpen,
+  onClose,
+}: SendMessageModalProps) {
   const { t } = useI18n();
   const connectedDevices = devices.filter(
-    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit
+    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit,
   );
   const [userSelectedDeviceId, setUserSelectedDeviceId] = useState<string>("");
   const [recipient, setRecipient] = useState("");
@@ -40,7 +44,8 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
   // Derive the active selected device ID cleanly without cascading effects
   const activeDeviceId =
-    userSelectedDeviceId && connectedDevices.some((d) => d.id === userSelectedDeviceId)
+    userSelectedDeviceId &&
+    connectedDevices.some((d) => d.id === userSelectedDeviceId)
       ? userSelectedDeviceId
       : connectedDevices[0]?.id || "";
 
@@ -53,7 +58,9 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
     const cleanPhone = normalizePhoneNumber(recipient);
     if (!isValidE164(cleanPhone)) {
-      toast.error(t("contact.errPhonePrefix") || t("whatsapp.recipientPhoneHint"));
+      toast.error(
+        t("contact.errPhonePrefix") || t("whatsapp.recipientPhoneHint"),
+      );
       return;
     }
 
@@ -82,7 +89,10 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isSending && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isSending && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -100,7 +110,10 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSend} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSend}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6">
             {/* Select Device */}
             <div>
@@ -118,7 +131,10 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
                   connectedDevices.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.push_name || d.name} (
-                      {d.phone ? formatPhoneNumber(d.phone) : "Nomor Belum Tertaut"})
+                      {d.phone
+                        ? formatPhoneNumber(d.phone)
+                        : "Nomor Belum Tertaut"}
+                      )
                     </option>
                   ))
                 )}
@@ -127,7 +143,10 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Recipient Phone */}
             <div>
-              <Label htmlFor="send-msg-phone" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label
+                htmlFor="send-msg-phone"
+                className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase"
+              >
                 {t("whatsapp.recipientPhoneLabel")}
               </Label>
               <Input
@@ -147,7 +166,10 @@ export function SendMessageModal({ devices, isOpen, onClose }: SendMessageModalP
 
             {/* Message Body */}
             <div>
-              <Label htmlFor="send-msg-text" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label
+                htmlFor="send-msg-text"
+                className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase"
+              >
                 {t("whatsapp.messageTextLabel")}
               </Label>
               <Textarea

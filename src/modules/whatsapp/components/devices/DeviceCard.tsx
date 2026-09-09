@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import { Device } from "@/modules/whatsapp/types/whatsapp.types";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useClipboard } from "@/hooks/useClipboard";
@@ -61,7 +65,10 @@ export function DeviceCard({
   const [isActionLoading, setIsActionLoading] = useState(false);
   const { isCopied: copiedId, copy } = useClipboard();
 
-  const handleAction = async (e: React.MouseEvent, actionFn: (id: string) => Promise<void>) => {
+  const handleAction = async (
+    e: React.MouseEvent,
+    actionFn: (id: string) => Promise<void>,
+  ) => {
     e.stopPropagation();
     setIsActionLoading(true);
     try {
@@ -77,7 +84,9 @@ export function DeviceCard({
     e.stopPropagation();
     const success = await copy(device.id);
     if (success) {
-      toast.success(t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!");
+      toast.success(
+        t("whatsapp.deviceIdCopied") || "Device ID berhasil disalin!",
+      );
     }
   };
 
@@ -86,7 +95,10 @@ export function DeviceCard({
   const renderStatusBadge = () => {
     if (isOverLimit) {
       return (
-        <Badge variant="destructive" className="gap-1.5 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20">
+        <Badge
+          variant="destructive"
+          className="gap-1.5 py-1 bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20"
+        >
           <span className="size-2 rounded-full bg-rose-500 animate-pulse" />
           {t("whatsapp.statusOverLimit") || "Melebihi Kuota"}
         </Badge>
@@ -144,7 +156,10 @@ export function DeviceCard({
           <div>
             <div className="flex items-center gap-1.5">
               <h2 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-1 text-base font-extrabold tracking-tight transition sm:text-lg">
-                {device.push_name || device.pushName || device.name || "WhatsApp Device"}
+                {device.push_name ||
+                  device.pushName ||
+                  device.name ||
+                  "WhatsApp Device"}
               </h2>
               <ExternalLink className="text-foreground-muted size-3.5 opacity-0 transition group-hover:opacity-100" />
             </div>
@@ -152,18 +167,25 @@ export function DeviceCard({
               {device.phone ? (
                 <>
                   <Phone className="text-foreground-muted size-3 shrink-0" />
-                  <span className="font-mono">{formatPhoneNumber(device.phone)}</span>
+                  <span className="font-mono">
+                    {formatPhoneNumber(device.phone)}
+                  </span>
                 </>
               ) : (
                 <span className="text-foreground-muted font-sans text-[11px] italic">
-                  {device.status === "PAIRING" ? "Menunggu Scan QR..." : "Nomor Belum Tertaut"}
+                  {device.status === "PAIRING"
+                    ? "Menunggu Scan QR..."
+                    : "Nomor Belum Tertaut"}
                 </span>
               )}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="flex items-center gap-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           {Boolean(device.webhook_url || device.webhookUrl) && (
             <Tooltip>
               <TooltipTrigger>
@@ -173,7 +195,10 @@ export function DeviceCard({
                 </span>
               </TooltipTrigger>
               <TooltipContent>
-                <span>Custom Webhook Aktif: {device.webhook_url || device.webhookUrl}</span>
+                <span>
+                  Custom Webhook Aktif:{" "}
+                  {device.webhook_url || device.webhookUrl}
+                </span>
               </TooltipContent>
             </Tooltip>
           )}
@@ -274,7 +299,9 @@ export function DeviceCard({
                   )}
                 </TooltipTrigger>
                 <TooltipContent>
-                  {copiedId ? "Tersalin!" : (t("whatsapp.copyDeviceId") || "Salin Device ID")}
+                  {copiedId
+                    ? "Tersalin!"
+                    : t("whatsapp.copyDeviceId") || "Salin Device ID"}
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -316,7 +343,9 @@ export function DeviceCard({
             ) : (
               <Trash2 className="size-3.5" />
             )}
-            <span>{t("whatsapp.deleteOverlimitDevice") || "Hapus Perangkat Ini"}</span>
+            <span>
+              {t("whatsapp.deleteOverlimitDevice") || "Hapus Perangkat Ini"}
+            </span>
           </Button>
         ) : device.status === "CONNECTED" ? (
           <div className="flex items-center gap-2">

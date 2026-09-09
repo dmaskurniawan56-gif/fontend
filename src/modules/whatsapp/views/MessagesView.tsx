@@ -13,22 +13,29 @@ import { useI18n } from "@/lib/i18n/context";
 
 export function MessagesView() {
   const { t } = useI18n();
-  const [activeViewTab, setActiveViewTab] = useState<"chats" | "compose">("chats");
+  const [activeViewTab, setActiveViewTab] = useState<"chats" | "compose">(
+    "chats",
+  );
 
   // Real-time Preview synchronization states
   const [previewText, setPreviewText] = useState<string>("");
   const [previewRecipient, setPreviewRecipient] = useState<string>("");
   const [previewDevice, setPreviewDevice] = useState<string>("");
-  const [previewTab, setPreviewTab] = useState<"chat" | "image" | "location" | "file">("chat");
+  const [previewTab, setPreviewTab] = useState<
+    "chat" | "image" | "location" | "file"
+  >("chat");
   const [previewMediaUrl, setPreviewMediaUrl] = useState<string>("");
   const [previewFileName, setPreviewFileName] = useState<string>("");
   const [previewLocation, setPreviewLocation] = useState<string>("");
 
   // Data fetching
-  const { logs, total, page, setPage, pageSize, isLoading, fetchLogs } = useMessageLogs(1, 20);
+  const { logs, total, page, setPage, pageSize, isLoading, fetchLogs } =
+    useMessageLogs(1, 20);
 
   // Derived telemetry metrics
-  const failedCount = logs.filter((l) => l.status?.toUpperCase() === "FAILED").length;
+  const failedCount = logs.filter(
+    (l) => l.status?.toUpperCase() === "FAILED",
+  ).length;
 
   const handleMessageSuccess = () => {
     fetchLogs();
@@ -78,7 +85,10 @@ export function MessagesView() {
         </div>
 
         {/* 2. WhatsApp Chats Tab */}
-        <TabsContent value="chats" className="space-y-6 focus-visible:outline-none">
+        <TabsContent
+          value="chats"
+          className="space-y-6 focus-visible:outline-none"
+        >
           <ErrorBoundary fallbackTitle={t("whatsapp.messagesErrorLoadHistory")}>
             {/* 4 Stat Telemetry Cards */}
             <MessageStatsCards
@@ -102,8 +112,13 @@ export function MessagesView() {
         </TabsContent>
 
         {/* 3. Compose Message Tab */}
-        <TabsContent value="compose" className="space-y-6 focus-visible:outline-none">
-          <ErrorBoundary fallbackTitle={t("whatsapp.messagesErrorLoadComposer")}>
+        <TabsContent
+          value="compose"
+          className="space-y-6 focus-visible:outline-none"
+        >
+          <ErrorBoundary
+            fallbackTitle={t("whatsapp.messagesErrorLoadComposer")}
+          >
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
               {/* Left Column: Compose Form */}
               <div className="lg:col-span-7">

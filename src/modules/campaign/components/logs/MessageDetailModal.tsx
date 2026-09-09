@@ -30,7 +30,11 @@ interface MessageDetailModalProps {
   onClose: () => void;
 }
 
-export function MessageDetailModal({ isOpen, log, onClose }: MessageDetailModalProps) {
+export function MessageDetailModal({
+  isOpen,
+  log,
+  onClose,
+}: MessageDetailModalProps) {
   const { t } = useI18n();
   const { isCopied: copied, copy } = useClipboard();
 

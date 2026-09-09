@@ -32,7 +32,9 @@ export function proxy(request: NextRequest) {
     request.cookies.get("wahide_session_token")?.value ||
     request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
 
-  const userRole = (request.cookies.get("wahide_user_role")?.value || "").toUpperCase();
+  const userRole = (
+    request.cookies.get("wahide_user_role")?.value || ""
+  ).toUpperCase();
 
   // 1. Guard User Protected Dashboard Routes (0ms Edge Redirect)
   if (PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
@@ -52,7 +54,9 @@ export function proxy(request: NextRequest) {
     }
 
     const isSuperAdmin =
-      userRole === "SUPERADMIN" || userRole === "SUPER_ADMIN" || userRole === "ADMIN";
+      userRole === "SUPERADMIN" ||
+      userRole === "SUPER_ADMIN" ||
+      userRole === "ADMIN";
 
     if (!isSuperAdmin) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -62,7 +66,8 @@ export function proxy(request: NextRequest) {
   // 3. Prevent Authenticated Users from Accessing Login/Register
   if (AUTH_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
     if (sessionToken) {
-      const redirectUrl = request.nextUrl.searchParams.get("from") || "/dashboard";
+      const redirectUrl =
+        request.nextUrl.searchParams.get("from") || "/dashboard";
       return NextResponse.redirect(new URL(redirectUrl, request.url));
     }
   }

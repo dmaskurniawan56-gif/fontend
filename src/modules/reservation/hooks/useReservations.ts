@@ -35,26 +35,24 @@ export function useReservations() {
   }, []);
 
   const [currentMonth, setCurrentMonth] = useState<string>(initialMonth);
-  const [calendarSummary, setCalendarSummary] = useState<CalendarSummary | null>(null);
+  const [calendarSummary, setCalendarSummary] =
+    useState<CalendarSummary | null>(null);
   const [isCalendarLoading, setIsCalendarLoading] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   // 1. Fetch Calendar Summary (Single aggregation query - Anti-N+1)
-  const fetchCalendarSummary = useCallback(
-    async (month: string) => {
-      setIsCalendarLoading(true);
-      try {
-        const summary = await reservationApi.getCalendarSummary(month);
-        setCalendarSummary(summary);
-      } catch (err: unknown) {
-        console.error("Failed fetching calendar summary:", err);
-      } finally {
-        setIsCalendarLoading(false);
-      }
-    },
-    []
-  );
+  const fetchCalendarSummary = useCallback(async (month: string) => {
+    setIsCalendarLoading(true);
+    try {
+      const summary = await reservationApi.getCalendarSummary(month);
+      setCalendarSummary(summary);
+    } catch (err: unknown) {
+      console.error("Failed fetching calendar summary:", err);
+    } finally {
+      setIsCalendarLoading(false);
+    }
+  }, []);
 
   // 2. Fetch Reservations List
   const fetchReservations = useCallback(
@@ -65,17 +63,21 @@ export function useReservations() {
         date?: string;
         page?: number;
       },
-      signal?: AbortSignal
+      signal?: AbortSignal,
     ) => {
       setIsLoading(true);
       setError(null);
       try {
-        const querySearch = overrideParams?.search !== undefined ? overrideParams.search : search;
+        const querySearch =
+          overrideParams?.search !== undefined ? overrideParams.search : search;
         const queryStatus =
           overrideParams?.status !== undefined ? overrideParams.status : status;
         const queryDate =
-          overrideParams?.date !== undefined ? overrideParams.date : selectedDate;
-        const queryPage = overrideParams?.page !== undefined ? overrideParams.page : page;
+          overrideParams?.date !== undefined
+            ? overrideParams.date
+            : selectedDate;
+        const queryPage =
+          overrideParams?.page !== undefined ? overrideParams.page : page;
 
         const res = await reservationApi.getReservations({
           page: queryPage,
@@ -93,15 +95,13 @@ export function useReservations() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         const msg =
-          err instanceof Error
-            ? err.message
-            : t("reservation.fetchFailed");
+          err instanceof Error ? err.message : t("reservation.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [search, status, selectedDate, page, pageSize, t]
+    [search, status, selectedDate, page, pageSize, t],
   );
 
   // Initial Load
@@ -125,7 +125,7 @@ export function useReservations() {
         if (err instanceof Error && err.name === "AbortError") return;
         if (isMounted) {
           setError(
-            err instanceof Error ? err.message : "Gagal memuat data reservasi"
+            err instanceof Error ? err.message : "Gagal memuat data reservasi",
           );
         }
       } finally {
@@ -177,7 +177,9 @@ export function useReservations() {
   };
 
   // CRUD Actions
-  const createReservation = async (input: CreateReservationInput): Promise<boolean> => {
+  const createReservation = async (
+    input: CreateReservationInput,
+  ): Promise<boolean> => {
     try {
       await reservationApi.createReservation(input);
       toast.success(t("reservation.createdSuccess"));
@@ -188,9 +190,7 @@ export function useReservations() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reservation.createFailed");
+        err instanceof Error ? err.message : t("reservation.createFailed");
       toast.error(msg);
       return false;
     }
@@ -198,7 +198,7 @@ export function useReservations() {
 
   const updateReservation = async (
     id: string,
-    input: UpdateReservationInput
+    input: UpdateReservationInput,
   ): Promise<boolean> => {
     try {
       const updated = await reservationApi.updateReservation(id, input);
@@ -208,9 +208,7 @@ export function useReservations() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reservation.updateFailed");
+        err instanceof Error ? err.message : t("reservation.updateFailed");
       toast.error(msg);
       return false;
     }
@@ -218,10 +216,13 @@ export function useReservations() {
 
   const updateStatus = async (
     id: string,
-    nextStatus: ReservationStatus
+    nextStatus: ReservationStatus,
   ): Promise<boolean> => {
     try {
-      const updated = await reservationApi.updateReservationStatus(id, nextStatus);
+      const updated = await reservationApi.updateReservationStatus(
+        id,
+        nextStatus,
+      );
       toast.success(t("reservation.statusUpdated"));
       setReservations((prev) => prev.map((r) => (r.id === id ? updated : r)));
       fetchCalendarSummary(currentMonth);
@@ -236,7 +237,10 @@ export function useReservations() {
     }
   };
 
-  const deleteReservation = async (id: string, _name?: string): Promise<boolean> => {
+  const deleteReservation = async (
+    id: string,
+    _name?: string,
+  ): Promise<boolean> => {
     try {
       await reservationApi.deleteReservation(id);
       toast.success(t("reservation.deletedSuccess"));
@@ -246,9 +250,7 @@ export function useReservations() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reservation.deleteFailed");
+        err instanceof Error ? err.message : t("reservation.deleteFailed");
       toast.error(msg);
       return false;
     }
@@ -257,10 +259,17 @@ export function useReservations() {
   // Calculated Stats
   const stats = useMemo(() => {
     const todayStr = new Date().toISOString().slice(0, 10);
-    const confirmedCount = reservations.filter((r) => r.status === "CONFIRMED").length;
-    const completedCount = reservations.filter((r) => r.status === "COMPLETED").length;
-    const cancelledCount = reservations.filter((r) => r.status === "CANCELLED").length;
-    const todayCount = (calendarSummary?.summary && calendarSummary.summary[todayStr]) || 0;
+    const confirmedCount = reservations.filter(
+      (r) => r.status === "CONFIRMED",
+    ).length;
+    const completedCount = reservations.filter(
+      (r) => r.status === "COMPLETED",
+    ).length;
+    const cancelledCount = reservations.filter(
+      (r) => r.status === "CANCELLED",
+    ).length;
+    const todayCount =
+      (calendarSummary?.summary && calendarSummary.summary[todayStr]) || 0;
 
     return {
       totalMonth: calendarSummary?.totalBookings || 0,

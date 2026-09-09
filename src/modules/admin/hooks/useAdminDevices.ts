@@ -29,7 +29,10 @@ export function useAdminDevices() {
       setDevices(res.devices);
       setTotal(res.total);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.devices.toastFetchFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.devices.toastFetchFailed");
       toast.error(msg);
       setDevices([]);
       setTotal(0);
@@ -50,7 +53,7 @@ export function useAdminDevices() {
             search: searchQuery || undefined,
             status: statusFilter !== "ALL" ? statusFilter : undefined,
           },
-          controller.signal
+          controller.signal,
         );
         if (!controller.signal.aborted) {
           setDevices(res.devices);
@@ -79,7 +82,10 @@ export function useAdminDevices() {
       setTotal((prev) => Math.max(0, prev - 1));
       toast.success(t("admin.devices.toastDeleteSuccess"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.devices.toastDeleteFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.devices.toastDeleteFailed");
       toast.error(msg);
       throw err;
     }
@@ -122,8 +128,12 @@ export function useAdminDevices() {
   const metrics = useMemo(() => {
     const onlineCount = devices.filter((d) => d.status === "ONLINE").length;
     const offlineCount = devices.filter((d) => d.status === "OFFLINE").length;
-    const qrPendingCount = devices.filter((d) => d.status === "QR_PENDING").length;
-    const hibernatedCount = devices.filter((d) => d.status === "HIBERNATED").length;
+    const qrPendingCount = devices.filter(
+      (d) => d.status === "QR_PENDING",
+    ).length;
+    const hibernatedCount = devices.filter(
+      (d) => d.status === "HIBERNATED",
+    ).length;
     const bannedCount = devices.filter((d) => d.status === "BANNED").length;
 
     return {

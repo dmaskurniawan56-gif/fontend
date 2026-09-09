@@ -22,7 +22,12 @@ interface DeletePlanModalProps {
   onConfirm: () => Promise<unknown>;
 }
 
-export function DeletePlanModal({ plan, isOpen, onClose, onConfirm }: DeletePlanModalProps) {
+export function DeletePlanModal({
+  plan,
+  isOpen,
+  onClose,
+  onConfirm,
+}: DeletePlanModalProps) {
   const { t, locale } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,7 +72,9 @@ export function DeletePlanModal({ plan, isOpen, onClose, onConfirm }: DeletePlan
           <div className="flex items-start gap-2.5 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-700 dark:text-rose-400">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
             <div className="space-y-1">
-              <span className="block font-bold">{t("admin.plans.deleteWarningTitle")}</span>
+              <span className="block font-bold">
+                {t("admin.plans.deleteWarningTitle")}
+              </span>
               <p className="text-foreground-secondary text-[11px] leading-relaxed">
                 {t("admin.plans.deleteWarningText", { name: plan.name })}
               </p>
@@ -82,7 +89,8 @@ export function DeletePlanModal({ plan, isOpen, onClose, onConfirm }: DeletePlan
             <div className="flex justify-between">
               <span>{t("admin.plans.pricePerMonthLabel")}</span>
               <span className="text-foreground font-mono font-bold">
-                Rp {plan.price.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                Rp{" "}
+                {plan.price.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
               </span>
             </div>
             <div className="flex justify-between">
@@ -90,7 +98,7 @@ export function DeletePlanModal({ plan, isOpen, onClose, onConfirm }: DeletePlan
               <span className="text-foreground font-mono">
                 {t("admin.plans.messagesUnit", {
                   count: plan.monthly_message_limit.toLocaleString(
-                    locale === "en" ? "en-US" : "id-ID"
+                    locale === "en" ? "en-US" : "id-ID",
                   ),
                 })}
               </span>

@@ -14,7 +14,8 @@ import {
   ReservationStatus,
 } from "../types/reservation.types";
 
-const RESERVATION_BASE = env.NEXT_PUBLIC_RESERVATION_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
+const RESERVATION_BASE =
+  env.NEXT_PUBLIC_RESERVATION_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendReservation = (r: any): Reservation => {
@@ -62,12 +63,15 @@ export interface PaginatedResult<T> {
 }
 
 export const reservationApi = {
-  getReservations: async (params?: ListReservationsQuery): Promise<PaginatedResult<Reservation>> => {
+  getReservations: async (
+    params?: ListReservationsQuery,
+  ): Promise<PaginatedResult<Reservation>> => {
     const query = new URLSearchParams();
     if (params?.page) query.set("page", params.page.toString());
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
-    if (params?.status && params.status !== "ALL") query.set("status", params.status);
+    if (params?.status && params.status !== "ALL")
+      query.set("status", params.status);
     if (params?.date) query.set("date", params.date);
 
     const qs = query.toString();
@@ -76,11 +80,12 @@ export const reservationApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
     const rawItems = res.payload || (Array.isArray(res) ? res : []);
-    const items = Array.isArray(rawItems) ? rawItems.map(mapBackendReservation) : [];
+    const items = Array.isArray(rawItems)
+      ? rawItems.map(mapBackendReservation)
+      : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       items,
@@ -92,22 +97,28 @@ export const reservationApi = {
 
   getReservation: async (id: string): Promise<Reservation> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${RESERVATION_BASE}/reservations/${id}`);
+    const res = await httpClient.get<any>(
+      `${RESERVATION_BASE}/reservations/${id}`,
+    );
     return mapBackendReservation(res.payload || res);
   },
 
   getCalendarSummary: async (month: string): Promise<CalendarSummary> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${RESERVATION_BASE}/reservations/calendar?month=${encodeURIComponent(month)}`);
+    const res = await httpClient.get<any>(
+      `${RESERVATION_BASE}/reservations/calendar?month=${encodeURIComponent(month)}`,
+    );
     const p = res.payload || res;
     return {
       month: p.month || month,
-      summary: (p.summary && typeof p.summary === "object") ? p.summary : {},
+      summary: p.summary && typeof p.summary === "object" ? p.summary : {},
       totalBookings: Number(p.total_bookings ?? p.totalBookings ?? 0),
     };
   },
 
-  createReservation: async (input: CreateReservationInput): Promise<Reservation> => {
+  createReservation: async (
+    input: CreateReservationInput,
+  ): Promise<Reservation> => {
     const payload = {
       customer_name: input.customerName,
       phone: input.phone,
@@ -118,28 +129,47 @@ export const reservationApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${RESERVATION_BASE}/reservations`, payload);
+    const res = await httpClient.post<any>(
+      `${RESERVATION_BASE}/reservations`,
+      payload,
+    );
     return mapBackendReservation(res.payload || res);
   },
 
-  updateReservation: async (id: string, input: UpdateReservationInput): Promise<Reservation> => {
+  updateReservation: async (
+    id: string,
+    input: UpdateReservationInput,
+  ): Promise<Reservation> => {
     const payload: Record<string, unknown> = {};
-    if (input.customerName !== undefined) payload.customer_name = input.customerName;
+    if (input.customerName !== undefined)
+      payload.customer_name = input.customerName;
     if (input.phone !== undefined) payload.phone = input.phone;
-    if (input.bookingDate !== undefined) payload.booking_date = input.bookingDate;
-    if (input.bookingTime !== undefined) payload.booking_time = input.bookingTime;
-    if (input.serviceName !== undefined) payload.service_name = input.serviceName;
+    if (input.bookingDate !== undefined)
+      payload.booking_date = input.bookingDate;
+    if (input.bookingTime !== undefined)
+      payload.booking_time = input.bookingTime;
+    if (input.serviceName !== undefined)
+      payload.service_name = input.serviceName;
     if (input.notes !== undefined) payload.notes = input.notes;
     if (input.status !== undefined) payload.status = input.status;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${RESERVATION_BASE}/reservations/${id}`, payload);
+    const res = await httpClient.put<any>(
+      `${RESERVATION_BASE}/reservations/${id}`,
+      payload,
+    );
     return mapBackendReservation(res.payload || res);
   },
 
-  updateReservationStatus: async (id: string, status: ReservationStatus): Promise<Reservation> => {
+  updateReservationStatus: async (
+    id: string,
+    status: ReservationStatus,
+  ): Promise<Reservation> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.patch<any>(`${RESERVATION_BASE}/reservations/${id}/status`, { status });
+    const res = await httpClient.patch<any>(
+      `${RESERVATION_BASE}/reservations/${id}/status`,
+      { status },
+    );
     return mapBackendReservation(res.payload || res);
   },
 

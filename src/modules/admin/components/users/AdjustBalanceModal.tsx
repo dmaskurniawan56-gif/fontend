@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { UserItem, AdjustBalanceInput } from "@/modules/admin/types/admin.types";
+import {
+  UserItem,
+  AdjustBalanceInput,
+} from "@/modules/admin/types/admin.types";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,7 +14,14 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { CreditCard, PlusCircle, MinusCircle, Loader2, Save, AlertTriangle } from "lucide-react";
+import {
+  CreditCard,
+  PlusCircle,
+  MinusCircle,
+  Loader2,
+  Save,
+  AlertTriangle,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface AdjustBalanceModalProps {
@@ -21,7 +31,12 @@ interface AdjustBalanceModalProps {
   onSubmit: (data: AdjustBalanceInput) => Promise<unknown>;
 }
 
-export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBalanceModalProps) {
+export function AdjustBalanceModal({
+  user,
+  isOpen,
+  onClose,
+  onSubmit,
+}: AdjustBalanceModalProps) {
   const { t, locale } = useI18n();
   const [mode, setMode] = useState<"ADD" | "REDUCE">("ADD");
   const [amount, setAmount] = useState<number>(50000);
@@ -31,7 +46,9 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
 
   const currentBalance = user.balance ?? user.depositBalance ?? 0;
   const projectedBalance =
-    mode === "ADD" ? currentBalance + amount : Math.max(0, currentBalance - amount);
+    mode === "ADD"
+      ? currentBalance + amount
+      : Math.max(0, currentBalance - amount);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +70,10 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
   const presetAmounts = [25000, 50000, 100000, 250000, 500000, 1000000];
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         {/* Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -77,7 +97,10 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4 overflow-y-auto p-5 text-xs sm:p-6">
             {/* Mode Tabs: Tambah Saldo vs Kurang Saldo */}
             <div className="bg-muted/40 border-border grid grid-cols-2 gap-2 rounded-full border p-1">
@@ -111,14 +134,21 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
             {/* Current Balance and Preview Box */}
             <div className="border-border bg-muted/20 space-y-2 rounded-lg border p-3.5">
               <div className="flex items-center justify-between">
-                <span className="text-foreground-secondary">{t("admin.users.currentBalanceLabel")}</span>
+                <span className="text-foreground-secondary">
+                  {t("admin.users.currentBalanceLabel")}
+                </span>
                 <span className="text-foreground font-mono font-bold">
-                  Rp {currentBalance.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                  Rp{" "}
+                  {currentBalance.toLocaleString(
+                    locale === "en" ? "en-US" : "id-ID",
+                  )}
                 </span>
               </div>
 
               <div className="border-border/50 flex items-center justify-between border-t pt-2">
-                <span className="text-foreground font-bold">{t("admin.users.projectedBalanceLabel")}</span>
+                <span className="text-foreground font-bold">
+                  {t("admin.users.projectedBalanceLabel")}
+                </span>
                 <span
                   className={`font-mono font-black ${
                     mode === "ADD"
@@ -126,7 +156,10 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
                       : "text-rose-600 dark:text-rose-400"
                   }`}
                 >
-                  Rp {projectedBalance.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                  Rp{" "}
+                  {projectedBalance.toLocaleString(
+                    locale === "en" ? "en-US" : "id-ID",
+                  )}
                 </span>
               </div>
             </div>
@@ -148,7 +181,11 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
                         : "border-border bg-surface text-foreground-secondary hover:text-foreground hover:bg-muted dark:bg-[#10110e]"
                     }`}
                   >
-                    Rp {(preset / 1000).toLocaleString(locale === "en" ? "en-US" : "id-ID")}k
+                    Rp{" "}
+                    {(preset / 1000).toLocaleString(
+                      locale === "en" ? "en-US" : "id-ID",
+                    )}
+                    k
                   </button>
                 ))}
               </div>
@@ -222,7 +259,11 @@ export function AdjustBalanceModal({ user, isOpen, onClose, onSubmit }: AdjustBa
               ) : (
                 <>
                   <Save className="size-3.5" />
-                  <span>{mode === "ADD" ? t("admin.users.submitAdd") : t("admin.users.submitReduce")}</span>
+                  <span>
+                    {mode === "ADD"
+                      ? t("admin.users.submitAdd")
+                      : t("admin.users.submitReduce")}
+                  </span>
                 </>
               )}
             </Button>

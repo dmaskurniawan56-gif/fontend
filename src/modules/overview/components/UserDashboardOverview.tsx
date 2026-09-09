@@ -31,7 +31,9 @@ interface UserDashboardOverviewProps {
   stats: UserDashboardStats | null;
 }
 
-export function UserDashboardOverview({ stats: propStats }: UserDashboardOverviewProps) {
+export function UserDashboardOverview({
+  stats: propStats,
+}: UserDashboardOverviewProps) {
   const { t, locale } = useI18n();
   const { devices } = useDevices();
   const { campaigns } = useCampaigns();
@@ -54,9 +56,13 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
   };
 
   const connectedCount =
-    stats.connected_devices || devices.filter((d) => d.status === "CONNECTED").length;
+    stats.connected_devices ||
+    devices.filter((d) => d.status === "CONNECTED").length;
   const totalDevCount = stats.total_devices || devices.length;
-  const quotaRemaining = Math.max(0, stats.monthly_message_limit - stats.total_messages_sent);
+  const quotaRemaining = Math.max(
+    0,
+    stats.monthly_message_limit - stats.total_messages_sent,
+  );
 
   const isFreePlan =
     !stats.plan_name ||
@@ -73,20 +79,29 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
     const diffTime = expDate.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    const formattedDate = expDate.toLocaleDateString(locale === "en" ? "en-US" : "id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
+    const formattedDate = expDate.toLocaleDateString(
+      locale === "en" ? "en-US" : "id-ID",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      },
+    );
 
     if (diffDays <= 0 || stats.plan_status === "EXPIRED") {
       isExpired = true;
       expirationLabel = t("overview.planExpired", { date: formattedDate });
     } else if (diffDays <= 7) {
       isExpiringSoon = true;
-      expirationLabel = t("overview.planExpiring", { date: formattedDate, days: diffDays });
+      expirationLabel = t("overview.planExpiring", {
+        date: formattedDate,
+        days: diffDays,
+      });
     } else {
-      expirationLabel = t("overview.planExpiring", { date: formattedDate, days: diffDays });
+      expirationLabel = t("overview.planExpiring", {
+        date: formattedDate,
+        days: diffDays,
+      });
     }
   }
 
@@ -105,9 +120,13 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                     : "bg-surface text-foreground-secondary border-border"
               }`}
             >
-              <span className="text-foreground font-black">Paket {stats.plan_name}</span>
+              <span className="text-foreground font-black">
+                Paket {stats.plan_name}
+              </span>
               <span className="text-foreground-muted">•</span>
-              <span>{isFreePlan ? t("overview.planUnlimited") : expirationLabel}</span>
+              <span>
+                {isFreePlan ? t("overview.planUnlimited") : expirationLabel}
+              </span>
             </span>
 
             <Link
@@ -142,7 +161,10 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
             >
               <Smartphone className="text-dark-green dark:text-wise-green size-3.5" />
               <span>
-                {t("overview.devicesButton", { count: totalDevCount, limit: stats.device_limit })}
+                {t("overview.devicesButton", {
+                  count: totalDevCount,
+                  limit: stats.device_limit,
+                })}
               </span>
             </Button>
           </Link>
@@ -166,10 +188,15 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
           title={t("overview.whatsappConnected")}
           icon={<Smartphone className="size-4" />}
           iconClassName="bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green"
-          value={t("overview.sessionUnit", { connected: connectedCount, total: totalDevCount })}
+          value={t("overview.sessionUnit", {
+            connected: connectedCount,
+            total: totalDevCount,
+          })}
           subtitle={
             <span className="block text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-              {connectedCount > 0 ? t("overview.nodesReady") : t("overview.noNodesConnected")}
+              {connectedCount > 0
+                ? t("overview.nodesReady")
+                : t("overview.noNodesConnected")}
             </span>
           }
         />
@@ -179,11 +206,15 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
           title={t("overview.remainingQuota")}
           icon={<TrendingUp className="size-4" />}
           iconClassName="bg-sky-500/15 text-sky-500"
-          value={quotaRemaining.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+          value={quotaRemaining.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}
           subtitle={
             <span className="text-foreground-muted block text-[11px] font-semibold">
               {t("overview.monthlyQuotaInfo", {
-                limit: stats.monthly_message_limit.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+                limit: stats.monthly_message_limit.toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                ),
               })}
             </span>
           }
@@ -195,14 +226,19 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
           icon={<Users className="size-4" />}
           iconClassName="bg-emerald-500/15 text-emerald-500"
           value={t("overview.contactsUnit", {
-            count: stats.total_contacts.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+            count: stats.total_contacts.toLocaleString(
+              locale === "en" ? "en-US" : "id-ID",
+            ),
           })}
           subtitle={
             <div className="flex items-center justify-between pt-0.5">
               <span className="text-foreground-muted text-[11px] font-semibold">
                 {t("overview.balanceLabel")}{" "}
                 <strong className="text-foreground font-mono">
-                  Rp {stats.balance.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                  Rp{" "}
+                  {stats.balance.toLocaleString(
+                    locale === "en" ? "en-US" : "id-ID",
+                  )}
                 </strong>
               </span>
               <Link
@@ -221,11 +257,15 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
           title={t("overview.activeCampaigns")}
           icon={<Send className="size-4" />}
           iconClassName="bg-amber-500/15 text-amber-500"
-          value={t("overview.batchUnit", { count: stats.total_campaigns || campaigns.length })}
+          value={t("overview.batchUnit", {
+            count: stats.total_campaigns || campaigns.length,
+          })}
           subtitle={
             <span className="text-foreground-muted block text-[11px] font-semibold">
               {t("overview.messagesSentUnit", {
-                count: stats.total_messages_sent.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+                count: stats.total_messages_sent.toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                ),
               })}
             </span>
           }
@@ -274,7 +314,10 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                       </div>
                       <div>
                         <span className="text-foreground block text-xs font-bold">
-                          {d.push_name || d.pushName || d.name || "WhatsApp Device"}
+                          {d.push_name ||
+                            d.pushName ||
+                            d.name ||
+                            "WhatsApp Device"}
                         </span>
                         <span className="text-foreground-muted font-mono text-[11px]">
                           +{d.phone || t("overview.waitingPairing")}
@@ -332,7 +375,9 @@ export function UserDashboardOverview({ stats: propStats }: UserDashboardOvervie
                     className="border-border bg-surface flex items-center justify-between rounded-xl border p-3 dark:bg-[#10110e]"
                   >
                     <div className="space-y-0.5">
-                      <span className="text-foreground block text-xs font-bold">{c.name}</span>
+                      <span className="text-foreground block text-xs font-bold">
+                        {c.name}
+                      </span>
                       <span className="text-foreground-muted block text-[10px]">
                         {t("overview.campaignProgress", {
                           sent: c.sentCount,

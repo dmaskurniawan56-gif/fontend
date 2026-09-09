@@ -7,11 +7,11 @@ import { useI18n } from "@/lib/i18n/context";
 
 const DeleteDeviceModal = dynamic(
   () => import("./DeleteDeviceModal").then((m) => m.DeleteDeviceModal),
-  { ssr: false }
+  { ssr: false },
 );
 const DeviceDetailModal = dynamic(
   () => import("./DeviceDetailModal").then((m) => m.DeviceDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -62,7 +62,10 @@ interface DevicesManagementTableProps {
   onPrevPage: () => void;
 }
 
-function getDeviceStatusBadge(status: string, t: (key: string, params?: Record<string, string | number>) => string) {
+function getDeviceStatusBadge(
+  status: string,
+  t: (key: string, params?: Record<string, string | number>) => string,
+) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
     case "ONLINE":
@@ -130,23 +133,24 @@ export function DevicesManagementTable({
 }: DevicesManagementTableProps) {
   const { t, locale } = useI18n();
   const [searchInput, setSearchInput] = useState("");
-  const [selectedDeviceForDelete, setSelectedDeviceForDelete] = useState<AdminDeviceItem | null>(
-    null
-  );
-  const [selectedDeviceForDetail, setSelectedDeviceForDetail] = useState<AdminDeviceItem | null>(
-    null
-  );
+  const [selectedDeviceForDelete, setSelectedDeviceForDelete] =
+    useState<AdminDeviceItem | null>(null);
+  const [selectedDeviceForDetail, setSelectedDeviceForDetail] =
+    useState<AdminDeviceItem | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminDeviceItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminDeviceItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedDevices = sortData(devices);
 
-  const formatLocalizedDateTime = (dateInput: string | Date | number): string => {
+  const formatLocalizedDateTime = (
+    dateInput: string | Date | number,
+  ): string => {
     const date = new Date(dateInput);
     if (isNaN(date.getTime())) return "-";
     return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "id-ID", {
@@ -196,9 +200,15 @@ export function DevicesManagementTable({
             >
               <option value="ALL">{t("admin.devices.filterAll")}</option>
               <option value="ONLINE">{t("admin.devices.statusOnline")}</option>
-              <option value="OFFLINE">{t("admin.devices.statusOffline")}</option>
-              <option value="QR_PENDING">{t("admin.devices.statusQrPending")}</option>
-              <option value="HIBERNATED">{t("admin.devices.statusHibernated")}</option>
+              <option value="OFFLINE">
+                {t("admin.devices.statusOffline")}
+              </option>
+              <option value="QR_PENDING">
+                {t("admin.devices.statusQrPending")}
+              </option>
+              <option value="HIBERNATED">
+                {t("admin.devices.statusHibernated")}
+              </option>
               <option value="BANNED">{t("admin.devices.statusBanned")}</option>
             </NativeSelect>
 
@@ -210,7 +220,9 @@ export function DevicesManagementTable({
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.devices.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("common.refresh")}</span>
             </Button>
           </div>
@@ -222,7 +234,9 @@ export function DevicesManagementTable({
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.devices.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.devices.loadingText")}
+            </span>
           </div>
         ) : devices.length === 0 ? (
           <EmptyState
@@ -243,14 +257,18 @@ export function DevicesManagementTable({
                   <div className="flex items-start justify-between gap-2">
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-foreground text-sm font-bold">{d.pushName}</span>
+                        <span className="text-foreground text-sm font-bold">
+                          {d.pushName}
+                        </span>
                       </div>
                       <span className="text-foreground-secondary block font-mono text-xs font-bold">
                         {d.jid || t("admin.devices.notConnected")}
                       </span>
                     </div>
 
-                    <div className="shrink-0">{getDeviceStatusBadge(d.status, t)}</div>
+                    <div className="shrink-0">
+                      {getDeviceStatusBadge(d.status, t)}
+                    </div>
                   </div>
 
                   {/* Metrics Bar */}
@@ -267,7 +285,9 @@ export function DevicesManagementTable({
                       <span className="text-foreground-muted block text-[10px] font-bold uppercase">
                         {t("admin.devices.warmupLabel")}
                       </span>
-                      <span className="text-foreground font-mono font-bold">H-{d.warmupDay}</span>
+                      <span className="text-foreground font-mono font-bold">
+                        H-{d.warmupDay}
+                      </span>
                     </div>
                     <div>
                       <span className="text-foreground-muted block text-[10px] font-bold uppercase">
@@ -376,7 +396,10 @@ export function DevicesManagementTable({
                 </TableHeader>
                 <TableBody>
                   {sortedDevices.map((d) => (
-                    <TableRow key={d.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow
+                      key={d.id}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
                       {/* 1. Nama & ID */}
                       <TableCell className="px-5 py-3.5 align-middle">
                         <div className="space-y-0.5">
@@ -393,7 +416,9 @@ export function DevicesManagementTable({
                       <TableCell className="px-4 py-3.5 align-middle">
                         <div className="text-foreground flex items-center gap-1.5 font-mono text-xs font-bold">
                           <Smartphone className="text-foreground-muted size-3 shrink-0" />
-                          <span className="max-w-45 truncate">{d.jid || t("admin.devices.notConnected")}</span>
+                          <span className="max-w-45 truncate">
+                            {d.jid || t("admin.devices.notConnected")}
+                          </span>
                         </div>
                       </TableCell>
 

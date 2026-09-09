@@ -49,35 +49,40 @@ export const AVAILABLE_WEBHOOK_EVENTS: WebhookEventDefinition[] = [
   {
     id: "message.received",
     name: "Pesan Masuk (Inbound Message)",
-    description: "Callback setiap kali ada pesan WhatsApp baru yang masuk ke perangkat.",
+    description:
+      "Callback setiap kali ada pesan WhatsApp baru yang masuk ke perangkat.",
     tag: "Pesan",
     defaultChecked: true,
   },
   {
     id: "message.ack",
     name: "Tanda Terima Pesan (Message Ack)",
-    description: "Status pengiriman pesan keluar: Sent (1 centang), Delivered (2 centang), Read (centang biru).",
+    description:
+      "Status pengiriman pesan keluar: Sent (1 centang), Delivered (2 centang), Read (centang biru).",
     tag: "Delivery",
     defaultChecked: false,
   },
   {
     id: "message.sent",
     name: "Pesan Terkirim (Outbound Sent)",
-    description: "Konfirmasi instan saat pesan berhasil didispatch dari perangkat ponsel ke server WhatsApp.",
+    description:
+      "Konfirmasi instan saat pesan berhasil didispatch dari perangkat ponsel ke server WhatsApp.",
     tag: "Audit",
     defaultChecked: false,
   },
   {
     id: "device.status",
     name: "Status Perangkat (Lifecycle)",
-    description: "Pemberitahuan perubahan status perangkat: Connected, Disconnected, Authenticated.",
+    description:
+      "Pemberitahuan perubahan status perangkat: Connected, Disconnected, Authenticated.",
     tag: "Koneksi",
     defaultChecked: true,
   },
   {
     id: "device.qr",
     name: "QR Code Baru (Pairing)",
-    description: "Streaming Base64 QR code saat nomor sedang dalam proses scanning/pairing WhatsApp Web.",
+    description:
+      "Streaming Base64 QR code saat nomor sedang dalam proses scanning/pairing WhatsApp Web.",
     tag: "Pairing",
     defaultChecked: false,
   },
@@ -85,7 +90,12 @@ export const AVAILABLE_WEBHOOK_EVENTS: WebhookEventDefinition[] = [
 
 interface WebhookConfigCardProps {
   config: WebhookConfig | null;
-  onSave: (url: string, isEnabled: boolean, secret?: string, events?: string[]) => Promise<unknown>;
+  onSave: (
+    url: string,
+    isEnabled: boolean,
+    secret?: string,
+    events?: string[],
+  ) => Promise<unknown>;
   onRegenerateSecret: () => Promise<unknown>;
   onCopySecret: (secret: string) => void;
 }
@@ -100,14 +110,18 @@ export function WebhookConfigCard({
   const [url, setUrl] = useState(config?.url || "");
   const [isEnabled, setIsEnabled] = useState(config?.isEnabled ?? true);
   const [selectedEvents, setSelectedEvents] = useState<string[]>(
-    config?.events || ["message.received", "device.status"]
+    config?.events || ["message.received", "device.status"],
   );
   const [showSecret, setShowSecret] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isPinging, setIsPinging] = useState(false);
-  const [pingResult, setPingResult] = useState<{ success: boolean; latency?: number; error?: string } | null>(null);
+  const [pingResult, setPingResult] = useState<{
+    success: boolean;
+    latency?: number;
+    error?: string;
+  } | null>(null);
 
   React.useEffect(() => {
     if (config) {
@@ -128,7 +142,9 @@ export function WebhookConfigCard({
     setPingResult(null);
     const startTime = performance.now();
     try {
-      toast.info("Mengirim simulasi test.ping ke endpoint...", { id: "webhook-ping" });
+      toast.info("Mengirim simulasi test.ping ke endpoint...", {
+        id: "webhook-ping",
+      });
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 7000);
 
@@ -145,7 +161,8 @@ export function WebhookConfigCard({
             device_id: "test_simulation_device",
             timestamp: Math.floor(Date.now() / 1000),
             data: {
-              message: "Simulasi uji coba konektivitas webhook dari Wahide Dashboard.",
+              message:
+                "Simulasi uji coba konektivitas webhook dari Wahide Dashboard.",
             },
           }),
           signal: controller.signal,
@@ -153,14 +170,24 @@ export function WebhookConfigCard({
         });
         const latency = Math.round(performance.now() - startTime);
         setPingResult({ success: true, latency });
-        toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, { id: "webhook-ping" });
+        toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, {
+          id: "webhook-ping",
+        });
       } finally {
         clearTimeout(timeoutId);
       }
     } catch (err) {
       const isTimeout = err instanceof Error && err.name === "AbortError";
-      setPingResult({ success: false, error: isTimeout ? "Timeout (>7s)" : "Gagal terhubung" });
-      toast.error(isTimeout ? "Endpoint timeout (>7 detik)" : "Gagal terhubung ke endpoint webhook", { id: "webhook-ping" });
+      setPingResult({
+        success: false,
+        error: isTimeout ? "Timeout (>7s)" : "Gagal terhubung",
+      });
+      toast.error(
+        isTimeout
+          ? "Endpoint timeout (>7 detik)"
+          : "Gagal terhubung ke endpoint webhook",
+        { id: "webhook-ping" },
+      );
     } finally {
       setIsPinging(false);
     }
@@ -168,7 +195,9 @@ export function WebhookConfigCard({
 
   const handleToggleEvent = (eventId: string) => {
     setSelectedEvents((prev) =>
-      prev.includes(eventId) ? prev.filter((id) => id !== eventId) : [...prev, eventId]
+      prev.includes(eventId)
+        ? prev.filter((id) => id !== eventId)
+        : [...prev, eventId],
     );
   };
 
@@ -234,7 +263,11 @@ export function WebhookConfigCard({
             <span className="text-foreground text-xs font-bold">
               {isEnabled ? "Webhook Aktif" : "Webhook Nonaktif"}
             </span>
-            <Switch checked={isEnabled} onCheckedChange={setIsEnabled} aria-label="Toggle Webhook" />
+            <Switch
+              checked={isEnabled}
+              onCheckedChange={setIsEnabled}
+              aria-label="Toggle Webhook"
+            />
           </div>
         </div>
       </div>
@@ -243,7 +276,16 @@ export function WebhookConfigCard({
       <div className="flex items-start gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5 text-xs text-foreground-secondary">
         <ShieldCheck className="size-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
         <div className="leading-relaxed">
-          <span className="font-bold text-foreground">Webhook Utama Workspace:</span> Semua nomor WhatsApp di workspace ini secara otomatis mewarisi (*inherit*) endpoint dan secret key ini secara default. Jika Anda membutuhkan routing terpisah untuk nomor tertentu, Anda dapat menyetel <span className="font-semibold text-foreground">Override Webhook Khusus</span> di menu Detail Perangkat masing-masing.
+          <span className="font-bold text-foreground">
+            Webhook Utama Workspace:
+          </span>{" "}
+          Semua nomor WhatsApp di workspace ini secara otomatis mewarisi
+          (*inherit*) endpoint dan secret key ini secara default. Jika Anda
+          membutuhkan routing terpisah untuk nomor tertentu, Anda dapat menyetel{" "}
+          <span className="font-semibold text-foreground">
+            Override Webhook Khusus
+          </span>{" "}
+          di menu Detail Perangkat masing-masing.
         </div>
       </div>
 
@@ -269,7 +311,16 @@ export function WebhookConfigCard({
             <Sparkles className="size-4 shrink-0 text-sky-600 dark:text-sky-400 mt-0.5" />
             <div className="leading-relaxed space-y-1">
               <p>
-                <span className="font-bold text-foreground">Tips Integrasi n8n / AI Bot:</span> Jika menghubungkan webhook ke AI Agent (OpenAI/Claude/Gemini), pastikan node Webhook n8n diatur ke <span className="font-semibold text-foreground">Response Mode: Immediately (200 OK)</span> agar proses berpikir AI yang lama tidak memicu batas timeout atau eksekusi ganda.
+                <span className="font-bold text-foreground">
+                  Tips Integrasi n8n / AI Bot:
+                </span>{" "}
+                Jika menghubungkan webhook ke AI Agent (OpenAI/Claude/Gemini),
+                pastikan node Webhook n8n diatur ke{" "}
+                <span className="font-semibold text-foreground">
+                  Response Mode: Immediately (200 OK)
+                </span>{" "}
+                agar proses berpikir AI yang lama tidak memicu batas timeout
+                atau eksekusi ganda.
               </p>
               <div>
                 <Link
@@ -302,9 +353,15 @@ export function WebhookConfigCard({
                 size="sm"
                 onClick={() => setShowSecret(!showSecret)}
                 className="border-border size-7 rounded-full p-0"
-                aria-label={showSecret ? "Sembunyikan Kunci" : "Tampilkan Kunci"}
+                aria-label={
+                  showSecret ? "Sembunyikan Kunci" : "Tampilkan Kunci"
+                }
               >
-                {showSecret ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+                {showSecret ? (
+                  <EyeOff className="size-3.5" />
+                ) : (
+                  <Eye className="size-3.5" />
+                )}
               </Button>
 
               <Button
@@ -327,19 +384,27 @@ export function WebhookConfigCard({
                 className="border-border size-7 rounded-full p-0"
                 aria-label="Regenerate Secret"
               >
-                <RefreshCw className={`size-3.5 ${isRegenerating ? "animate-spin" : ""}`} />
+                <RefreshCw
+                  className={`size-3.5 ${isRegenerating ? "animate-spin" : ""}`}
+                />
               </Button>
             </div>
           </div>
 
           <div className="bg-surface border-border text-foreground rounded border p-2.5 font-mono text-xs font-semibold break-all dark:bg-[#10110e]">
-            {showSecret ? config?.secret || "whsec_..." : "whsec_••••••••••••••••••••••••••••••••"}
+            {showSecret
+              ? config?.secret || "whsec_..."
+              : "whsec_••••••••••••••••••••••••••••••••"}
           </div>
 
           <div className="text-foreground-muted flex items-center gap-1.5 pt-1 text-[11px] font-semibold">
             <ShieldCheck className="dark:text-wise-green size-3.5 shrink-0 text-emerald-600" />
             <span>
-              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header <code className="font-mono text-foreground font-bold">X-Wahide-Secret</code> pada setiap callback event WhatsApp.
+              Kunci rahasia ini dikirimkan otomatis oleh Wahide pada header{" "}
+              <code className="font-mono text-foreground font-bold">
+                X-Wahide-Secret
+              </code>{" "}
+              pada setiap callback event WhatsApp.
             </span>
           </div>
         </div>
@@ -354,7 +419,8 @@ export function WebhookConfigCard({
                   Langganan Event Webhook (Event Subscriptions)
                 </span>
                 <p className="text-foreground-secondary text-[11px] font-medium">
-                  Hanya event yang dipilih yang akan dikirim ke endpoint Anda. Event lainnya akan di-drop instan (Zero Allocation).
+                  Hanya event yang dipilih yang akan dikirim ke endpoint Anda.
+                  Event lainnya akan di-drop instan (Zero Allocation).
                 </p>
               </div>
             </div>
@@ -512,8 +578,9 @@ export function WebhookConfigCard({
 
           <div className="text-foreground-secondary min-h-0 flex-1 space-y-4 overflow-y-auto p-5 text-xs leading-relaxed sm:p-6">
             <p>
-              Kunci Signing Secret lama akan segera tidak berlaku. Semua server endpoint yang
-              memverifikasi header signature webhook harus diperbarui dengan kunci baru ini.
+              Kunci Signing Secret lama akan segera tidak berlaku. Semua server
+              endpoint yang memverifikasi header signature webhook harus
+              diperbarui dengan kunci baru ini.
             </p>
           </div>
 

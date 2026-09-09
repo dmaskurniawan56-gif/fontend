@@ -52,13 +52,17 @@ export function DeleteReminderModal({
               <AlertDialogTitle className="text-base font-bold text-foreground">
                 {t("reminder.table.deleteSchedule")}
               </AlertDialogTitle>
-              <p className="text-xs text-foreground-muted">{t("reminder.deleteIrreversible")}</p>
+              <p className="text-xs text-foreground-muted">
+                {t("reminder.deleteIrreversible")}
+              </p>
             </div>
           </div>
           <AlertDialogDescription className="mt-2 text-xs leading-relaxed text-foreground-secondary">
             {t("reminder.deleteConfirmPrompt")}{" "}
-            <strong className="font-semibold text-foreground">&ldquo;{recipientName}&rdquo;</strong>?{" "}
-            {t("reminder.deleteWarning")}
+            <strong className="font-semibold text-foreground">
+              &ldquo;{recipientName}&rdquo;
+            </strong>
+            ? {t("reminder.deleteWarning")}
           </AlertDialogDescription>
         </AlertDialogHeader>
 

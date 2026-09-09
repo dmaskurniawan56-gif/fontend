@@ -30,13 +30,23 @@ export function useContacts() {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const fetchContacts = useCallback(
-    async (overrideSearch?: string, targetPage?: number, signal?: AbortSignal) => {
+    async (
+      overrideSearch?: string,
+      targetPage?: number,
+      signal?: AbortSignal,
+    ) => {
       setIsLoading(true);
       setError(null);
       try {
-        const search = overrideSearch !== undefined ? overrideSearch.trim() : activeSearch.trim();
+        const search =
+          overrideSearch !== undefined
+            ? overrideSearch.trim()
+            : activeSearch.trim();
         const p = targetPage !== undefined ? targetPage : page;
-        const res = await contactApi.getContacts({ search, page: p, pageSize }, signal);
+        const res = await contactApi.getContacts(
+          { search, page: p, pageSize },
+          signal,
+        );
         setContacts(res.contacts);
         setTotal(res.total);
         setPage(res.page);
@@ -51,7 +61,7 @@ export function useContacts() {
         setIsLoading(false);
       }
     },
-    [activeSearch, page, pageSize]
+    [activeSearch, page, pageSize],
   );
 
   const executeSearch = async (query: string) => {
@@ -86,7 +96,10 @@ export function useContacts() {
     const loadInitialData = async () => {
       try {
         const [contactsRes, tagsRes] = await Promise.all([
-          contactApi.getContacts({ search: "", page: 1, pageSize: 10 }, controller.signal),
+          contactApi.getContacts(
+            { search: "", page: 1, pageSize: 10 },
+            controller.signal,
+          ),
           contactApi.getTags(),
         ]);
         if (isMounted) {
@@ -136,20 +149,25 @@ export function useContacts() {
       toast.success(t("contact.toastCreated"));
       return newContact;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menambahkan kontak";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menambahkan kontak";
       toast.error(msg);
       throw err;
     }
   };
 
-  const updateContact = async (id: string, data: Partial<CreateContactInput>): Promise<Contact> => {
+  const updateContact = async (
+    id: string,
+    data: Partial<CreateContactInput>,
+  ): Promise<Contact> => {
     try {
       const updated = await contactApi.updateContact(id, data);
       setContacts((prev) => prev.map((c) => (c.id === id ? updated : c)));
       toast.success(t("contact.toastUpdated"));
       return updated;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memperbarui kontak";
+      const msg =
+        err instanceof Error ? err.message : "Gagal memperbarui kontak";
       toast.error(msg);
       throw err;
     }
@@ -182,7 +200,8 @@ export function useContacts() {
       setTotal((prev) => Math.max(0, prev - ids.length));
       setSelectedIds(new Set());
       toast.success(
-        t("contact.selectedCount", { count: ids.length.toString() }) + " berhasil dihapus"
+        t("contact.selectedCount", { count: ids.length.toString() }) +
+          " berhasil dihapus",
       );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal menghapus kontak";
@@ -191,13 +210,16 @@ export function useContacts() {
     }
   };
 
-  const importCsv = async (importedContacts: CreateContactInput[]): Promise<number> => {
+  const importCsv = async (
+    importedContacts: CreateContactInput[],
+  ): Promise<number> => {
     try {
       const res = await contactApi.importCsv(importedContacts);
       await fetchContacts(undefined, 1);
       return res.importedCount;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal mengimpor file CSV";
+      const msg =
+        err instanceof Error ? err.message : "Gagal mengimpor file CSV";
       toast.error(msg);
       throw err;
     }
@@ -227,7 +249,9 @@ export function useContacts() {
   const filteredContacts = useMemo(() => {
     if (!activeSearch.trim()) return contacts;
     const term = activeSearch.toLowerCase().trim();
-    return contacts.filter((c) => c.name.toLowerCase().includes(term) || c.phone.includes(term));
+    return contacts.filter(
+      (c) => c.name.toLowerCase().includes(term) || c.phone.includes(term),
+    );
   }, [contacts, activeSearch]);
 
   return {

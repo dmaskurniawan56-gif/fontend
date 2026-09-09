@@ -18,13 +18,18 @@ interface UseQRPairingProps {
  * - Layer 2: AbortController & explicit cleanup on modal close / unmount (Zero memory leak)
  * - Layer 3: Circuit Breaker with 2-minute auto-stop & Tab Visibility optimization
  */
-export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPairingProps) {
+export function useQRPairing({
+  deviceId,
+  isOpen,
+  onSuccess,
+  onError,
+}: UseQRPairingProps) {
   const [pairMode, setPairMode] = useState<"QR" | "PHONE">("QR");
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pairingCode, setPairingCode] = useState<string | null>(null);
-  const [status, setStatus] = useState<DeviceStatus | "LOADING" | "ERROR" | "AUTHENTICATED">(
-    "LOADING"
-  );
+  const [status, setStatus] = useState<
+    DeviceStatus | "LOADING" | "ERROR" | "AUTHENTICATED"
+  >("LOADING");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [countdown, setCountdown] = useState<number>(20);
   const [isLoadingCode, setIsLoadingCode] = useState<boolean>(false);
@@ -78,7 +83,10 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
 
         if (res && res.qr_code) {
           let formattedQR = res.qr_code;
-          if (!formattedQR.startsWith("data:image/") && !formattedQR.startsWith("http")) {
+          if (
+            !formattedQR.startsWith("data:image/") &&
+            !formattedQR.startsWith("http")
+          ) {
             formattedQR = `data:image/png;base64,${formattedQR}`;
           }
           setQrCode(formattedQR);
@@ -89,7 +97,8 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
         }
       } catch (err: unknown) {
         if (isCancelled || !isMountedRef.current) return;
-        const msg = err instanceof Error ? err.message : "Gagal meminta QR Code pairing";
+        const msg =
+          err instanceof Error ? err.message : "Gagal meminta QR Code pairing";
         setStatus("ERROR");
         setErrorMessage(msg);
         onErrorRef.current?.(msg);
@@ -148,7 +157,9 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       const elapsed = Date.now() - pollStartTimeRef.current;
       if (elapsed > 120000) {
         setStatus("ERROR");
-        setErrorMessage("Sesi pairing kedaluwarsa. Silakan muat ulang QR code.");
+        setErrorMessage(
+          "Sesi pairing kedaluwarsa. Silakan muat ulang QR code.",
+        );
         return;
       }
 
@@ -163,7 +174,10 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       if (isCancelled || !isMountedRef.current || inFlight) return;
 
       // Tab Visibility check: pause polling when browser tab is inactive/minimized
-      if (typeof document !== "undefined" && document.visibilityState === "hidden") {
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState === "hidden"
+      ) {
         return;
       }
 
@@ -180,7 +194,8 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
         const currentDev = devices.find((d) => d.id === deviceId);
         if (
           currentDev &&
-          (currentDev.status === "CONNECTED" || (currentDev.status as string) === "ONLINE")
+          (currentDev.status === "CONNECTED" ||
+            (currentDev.status as string) === "ONLINE")
         ) {
           setStatus("AUTHENTICATED");
           clearPollingResources();
@@ -200,7 +215,12 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
 
     // Tab Visibility listener: immediately resume poll when tab gains focus
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible" && !isCancelled && isMountedRef.current && !inFlight) {
+      if (
+        document.visibilityState === "visible" &&
+        !isCancelled &&
+        isMountedRef.current &&
+        !inFlight
+      ) {
         if (pollTimerRef.current) {
           clearTimeout(pollTimerRef.current);
           pollTimerRef.current = null;
@@ -220,7 +240,10 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       isCancelled = true;
       inFlight = false;
       if (typeof document !== "undefined") {
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange,
+        );
       }
       clearPollingResources();
     };
@@ -239,7 +262,10 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
 
       if (res && res.qr_code) {
         let formattedQR = res.qr_code;
-        if (!formattedQR.startsWith("data:image/") && !formattedQR.startsWith("http")) {
+        if (
+          !formattedQR.startsWith("data:image/") &&
+          !formattedQR.startsWith("http")
+        ) {
           formattedQR = `data:image/png;base64,${formattedQR}`;
         }
         setQrCode(formattedQR);
@@ -247,7 +273,8 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       }
     } catch (err: unknown) {
       if (!isMountedRef.current) return;
-      const msg = err instanceof Error ? err.message : "Gagal meminta QR Code pairing";
+      const msg =
+        err instanceof Error ? err.message : "Gagal meminta QR Code pairing";
       setStatus("ERROR");
       setErrorMessage(msg);
       onErrorRef.current?.(msg);
@@ -271,14 +298,17 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
         return res.pairing_code;
       } catch (err: unknown) {
         if (!isMountedRef.current) return null;
-        const msg = err instanceof Error ? err.message : "Gagal meminta kode pairing nomor";
+        const msg =
+          err instanceof Error
+            ? err.message
+            : "Gagal meminta kode pairing nomor";
         setErrorMessage(msg);
         setIsLoadingCode(false);
         onErrorRef.current?.(msg);
         return null;
       }
     },
-    [deviceId]
+    [deviceId],
   );
 
   return {

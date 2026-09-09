@@ -44,14 +44,22 @@ interface EditUserModalContentProps {
   onSubmit: (userId: string, data: UpdateUserInput) => Promise<unknown>;
 }
 
-function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentProps) {
+function EditUserModalContent({
+  user,
+  onClose,
+  onSubmit,
+}: EditUserModalContentProps) {
   const { t } = useI18n();
   const [name, setName] = useState(user.name || "");
   const [email, setEmail] = useState(user.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber || user.phone || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    user.phoneNumber || user.phone || "",
+  );
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isActive, setIsActive] = useState(user.status === "ACTIVE" || user.isActive === true);
+  const [isActive, setIsActive] = useState(
+    user.status === "ACTIVE" || user.isActive === true,
+  );
   const [role, setRole] = useState(user.role || user.roleName || "SELLER");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -101,7 +109,10 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
       </DialogHeader>
 
       {/* Scrollable Form Body */}
-      <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <form
+        onSubmit={handleSubmit}
+        className="flex min-h-0 flex-1 flex-col overflow-hidden"
+      >
         <div className="flex-1 space-y-4 overflow-y-auto p-5 text-xs sm:p-6">
           {/* Nama Lengkap */}
           <div>
@@ -180,14 +191,18 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
             >
               <option value="SELLER">{t("admin.users.roleSeller")}</option>
               <option value="ADMIN">{t("admin.users.roleAdmin")}</option>
-              <option value="SUPERADMIN">{t("admin.users.roleSuperAdmin")}</option>
+              <option value="SUPERADMIN">
+                {t("admin.users.roleSuperAdmin")}
+              </option>
             </NativeSelect>
           </div>
 
           {/* Status Toggle */}
           <div className="border-border bg-muted/20 flex items-center justify-between rounded-lg border p-3">
             <div>
-              <span className="text-foreground block font-bold">{t("admin.users.statusActiveTitle")}</span>
+              <span className="text-foreground block font-bold">
+                {t("admin.users.statusActiveTitle")}
+              </span>
               <span className="text-foreground-secondary text-[11px]">
                 {t("admin.users.statusActiveDesc")}
               </span>
@@ -234,7 +249,11 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
                 className="text-foreground-muted hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                {showPassword ? (
+                  <EyeOff className="size-4" />
+                ) : (
+                  <Eye className="size-4" />
+                )}
               </button>
             </div>
             {password && (
@@ -242,7 +261,9 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
                 <AlertTriangle className="size-3 shrink-0" />
                 <span>
                   {t("admin.users.passwordOverwriteWarning")}{" "}
-                  <code className="bg-muted rounded px-1 font-mono font-bold">{password}</code>
+                  <code className="bg-muted rounded px-1 font-mono font-bold">
+                    {password}
+                  </code>
                 </span>
               </span>
             )}
@@ -287,13 +308,23 @@ function EditUserModalContent({ user, onClose, onSubmit }: EditUserModalContentP
   );
 }
 
-export function EditUserModal({ user, isOpen, onClose, onSubmit }: EditUserModalProps) {
+export function EditUserModal({
+  user,
+  isOpen,
+  onClose,
+  onSubmit,
+}: EditUserModalProps) {
   if (!user) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="border-border bg-surface flex max-h-[92dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
-        <EditUserModalContent key={user.id} user={user} onClose={onClose} onSubmit={onSubmit} />
+        <EditUserModalContent
+          key={user.id}
+          user={user}
+          onClose={onClose}
+          onSubmit={onSubmit}
+        />
       </DialogContent>
     </Dialog>
   );

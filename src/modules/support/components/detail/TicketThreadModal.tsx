@@ -13,13 +13,25 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
-import { Send, Loader2, User, ShieldCheck, ExternalLink, Paperclip, X } from "lucide-react";
+import {
+  Send,
+  Loader2,
+  User,
+  ShieldCheck,
+  ExternalLink,
+  Paperclip,
+  X,
+} from "lucide-react";
 
 interface TicketThreadModalProps {
   ticket: Ticket | null;
   isOpen: boolean;
   onClose: () => void;
-  onSendReply: (ticketId: string, message: string, attachment?: string) => Promise<unknown>;
+  onSendReply: (
+    ticketId: string,
+    message: string,
+    attachment?: string,
+  ) => Promise<unknown>;
 }
 
 export function TicketThreadModal({
@@ -78,7 +90,9 @@ export function TicketThreadModal({
       .then((detail: Ticket) => {
         if (!isCancelled && detail) {
           const fetchedReplies =
-            detail.messages && detail.messages.length > 0 ? detail.messages : [];
+            detail.messages && detail.messages.length > 0
+              ? detail.messages
+              : [];
           setReplies(fetchedReplies);
         }
       })
@@ -172,7 +186,11 @@ export function TicketThreadModal({
 
       // Step 2: Send reply payload to backend
       const text = replyText.trim() || "(Lampiran Gambar)";
-      const response = await onSendReply(ticket.id, text, finalAttachmentUrl || undefined);
+      const response = await onSendReply(
+        ticket.id,
+        text,
+        finalAttachmentUrl || undefined,
+      );
 
       // Construct immediate message object for state representation
       const createdMessage =
@@ -186,7 +204,8 @@ export function TicketThreadModal({
             senderName: createdMessage.senderName || "Anda",
             isStaff: Boolean(createdMessage.isStaff),
             content: createdMessage.content || text,
-            attachment: createdMessage.attachment || finalAttachmentUrl || undefined,
+            attachment:
+              createdMessage.attachment || finalAttachmentUrl || undefined,
             createdAt: createdMessage.createdAt || new Date().toISOString(),
           }
         : {
@@ -208,7 +227,10 @@ export function TicketThreadModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-2xl">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-start justify-between border-b p-5 pb-4 text-left sm:p-6">
@@ -217,7 +239,9 @@ export function TicketThreadModal({
               <span className="text-dark-green dark:text-wise-green bg-light-mint dark:bg-wise-green/15 border-wise-green/30 rounded-full border px-2.5 py-0.5 font-mono text-xs font-bold">
                 {ticket.ticketNumber}
               </span>
-              <span className="text-foreground-muted text-xs font-semibold">{ticket.category}</span>
+              <span className="text-foreground-muted text-xs font-semibold">
+                {ticket.category}
+              </span>
             </div>
             <DialogTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
               {ticket.subject}
@@ -246,7 +270,9 @@ export function TicketThreadModal({
                   <span className="text-foreground block truncate font-bold">
                     {t("support.attachmentLabel")} (Awal)
                   </span>
-                  <span className="text-foreground-muted text-[11px]">Cloudflare R2 Storage</span>
+                  <span className="text-foreground-muted text-[11px]">
+                    Cloudflare R2 Storage
+                  </span>
                 </div>
               </div>
               <a
@@ -268,12 +294,17 @@ export function TicketThreadModal({
                 <div className="bg-muted text-foreground-secondary flex size-5 items-center justify-center rounded-full">
                   <User className="size-3" />
                 </div>
-                <span className="text-foreground">{initialMessage.senderName}</span>
+                <span className="text-foreground">
+                  {initialMessage.senderName}
+                </span>
                 <span className="text-foreground-muted font-mono font-normal">
-                  {new Date(initialMessage.createdAt).toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(initialMessage.createdAt).toLocaleTimeString(
+                    "id-ID",
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  )}
                 </span>
               </div>
               <div className="bg-muted text-foreground max-w-[85%] rounded-2xl rounded-tl-xs px-4 py-2.5 text-xs leading-relaxed font-medium">

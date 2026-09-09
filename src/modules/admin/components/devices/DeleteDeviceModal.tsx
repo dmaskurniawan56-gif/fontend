@@ -13,7 +13,13 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Trash2, Loader2, Smartphone, Building2 } from "lucide-react";
+import {
+  AlertTriangle,
+  Trash2,
+  Loader2,
+  Smartphone,
+  Building2,
+} from "lucide-react";
 
 interface DeleteDeviceModalProps {
   device: AdminDeviceItem | null;
@@ -22,7 +28,12 @@ interface DeleteDeviceModalProps {
   onConfirm: () => Promise<unknown>;
 }
 
-export function DeleteDeviceModal({ device, isOpen, onClose, onConfirm }: DeleteDeviceModalProps) {
+export function DeleteDeviceModal({
+  device,
+  isOpen,
+  onClose,
+  onConfirm,
+}: DeleteDeviceModalProps) {
   const { t } = useI18n();
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -71,11 +82,15 @@ export function DeleteDeviceModal({ device, isOpen, onClose, onConfirm }: Delete
                 <Smartphone className="text-foreground-muted size-3" />
                 <span>{t("admin.devices.deviceNameLabel")}</span>
               </span>
-              <span className="text-foreground font-bold">{device.pushName}</span>
+              <span className="text-foreground font-bold">
+                {device.pushName}
+              </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-foreground-secondary font-semibold">{t("admin.devices.numberJidLabel")}</span>
+              <span className="text-foreground-secondary font-semibold">
+                {t("admin.devices.numberJidLabel")}
+              </span>
               <span className="text-foreground font-mono font-bold">
                 {device.jid || t("admin.devices.notConnected")}
               </span>
@@ -92,8 +107,12 @@ export function DeleteDeviceModal({ device, isOpen, onClose, onConfirm }: Delete
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-foreground-secondary font-semibold">{t("admin.devices.currentStatusLabel")}</span>
-              <span className="text-foreground font-mono font-bold uppercase">{device.status}</span>
+              <span className="text-foreground-secondary font-semibold">
+                {t("admin.devices.currentStatusLabel")}
+              </span>
+              <span className="text-foreground font-mono font-bold uppercase">
+                {device.status}
+              </span>
             </div>
           </div>
 

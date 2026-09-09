@@ -17,8 +17,10 @@ export function MessageStatsCards({
 }: MessageStatsProps) {
   const { t } = useI18n();
   const successCount = Math.max(0, total - failedCount);
-  const successRate = total > 0 ? ((successCount / total) * 100).toFixed(1) : "0.0";
-  const failedRate = total > 0 ? Math.min(100, (failedCount / total) * 100).toFixed(1) : "0";
+  const successRate =
+    total > 0 ? ((successCount / total) * 100).toFixed(1) : "0.0";
+  const failedRate =
+    total > 0 ? Math.min(100, (failedCount / total) * 100).toFixed(1) : "0";
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">

@@ -16,16 +16,19 @@ import { Invoice } from "@/modules/finance/types/finance.types";
 import { Receipt, RefreshCw } from "lucide-react";
 
 const TopUpModal = dynamic(
-  () => import("@/modules/finance/components/balance/TopUpModal").then((m) => m.TopUpModal),
-  { ssr: false }
+  () =>
+    import("@/modules/finance/components/balance/TopUpModal").then(
+      (m) => m.TopUpModal,
+    ),
+  { ssr: false },
 );
 
 const InvoiceReceiptModal = dynamic(
   () =>
     import("@/modules/finance/components/invoices/InvoiceReceiptModal").then(
-      (m) => m.InvoiceReceiptModal
+      (m) => m.InvoiceReceiptModal,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 export function BillingView() {
@@ -69,10 +72,14 @@ export function BillingView() {
   const handleOpenTopUp = async () => {
     try {
       const userAddress = await addressApi.getUserAddress();
-      if (!userAddress || !userAddress.address?.trim() || !userAddress.city?.trim()) {
+      if (
+        !userAddress ||
+        !userAddress.address?.trim() ||
+        !userAddress.city?.trim()
+      ) {
         toast.info(
           t("billing.addressRequiredForTopUp") ||
-            "Silakan lengkapi alamat bisnis Anda terlebih dahulu untuk melanjutkan Top-Up saldo."
+            "Silakan lengkapi alamat bisnis Anda terlebih dahulu untuk melanjutkan Top-Up saldo.",
         );
         router.push("/settings/address?from=billing&action=topup");
         return;
@@ -208,7 +215,9 @@ export function BillingView() {
             if (targetUrl) {
               window.open(targetUrl, "_blank", "noopener,noreferrer");
             } else {
-              toast.info(`Membuka instruksi pembayaran faktur ${inv.invoiceNumber}...`);
+              toast.info(
+                `Membuka instruksi pembayaran faktur ${inv.invoiceNumber}...`,
+              );
             }
           }}
         />

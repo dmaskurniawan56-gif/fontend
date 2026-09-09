@@ -11,7 +11,14 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Layers, AlertCircle, Clock, CheckCircle2, User, Mail } from "lucide-react";
+import {
+  Layers,
+  AlertCircle,
+  Clock,
+  CheckCircle2,
+  User,
+  Mail,
+} from "lucide-react";
 
 interface QueueDetailModalProps {
   queue: AdminQueueItem | null;
@@ -19,7 +26,11 @@ interface QueueDetailModalProps {
   onClose: () => void;
 }
 
-export function QueueDetailModal({ queue, isOpen, onClose }: QueueDetailModalProps) {
+export function QueueDetailModal({
+  queue,
+  isOpen,
+  onClose,
+}: QueueDetailModalProps) {
   const { t, locale } = useI18n();
 
   if (!queue) return null;
@@ -78,8 +89,12 @@ export function QueueDetailModal({ queue, isOpen, onClose }: QueueDetailModalPro
                 {queue.status === "COMPLETED" && (
                   <CheckCircle2 className="size-3.5 text-emerald-600" />
                 )}
-                {queue.status === "PENDING" && <Clock className="size-3.5 text-amber-500" />}
-                {queue.status === "FAILED" && <AlertCircle className="size-3.5 text-rose-500" />}
+                {queue.status === "PENDING" && (
+                  <Clock className="size-3.5 text-amber-500" />
+                )}
+                {queue.status === "FAILED" && (
+                  <AlertCircle className="size-3.5 text-rose-500" />
+                )}
                 <span>{queue.status}</span>
               </span>
             </div>
@@ -108,7 +123,8 @@ export function QueueDetailModal({ queue, isOpen, onClose }: QueueDetailModalPro
                 {t("admin.notifications.attemptsLabel")}
               </span>
               <span className="font-mono">
-                {queue.attempts} / {queue.maxAttempts} ({t("admin.notifications.priorityLabel")} {queue.priority})
+                {queue.attempts} / {queue.maxAttempts} (
+                {t("admin.notifications.priorityLabel")} {queue.priority})
               </span>
             </div>
           </div>

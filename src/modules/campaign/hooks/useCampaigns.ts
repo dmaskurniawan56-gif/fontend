@@ -12,21 +12,26 @@ export function useCampaigns() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCampaigns = useCallback(async (signalOrEvent?: AbortSignal | unknown) => {
-    const signal = signalOrEvent instanceof AbortSignal ? signalOrEvent : undefined;
-    setIsLoading(true);
-    setError(null);
-    try {
-      const data = await campaignApi.getCampaigns(1, 50, signal);
-      setCampaigns(data);
-    } catch (err: unknown) {
-      if (err instanceof Error && err.name === "AbortError") return;
-      const msg = err instanceof Error ? err.message : "Gagal memuat kampanye";
-      setError(msg);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const fetchCampaigns = useCallback(
+    async (signalOrEvent?: AbortSignal | unknown) => {
+      const signal =
+        signalOrEvent instanceof AbortSignal ? signalOrEvent : undefined;
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await campaignApi.getCampaigns(1, 50, signal);
+        setCampaigns(data);
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        const msg =
+          err instanceof Error ? err.message : "Gagal memuat kampanye";
+        setError(msg);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -41,7 +46,8 @@ export function useCampaigns() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         if (isMounted) {
-          const msg = err instanceof Error ? err.message : "Gagal memuat kampanye";
+          const msg =
+            err instanceof Error ? err.message : "Gagal memuat kampanye";
           setError(msg);
         }
       } finally {
@@ -71,7 +77,10 @@ export function useCampaigns() {
       if (isCancelled) return;
 
       // Tab visibility check: pause network calls when browser tab is inactive
-      if (typeof document !== "undefined" && document.visibilityState !== "visible") {
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState !== "visible"
+      ) {
         timeoutId = setTimeout(poll, 4000);
         return;
       }
@@ -98,7 +107,11 @@ export function useCampaigns() {
     timeoutId = setTimeout(poll, 3000);
 
     const handleVisibilityChange = () => {
-      if (typeof document !== "undefined" && document.visibilityState === "visible" && !inFlight) {
+      if (
+        typeof document !== "undefined" &&
+        document.visibilityState === "visible" &&
+        !inFlight
+      ) {
         if (timeoutId) clearTimeout(timeoutId);
         poll();
       }
@@ -112,7 +125,10 @@ export function useCampaigns() {
       isCancelled = true;
       if (timeoutId) clearTimeout(timeoutId);
       if (typeof document !== "undefined") {
-        document.removeEventListener("visibilitychange", handleVisibilityChange);
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange,
+        );
       }
     };
   }, [hasRunning]);
@@ -120,12 +136,17 @@ export function useCampaigns() {
   const startCampaign = async (id: string): Promise<void> => {
     try {
       await campaignApi.startCampaign(id);
-      setCampaigns((prev) => prev.map((c) => (c.id === id ? { ...c, status: "RUNNING" } : c)));
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: "RUNNING" } : c)),
+      );
       toast.success(t("campaign.toastStarted"));
       await fetchCampaigns();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal memulai kampanye";
-      if (msg.toLowerCase().includes("already active") || msg.toLowerCase().includes("completed")) {
+      if (
+        msg.toLowerCase().includes("already active") ||
+        msg.toLowerCase().includes("completed")
+      ) {
         toast.info("Kampanye sudah aktif atau sudah selesai.");
         await fetchCampaigns();
         return;
@@ -134,7 +155,9 @@ export function useCampaigns() {
     }
   };
 
-  const createCampaign = async (data: CreateCampaignInput): Promise<Campaign | null> => {
+  const createCampaign = async (
+    data: CreateCampaignInput,
+  ): Promise<Campaign | null> => {
     try {
       const newCampaign = await campaignApi.createCampaign(data);
       if (!data.scheduledAt && newCampaign.id) {
@@ -143,7 +166,8 @@ export function useCampaigns() {
           newCampaign.status = "RUNNING";
           toast.success(t("campaign.toastStarted"));
         } catch (startErr) {
-          const msg = startErr instanceof Error ? startErr.message : "Audiens kosong";
+          const msg =
+            startErr instanceof Error ? startErr.message : "Audiens kosong";
           toast.warning(t("campaign.toastNoAudienceWarning") || msg);
         }
       } else {
@@ -161,7 +185,9 @@ export function useCampaigns() {
   const pauseCampaign = async (id: string): Promise<void> => {
     try {
       await campaignApi.pauseCampaign(id);
-      setCampaigns((prev) => prev.map((c) => (c.id === id ? { ...c, status: "PAUSED" } : c)));
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: "PAUSED" } : c)),
+      );
       toast.success(t("campaign.toastPaused"));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal menjeda kampanye";
@@ -173,10 +199,13 @@ export function useCampaigns() {
   const resumeCampaign = async (id: string): Promise<void> => {
     try {
       await campaignApi.resumeCampaign(id);
-      setCampaigns((prev) => prev.map((c) => (c.id === id ? { ...c, status: "RUNNING" } : c)));
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === id ? { ...c, status: "RUNNING" } : c)),
+      );
       toast.success(t("campaign.toastResumed"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal melanjutkan kampanye";
+      const msg =
+        err instanceof Error ? err.message : "Gagal melanjutkan kampanye";
       toast.error(msg);
       throw err;
     }
@@ -188,7 +217,8 @@ export function useCampaigns() {
       setCampaigns((prev) => prev.filter((c) => c.id !== id));
       toast.success(t("campaign.toastDeleted") || t("campaign.toastCancelled"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal membatalkan kampanye";
+      const msg =
+        err instanceof Error ? err.message : "Gagal membatalkan kampanye";
       toast.error(msg);
       throw err;
     }

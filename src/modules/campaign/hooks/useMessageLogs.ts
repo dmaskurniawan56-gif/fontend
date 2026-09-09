@@ -17,18 +17,23 @@ export function useMessageLogs(initialPage = 1, initialPageSize = 20) {
       setIsLoading(true);
       setError(null);
       try {
-        const res = await campaignApi.getMessageLogs(targetPage, targetSize, signal);
+        const res = await campaignApi.getMessageLogs(
+          targetPage,
+          targetSize,
+          signal,
+        );
         setLogs(res.logs);
         setTotal(res.total);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
-        const msg = err instanceof Error ? err.message : "Gagal memuat log pesan";
+        const msg =
+          err instanceof Error ? err.message : "Gagal memuat log pesan";
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [page, pageSize]
+    [page, pageSize],
   );
 
   useEffect(() => {
@@ -37,7 +42,11 @@ export function useMessageLogs(initialPage = 1, initialPageSize = 20) {
 
     const loadLogs = async () => {
       try {
-        const res = await campaignApi.getMessageLogs(page, pageSize, controller.signal);
+        const res = await campaignApi.getMessageLogs(
+          page,
+          pageSize,
+          controller.signal,
+        );
         if (isMounted) {
           setLogs(res.logs);
           setTotal(res.total);
@@ -45,7 +54,8 @@ export function useMessageLogs(initialPage = 1, initialPageSize = 20) {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         if (isMounted) {
-          const msg = err instanceof Error ? err.message : "Gagal memuat log pesan";
+          const msg =
+            err instanceof Error ? err.message : "Gagal memuat log pesan";
           setError(msg);
         }
       } finally {

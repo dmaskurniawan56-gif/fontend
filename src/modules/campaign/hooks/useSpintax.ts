@@ -9,7 +9,7 @@ export function parseSpintaxString(
     name: "Budi Santoso",
     phone: "6281234567890",
     nomor: "6281234567890",
-  }
+  },
 ): string {
   if (typeof template !== "string" || !template.trim()) return "";
 
@@ -38,15 +38,18 @@ export function parseSpintaxString(
 
 export function useSpintax(initialTemplate: string = "") {
   const [template, setTemplate] = useState(initialTemplate);
-  const [preview, setPreview] = useState(() => parseSpintaxString(initialTemplate));
+  const [preview, setPreview] = useState(() =>
+    parseSpintaxString(initialTemplate),
+  );
 
   const randomize = useCallback(
     (customTemplate?: unknown) => {
       // Defensively guard against React MouseEvent objects passed from onClick handlers
-      const target = typeof customTemplate === "string" ? customTemplate : template;
+      const target =
+        typeof customTemplate === "string" ? customTemplate : template;
       setPreview(parseSpintaxString(target));
     },
-    [template]
+    [template],
   );
 
   const updateTemplate = useCallback((newTemplate: string) => {

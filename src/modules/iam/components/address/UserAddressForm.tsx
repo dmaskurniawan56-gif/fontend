@@ -52,7 +52,9 @@ export function UserAddressForm() {
     formState.country.toLowerCase() === "indonesia" ||
     formState.country.toUpperCase() === "ID";
 
-  const redirectTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const redirectTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   React.useEffect(() => {
     return () => {
@@ -154,7 +156,8 @@ export function UserAddressForm() {
           {/* 1. Country / Negara */}
           <div className="space-y-2">
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.countryLabel")} <span className="text-rose-500">*</span>
+              {t("address.countryLabel")}{" "}
+              <span className="text-rose-500">*</span>
             </label>
             <CountrySearchCombobox
               value={formState.country || "Indonesia"}
@@ -167,7 +170,8 @@ export function UserAddressForm() {
           {isIndonesia ? (
             <div className="space-y-2">
               <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.provinceLabel")} <span className="text-rose-500">*</span>
+                {t("address.provinceLabel")}{" "}
+                <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
                 <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
@@ -190,7 +194,8 @@ export function UserAddressForm() {
           ) : (
             <div className="space-y-2">
               <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.provinceInternationalLabel")} <span className="text-rose-500">*</span>
+                {t("address.provinceInternationalLabel")}{" "}
+                <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
                 <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
@@ -212,7 +217,8 @@ export function UserAddressForm() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                  {t("address.cityLabel")} <span className="text-rose-500">*</span>
+                  {t("address.cityLabel")}{" "}
+                  <span className="text-rose-500">*</span>
                 </label>
                 {isLoadingCities && (
                   <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
@@ -249,7 +255,8 @@ export function UserAddressForm() {
           ) : (
             <div className="space-y-2">
               <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.cityInternationalLabel")} <span className="text-rose-500">*</span>
+                {t("address.cityInternationalLabel")}{" "}
+                <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
                 <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
@@ -309,14 +316,17 @@ export function UserAddressForm() {
           {/* 5. Postal Code / Kode Pos */}
           <div className="space-y-2">
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.postalCodeLabel")} <span className="text-rose-500">*</span>
+              {t("address.postalCodeLabel")}{" "}
+              <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
               <Mail className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
               <Input
                 type="text"
                 value={formState.postal_code}
-                onChange={(e) => handleFieldChange("postal_code", e.target.value)}
+                onChange={(e) =>
+                  handleFieldChange("postal_code", e.target.value)
+                }
                 placeholder={
                   isIndonesia
                     ? t("address.postalCodePlaceholder")
@@ -334,7 +344,8 @@ export function UserAddressForm() {
         {/* 6. Street Address / Alamat Lengkap */}
         <div className="space-y-2 pt-1">
           <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-            {t("address.streetAddressLabel")} <span className="text-rose-500">*</span>
+            {t("address.streetAddressLabel")}{" "}
+            <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <Textarea
@@ -347,7 +358,9 @@ export function UserAddressForm() {
               className="p-3.5 leading-relaxed font-medium sm:text-sm"
             />
           </div>
-          <p className="text-foreground-muted text-[11px]">{t("address.streetAddressHelp")}</p>
+          <p className="text-foreground-muted text-[11px]">
+            {t("address.streetAddressHelp")}
+          </p>
         </div>
 
         {/* Footer Action Button */}

@@ -138,13 +138,22 @@ export function SubmissionsDrawer({
                 <TabsTrigger value="ALL" className="text-xs px-3 rounded-lg">
                   Semua
                 </TabsTrigger>
-                <TabsTrigger value="PENDING" className="text-xs px-3 rounded-lg">
+                <TabsTrigger
+                  value="PENDING"
+                  className="text-xs px-3 rounded-lg"
+                >
                   Pending
                 </TabsTrigger>
-                <TabsTrigger value="PROCESSED" className="text-xs px-3 rounded-lg">
+                <TabsTrigger
+                  value="PROCESSED"
+                  className="text-xs px-3 rounded-lg"
+                >
                   Diproses
                 </TabsTrigger>
-                <TabsTrigger value="ARCHIVED" className="text-xs px-3 rounded-lg">
+                <TabsTrigger
+                  value="ARCHIVED"
+                  className="text-xs px-3 rounded-lg"
+                >
                   Arsip
                 </TabsTrigger>
               </TabsList>
@@ -170,13 +179,16 @@ export function SubmissionsDrawer({
               const isExpanded = expandedId === sub.id;
               const badge = getStatusBadge(sub.status);
               const waLink = `https://wa.me/${getCleanPhone(sub.respondentPhone)}`;
-              const formattedDate = new Date(sub.createdAt).toLocaleString("id-ID", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
+              const formattedDate = new Date(sub.createdAt).toLocaleString(
+                "id-ID",
+                {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              );
 
               return (
                 <div
@@ -189,7 +201,10 @@ export function SubmissionsDrawer({
                         <span className="font-semibold text-foreground text-sm">
                           {sub.respondentName}
                         </span>
-                        <Badge variant={badge.variant} className="text-[10px] py-0 px-2 font-medium">
+                        <Badge
+                          variant={badge.variant}
+                          className="text-[10px] py-0 px-2 font-medium"
+                        >
                           {badge.label}
                         </Badge>
                       </div>
@@ -215,16 +230,23 @@ export function SubmissionsDrawer({
                       {/* Status Dropdown */}
                       <DropdownMenu>
                         <DropdownMenuTrigger className="inline-flex items-center justify-center rounded-xl text-xs font-medium border border-border/70 bg-background hover:bg-accent hover:text-accent-foreground h-8 px-3 cursor-pointer">
-                          {t("reservation.changeStatus")} <ChevronDown className="w-3 h-3 ml-1" />
+                          {t("reservation.changeStatus")}{" "}
+                          <ChevronDown className="w-3 h-3 ml-1" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => updateStatus(sub.id, "PENDING")}>
+                          <DropdownMenuItem
+                            onClick={() => updateStatus(sub.id, "PENDING")}
+                          >
                             {t("form.markPending")}
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => updateStatus(sub.id, "PROCESSED")}>
+                          <DropdownMenuItem
+                            onClick={() => updateStatus(sub.id, "PROCESSED")}
+                          >
                             {t("form.markProcessed")}
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => updateStatus(sub.id, "ARCHIVED")}>
+                          <DropdownMenuItem
+                            onClick={() => updateStatus(sub.id, "ARCHIVED")}
+                          >
                             {t("form.markArchived")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -239,11 +261,13 @@ export function SubmissionsDrawer({
                       >
                         {isExpanded ? (
                           <>
-                            {t("form.btnClose")} <ChevronUp className="w-3 h-3" />
+                            {t("form.btnClose")}{" "}
+                            <ChevronUp className="w-3 h-3" />
                           </>
                         ) : (
                           <>
-                            {t("form.btnResponses")} <ChevronDown className="w-3 h-3" />
+                            {t("form.btnResponses")}{" "}
+                            <ChevronDown className="w-3 h-3" />
                           </>
                         )}
                       </Button>
@@ -276,8 +300,12 @@ export function SubmissionsDrawer({
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                           {Object.entries(sub.responses).map(([key, value]) => {
                             // Find human-friendly label from form fields if available
-                            const matchedField = form.fields.find((f) => f.name === key);
-                            const label = matchedField ? matchedField.label : key;
+                            const matchedField = form.fields.find(
+                              (f) => f.name === key,
+                            );
+                            const label = matchedField
+                              ? matchedField.label
+                              : key;
 
                             return (
                               <div

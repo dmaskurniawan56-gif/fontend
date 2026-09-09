@@ -13,9 +13,9 @@ import { Separator } from "@/components/ui/separator";
 const ApiKeyConfirmModal = dynamic(
   () =>
     import("@/modules/iam/components/settings/ApiKeyConfirmModal").then(
-      (m) => m.ApiKeyConfirmModal
+      (m) => m.ApiKeyConfirmModal,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 import { ProfileInfoCard } from "@/modules/iam/components/settings/ProfileInfoCard";
 import { ActiveSessionsCard } from "@/modules/iam/components/settings/ActiveSessionsCard";
@@ -41,7 +41,12 @@ import {
 } from "lucide-react";
 
 type SettingsTab = "profile" | "security" | "api-keys" | "webhooks";
-const VALID_TABS: SettingsTab[] = ["profile", "security", "api-keys", "webhooks"];
+const VALID_TABS: SettingsTab[] = [
+  "profile",
+  "security",
+  "api-keys",
+  "webhooks",
+];
 
 export function SettingsView() {
   const router = useRouter();
@@ -69,12 +74,8 @@ export function SettingsView() {
   };
 
   const { user, tenant, updateProfileName, fetchProfile } = useAuth();
-  const {
-    webhookConfig,
-    saveWebhook,
-    regenerateSecret,
-    copySecret,
-  } = useSubscription();
+  const { webhookConfig, saveWebhook, regenerateSecret, copySecret } =
+    useSubscription();
   const [apiKey, setApiKey] = useState<string>(user?.token || "");
   const [showKey, setShowKey] = useState(false);
   const [isKeyLoading, setIsKeyLoading] = useState(false);
@@ -136,7 +137,9 @@ export function SettingsView() {
           toast.success(t("settings.keyRegenerated"), { id: "apikey-action" });
           await fetchProfile().catch(() => null);
         } else {
-          toast.error("Gagal mendapatkan API Key dari server.", { id: "apikey-action" });
+          toast.error("Gagal mendapatkan API Key dari server.", {
+            id: "apikey-action",
+          });
         }
       } else {
         await authApi.revokeApiKey();
@@ -146,7 +149,8 @@ export function SettingsView() {
       }
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal memproses aksi API Key.";
+      const msg =
+        err instanceof Error ? err.message : "Gagal memproses aksi API Key.";
       toast.error(msg, { id: "apikey-action" });
       setConfirmModal((prev) => ({ ...prev, isOpen: false }));
     } finally {
@@ -270,7 +274,7 @@ export function SettingsView() {
                     "flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-1 sm:gap-2 rounded-lg py-2 px-1 sm:px-3 lg:px-3.5 lg:py-2.5 text-xs sm:text-sm font-bold transition-all cursor-pointer",
                     isActive
                       ? "bg-surface text-foreground shadow-xs font-black dark:bg-muted/90 lg:bg-muted"
-                      : "text-foreground-secondary hover:bg-surface/50 dark:hover:bg-muted/50 hover:text-foreground font-semibold"
+                      : "text-foreground-secondary hover:bg-surface/50 dark:hover:bg-muted/50 hover:text-foreground font-semibold",
                   )}
                 >
                   <Icon
@@ -278,7 +282,7 @@ export function SettingsView() {
                       "size-4 shrink-0 transition-colors",
                       isActive
                         ? "text-emerald-600 dark:text-wise-green"
-                        : "text-foreground-muted"
+                        : "text-foreground-muted",
                     )}
                   />
                   <span className="text-[11px] sm:text-xs lg:text-sm font-bold tracking-tight truncate">
@@ -307,7 +311,9 @@ export function SettingsView() {
               </div>
               <Separator />
               <ProfileInfoCard
-                key={user?.id ? `${user.id}-${user.name}` : "profile-form-unloaded"}
+                key={
+                  user?.id ? `${user.id}-${user.name}` : "profile-form-unloaded"
+                }
                 user={user}
                 tenant={tenant}
                 onSaveProfile={updateProfileName}
@@ -357,7 +363,10 @@ export function SettingsView() {
                         onChange={(e) => {
                           setCurrentPassword(e.target.value);
                           if (passwordErrors.current)
-                            setPasswordErrors((prev) => ({ ...prev, current: undefined }));
+                            setPasswordErrors((prev) => ({
+                              ...prev,
+                              current: undefined,
+                            }));
                         }}
                         placeholder="••••••••"
                         required
@@ -367,7 +376,9 @@ export function SettingsView() {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                        onClick={() =>
+                          setShowCurrentPassword(!showCurrentPassword)
+                        }
                         className="text-foreground-muted hover:text-foreground absolute top-1/2 right-3.5 -translate-y-1/2 cursor-pointer transition"
                         aria-label={
                           showCurrentPassword
@@ -400,7 +411,10 @@ export function SettingsView() {
                         onChange={(e) => {
                           setNewPassword(e.target.value);
                           if (passwordErrors.new)
-                            setPasswordErrors((prev) => ({ ...prev, new: undefined }));
+                            setPasswordErrors((prev) => ({
+                              ...prev,
+                              new: undefined,
+                            }));
                         }}
                         placeholder="Minimal 8 karakter"
                         required
@@ -413,7 +427,9 @@ export function SettingsView() {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         className="text-foreground-muted hover:text-foreground absolute top-1/2 right-3.5 -translate-y-1/2 cursor-pointer transition"
                         aria-label={
-                          showNewPassword ? "Sembunyikan Kata Sandi" : "Lihat Kata Sandi"
+                          showNewPassword
+                            ? "Sembunyikan Kata Sandi"
+                            : "Lihat Kata Sandi"
                         }
                       >
                         {showNewPassword ? (
@@ -441,7 +457,10 @@ export function SettingsView() {
                         onChange={(e) => {
                           setConfirmPassword(e.target.value);
                           if (passwordErrors.confirm)
-                            setPasswordErrors((prev) => ({ ...prev, confirm: undefined }));
+                            setPasswordErrors((prev) => ({
+                              ...prev,
+                              confirm: undefined,
+                            }));
                         }}
                         placeholder="Ulangi kata sandi baru"
                         required
@@ -451,7 +470,9 @@ export function SettingsView() {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
                         className="text-foreground-muted hover:text-foreground absolute top-1/2 right-3.5 -translate-y-1/2 cursor-pointer transition"
                         aria-label={
                           showConfirmPassword
@@ -528,7 +549,8 @@ export function SettingsView() {
                         API Key Fast-Path
                       </h3>
                       <p className="text-foreground-secondary text-xs font-semibold">
-                        Gunakan token ini untuk otentikasi REST API dan bot otomasi eksternal.
+                        Gunakan token ini untuk otentikasi REST API dan bot
+                        otomasi eksternal.
                       </p>
                     </div>
                   </div>
@@ -571,11 +593,15 @@ export function SettingsView() {
                         <code className="dark:bg-wise-green/10 dark:text-wise-green dark:border-wise-green/20 rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-xs font-bold text-emerald-700">
                           Authorization: Bearer &lt;token&gt;
                         </code>
-                        <span className="text-foreground-secondary text-xs">atau</span>
+                        <span className="text-foreground-secondary text-xs">
+                          atau
+                        </span>
                         <code className="dark:bg-wise-green/10 dark:text-wise-green dark:border-wise-green/20 rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-xs font-bold text-emerald-700">
                           X-API-Key
                         </code>
-                        <span className="text-foreground text-xs font-bold">)</span>
+                        <span className="text-foreground text-xs font-bold">
+                          )
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Button
@@ -583,7 +609,9 @@ export function SettingsView() {
                           size="sm"
                           onClick={() => setShowKey(!showKey)}
                           className="border-border size-7 rounded-full p-0"
-                          aria-label={showKey ? "Sembunyikan Kunci" : "Tampilkan Kunci"}
+                          aria-label={
+                            showKey ? "Sembunyikan Kunci" : "Tampilkan Kunci"
+                          }
                         >
                           {showKey ? (
                             <EyeOff className="size-3.5" />
@@ -604,22 +632,24 @@ export function SettingsView() {
                     </div>
 
                     <div className="bg-surface border-border text-foreground rounded border p-3 font-mono text-xs font-semibold break-all select-all dark:bg-[#10110e]">
-                      {showKey ? apiKey : `${apiKey.slice(0, 5)}••••••••••••••••••••••••••••••••`}
+                      {showKey
+                        ? apiKey
+                        : `${apiKey.slice(0, 5)}••••••••••••••••••••••••••••••••`}
                     </div>
 
                     <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
                       <ShieldCheck className="dark:text-wise-green size-3.5 shrink-0 text-emerald-600" />
                       <span>
-                        Jangan pernah membagikan API Key Anda di repositori publik atau aplikasi
-                        client-side.
+                        Jangan pernah membagikan API Key Anda di repositori
+                        publik atau aplikasi client-side.
                       </span>
                     </div>
                   </div>
                 ) : (
                   <div className="border-border bg-muted/20 space-y-2 rounded-md border border-dashed p-6 text-center">
                     <p className="text-foreground-secondary text-xs font-semibold">
-                      Belum ada API Key aktif. Buat kunci baru untuk mulai menghubungkan aplikasi
-                      eksternal.
+                      Belum ada API Key aktif. Buat kunci baru untuk mulai
+                      menghubungkan aplikasi eksternal.
                     </p>
                     <Button
                       variant="primaryPill"

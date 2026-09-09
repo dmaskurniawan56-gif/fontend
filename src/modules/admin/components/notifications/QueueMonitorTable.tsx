@@ -7,11 +7,11 @@ import { useI18n } from "@/lib/i18n/context";
 
 const DeleteQueueModal = dynamic(
   () => import("./DeleteQueueModal").then((m) => m.DeleteQueueModal),
-  { ssr: false }
+  { ssr: false },
 );
 const QueueDetailModal = dynamic(
   () => import("./QueueDetailModal").then((m) => m.QueueDetailModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -64,7 +64,7 @@ interface QueueMonitorTableProps {
 
 function getQueueStatusBadge(
   status: string,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
 ) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
@@ -126,8 +126,10 @@ export function QueueMonitorTable({
 }: QueueMonitorTableProps) {
   const { t, locale } = useI18n();
   const [searchInput, setSearchInput] = useState("");
-  const [selectedQueueForDelete, setSelectedQueueForDelete] = useState<AdminQueueItem | null>(null);
-  const [selectedQueueForDetail, setSelectedQueueForDetail] = useState<AdminQueueItem | null>(null);
+  const [selectedQueueForDelete, setSelectedQueueForDelete] =
+    useState<AdminQueueItem | null>(null);
+  const [selectedQueueForDetail, setSelectedQueueForDetail] =
+    useState<AdminQueueItem | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -146,10 +148,11 @@ export function QueueMonitorTable({
     }
   };
 
-  const { sortKey, sortOrder, handleSort, sortData } = useTableSort<AdminQueueItem>({
-    initialKey: "createdAt",
-    initialOrder: "desc",
-  });
+  const { sortKey, sortOrder, handleSort, sortData } =
+    useTableSort<AdminQueueItem>({
+      initialKey: "createdAt",
+      initialOrder: "desc",
+    });
 
   const sortedQueues = sortData(queues);
 
@@ -190,11 +193,21 @@ export function QueueMonitorTable({
               variant="pill"
               wrapperClassName="flex-1 sm:flex-initial"
             >
-              <option value="ALL">{t("admin.notifications.filterAllStatus")}</option>
-              <option value="COMPLETED">{t("admin.notifications.statusCompleted")}</option>
-              <option value="PENDING">{t("admin.notifications.statusPending")}</option>
-              <option value="PROCESSING">{t("admin.notifications.statusProcessing")}</option>
-              <option value="FAILED">{t("admin.notifications.statusFailed")}</option>
+              <option value="ALL">
+                {t("admin.notifications.filterAllStatus")}
+              </option>
+              <option value="COMPLETED">
+                {t("admin.notifications.statusCompleted")}
+              </option>
+              <option value="PENDING">
+                {t("admin.notifications.statusPending")}
+              </option>
+              <option value="PROCESSING">
+                {t("admin.notifications.statusProcessing")}
+              </option>
+              <option value="FAILED">
+                {t("admin.notifications.statusFailed")}
+              </option>
             </NativeSelect>
 
             <Button
@@ -205,7 +218,9 @@ export function QueueMonitorTable({
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.notifications.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("common.refresh")}</span>
             </Button>
           </div>
@@ -217,7 +232,9 @@ export function QueueMonitorTable({
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.notifications.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.notifications.loadingText")}
+            </span>
           </div>
         ) : queues.length === 0 ? (
           <EmptyState
@@ -225,7 +242,9 @@ export function QueueMonitorTable({
             title={t("admin.notifications.emptyTitle")}
             description={
               searchQuery
-                ? t("admin.notifications.emptySearchDesc", { query: searchQuery })
+                ? t("admin.notifications.emptySearchDesc", {
+                    query: searchQuery,
+                  })
                 : t("admin.notifications.emptyDesc")
             }
           />
@@ -246,7 +265,9 @@ export function QueueMonitorTable({
                       </span>
                     </div>
 
-                    <div className="shrink-0">{getQueueStatusBadge(q.status, t)}</div>
+                    <div className="shrink-0">
+                      {getQueueStatusBadge(q.status, t)}
+                    </div>
                   </div>
 
                   {q.lastError && (
@@ -257,7 +278,9 @@ export function QueueMonitorTable({
 
                   <div className="text-foreground-muted flex items-center justify-between pt-1 text-[11px]">
                     <span>
-                      {t("admin.notifications.attemptsLabel")} {q.attempts}/{q.maxAttempts} ({t("admin.notifications.priorityPrefix")} {q.priority})
+                      {t("admin.notifications.attemptsLabel")} {q.attempts}/
+                      {q.maxAttempts} ({t("admin.notifications.priorityPrefix")}{" "}
+                      {q.priority})
                     </span>
                     <span>{formatDate(q.createdAt)}</span>
                   </div>
@@ -345,7 +368,10 @@ export function QueueMonitorTable({
                 </TableHeader>
                 <TableBody>
                   {sortedQueues.map((q) => (
-                    <TableRow key={q.id} className="hover:bg-muted/30 transition-colors">
+                    <TableRow
+                      key={q.id}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
                       {/* 1. Tipe Tugas & ID */}
                       <TableCell className="px-5 py-3.5 align-middle">
                         <div className="space-y-0.5">

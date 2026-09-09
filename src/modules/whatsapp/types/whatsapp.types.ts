@@ -1,4 +1,5 @@
-export type DeviceStatus = "CONNECTED" | "PAIRING" | "DISCONNECTED" | "HIBERNATED";
+export type DeviceStatus =
+  "CONNECTED" | "PAIRING" | "DISCONNECTED" | "HIBERNATED";
 
 export interface Device {
   id: string;

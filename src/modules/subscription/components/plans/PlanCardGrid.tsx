@@ -7,7 +7,15 @@ import {
 } from "@/modules/subscription/types/subscription.types";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/context";
-import { Check, Sparkles, Loader2, ArrowUpRight, Lock, Calendar, Info } from "lucide-react";
+import {
+  Check,
+  Sparkles,
+  Loader2,
+  ArrowUpRight,
+  Lock,
+  Calendar,
+  Info,
+} from "lucide-react";
 import { ConfirmUpgradeModal } from "./ConfirmUpgradeModal";
 
 interface PlanCardGridProps {
@@ -25,16 +33,16 @@ export function PlanCardGrid({
 }: PlanCardGridProps) {
   const { t } = useI18n();
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
-  const [selectedPlanForUpgrade, setSelectedPlanForUpgrade] = useState<SubscriptionPlan | null>(
-    null
-  );
+  const [selectedPlanForUpgrade, setSelectedPlanForUpgrade] =
+    useState<SubscriptionPlan | null>(null);
   const [isModalUpgrading, setIsModalUpgrading] = useState(false);
 
   // Determine active subscription price dynamically (0 if free/starter or inactive)
   const currentActivePrice =
     currentSubscription?.isActive && currentSubscription?.planId
       ? currentSubscription.planPrice ||
-        (plans.find((p) => p.id === currentSubscription.planId)?.priceMonthly ?? 0)
+        (plans.find((p) => p.id === currentSubscription.planId)?.priceMonthly ??
+          0)
       : 0;
 
   const handleSelectPlanClick = async (plan: SubscriptionPlan) => {
@@ -80,20 +88,27 @@ export function PlanCardGrid({
               </div>
               <div>
                 <span>
-                  Paket <strong>{currentSubscription.planName}</strong> Anda aktif hingga{" "}
+                  Paket <strong>{currentSubscription.planName}</strong> Anda
+                  aktif hingga{" "}
                 </span>
                 <strong className="dark:text-wise-green text-emerald-700">
-                  {new Date(currentSubscription.expiresAt).toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                  })}
+                  {new Date(currentSubscription.expiresAt).toLocaleDateString(
+                    "id-ID",
+                    {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    },
+                  )}
                 </strong>
               </div>
             </div>
             <span className="inline-flex items-center gap-1.5 text-foreground-muted text-[11px] font-medium">
               <Info className="size-3.5 text-amber-500 shrink-0" />
-              <span>Anda dapat melakukan upgrade ke paket yang lebih tinggi kapan saja.</span>
+              <span>
+                Anda dapat melakukan upgrade ke paket yang lebih tinggi kapan
+                saja.
+              </span>
             </span>
           </div>
         )}
@@ -118,7 +133,8 @@ export function PlanCardGrid({
             currentActivePrice > 0 &&
             plan.priceMonthly < currentActivePrice;
 
-          const canUpgrade = !isCurrent && (!isLowerTier || currentActivePrice === 0);
+          const canUpgrade =
+            !isCurrent && (!isLowerTier || currentActivePrice === 0);
           const isPopular = Boolean(plan.isPopular);
           const priceMonthly = Number(plan.priceMonthly ?? 0);
           const features = Array.isArray(plan.features) ? plan.features : [];
@@ -208,7 +224,9 @@ export function PlanCardGrid({
                     disabled={loadingPlanId === plan.id || !canUpgrade}
                     onClick={() => handleSelectPlanClick(plan)}
                     className={`w-full cursor-pointer gap-1.5 rounded-full text-xs font-bold ${
-                      !isPopular ? "border-border hover:border-foreground-muted" : "shadow-sm"
+                      !isPopular
+                        ? "border-border hover:border-foreground-muted"
+                        : "shadow-sm"
                     }`}
                   >
                     {loadingPlanId === plan.id ? (

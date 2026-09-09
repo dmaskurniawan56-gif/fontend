@@ -30,7 +30,10 @@ export function DeviceMetricsCards({ metrics }: DeviceMetricsCardsProps) {
           <Smartphone className="text-foreground-secondary size-4" />
         </div>
         <div className="text-foreground font-mono text-lg font-black sm:text-xl">
-          {metrics.totalCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")} {t("admin.devices.slotUnit")}
+          {metrics.totalCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
+          {t("admin.devices.slotUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
           {t("admin.devices.totalDevicesDesc")}
@@ -45,7 +48,10 @@ export function DeviceMetricsCards({ metrics }: DeviceMetricsCardsProps) {
           <Wifi className="dark:text-wise-green size-4 text-emerald-600" />
         </div>
         <div className="dark:text-wise-green font-mono text-lg font-black text-emerald-700 sm:text-xl">
-          {metrics.onlineCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")} {t("admin.devices.deviceUnit")}
+          {metrics.onlineCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
+          {t("admin.devices.deviceUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
           {t("admin.devices.onlineActiveDesc")}
@@ -60,7 +66,10 @@ export function DeviceMetricsCards({ metrics }: DeviceMetricsCardsProps) {
           <WifiOff className="text-foreground-secondary size-4" />
         </div>
         <div className="text-foreground-secondary font-mono text-lg font-black sm:text-xl">
-          {metrics.offlineCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")} {t("admin.devices.deviceUnit")}
+          {metrics.offlineCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
+          {t("admin.devices.deviceUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
           {t("admin.devices.offlineDesc")}
@@ -76,7 +85,7 @@ export function DeviceMetricsCards({ metrics }: DeviceMetricsCardsProps) {
         </div>
         <div className="font-mono text-lg font-black text-amber-600 sm:text-xl dark:text-amber-400">
           {(metrics.qrPendingCount + metrics.hibernatedCount).toLocaleString(
-            locale === "en" ? "en-US" : "id-ID"
+            locale === "en" ? "en-US" : "id-ID",
           )}{" "}
           {t("admin.devices.deviceUnit")}
         </div>

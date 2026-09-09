@@ -33,15 +33,17 @@ export function useReminders() {
         status?: ReminderStatus | "ALL";
         page?: number;
       },
-      signal?: AbortSignal
+      signal?: AbortSignal,
     ) => {
       setIsLoading(true);
       setError(null);
       try {
-        const querySearch = overrideParams?.search !== undefined ? overrideParams.search : search;
+        const querySearch =
+          overrideParams?.search !== undefined ? overrideParams.search : search;
         const queryStatus =
           overrideParams?.status !== undefined ? overrideParams.status : status;
-        const queryPage = overrideParams?.page !== undefined ? overrideParams.page : page;
+        const queryPage =
+          overrideParams?.page !== undefined ? overrideParams.page : page;
 
         const res = await reminderApi.getReminders({
           page: queryPage,
@@ -58,15 +60,13 @@ export function useReminders() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         const msg =
-          err instanceof Error
-            ? err.message
-            : t("reminder.fetchFailed");
+          err instanceof Error ? err.message : t("reminder.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [search, status, page, pageSize, t]
+    [search, status, page, pageSize, t],
   );
 
   // Initial load
@@ -89,7 +89,9 @@ export function useReminders() {
         if (err instanceof Error && err.name === "AbortError") return;
         if (isMounted) {
           setError(
-            err instanceof Error ? err.message : "Gagal memuat daftar pengingat"
+            err instanceof Error
+              ? err.message
+              : "Gagal memuat daftar pengingat",
           );
         }
       } finally {
@@ -125,7 +127,9 @@ export function useReminders() {
     fetchReminders({ page: p });
   };
 
-  const createReminder = async (input: CreateReminderInput): Promise<boolean> => {
+  const createReminder = async (
+    input: CreateReminderInput,
+  ): Promise<boolean> => {
     try {
       await reminderApi.createReminder(input);
       toast.success(t("reminder.createdSuccess"));
@@ -133,9 +137,7 @@ export function useReminders() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reminder.createFailed");
+        err instanceof Error ? err.message : t("reminder.createFailed");
       toast.error(msg);
       return false;
     }
@@ -143,7 +145,7 @@ export function useReminders() {
 
   const updateReminder = async (
     id: string,
-    input: UpdateReminderInput
+    input: UpdateReminderInput,
   ): Promise<boolean> => {
     try {
       const updated = await reminderApi.updateReminder(id, input);
@@ -152,15 +154,16 @@ export function useReminders() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reminder.updateFailed");
+        err instanceof Error ? err.message : t("reminder.updateFailed");
       toast.error(msg);
       return false;
     }
   };
 
-  const deleteReminder = async (id: string, _name?: string): Promise<boolean> => {
+  const deleteReminder = async (
+    id: string,
+    _name?: string,
+  ): Promise<boolean> => {
     try {
       await reminderApi.deleteReminder(id);
       toast.success(t("reminder.deletedSuccess"));
@@ -169,9 +172,7 @@ export function useReminders() {
       return true;
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reminder.deleteFailed");
+        err instanceof Error ? err.message : t("reminder.deleteFailed");
       toast.error(msg);
       return false;
     }
@@ -179,7 +180,7 @@ export function useReminders() {
 
   const toggleStatus = async (
     id: string,
-    currentStatus: ReminderStatus
+    currentStatus: ReminderStatus,
   ): Promise<boolean> => {
     const nextStatus: ReminderStatus =
       currentStatus === "ACTIVE" ? "PAUSED" : "ACTIVE";
@@ -190,8 +191,12 @@ export function useReminders() {
   const stats = useMemo(() => {
     const activeCount = reminders.filter((r) => r.status === "ACTIVE").length;
     const pausedCount = reminders.filter((r) => r.status === "PAUSED").length;
-    const completedCount = reminders.filter((r) => r.status === "COMPLETED").length;
-    const cancelledCount = reminders.filter((r) => r.status === "CANCELLED").length;
+    const completedCount = reminders.filter(
+      (r) => r.status === "COMPLETED",
+    ).length;
+    const cancelledCount = reminders.filter(
+      (r) => r.status === "CANCELLED",
+    ).length;
 
     return {
       total,

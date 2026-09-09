@@ -52,7 +52,10 @@ export function ConfirmUpgradeModal({
   const deficit = Math.max(0, price - currentBalance);
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isUpgrading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isUpgrading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         <DialogHeader className="border-border flex shrink-0 flex-col gap-2 border-b p-5 text-left sm:p-6">
           <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
@@ -72,15 +75,23 @@ export function ConfirmUpgradeModal({
           {/* Plan Summary Card */}
           <div className="border-border bg-muted/20 space-y-2 rounded-lg border p-3.5">
             <div className="flex items-center justify-between font-bold">
-              <span className="text-foreground-secondary">{t("subscription.selectedPlan")}</span>
-              <span className="text-foreground text-sm font-black">{plan.name}</span>
+              <span className="text-foreground-secondary">
+                {t("subscription.selectedPlan")}
+              </span>
+              <span className="text-foreground text-sm font-black">
+                {plan.name}
+              </span>
             </div>
             <div className="text-foreground-secondary flex items-center justify-between font-medium">
               <span>{t("subscription.validityPeriod")}</span>
-              <span className="text-foreground font-semibold">{t("subscription.validityValue")}</span>
+              <span className="text-foreground font-semibold">
+                {t("subscription.validityValue")}
+              </span>
             </div>
             <div className="border-border flex items-center justify-between border-t pt-2 font-bold">
-              <span className="text-foreground">{t("subscription.totalBill")}</span>
+              <span className="text-foreground">
+                {t("subscription.totalBill")}
+              </span>
               <span className="text-sm font-black text-rose-600 dark:text-rose-400">
                 Rp {price.toLocaleString("id-ID")}
               </span>
@@ -168,7 +179,11 @@ export function ConfirmUpgradeModal({
               )}
             </Button>
           ) : (
-            <Link href="/billing" onClick={onClose} className="w-full sm:w-auto">
+            <Link
+              href="/billing"
+              onClick={onClose}
+              className="w-full sm:w-auto"
+            >
               <Button
                 type="button"
                 className="bg-wise-green text-dark-green hover:bg-wise-green/90 w-full cursor-pointer gap-1.5 rounded-full text-xs font-bold"

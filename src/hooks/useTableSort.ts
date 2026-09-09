@@ -9,8 +9,12 @@ export interface UseTableSortOptions<T> {
 }
 
 export function useTableSort<T>(options: UseTableSortOptions<T> = {}) {
-  const [sortKey, setSortKey] = useState<keyof T | null>(options.initialKey ?? null);
-  const [sortOrder, setSortOrder] = useState<SortOrder>(options.initialOrder ?? null);
+  const [sortKey, setSortKey] = useState<keyof T | null>(
+    options.initialKey ?? null,
+  );
+  const [sortOrder, setSortOrder] = useState<SortOrder>(
+    options.initialOrder ?? null,
+  );
 
   const handleSort = useCallback((keyString: string) => {
     const key = keyString as keyof T;
@@ -46,7 +50,9 @@ export function useTableSort<T>(options: UseTableSortOptions<T> = {}) {
         }
 
         if (typeof valA === "boolean" && typeof valB === "boolean") {
-          return sortOrder === "asc" ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+          return sortOrder === "asc"
+            ? Number(valA) - Number(valB)
+            : Number(valB) - Number(valA);
         }
 
         // Date string or ISO comparison
@@ -68,7 +74,7 @@ export function useTableSort<T>(options: UseTableSortOptions<T> = {}) {
         return 0;
       });
     },
-    [sortKey, sortOrder]
+    [sortKey, sortOrder],
   );
 
   return useMemo(
@@ -80,6 +86,6 @@ export function useTableSort<T>(options: UseTableSortOptions<T> = {}) {
       setSortKey,
       setSortOrder,
     }),
-    [sortKey, sortOrder, handleSort, sortData]
+    [sortKey, sortOrder, handleSort, sortData],
   );
 }

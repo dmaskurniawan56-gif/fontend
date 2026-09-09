@@ -15,7 +15,13 @@ import {
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
-import { UploadCloud, FileSpreadsheet, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  UploadCloud,
+  FileSpreadsheet,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 
 interface ImportCsvModalProps {
   isOpen: boolean;
@@ -23,7 +29,11 @@ interface ImportCsvModalProps {
   onImport: (contacts: CreateContactInput[]) => Promise<unknown>;
 }
 
-export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProps) {
+export function ImportCsvModal({
+  isOpen,
+  onClose,
+  onImport,
+}: ImportCsvModalProps) {
   const { t } = useI18n();
   const [parsedData, setParsedData] = useState<CreateContactInput[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +62,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
         }
 
         const headerLine = lines[0].toLowerCase();
-        const headers = headerLine.split(",").map((h) => h.trim().replace(/^["']|["']$/g, ""));
+        const headers = headerLine
+          .split(",")
+          .map((h) => h.trim().replace(/^["']|["']$/g, ""));
 
         const nameIndex = headers.indexOf("name");
         const phoneIndex = headers.indexOf("phone");
@@ -66,7 +78,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
         const validContacts: CreateContactInput[] = [];
 
         for (let i = 1; i < lines.length; i++) {
-          const cols = lines[i].split(",").map((c) => c.trim().replace(/^["']|["']$/g, ""));
+          const cols = lines[i]
+            .split(",")
+            .map((c) => c.trim().replace(/^["']|["']$/g, ""));
           const rawName = cols[nameIndex];
           const rawPhone = cols[phoneIndex];
           const rawTags = tagsIndex !== -1 ? cols[tagsIndex] : "";
@@ -91,7 +105,10 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
         }
 
         if (validContacts.length === 0) {
-          setError(t("contact.errNoValidContacts") || "Tidak ada nomor kontak WhatsApp yang valid dalam file CSV.");
+          setError(
+            t("contact.errNoValidContacts") ||
+              "Tidak ada nomor kontak WhatsApp yang valid dalam file CSV.",
+          );
           return;
         }
 
@@ -121,7 +138,10 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Modal Header */}
         <DialogHeader className="border-border/80 flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -149,7 +169,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
 
           {/* Instructions Box */}
           <div className="border-border bg-muted/20 space-y-2 rounded-md border p-3.5 text-xs">
-            <span className="text-foreground block font-bold">Ketentuan Format CSV:</span>
+            <span className="text-foreground block font-bold">
+              Ketentuan Format CSV:
+            </span>
             <ul className="text-foreground-secondary list-inside list-disc space-y-1">
               <li>
                 Gunakan baris pertama untuk header:{" "}
@@ -158,12 +180,15 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
                 </code>
               </li>
               <li>
-                Format nomor WhatsApp: diawali <code className="font-bold">08xxx</code>,{" "}
-                <code className="font-bold">628xxx</code>, atau nomor internasional dengan kode negara (otomatis dinormalisasi).
+                Format nomor WhatsApp: diawali{" "}
+                <code className="font-bold">08xxx</code>,{" "}
+                <code className="font-bold">628xxx</code>, atau nomor
+                internasional dengan kode negara (otomatis dinormalisasi).
               </li>
               <li>
-                Kolom <code className="font-bold">tags</code> bersifat opsional, pisahkan tag dengan
-                titik koma (contoh: <code className="font-mono">VIP;Pelanggan;Bandung</code>).
+                Kolom <code className="font-bold">tags</code> bersifat opsional,
+                pisahkan tag dengan titik koma (contoh:{" "}
+                <code className="font-mono">VIP;Pelanggan;Bandung</code>).
               </li>
             </ul>
           </div>
@@ -184,7 +209,9 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
               {fileName ? fileName : t("contact.importDropzone")}
             </span>
             <span className="text-foreground-muted mt-1 text-[11px]">
-              {fileName ? "Klik untuk mengganti file" : "Format yang didukung: .csv (Maksimal 5MB)"}
+              {fileName
+                ? "Klik untuk mengganti file"
+                : "Format yang didukung: .csv (Maksimal 5MB)"}
             </span>
           </label>
 
@@ -204,9 +231,16 @@ export function ImportCsvModal({ isOpen, onClose, onImport }: ImportCsvModalProp
 
               <div className="divide-border/40 mt-2 max-h-32 divide-y overflow-y-auto font-mono">
                 {parsedData.slice(0, 5).map((c, idx) => (
-                  <div key={idx} className="flex justify-between py-1.5 text-[11px]">
-                    <span className="text-foreground max-w-45 truncate font-bold">{c.name}</span>
-                    <span className="text-foreground-secondary">+{c.phone}</span>
+                  <div
+                    key={idx}
+                    className="flex justify-between py-1.5 text-[11px]"
+                  >
+                    <span className="text-foreground max-w-45 truncate font-bold">
+                      {c.name}
+                    </span>
+                    <span className="text-foreground-secondary">
+                      +{c.phone}
+                    </span>
                   </div>
                 ))}
                 {parsedData.length > 5 && (

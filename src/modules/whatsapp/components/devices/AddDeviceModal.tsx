@@ -21,7 +21,11 @@ interface AddDeviceModalProps {
   onSubmit: (name: string) => Promise<unknown>;
 }
 
-export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProps) {
+export function AddDeviceModal({
+  isOpen,
+  onClose,
+  onSubmit,
+}: AddDeviceModalProps) {
   const { t } = useI18n();
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +45,8 @@ export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProp
       setName("");
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Gagal menambahkan perangkat";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menambahkan perangkat";
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -49,7 +54,10 @@ export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProp
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-md">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -67,7 +75,10 @@ export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProp
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4.5 overflow-y-auto p-5 sm:p-6">
             {error && (
               <div className="rounded-md border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-600 dark:text-rose-400">
@@ -76,7 +87,10 @@ export function AddDeviceModal({ isOpen, onClose, onSubmit }: AddDeviceModalProp
             )}
 
             <div>
-              <Label htmlFor="device-name-input" className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
+              <Label
+                htmlFor="device-name-input"
+                className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase"
+              >
                 {t("whatsapp.deviceNameLabel")}
               </Label>
               <Input

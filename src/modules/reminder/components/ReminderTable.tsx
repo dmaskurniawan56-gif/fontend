@@ -2,7 +2,14 @@
 
 import React from "react";
 import { Reminder, ReminderStatus } from "../types/reminder.types";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,7 +23,11 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import {
   Calendar,
@@ -82,7 +93,10 @@ export function ReminderTable({
         );
       case "COMPLETED":
         return (
-          <Badge variant="secondary" className="gap-1 text-[11px] font-semibold">
+          <Badge
+            variant="secondary"
+            className="gap-1 text-[11px] font-semibold"
+          >
             <CheckCircle2 className="size-3" />
             <span>{t("reminder.stats.completed")}</span>
           </Badge>
@@ -90,7 +104,10 @@ export function ReminderTable({
       case "CANCELLED":
       default:
         return (
-          <Badge variant="destructive" className="gap-1 text-[11px] font-semibold">
+          <Badge
+            variant="destructive"
+            className="gap-1 text-[11px] font-semibold"
+          >
             <XCircle className="size-3" />
             <span>{t("reminder.table.tabCancelled")}</span>
           </Badge>
@@ -133,9 +150,12 @@ export function ReminderTable({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <CardTitle className="text-sm font-bold">{t("reminder.table.title")}</CardTitle>
+              <CardTitle className="text-sm font-bold">
+                {t("reminder.table.title")}
+              </CardTitle>
               <Badge variant="outline" className="text-[10px]">
-                {total} {t("reminder.table.tabAll") === "All" ? "contacts" : "kontak"}
+                {total}{" "}
+                {t("reminder.table.tabAll") === "All" ? "contacts" : "kontak"}
               </Badge>
             </div>
             <CardDescription className="text-xs">
@@ -162,11 +182,21 @@ export function ReminderTable({
             onValueChange={(v) => onStatusChange(v as ReminderStatus | "ALL")}
           >
             <TabsList className="h-8">
-              <TabsTrigger value="ALL" className="text-xs">{t("reminder.table.tabAll")}</TabsTrigger>
-              <TabsTrigger value="ACTIVE" className="text-xs">{t("reminder.table.tabActive")}</TabsTrigger>
-              <TabsTrigger value="PAUSED" className="text-xs">{t("reminder.stats.paused")}</TabsTrigger>
-              <TabsTrigger value="COMPLETED" className="text-xs">{t("reminder.stats.completed")}</TabsTrigger>
-              <TabsTrigger value="CANCELLED" className="text-xs">{t("reminder.table.tabCancelled")}</TabsTrigger>
+              <TabsTrigger value="ALL" className="text-xs">
+                {t("reminder.table.tabAll")}
+              </TabsTrigger>
+              <TabsTrigger value="ACTIVE" className="text-xs">
+                {t("reminder.table.tabActive")}
+              </TabsTrigger>
+              <TabsTrigger value="PAUSED" className="text-xs">
+                {t("reminder.stats.paused")}
+              </TabsTrigger>
+              <TabsTrigger value="COMPLETED" className="text-xs">
+                {t("reminder.stats.completed")}
+              </TabsTrigger>
+              <TabsTrigger value="CANCELLED" className="text-xs">
+                {t("reminder.table.tabCancelled")}
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -180,32 +210,61 @@ export function ReminderTable({
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
-                <TableHead className="text-xs font-semibold">{t("reminder.table.colRecipient")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.quick.phoneLabel")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.table.colDate")}</TableHead>
-                <TableHead className="text-xs font-semibold">{t("reminder.table.colNotes")}</TableHead>
-                <TableHead className="text-center text-xs font-semibold">{t("reminder.table.colStatus")}</TableHead>
-                <TableHead className="text-right text-xs font-semibold">{t("reminder.table.colActions")}</TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.table.colRecipient")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.quick.phoneLabel")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.table.colDate")}
+                </TableHead>
+                <TableHead className="text-xs font-semibold">
+                  {t("reminder.table.colNotes")}
+                </TableHead>
+                <TableHead className="text-center text-xs font-semibold">
+                  {t("reminder.table.colStatus")}
+                </TableHead>
+                <TableHead className="text-right text-xs font-semibold">
+                  {t("reminder.table.colActions")}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-36" /></TableCell>
-                    <TableCell className="text-center"><Skeleton className="mx-auto h-4 w-16" /></TableCell>
-                    <TableCell className="text-right"><Skeleton className="ml-auto h-7 w-16" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-28" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-36" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="mx-auto h-4 w-16" />
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Skeleton className="ml-auto h-7 w-16" />
+                    </TableCell>
                   </TableRow>
                 ))
               ) : reminders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="py-12 text-center text-foreground-muted">
+                  <TableCell
+                    colSpan={6}
+                    className="py-12 text-center text-foreground-muted"
+                  >
                     <div className="flex flex-col items-center justify-center gap-2">
                       <Clock className="size-8 text-foreground-muted/40" />
-                      <p className="text-sm font-medium">{t("reminder.table.emptyTitle")}</p>
+                      <p className="text-sm font-medium">
+                        {t("reminder.table.emptyTitle")}
+                      </p>
                       <p className="text-xs text-foreground-muted/70">
                         {t("reminder.table.emptyDesc")}
                       </p>
@@ -214,7 +273,10 @@ export function ReminderTable({
                 </TableRow>
               ) : (
                 reminders.map((rem) => (
-                  <TableRow key={rem.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow
+                    key={rem.id}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
                     <TableCell>
                       <div className="font-semibold text-foreground flex items-center gap-1.5 text-xs">
                         <User className="size-3 text-primary/70" />
@@ -234,7 +296,9 @@ export function ReminderTable({
                           <div className="flex flex-col gap-0.5">
                             <div className="flex items-center gap-1.5 font-bold text-foreground">
                               <Calendar className="size-3 text-blue-500/80 shrink-0" />
-                              <span className="font-mono tracking-tight text-xs">{formatted.numeric}</span>
+                              <span className="font-mono tracking-tight text-xs">
+                                {formatted.numeric}
+                              </span>
                             </div>
                             {formatted.text && (
                               <span className="text-[11px] text-foreground-muted pl-4">
@@ -247,7 +311,9 @@ export function ReminderTable({
                     </TableCell>
                     <TableCell className="text-foreground-muted text-xs">
                       <span className="line-clamp-1">
-                        {rem.notes || <span className="opacity-50 italic">-</span>}
+                        {rem.notes || (
+                          <span className="opacity-50 italic">-</span>
+                        )}
                       </span>
                     </TableCell>
                     <TableCell className="text-center">
@@ -256,7 +322,8 @@ export function ReminderTable({
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
                         {/* Toggle Pause / Active */}
-                        {(rem.status === "ACTIVE" || rem.status === "PAUSED") && (
+                        {(rem.status === "ACTIVE" ||
+                          rem.status === "PAUSED") && (
                           <Tooltip>
                             <TooltipTrigger
                               render={
@@ -264,7 +331,9 @@ export function ReminderTable({
                                   type="button"
                                   variant="ghost"
                                   size="icon-xs"
-                                  onClick={() => onToggleStatus(rem.id, rem.status)}
+                                  onClick={() =>
+                                    onToggleStatus(rem.id, rem.status)
+                                  }
                                   className="text-foreground-muted hover:text-foreground cursor-pointer"
                                 />
                               }
@@ -276,7 +345,9 @@ export function ReminderTable({
                               )}
                             </TooltipTrigger>
                             <TooltipContent>
-                              {rem.status === "ACTIVE" ? t("reminder.table.pauseSchedule") : t("reminder.table.activateSchedule")}
+                              {rem.status === "ACTIVE"
+                                ? t("reminder.table.pauseSchedule")
+                                : t("reminder.table.activateSchedule")}
                             </TooltipContent>
                           </Tooltip>
                         )}
@@ -296,7 +367,9 @@ export function ReminderTable({
                           >
                             <Trash2 className="size-3.5" />
                           </TooltipTrigger>
-                          <TooltipContent>{t("reminder.table.deleteSchedule")}</TooltipContent>
+                          <TooltipContent>
+                            {t("reminder.table.deleteSchedule")}
+                          </TooltipContent>
                         </Tooltip>
                       </div>
                     </TableCell>

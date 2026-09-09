@@ -56,7 +56,10 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isLoading && onClose()}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isLoading && onClose()}
+    >
       <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-0 shadow-2xl sm:max-w-lg">
         {/* Sticky Header */}
         <DialogHeader className="border-border flex shrink-0 flex-row items-center gap-3 border-b p-5 pb-4 text-left sm:p-6">
@@ -74,7 +77,10 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
         </DialogHeader>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <div className="flex-1 space-y-4.5 overflow-y-auto p-5 sm:p-6">
             {error && (
               <div className="rounded-md border border-rose-500/20 bg-rose-500/10 p-3 text-xs font-semibold text-rose-600 dark:text-rose-400">
@@ -133,7 +139,9 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
                   value={customAmount}
                   onChange={(e) => {
                     const raw = e.target.value.replace(/[^0-9]/g, "");
-                    setCustomAmount(raw ? Number(raw).toLocaleString("id-ID") : "");
+                    setCustomAmount(
+                      raw ? Number(raw).toLocaleString("id-ID") : "",
+                    );
                     setError(null);
                   }}
                   variant="rounded"
@@ -166,7 +174,8 @@ export function TopUpModal({ isOpen, onClose, onSubmit }: TopUpModalProps) {
                       </span>
                     </div>
                     <span className="text-foreground-secondary mt-0.5 block text-[11px] leading-tight font-semibold">
-                      Scan via BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay
+                      Scan via BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA,
+                      ShopeePay
                     </span>
                   </div>
                 </div>

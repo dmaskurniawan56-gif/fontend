@@ -93,15 +93,21 @@ export const DEFAULT_USERS: UserItem[] = [
 ];
 
 function normalizeUser(raw: Record<string, unknown>): UserItem {
-  const roleName = String(raw.role_name || raw.roleName || raw.role || "USER").toUpperCase();
+  const roleName = String(
+    raw.role_name || raw.roleName || raw.role || "USER",
+  ).toUpperCase();
   const isActive =
     raw.is_active !== undefined
       ? Boolean(raw.is_active)
       : raw.isActive !== undefined
         ? Boolean(raw.isActive)
         : true;
-  const balance = Number(raw.balance ?? raw.depositBalance ?? raw.deposit_balance ?? 0);
-  const quotaRemaining = Number(raw.quotaRemaining ?? raw.quota_remaining ?? 1000);
+  const balance = Number(
+    raw.balance ?? raw.depositBalance ?? raw.deposit_balance ?? 0,
+  );
+  const quotaRemaining = Number(
+    raw.quotaRemaining ?? raw.quota_remaining ?? 1000,
+  );
   const phone = String(raw.phone_number || raw.phoneNumber || raw.phone || "");
 
   return {
@@ -115,14 +121,16 @@ function normalizeUser(raw: Record<string, unknown>): UserItem {
     planName: String(
       raw.planName ||
         raw.plan_name ||
-        (roleName === "SUPER_ADMIN" ? "Enterprise Cluster" : "Professional")
+        (roleName === "SUPER_ADMIN" ? "Enterprise Cluster" : "Professional"),
     ),
     quotaRemaining: quotaRemaining,
     depositBalance: balance,
     balance: balance,
     status: isActive ? "ACTIVE" : "SUSPENDED",
     isActive: isActive,
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
   };
 }
 
@@ -136,7 +144,9 @@ function normalizeUserActivity(raw: Record<string, unknown>): UserActivityItem {
       : raw.tenantId
         ? String(raw.tenantId)
         : undefined,
-    activityType: String(raw.activity_type || raw.type || raw.activityType || ""),
+    activityType: String(
+      raw.activity_type || raw.type || raw.activityType || "",
+    ),
     type: String(raw.type || raw.activity_type || raw.activityType || ""),
     description: String(raw.description || ""),
     createdAt: String(raw.created_at || raw.createdAt || ""),
@@ -167,7 +177,10 @@ function normalizeUserActivity(raw: Record<string, unknown>): UserActivityItem {
 }
 
 export const adminApi = {
-  getUsers: async (params?: GetUsersParams, signal?: AbortSignal): Promise<UserListResponse> => {
+  getUsers: async (
+    params?: GetUsersParams,
+    signal?: AbortSignal,
+  ): Promise<UserListResponse> => {
     try {
       const page = params?.page ?? 1;
       const pageSize = params?.pageSize ?? 10;
@@ -186,20 +199,23 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/users?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawUsers = Array.isArray(res.payload) ? res.payload : [];
       const users = rawUsers.map(normalizeUser);
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : users.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : users.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         users: users.length > 0 ? users : params?.search ? [] : DEFAULT_USERS,
-        total: users.length > 0 ? total : params?.search ? 0 : DEFAULT_USERS.length,
+        total:
+          users.length > 0 ? total : params?.search ? 0 : DEFAULT_USERS.length,
         page: resPage,
         pageSize: resSize,
       };
@@ -216,7 +232,7 @@ export const adminApi = {
 
   updateUser: async (
     userId: string,
-    payload: UpdateUserInput
+    payload: UpdateUserInput,
   ): Promise<{ success: boolean; message: string }> => {
     const body: Record<string, unknown> = {};
     if (payload.name) body.name = payload.name;
@@ -229,7 +245,7 @@ export const adminApi = {
 
     const res = await httpClient.put<{ success: boolean; message: string }>(
       `${ADMIN_BASE}/admin/users/${userId}`,
-      body
+      body,
     );
     return {
       success: res.success,
@@ -238,14 +254,15 @@ export const adminApi = {
   },
 
   adjustUserBalance: async (
-    payload: AdjustBalanceInput
+    payload: AdjustBalanceInput,
   ): Promise<{ success: boolean; message: string }> => {
     const endpoint =
       payload.type === "REDUCE"
         ? `${ADMIN_BASE}/admin/users/reduce-balance`
         : `${ADMIN_BASE}/admin/users/add-balance`;
 
-    const idempotencyKey = payload.idempotencyKey || generateSecureRandomString("adm-bal-", 16);
+    const idempotencyKey =
+      payload.idempotencyKey || generateSecureRandomString("adm-bal-", 16);
 
     const res = await httpClient.post<{ success: boolean; message: string }>(
       endpoint,
@@ -258,20 +275,27 @@ export const adminApi = {
         headers: {
           "Idempotency-Key": idempotencyKey,
         },
-      }
+      },
     );
     return {
       success: res.success,
       message:
         res.message ||
-        (payload.type === "REDUCE" ? "Saldo berhasil dikurangi" : "Saldo berhasil ditambahkan"),
+        (payload.type === "REDUCE"
+          ? "Saldo berhasil dikurangi"
+          : "Saldo berhasil ditambahkan"),
     };
   },
 
-  getAdminDashboardStats: async (signal?: AbortSignal): Promise<AdminDashboardStats> => {
-    const res = await httpClient.get<AdminDashboardStats>(`${ADMIN_BASE}/admin/dashboard/stats`, {
-      signal,
-    });
+  getAdminDashboardStats: async (
+    signal?: AbortSignal,
+  ): Promise<AdminDashboardStats> => {
+    const res = await httpClient.get<AdminDashboardStats>(
+      `${ADMIN_BASE}/admin/dashboard/stats`,
+      {
+        signal,
+      },
+    );
     return (
       res.payload || {
         total_users: 0,
@@ -292,7 +316,7 @@ export const adminApi = {
 
   getUserActivities: async (
     params?: GetUserActivitiesParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<UserActivityListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -312,16 +336,18 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/user-activity?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawActivities = Array.isArray(res.payload) ? res.payload : [];
       const activities = rawActivities.map(normalizeUserActivity);
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : activities.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : activities.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         activities,
@@ -340,16 +366,26 @@ export const adminApi = {
     }
   },
 
-  deleteUserActivity: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.delete(`${ADMIN_BASE}/admin/user-activity/${id}`);
-    return { success: res.success, message: res.message || "Aktivitas berhasil dihapus" };
+  deleteUserActivity: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.delete(
+      `${ADMIN_BASE}/admin/user-activity/${id}`,
+    );
+    return {
+      success: res.success,
+      message: res.message || "Aktivitas berhasil dihapus",
+    };
   },
 
   getAdminPlans: async (signal?: AbortSignal): Promise<AdminPlanItem[]> => {
     try {
-      const res = await httpClient.get<Record<string, unknown>[]>(`${ADMIN_BASE}/plans`, {
-        signal,
-      });
+      const res = await httpClient.get<Record<string, unknown>[]>(
+        `${ADMIN_BASE}/plans`,
+        {
+          signal,
+        },
+      );
       const rawList = Array.isArray(res.payload) ? res.payload : [];
       if (rawList.length > 0) {
         return rawList.map(normalizeAdminPlan);
@@ -406,7 +442,7 @@ export const adminApi = {
   createAdminPlan: async (payload: CreatePlanInput): Promise<AdminPlanItem> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${ADMIN_BASE}/admin/plans`,
-      payload
+      payload,
     );
     if (!res.payload) {
       throw new Error(res.message || "Gagal membuat paket langganan");
@@ -414,10 +450,13 @@ export const adminApi = {
     return normalizeAdminPlan(res.payload);
   },
 
-  updateAdminPlan: async (id: string, payload: UpdatePlanInput): Promise<AdminPlanItem> => {
+  updateAdminPlan: async (
+    id: string,
+    payload: UpdatePlanInput,
+  ): Promise<AdminPlanItem> => {
     const res = await httpClient.put<Record<string, unknown>>(
       `${ADMIN_BASE}/admin/plans/${id}`,
-      payload
+      payload,
     );
     if (!res.payload) {
       throw new Error(res.message || "Gagal memperbarui paket langganan");
@@ -425,14 +464,19 @@ export const adminApi = {
     return normalizeAdminPlan(res.payload);
   },
 
-  deleteAdminPlan: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteAdminPlan: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${ADMIN_BASE}/admin/plans/${id}`);
-    return { success: res.success, message: res.message || "Paket berhasil dihapus" };
+    return {
+      success: res.success,
+      message: res.message || "Paket berhasil dihapus",
+    };
   },
 
   getAdminBillings: async (
     params?: GetAdminBillingsParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AdminBillingListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -449,7 +493,7 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/billing?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawBillings = Array.isArray(res.payload) ? res.payload : [];
@@ -461,9 +505,11 @@ export const adminApi = {
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : billings.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : billings.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         billings,
@@ -482,10 +528,13 @@ export const adminApi = {
     }
   },
 
-  getAdminBillingById: async (id: string, signal?: AbortSignal): Promise<AdminBillingItem> => {
+  getAdminBillingById: async (
+    id: string,
+    signal?: AbortSignal,
+  ): Promise<AdminBillingItem> => {
     const res = await httpClient.get<Record<string, unknown>>(
       `${ADMIN_BASE}/admin/billing/${id}`,
-      { signal }
+      { signal },
     );
     if (!res.payload) {
       throw new Error(res.message || "Data transaksi tidak ditemukan");
@@ -495,27 +544,37 @@ export const adminApi = {
 
   updateAdminBillingStatus: async (
     id: string,
-    input: UpdateBillingStatusInput
+    input: UpdateBillingStatusInput,
   ): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.put<Record<string, unknown>>(`${ADMIN_BASE}/admin/billing/${id}`, {
-      status: input.status,
-      amount: input.amount,
-      method: input.method,
-    });
+    const res = await httpClient.put<Record<string, unknown>>(
+      `${ADMIN_BASE}/admin/billing/${id}`,
+      {
+        status: input.status,
+        amount: input.amount,
+        method: input.method,
+      },
+    );
     return {
       success: res.success,
-      message: res.message || `Status transaksi berhasil diubah menjadi ${input.status}`,
+      message:
+        res.message ||
+        `Status transaksi berhasil diubah menjadi ${input.status}`,
     };
   },
 
-  deleteAdminBilling: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteAdminBilling: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${ADMIN_BASE}/admin/billing/${id}`);
-    return { success: res.success, message: res.message || "Data billing berhasil dihapus" };
+    return {
+      success: res.success,
+      message: res.message || "Data billing berhasil dihapus",
+    };
   },
 
   getAdminQueues: async (
     params?: GetAdminQueueParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AdminQueueListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -529,7 +588,7 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/queue?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawQueues = Array.isArray(res.payload) ? res.payload : [];
@@ -541,9 +600,11 @@ export const adminApi = {
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : queues.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : queues.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         queues,
@@ -562,29 +623,36 @@ export const adminApi = {
     }
   },
 
-  deleteAdminQueue: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteAdminQueue: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${ADMIN_BASE}/admin/queue/${id}`);
-    return { success: res.success, message: res.message || "Antrean berhasil dihapus" };
+    return {
+      success: res.success,
+      message: res.message || "Antrean berhasil dihapus",
+    };
   },
 
   broadcastToAllUsers: async (
-    input: BroadcastToAllInput
+    input: BroadcastToAllInput,
   ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${ADMIN_BASE}/admin/broadcast/all`,
       {
         subject: input.subject,
         message: input.message,
-      }
+      },
     );
     return {
       success: res.success,
-      message: res.message || "Siaran email berhasil dijadwalkan ke seluruh pengguna aktif",
+      message:
+        res.message ||
+        "Siaran email berhasil dijadwalkan ke seluruh pengguna aktif",
     };
   },
 
   broadcastToSpecificUsers: async (
-    input: BroadcastToUsersInput
+    input: BroadcastToUsersInput,
   ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${ADMIN_BASE}/admin/broadcast/users`,
@@ -592,38 +660,44 @@ export const adminApi = {
         user_ids: input.userIds,
         subject: input.subject,
         message: input.message,
-      }
+      },
     );
     return {
       success: res.success,
-      message: res.message || "Siaran email berhasil dijadwalkan ke target pengguna",
+      message:
+        res.message || "Siaran email berhasil dijadwalkan ke target pengguna",
     };
   },
 
   createDirectEmailQueue: async (
-    input: CreateEmailQueueInput
+    input: CreateEmailQueueInput,
   ): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.post<Record<string, unknown>>(`${ADMIN_BASE}/admin/queue`, {
-      user_id: "CUSTOM",
-      task_type: input.taskType || "EMAIL_BROADCAST",
-      priority: input.priority || 10,
-      payload: {
-        email: input.email,
-        name: input.name || "Pengguna",
-        subject: input.subject,
-        body: input.message,
-        message: input.message,
+    const res = await httpClient.post<Record<string, unknown>>(
+      `${ADMIN_BASE}/admin/queue`,
+      {
+        user_id: "CUSTOM",
+        task_type: input.taskType || "EMAIL_BROADCAST",
+        priority: input.priority || 10,
+        payload: {
+          email: input.email,
+          name: input.name || "Pengguna",
+          subject: input.subject,
+          body: input.message,
+          message: input.message,
+        },
       },
-    });
+    );
     return {
       success: res.success,
-      message: res.message || `Email berhasil dimasukkan ke antrean worker untuk ${input.email}`,
+      message:
+        res.message ||
+        `Email berhasil dimasukkan ke antrean worker untuk ${input.email}`,
     };
   },
 
   getAdminMessageLogs: async (
     params?: GetAdminMessageLogsParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AdminMessageLogListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -649,7 +723,7 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/campaigns/logs?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawLogs = Array.isArray(res.payload) ? res.payload : [];
@@ -657,9 +731,11 @@ export const adminApi = {
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : logs.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : logs.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         logs,
@@ -678,7 +754,9 @@ export const adminApi = {
     }
   },
 
-  deleteAdminMessageLog: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteAdminMessageLog: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${ADMIN_BASE}/campaigns/logs/${id}`);
     return {
       success: res.success,
@@ -688,7 +766,7 @@ export const adminApi = {
 
   getAdminDevices: async (
     params?: GetAdminDevicesParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AdminDeviceListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -708,7 +786,7 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/devices?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawDevices = Array.isArray(res.payload) ? res.payload : [];
@@ -716,9 +794,11 @@ export const adminApi = {
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : devices.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : devices.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         devices,
@@ -737,7 +817,9 @@ export const adminApi = {
     }
   },
 
-  deleteAdminDevice: async (id: string): Promise<{ success: boolean; message: string }> => {
+  deleteAdminDevice: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
     const res = await httpClient.delete(`${ADMIN_BASE}/admin/devices/${id}`);
     return {
       success: res.success,
@@ -747,7 +829,7 @@ export const adminApi = {
 
   getAdminSubscriptions: async (
     params?: GetAdminSubscriptionsParams,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<AdminSubscriptionListResponse> => {
     try {
       const page = params?.page ?? 1;
@@ -770,7 +852,7 @@ export const adminApi = {
 
       const res = await httpClient.get<Record<string, unknown>[]>(
         `${ADMIN_BASE}/admin/subscriptions?${query.toString()}`,
-        { signal }
+        { signal },
       );
 
       const rawSubs = Array.isArray(res.payload) ? res.payload : [];
@@ -778,9 +860,13 @@ export const adminApi = {
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : subscriptions.length;
+      const total =
+        typeof addInfo?.total === "number"
+          ? addInfo.total
+          : subscriptions.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         subscriptions,
@@ -799,13 +885,19 @@ export const adminApi = {
     }
   },
 
-  expireAdminSubscription: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const res = await httpClient.put(`${ADMIN_BASE}/admin/subscriptions/${id}/expire`, {
-      status: "EXPIRED",
-    });
+  expireAdminSubscription: async (
+    id: string,
+  ): Promise<{ success: boolean; message: string }> => {
+    const res = await httpClient.put(
+      `${ADMIN_BASE}/admin/subscriptions/${id}/expire`,
+      {
+        status: "EXPIRED",
+      },
+    );
     return {
       success: res.success,
-      message: res.message || "Langganan berhasil diubah statusnya menjadi EXPIRED",
+      message:
+        res.message || "Langganan berhasil diubah statusnya menjadi EXPIRED",
     };
   },
 };
@@ -823,7 +915,10 @@ function normalizeAdminPlan(raw: Record<string, unknown>): AdminPlanItem {
     name: String(raw.name || raw.plan_name || "Custom Plan"),
     price: Number(raw.price ?? raw.price_monthly ?? 0),
     monthly_message_limit: Number(
-      raw.monthly_message_limit ?? raw.quota_monthly ?? raw.monthly_quota ?? 1000
+      raw.monthly_message_limit ??
+        raw.quota_monthly ??
+        raw.monthly_quota ??
+        1000,
     ),
     max_devices: Number(raw.max_devices ?? raw.max_device_slots ?? 1),
     max_agents: Number(raw.max_agents ?? 0),
@@ -861,17 +956,25 @@ function normalizeAdminBilling(raw: Record<string, unknown>): AdminBillingItem {
     userId: String(raw.user_id || raw.userId || ""),
     amount: Number(raw.amount ?? 0),
     method: String(raw.method || "MANUAL_TRANSFER"),
-    status: (String(raw.status || "PENDING").toUpperCase() as BillingStatus) || "PENDING",
+    status:
+      (String(raw.status || "PENDING").toUpperCase() as BillingStatus) ||
+      "PENDING",
     invoiceUrl: raw.invoice_url ? String(raw.invoice_url) : undefined,
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
-    updatedAt: String(raw.updated_at || raw.updatedAt || new Date().toISOString()),
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
+    updatedAt: String(
+      raw.updated_at || raw.updatedAt || new Date().toISOString(),
+    ),
     user: userObj,
   };
 }
 
 function normalizeAdminQueue(raw: Record<string, unknown>): AdminQueueItem {
   const payload =
-    raw.payload && typeof raw.payload === "object" ? (raw.payload as Record<string, unknown>) : {};
+    raw.payload && typeof raw.payload === "object"
+      ? (raw.payload as Record<string, unknown>)
+      : {};
   let targetEmail = "";
   let targetName = "";
 
@@ -893,7 +996,9 @@ function normalizeAdminQueue(raw: Record<string, unknown>): AdminQueueItem {
     taskType: String(raw.task_type || raw.taskType || "EMAIL_GENERIC"),
     payload,
     priority: Number(raw.priority ?? 0),
-    status: (String(raw.status || "PENDING").toUpperCase() as QueueStatus) || "PENDING",
+    status:
+      (String(raw.status || "PENDING").toUpperCase() as QueueStatus) ||
+      "PENDING",
     scheduledAt: raw.scheduled_at ? String(raw.scheduled_at) : undefined,
     startedAt: raw.started_at ? String(raw.started_at) : undefined,
     finishedAt: raw.finished_at ? String(raw.finished_at) : undefined,
@@ -907,25 +1012,35 @@ function normalizeAdminQueue(raw: Record<string, unknown>): AdminQueueItem {
   };
 }
 
-function normalizeAdminMessageLog(raw: Record<string, unknown>): AdminMessageLogItem {
+function normalizeAdminMessageLog(
+  raw: Record<string, unknown>,
+): AdminMessageLogItem {
   return {
     id: String(raw.id || ""),
     tenantId: String(raw.tenant_id || raw.tenantId || ""),
     deviceId: String(raw.device_id || raw.deviceId || ""),
     campaignId:
-      raw.campaign_id || raw.campaignId ? String(raw.campaign_id || raw.campaignId) : undefined,
+      raw.campaign_id || raw.campaignId
+        ? String(raw.campaign_id || raw.campaignId)
+        : undefined,
     recipientJid: String(raw.recipient_jid || raw.recipientJid || ""),
     direction:
-      (String(raw.direction || "OUTBOUND").toUpperCase() as "OUTBOUND" | "INBOUND") || "OUTBOUND",
+      (String(raw.direction || "OUTBOUND").toUpperCase() as
+        "OUTBOUND" | "INBOUND") || "OUTBOUND",
     messageBody: String(raw.message_body || raw.messageBody || ""),
-    mediaUrl: raw.media_url || raw.mediaUrl ? String(raw.media_url || raw.mediaUrl) : undefined,
+    mediaUrl:
+      raw.media_url || raw.mediaUrl
+        ? String(raw.media_url || raw.mediaUrl)
+        : undefined,
     status: String(raw.status || "PENDING").toUpperCase(),
     errorMessage:
       raw.error_message || raw.errorMessage
         ? String(raw.error_message || raw.errorMessage)
         : undefined,
     sentAt: raw.sent_at ? String(raw.sent_at) : undefined,
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
   };
 }
 
@@ -934,25 +1049,36 @@ function normalizeAdminDevice(raw: Record<string, unknown>): AdminDeviceItem {
     id: String(raw.id || ""),
     tenantId: String(raw.tenant_id || raw.tenantId || ""),
     jid: String(raw.jid || raw.j_id || raw.phone || ""),
-    pushName: String(raw.push_name || raw.pushName || raw.name || "WhatsApp Device"),
+    pushName: String(
+      raw.push_name || raw.pushName || raw.name || "WhatsApp Device",
+    ),
     status: String(raw.status || "OFFLINE").toUpperCase(),
     trustScore: Number(raw.trust_score ?? raw.trustScore ?? 10),
     warmupDay: Number(raw.warmup_day ?? raw.warmupDay ?? 1),
     dailySentCount: Number(raw.daily_sent_count ?? raw.dailySentCount ?? 0),
     lastSeenAt:
-      raw.last_seen_at || raw.lastSeenAt ? String(raw.last_seen_at || raw.lastSeenAt) : undefined,
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
-    updatedAt: String(raw.updated_at || raw.updatedAt || new Date().toISOString()),
+      raw.last_seen_at || raw.lastSeenAt
+        ? String(raw.last_seen_at || raw.lastSeenAt)
+        : undefined,
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
+    updatedAt: String(
+      raw.updated_at || raw.updatedAt || new Date().toISOString(),
+    ),
   };
 }
 
-function normalizeAdminSubscription(raw: Record<string, unknown>): AdminSubscriptionItem {
+function normalizeAdminSubscription(
+  raw: Record<string, unknown>,
+): AdminSubscriptionItem {
   let planObj: AdminPlanItem | undefined = undefined;
   if (raw.plan && typeof raw.plan === "object") {
     planObj = normalizeAdminPlan(raw.plan as Record<string, unknown>);
   }
 
-  let tenantObj: { id: string; name: string; status?: string } | undefined = undefined;
+  let tenantObj: { id: string; name: string; status?: string } | undefined =
+    undefined;
   if (raw.tenant && typeof raw.tenant === "object") {
     const t = raw.tenant as Record<string, unknown>;
     tenantObj = {
@@ -966,13 +1092,25 @@ function normalizeAdminSubscription(raw: Record<string, unknown>): AdminSubscrip
     id: String(raw.id || ""),
     tenantId: String(raw.tenant_id || raw.tenantId || ""),
     planId: String(raw.plan_id || raw.planId || ""),
-    currentMonthUsage: Number(raw.current_month_usage ?? raw.currentMonthUsage ?? 0),
-    startedAt: String(raw.started_at || raw.startedAt || new Date().toISOString()),
-    expiredAt: String(raw.expired_at || raw.expiredAt || new Date().toISOString()),
-    status: (String(raw.status || "ACTIVE").toUpperCase() as SubscriptionStatus) || "ACTIVE",
+    currentMonthUsage: Number(
+      raw.current_month_usage ?? raw.currentMonthUsage ?? 0,
+    ),
+    startedAt: String(
+      raw.started_at || raw.startedAt || new Date().toISOString(),
+    ),
+    expiredAt: String(
+      raw.expired_at || raw.expiredAt || new Date().toISOString(),
+    ),
+    status:
+      (String(raw.status || "ACTIVE").toUpperCase() as SubscriptionStatus) ||
+      "ACTIVE",
     plan: planObj,
     tenant: tenantObj,
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
-    updatedAt: String(raw.updated_at || raw.updatedAt || new Date().toISOString()),
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
+    updatedAt: String(
+      raw.updated_at || raw.updatedAt || new Date().toISOString(),
+    ),
   };
 }

@@ -23,17 +23,24 @@ export function normalizeTeamAgent(raw: Record<string, unknown>): TeamAgent {
     phone: String(raw.phone_number || raw.phone || "-"),
     role,
     status: isActive ? "ACTIVE" : "INACTIVE",
-    assignedDevicesCount: Number(raw.assigned_devices_count || raw.assignedDevicesCount || 0),
-    createdAt: String(raw.created_at || raw.createdAt || new Date().toISOString()),
+    assignedDevicesCount: Number(
+      raw.assigned_devices_count || raw.assignedDevicesCount || 0,
+    ),
+    createdAt: String(
+      raw.created_at || raw.createdAt || new Date().toISOString(),
+    ),
   };
 }
 
 export const teamApi = {
   getAgents: async (signal?: AbortSignal): Promise<TeamAgent[]> => {
     try {
-      const res = await httpClient.get<Record<string, unknown>[]>(`${IAM_BASE}/tenant/team`, {
-        signal,
-      });
+      const res = await httpClient.get<Record<string, unknown>[]>(
+        `${IAM_BASE}/tenant/team`,
+        {
+          signal,
+        },
+      );
       if (res.payload && Array.isArray(res.payload)) {
         return res.payload.map(normalizeTeamAgent);
       }
@@ -54,7 +61,10 @@ export const teamApi = {
       role: payload.role || "AGENT",
     };
 
-    const res = await httpClient.post<Record<string, unknown>>(`${IAM_BASE}/tenant/team`, body);
+    const res = await httpClient.post<Record<string, unknown>>(
+      `${IAM_BASE}/tenant/team`,
+      body,
+    );
     if (!res.payload) {
       throw new Error(res.message || "Gagal membuat anggota tim");
     }

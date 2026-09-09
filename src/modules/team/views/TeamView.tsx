@@ -6,12 +6,18 @@ import dynamic from "next/dynamic";
 import { Agent } from "@/modules/team/types/team.types";
 
 const DeleteTeamMemberModal = dynamic(
-  () => import("@/modules/team/components/modals/DeleteTeamMemberModal").then((m) => m.DeleteTeamMemberModal),
-  { ssr: false }
+  () =>
+    import("@/modules/team/components/modals/DeleteTeamMemberModal").then(
+      (m) => m.DeleteTeamMemberModal,
+    ),
+  { ssr: false },
 );
 const AddTeamMemberModal = dynamic(
-  () => import("@/modules/team/components/modals/AddTeamMemberModal").then((m) => m.AddTeamMemberModal),
-  { ssr: false }
+  () =>
+    import("@/modules/team/components/modals/AddTeamMemberModal").then(
+      (m) => m.AddTeamMemberModal,
+    ),
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +48,8 @@ import { useTableSort } from "@/hooks/useTableSort";
 
 export function TeamView() {
   const { t } = useI18n();
-  const { agents, isLoading, fetchAgents, createAgent, deleteAgent } = useTeam();
+  const { agents, isLoading, fetchAgents, createAgent, deleteAgent } =
+    useTeam();
 
   // Search & Pagination State
   const [searchInput, setSearchInput] = useState("");
@@ -65,7 +72,7 @@ export function TeamView() {
         agt.name.toLowerCase().includes(term) ||
         agt.email.toLowerCase().includes(term) ||
         agt.phone.includes(term) ||
-        agt.role.toLowerCase().includes(term)
+        agt.role.toLowerCase().includes(term),
     );
   }, [agents, activeSearch]);
 
@@ -214,7 +221,9 @@ export function TeamView() {
                       <span className="text-foreground-muted block truncate font-mono text-[11px]">
                         {agt.email}
                       </span>
-                      <span className="block font-mono font-medium">+{agt.phone}</span>
+                      <span className="block font-mono font-medium">
+                        +{agt.phone}
+                      </span>
                     </div>
 
                     <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-2 text-xs">
@@ -302,7 +311,10 @@ export function TeamView() {
                   </TableHeader>
                   <TableBody>
                     {paginatedAgents.map((agt) => (
-                      <TableRow key={agt.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={agt.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* Name & Email */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="space-y-0.5">

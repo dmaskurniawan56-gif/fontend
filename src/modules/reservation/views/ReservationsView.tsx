@@ -19,8 +19,11 @@ import dynamic from "next/dynamic";
 import { Reservation } from "../types/reservation.types";
 
 const DeleteReservationModal = dynamic(
-  () => import("../components/DeleteReservationModal").then((m) => m.DeleteReservationModal),
-  { ssr: false }
+  () =>
+    import("../components/DeleteReservationModal").then(
+      (m) => m.DeleteReservationModal,
+    ),
+  { ssr: false },
 );
 
 export function ReservationsView() {
@@ -52,7 +55,8 @@ export function ReservationsView() {
 
   // Modals state
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [reservationToDelete, setReservationToDelete] = useState<Reservation | null>(null);
+  const [reservationToDelete, setReservationToDelete] =
+    useState<Reservation | null>(null);
 
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6 max-w-7xl mx-auto w-full">

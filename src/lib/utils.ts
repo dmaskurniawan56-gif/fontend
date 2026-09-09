@@ -35,7 +35,10 @@ const idrNumberFormatter = new Intl.NumberFormat("id-ID");
 /**
  * Format angka ke Rupiah IDR atau USD (Zero Allocation)
  */
-export function formatCurrency(amount: number, currency: "IDR" | "USD" = "IDR"): string {
+export function formatCurrency(
+  amount: number,
+  currency: "IDR" | "USD" = "IDR",
+): string {
   if (currency === "IDR") {
     return idrFormatter.format(amount);
   }
@@ -102,12 +105,22 @@ export function truncateText(text: string, maxLength: number): string {
  * Generates a cryptographically secure random hex string using Web Crypto API (CSPRNG).
  * Satisfies OWASP & GitHub CodeQL (js/insecure-randomness) requirements.
  */
-export function generateSecureRandomString(prefix: string = "", byteLength: number = 24): string {
-  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
+export function generateSecureRandomString(
+  prefix: string = "",
+  byteLength: number = 24,
+): string {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.getRandomValues === "function"
+  ) {
     const array = new Uint8Array(byteLength);
     crypto.getRandomValues(array);
-    const hex = Array.from(array, (byte) => byte.toString(16).padStart(2, "0")).join("");
+    const hex = Array.from(array, (byte) =>
+      byte.toString(16).padStart(2, "0"),
+    ).join("");
     return prefix ? `${prefix}${hex}` : hex;
   }
-  return prefix ? `${prefix}000000000000000000000000` : "000000000000000000000000";
+  return prefix
+    ? `${prefix}000000000000000000000000`
+    : "000000000000000000000000";
 }

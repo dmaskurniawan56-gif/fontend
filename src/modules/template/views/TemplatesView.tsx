@@ -5,7 +5,11 @@ import dynamic from "next/dynamic";
 import { useTemplates } from "../hooks/useTemplates";
 import { TemplateFilterBar } from "../components/TemplateFilterBar";
 import { TemplateCard } from "../components/TemplateCard";
-import { Template, CreateTemplateInput, UpdateTemplateInput } from "../types/template.types";
+import {
+  Template,
+  CreateTemplateInput,
+  UpdateTemplateInput,
+} from "../types/template.types";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/lib/i18n/context";
@@ -23,14 +27,18 @@ import {
 
 const TemplateEditorModal = dynamic(
   () =>
-    import("../components/TemplateEditorModal").then((m) => m.TemplateEditorModal),
-  { ssr: false }
+    import("../components/TemplateEditorModal").then(
+      (m) => m.TemplateEditorModal,
+    ),
+  { ssr: false },
 );
 
 const DeleteTemplateModal = dynamic(
   () =>
-    import("../components/DeleteTemplateModal").then((m) => m.DeleteTemplateModal),
-  { ssr: false }
+    import("../components/DeleteTemplateModal").then(
+      (m) => m.DeleteTemplateModal,
+    ),
+  { ssr: false },
 );
 
 export function TemplatesView() {
@@ -60,9 +68,10 @@ export function TemplatesView() {
   // Modal States
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
-  const [deletingTemplate, setDeletingTemplate] = useState<{ id: string; name: string } | null>(
-    null
-  );
+  const [deletingTemplate, setDeletingTemplate] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const handleOpenCreate = () => {
     setEditingTemplate(null);
@@ -75,7 +84,7 @@ export function TemplatesView() {
   };
 
   const handleSaveTemplate = async (
-    data: CreateTemplateInput | UpdateTemplateInput
+    data: CreateTemplateInput | UpdateTemplateInput,
   ): Promise<boolean> => {
     if (editingTemplate) {
       return await updateTemplate(editingTemplate.id, data);
@@ -111,7 +120,9 @@ export function TemplatesView() {
             className="h-9 gap-1.5 rounded-full border-border/70 text-xs"
             title="Muat Ulang"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
 
@@ -134,7 +145,9 @@ export function TemplatesView() {
             <Layers className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.total")}</p>
+            <p className="text-[11px] font-medium text-foreground-muted">
+              {t("template.stats.total")}
+            </p>
             <p className="text-lg font-bold text-foreground">{stats.total}</p>
           </div>
         </div>
@@ -144,8 +157,12 @@ export function TemplatesView() {
             <Flame className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.marketing")}</p>
-            <p className="text-lg font-bold text-foreground">{stats.marketing}</p>
+            <p className="text-[11px] font-medium text-foreground-muted">
+              {t("template.stats.marketing")}
+            </p>
+            <p className="text-lg font-bold text-foreground">
+              {stats.marketing}
+            </p>
           </div>
         </div>
 
@@ -154,7 +171,9 @@ export function TemplatesView() {
             <Info className="size-4" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.utility")}</p>
+            <p className="text-[11px] font-medium text-foreground-muted">
+              {t("template.stats.utility")}
+            </p>
             <p className="text-lg font-bold text-foreground">{stats.utility}</p>
           </div>
         </div>
@@ -164,8 +183,12 @@ export function TemplatesView() {
             <Star className="size-4 fill-yellow-500" />
           </div>
           <div>
-            <p className="text-[11px] font-medium text-foreground-muted">{t("template.stats.favorites")}</p>
-            <p className="text-lg font-bold text-foreground">{stats.favorites}</p>
+            <p className="text-[11px] font-medium text-foreground-muted">
+              {t("template.stats.favorites")}
+            </p>
+            <p className="text-lg font-bold text-foreground">
+              {stats.favorites}
+            </p>
           </div>
         </div>
       </div>
@@ -200,7 +223,9 @@ export function TemplatesView() {
         </div>
       ) : error ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-red-500/40 bg-red-500/5 p-8 text-center">
-          <p className="text-sm font-semibold text-red-600 dark:text-red-400">{error}</p>
+          <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+            {error}
+          </p>
           <Button
             variant="outline"
             size="sm"

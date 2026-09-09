@@ -32,7 +32,11 @@ interface MessageDetailModalProps {
   onClose: () => void;
 }
 
-export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailModalProps) {
+export function MessageDetailModal({
+  message,
+  isOpen,
+  onClose,
+}: MessageDetailModalProps) {
   const { t, locale } = useI18n();
   const { isCopied: hasCopied, copy } = useClipboard();
 
@@ -43,11 +47,15 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
     if (success) {
       toast.success(t("admin.messages.copiedToast"), { id: "clipboard-copy" });
     } else {
-      toast.error(t("admin.messages.copyFailedToast"), { id: "clipboard-copy" });
+      toast.error(t("admin.messages.copyFailedToast"), {
+        id: "clipboard-copy",
+      });
     }
   };
 
-  const formatLocalizedDateTime = (dateInput: string | Date | number): string => {
+  const formatLocalizedDateTime = (
+    dateInput: string | Date | number,
+  ): string => {
     const date = new Date(dateInput);
     if (isNaN(date.getTime())) return "-";
     return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "id-ID", {
@@ -117,7 +125,9 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
                 <Smartphone className="text-foreground-muted size-3.5" />
                 <span>{t("admin.messages.recipientJidLabel")}</span>
               </span>
-              <span className="text-foreground font-mono font-bold">{message.recipientJid}</span>
+              <span className="text-foreground font-mono font-bold">
+                {message.recipientJid}
+              </span>
             </div>
           </div>
 
@@ -136,7 +146,9 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
                 {hasCopied ? (
                   <>
                     <Check className="dark:text-wise-green size-3 text-emerald-600" />
-                    <span className="dark:text-wise-green text-emerald-600">{t("admin.messages.copied")}</span>
+                    <span className="dark:text-wise-green text-emerald-600">
+                      {t("admin.messages.copied")}
+                    </span>
                   </>
                 ) : (
                   <>
@@ -155,7 +167,9 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
           {/* Media URL if present */}
           {message.mediaUrl && (
             <div className="border-border bg-muted/20 flex items-center justify-between rounded-xl border p-3 text-xs">
-              <span className="text-foreground-secondary font-semibold">{t("admin.messages.mediaAttachment")}</span>
+              <span className="text-foreground-secondary font-semibold">
+                {t("admin.messages.mediaAttachment")}
+              </span>
               <a
                 href={message.mediaUrl}
                 target="_blank"
@@ -194,7 +208,9 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
             </div>
 
             <div className="border-border/50 flex items-center justify-between border-t pt-1.5">
-              <span className="text-foreground-secondary font-semibold">Device ID:</span>
+              <span className="text-foreground-secondary font-semibold">
+                Device ID:
+              </span>
               <span className="text-foreground-muted max-w-40 truncate font-mono text-[11px] select-text">
                 {message.deviceId}
               </span>
@@ -202,7 +218,9 @@ export function MessageDetailModal({ message, isOpen, onClose }: MessageDetailMo
 
             {message.campaignId && (
               <div className="border-border/50 flex items-center justify-between border-t pt-1.5">
-                <span className="text-foreground-secondary font-semibold">Campaign ID:</span>
+                <span className="text-foreground-secondary font-semibold">
+                  Campaign ID:
+                </span>
                 <span className="text-foreground-muted max-w-40 truncate font-mono text-[11px] select-text">
                   {message.campaignId}
                 </span>

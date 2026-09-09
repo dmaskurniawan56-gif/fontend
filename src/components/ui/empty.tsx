@@ -8,7 +8,7 @@ function Empty({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="empty"
       className={cn(
         "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-xl border-dashed p-6 text-center text-balance",
-        className
+        className,
       )}
       {...props}
     />
@@ -37,7 +37,7 @@ const emptyMediaVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 function EmptyMedia({
@@ -59,7 +59,10 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty-title"
-      className={cn("font-heading text-sm font-medium tracking-tight", className)}
+      className={cn(
+        "font-heading text-sm font-medium tracking-tight",
+        className,
+      )}
       {...props}
     />
   );
@@ -71,7 +74,7 @@ function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
       data-slot="empty-description"
       className={cn(
         "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
-        className
+        className,
       )}
       {...props}
     />
@@ -84,7 +87,7 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="empty-content"
       className={cn(
         "flex w-full max-w-sm min-w-0 flex-col items-center gap-2.5 text-sm text-balance",
-        className
+        className,
       )}
       {...props}
     />
@@ -98,14 +101,25 @@ export interface EmptyStateProps extends React.ComponentProps<"div"> {
   action?: React.ReactNode;
 }
 
-function EmptyState({ icon, title, description, action, className, ...props }: EmptyStateProps) {
+function EmptyState({
+  icon,
+  title,
+  description,
+  action,
+  className,
+  ...props
+}: EmptyStateProps) {
   return (
     <Empty className={cn("p-8 sm:p-12", className)} {...props}>
       {icon && (
-        <EmptyMedia className="text-foreground-muted mb-1 [&_svg]:size-10">{icon}</EmptyMedia>
+        <EmptyMedia className="text-foreground-muted mb-1 [&_svg]:size-10">
+          {icon}
+        </EmptyMedia>
       )}
       <EmptyHeader>
-        <EmptyTitle className="text-foreground text-sm font-bold">{title}</EmptyTitle>
+        <EmptyTitle className="text-foreground text-sm font-bold">
+          {title}
+        </EmptyTitle>
         {description && (
           <EmptyDescription className="text-foreground-secondary mx-auto max-w-sm text-xs">
             {description}
@@ -117,4 +131,12 @@ function EmptyState({ icon, title, description, action, className, ...props }: E
   );
 }
 
-export { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia, EmptyState };
+export {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+  EmptyMedia,
+  EmptyState,
+};

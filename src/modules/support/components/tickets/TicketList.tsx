@@ -16,7 +16,7 @@ import { UpdateTicketStatusModal } from "./UpdateTicketStatusModal";
 
 const CreateTicketModal = dynamic(
   () => import("./CreateTicketModal").then((m) => m.CreateTicketModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { isAdmin } from "@/modules/iam/types/auth.types";
@@ -49,7 +49,9 @@ export function TicketList() {
   const { t } = useI18n();
   const authUser = useAuth((s) => s.user);
   const isSuperAdmin = isAdmin(authUser?.role);
-  const [statusModalTicket, setStatusModalTicket] = useState<Ticket | null>(null);
+  const [statusModalTicket, setStatusModalTicket] = useState<Ticket | null>(
+    null,
+  );
   const {
     tickets,
     filteredTickets,
@@ -128,7 +130,9 @@ export function TicketList() {
     }
     return (
       <span className="text-foreground-muted text-xs font-bold uppercase">
-        {priority === "LOW" ? t("support.priorityLow") : t("support.priorityMedium")}
+        {priority === "LOW"
+          ? t("support.priorityLow")
+          : t("support.priorityMedium")}
       </span>
     );
   };
@@ -173,37 +177,39 @@ export function TicketList() {
         <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-1">
           {/* Scrollable Filter Chips (No awkward multi-line text wrapping on mobile!) */}
           <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
-            {(["ALL", "OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as (TicketStatus | "ALL")[]).map(
-              (st) => {
-                const label =
-                  st === "ALL"
-                    ? t("support.filterAll")
-                    : st === "OPEN"
-                      ? t("support.filterOpen")
-                      : st === "IN_PROGRESS"
-                        ? t("support.filterInProgress")
-                        : st === "RESOLVED"
-                          ? t("support.filterResolved")
-                          : t("support.filterClosed");
+            {(
+              ["ALL", "OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as (
+                TicketStatus | "ALL"
+              )[]
+            ).map((st) => {
+              const label =
+                st === "ALL"
+                  ? t("support.filterAll")
+                  : st === "OPEN"
+                    ? t("support.filterOpen")
+                    : st === "IN_PROGRESS"
+                      ? t("support.filterInProgress")
+                      : st === "RESOLVED"
+                        ? t("support.filterResolved")
+                        : t("support.filterClosed");
 
-                const isActive = statusFilter === st;
+              const isActive = statusFilter === st;
 
-                return (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => setStatusFilter(st)}
-                    className={`shrink-0 cursor-pointer rounded-full px-3 py-1.5 text-xs whitespace-nowrap transition ${
-                      isActive
-                        ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
-                        : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              }
-            )}
+              return (
+                <button
+                  key={st}
+                  type="button"
+                  onClick={() => setStatusFilter(st)}
+                  className={`shrink-0 cursor-pointer rounded-full px-3 py-1.5 text-xs whitespace-nowrap transition ${
+                    isActive
+                      ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
+                      : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Refresh Action */}
@@ -215,7 +221,9 @@ export function TicketList() {
             className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
             aria-label={t("support.refreshAria")}
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>
@@ -274,7 +282,9 @@ export function TicketList() {
                 {isSuperAdmin && tkt.user && (
                   <div className="bg-muted/40 border-border/50 flex items-center gap-1.5 rounded-md border p-2 text-xs">
                     <UserIcon className="dark:text-wise-green size-3.5 shrink-0 text-emerald-700" />
-                    <span className="text-foreground truncate font-bold">{tkt.user.name}</span>
+                    <span className="text-foreground truncate font-bold">
+                      {tkt.user.name}
+                    </span>
                     {tkt.user.email && (
                       <span className="text-foreground-muted truncate font-mono text-[11px]">
                         ({tkt.user.email})
@@ -423,7 +433,10 @@ export function TicketList() {
 
               <TableBody>
                 {sortedTickets.map((tkt) => (
-                  <TableRow key={tkt.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow
+                    key={tkt.id}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
                     {isSuperAdmin ? (
                       <>
                         {/* Ticket No & Subject */}
@@ -543,7 +556,9 @@ export function TicketList() {
                               className="border-border bg-surface hover:bg-muted hover:border-foreground-muted text-foreground inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-xs font-bold shadow-2xs transition"
                             >
                               <MessageSquare className="dark:text-wise-green size-3.5 text-emerald-700" />
-                              <span className="hidden sm:inline">{t("support.viewThread")}</span>
+                              <span className="hidden sm:inline">
+                                {t("support.viewThread")}
+                              </span>
                             </Link>
                           </div>
                         </TableCell>

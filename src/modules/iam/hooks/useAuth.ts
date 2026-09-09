@@ -46,7 +46,8 @@ export const useAuth = create<AuthState>()(
           const tenantId = res.tenant_id || "";
 
           const user: User = {
-            id: "id" in res && typeof res.id === "string" && res.id ? res.id : "",
+            id:
+              "id" in res && typeof res.id === "string" && res.id ? res.id : "",
             name: res.name || "",
             email: res.email || "",
             role: res.role ? res.role.toUpperCase() : "SELLER",
@@ -64,7 +65,9 @@ export const useAuth = create<AuthState>()(
             monthlyQuota: 1000,
             usedQuota: 0,
             activeDevicesCount: 0,
-            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            expiresAt: new Date(
+              Date.now() + 30 * 24 * 60 * 60 * 1000,
+            ).toISOString(),
           };
 
           // Synchronize cookies for 0ms Edge Middleware route protection
@@ -86,7 +89,9 @@ export const useAuth = create<AuthState>()(
             .catch(() => null);
         } catch (err: unknown) {
           const errorMessage =
-            err instanceof Error ? err.message : "Email atau password yang Anda masukkan salah.";
+            err instanceof Error
+              ? err.message
+              : "Email atau password yang Anda masukkan salah.";
           set({
             error: errorMessage,
             isLoading: false,
@@ -103,7 +108,9 @@ export const useAuth = create<AuthState>()(
           set({ isLoading: false });
         } catch (err: unknown) {
           const errorMessage =
-            err instanceof Error ? err.message : "Gagal melakukan registrasi akun.";
+            err instanceof Error
+              ? err.message
+              : "Gagal melakukan registrasi akun.";
           set({
             error: errorMessage,
             isLoading: false,
@@ -154,7 +161,8 @@ export const useAuth = create<AuthState>()(
             (err.statusCode === 401 ||
               err.statusCode === 404 ||
               (err.statusCode === 403 &&
-                (err.code === "ACCOUNT_INACTIVE" || err.message.toLowerCase().includes("inactive"))));
+                (err.code === "ACCOUNT_INACTIVE" ||
+                  err.message.toLowerCase().includes("inactive"))));
 
           if (isFatal) {
             await get().logout();
@@ -164,7 +172,9 @@ export const useAuth = create<AuthState>()(
               window.location.pathname !== "/register"
             ) {
               const redirectParam =
-                err.statusCode === 401 ? "session_expired=1" : "session_invalid=1";
+                err.statusCode === 401
+                  ? "session_expired=1"
+                  : "session_invalid=1";
               // eslint-disable-next-line @next/next/no-location-assign-relative-destination
               window.location.href = `/login?${redirectParam}`;
             }
@@ -193,7 +203,9 @@ export const useAuth = create<AuthState>()(
         }
 
         if (!currentUser?.id) {
-          throw new Error("Sesi pengguna tidak ditemukan. Silakan login ulang.");
+          throw new Error(
+            "Sesi pengguna tidak ditemukan. Silakan login ulang.",
+          );
         }
 
         set({ isLoading: true, error: null });
@@ -202,11 +214,15 @@ export const useAuth = create<AuthState>()(
           set((state) => ({
             isLoading: false,
             user: state.user ? { ...state.user, name } : null,
-            tenant: state.tenant ? { ...state.tenant, name: `${name}'s Workspace` } : null,
+            tenant: state.tenant
+              ? { ...state.tenant, name: `${name}'s Workspace` }
+              : null,
           }));
         } catch (err: unknown) {
           const errorMessage =
-            err instanceof Error ? err.message : "Gagal memperbarui nama profil.";
+            err instanceof Error
+              ? err.message
+              : "Gagal memperbarui nama profil.";
           set({ isLoading: false, error: errorMessage });
           throw err;
         }
@@ -230,6 +246,6 @@ export const useAuth = create<AuthState>()(
         tenantId: state.tenantId,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );

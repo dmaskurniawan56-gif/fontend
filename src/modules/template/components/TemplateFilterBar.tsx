@@ -108,7 +108,7 @@ export function TemplateFilterBar({
                 "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
                 isActive
                   ? "shadow-xs"
-                  : "text-foreground-secondary hover:text-foreground"
+                  : "text-foreground-secondary hover:text-foreground",
               )}
             >
               <Icon className="size-3.5" />
@@ -146,17 +146,22 @@ export function TemplateFilterBar({
           onClick={onToggleFavoriteOnly}
           className={cn(
             "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
-            favoriteOnly && "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+            favoriteOnly &&
+              "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
           )}
           title={t("template.stats.favorites")}
         >
           <Star
             className={cn(
               "size-3.5",
-              favoriteOnly ? "fill-amber-500 text-amber-500" : "text-foreground-muted"
+              favoriteOnly
+                ? "fill-amber-500 text-amber-500"
+                : "text-foreground-muted",
             )}
           />
-          <span className="hidden sm:inline">{t("template.stats.favorites")}</span>
+          <span className="hidden sm:inline">
+            {t("template.stats.favorites")}
+          </span>
         </Button>
       </div>
     </div>

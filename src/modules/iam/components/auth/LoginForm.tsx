@@ -27,9 +27,11 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const isRegistered = searchParams.get("registered") === "true";
   const isSessionExpired =
-    searchParams.get("session_expired") === "1" || searchParams.get("session_expired") === "true";
+    searchParams.get("session_expired") === "1" ||
+    searchParams.get("session_expired") === "true";
   const isSessionInvalid =
-    searchParams.get("session_invalid") === "1" || searchParams.get("session_invalid") === "true";
+    searchParams.get("session_invalid") === "1" ||
+    searchParams.get("session_invalid") === "true";
 
   const { login, isLoading, error, clearError } = useAuth();
   const { t } = useI18n();
@@ -192,9 +194,15 @@ export function LoginForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 tabIndex={-1}
                 className="text-foreground-muted hover:text-foreground absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer p-1"
-                aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                aria-label={
+                  showPassword ? "Sembunyikan password" : "Tampilkan password"
+                }
               >
-                {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                {showPassword ? (
+                  <EyeOff className="size-5" />
+                ) : (
+                  <Eye className="size-5" />
+                )}
               </button>
             </div>
             {fieldErrors.password && (
@@ -223,9 +231,15 @@ export function LoginForm() {
         {/* Turnstile Protection */}
         <TurnstileWidget
           ref={turnstileRef}
-          onVerify={(token) => setFormData((prev) => ({ ...prev, turnstileToken: token }))}
-          onError={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
-          onExpire={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
+          onVerify={(token) =>
+            setFormData((prev) => ({ ...prev, turnstileToken: token }))
+          }
+          onError={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
+          onExpire={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
         />
 
         <Button

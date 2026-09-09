@@ -10,7 +10,13 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Trash2, ShieldAlert, Loader2, Smartphone } from "lucide-react";
+import {
+  AlertTriangle,
+  Trash2,
+  ShieldAlert,
+  Loader2,
+  Smartphone,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface SessionConfirmModalProps {
@@ -63,7 +69,9 @@ export function SessionConfirmModal({
           </div>
           <div>
             <AlertDialogTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
-              {isLogoutAll ? t("settings.logoutAllTitle") : t("settings.revokeSingleTitle")}
+              {isLogoutAll
+                ? t("settings.logoutAllTitle")
+                : t("settings.revokeSingleTitle")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-foreground-secondary text-xs font-semibold">
               {isLogoutAll

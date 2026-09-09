@@ -8,7 +8,9 @@ import { useI18n } from "@/lib/i18n/context";
 
 export function useAdminSubscriptions() {
   const { t } = useI18n();
-  const [subscriptions, setSubscriptions] = useState<AdminSubscriptionItem[]>([]);
+  const [subscriptions, setSubscriptions] = useState<AdminSubscriptionItem[]>(
+    [],
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -31,7 +33,10 @@ export function useAdminSubscriptions() {
       setSubscriptions(res.subscriptions);
       setTotal(res.total);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.subscriptions.loadFailedToast");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.subscriptions.loadFailedToast");
       toast.error(msg);
       setSubscriptions([]);
       setTotal(0);
@@ -53,7 +58,7 @@ export function useAdminSubscriptions() {
             status: statusFilter !== "ALL" ? statusFilter : undefined,
             planId: planFilter !== "ALL" ? planFilter : undefined,
           },
-          controller.signal
+          controller.signal,
         );
         if (!controller.signal.aborted) {
           setSubscriptions(res.subscriptions);
@@ -80,12 +85,17 @@ export function useAdminSubscriptions() {
       await adminApi.expireAdminSubscription(id);
       setSubscriptions((prev) =>
         prev.map((s) =>
-          s.id === id ? { ...s, status: "EXPIRED", expiredAt: new Date().toISOString() } : s
-        )
+          s.id === id
+            ? { ...s, status: "EXPIRED", expiredAt: new Date().toISOString() }
+            : s,
+        ),
       );
       toast.success(t("admin.subscriptions.expireSuccessToast"));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("admin.subscriptions.expireFailedToast");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("admin.subscriptions.expireFailedToast");
       toast.error(msg);
       throw err;
     }
@@ -131,10 +141,16 @@ export function useAdminSubscriptions() {
   };
 
   const metrics = useMemo(() => {
-    const activeCount = subscriptions.filter((s) => s.status === "ACTIVE").length;
-    const expiredCount = subscriptions.filter((s) => s.status === "EXPIRED").length;
+    const activeCount = subscriptions.filter(
+      (s) => s.status === "ACTIVE",
+    ).length;
+    const expiredCount = subscriptions.filter(
+      (s) => s.status === "EXPIRED",
+    ).length;
     const trialCount = subscriptions.filter((s) => s.status === "TRIAL").length;
-    const suspendedCount = subscriptions.filter((s) => s.status === "SUSPENDED").length;
+    const suspendedCount = subscriptions.filter(
+      (s) => s.status === "SUSPENDED",
+    ).length;
 
     return {
       totalCount: total,

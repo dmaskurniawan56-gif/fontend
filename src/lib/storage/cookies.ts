@@ -3,9 +3,14 @@
 // Manages session cookies synchronized with Next.js Edge Middleware
 // ==============================================================================
 
-export function setCookie(name: string, value: string, maxAgeSeconds: number = 2592000) {
+export function setCookie(
+  name: string,
+  value: string,
+  maxAgeSeconds: number = 2592000,
+) {
   if (typeof document === "undefined") return;
-  const isSecure = typeof window !== "undefined" && window.location.protocol === "https:";
+  const isSecure =
+    typeof window !== "undefined" && window.location.protocol === "https:";
   const secureFlag = isSecure ? "; Secure" : "";
   document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Strict${secureFlag}`;
 }

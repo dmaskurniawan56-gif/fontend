@@ -13,7 +13,14 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { formatDateTime } from "@/lib/utils";
-import { AlertTriangle, Clock, Loader2, Building2, CreditCard, ShieldAlert } from "lucide-react";
+import {
+  AlertTriangle,
+  Clock,
+  Loader2,
+  Building2,
+  CreditCard,
+  ShieldAlert,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface ExpireSubscriptionModalProps {
@@ -50,7 +57,8 @@ export function ExpireSubscriptionModal({
     }
   };
 
-  const planName = subscription.plan?.name || `Paket ${subscription.planId.slice(0, 8)}`;
+  const planName =
+    subscription.plan?.name || `Paket ${subscription.planId.slice(0, 8)}`;
   const tenantName = subscription.tenant?.name || subscription.tenantId;
 
   return (
@@ -89,7 +97,11 @@ export function ExpireSubscriptionModal({
                 <span>{t("admin.subscriptions.currentPlanLabel")}</span>
               </span>
               <span className="text-foreground font-bold">
-                {planName} (Rp {(subscription.plan?.price ?? 0).toLocaleString(locale === "en" ? "en-US" : "id-ID")})
+                {planName} (Rp{" "}
+                {(subscription.plan?.price ?? 0).toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                )}
+                )
               </span>
             </div>
 

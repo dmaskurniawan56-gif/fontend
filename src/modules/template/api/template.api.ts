@@ -12,7 +12,8 @@ import {
   ListTemplatesQuery,
 } from "../types/template.types";
 
-const TEMPLATE_BASE = env.NEXT_PUBLIC_TEMPLATE_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
+const TEMPLATE_BASE =
+  env.NEXT_PUBLIC_TEMPLATE_API_URL || env.NEXT_PUBLIC_API_BASE_URL;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapBackendTemplate = (t: any): Template => {
@@ -74,12 +75,15 @@ export interface PaginatedTemplatesResult {
 }
 
 export const templateApi = {
-  getTemplates: async (params?: ListTemplatesQuery): Promise<PaginatedTemplatesResult> => {
+  getTemplates: async (
+    params?: ListTemplatesQuery,
+  ): Promise<PaginatedTemplatesResult> => {
     const query = new URLSearchParams();
     if (params?.page) query.set("page", params.page.toString());
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
-    if (params?.category && params.category !== "ALL") query.set("category", params.category);
+    if (params?.category && params.category !== "ALL")
+      query.set("category", params.category);
     if (params?.favoriteOnly || params?.isFavorite) {
       query.set("is_favorite", "true");
     }
@@ -93,8 +97,7 @@ export const templateApi = {
     const templates = Array.isArray(items) ? items.map(mapBackendTemplate) : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       templates,
@@ -121,11 +124,17 @@ export const templateApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${TEMPLATE_BASE}/templates`, payload);
+    const res = await httpClient.post<any>(
+      `${TEMPLATE_BASE}/templates`,
+      payload,
+    );
     return mapBackendTemplate(res.payload || res);
   },
 
-  updateTemplate: async (id: string, input: UpdateTemplateInput): Promise<Template> => {
+  updateTemplate: async (
+    id: string,
+    input: UpdateTemplateInput,
+  ): Promise<Template> => {
     const payload: Record<string, unknown> = {};
     if (input.name !== undefined) payload.name = input.name;
     if (input.category !== undefined) payload.category = input.category;
@@ -135,13 +144,18 @@ export const templateApi = {
     if (input.isFavorite !== undefined) payload.is_favorite = input.isFavorite;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.put<any>(`${TEMPLATE_BASE}/templates/${id}`, payload);
+    const res = await httpClient.put<any>(
+      `${TEMPLATE_BASE}/templates/${id}`,
+      payload,
+    );
     return mapBackendTemplate(res.payload || res);
   },
 
   duplicateTemplate: async (id: string): Promise<Template> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${TEMPLATE_BASE}/templates/${id}/duplicate`);
+    const res = await httpClient.post<any>(
+      `${TEMPLATE_BASE}/templates/${id}/duplicate`,
+    );
     return mapBackendTemplate(res.payload || res);
   },
 
@@ -151,7 +165,9 @@ export const templateApi = {
 
   toggleFavorite: async (id: string): Promise<Template> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.patch<any>(`${TEMPLATE_BASE}/templates/${id}/favorite`);
+    const res = await httpClient.patch<any>(
+      `${TEMPLATE_BASE}/templates/${id}/favorite`,
+    );
     return mapBackendTemplate(res.payload || res);
   },
 };

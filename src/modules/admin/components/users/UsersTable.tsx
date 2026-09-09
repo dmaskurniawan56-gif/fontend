@@ -2,15 +2,19 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { UserItem, AdjustBalanceInput, UpdateUserInput } from "@/modules/admin/types/admin.types";
+import {
+  UserItem,
+  AdjustBalanceInput,
+  UpdateUserInput,
+} from "@/modules/admin/types/admin.types";
 
 const AdjustBalanceModal = dynamic(
   () => import("./AdjustBalanceModal").then((m) => m.AdjustBalanceModal),
-  { ssr: false }
+  { ssr: false },
 );
 const EditUserModal = dynamic(
   () => import("./EditUserModal").then((m) => m.EditUserModal),
-  { ssr: false }
+  { ssr: false },
 );
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -66,7 +70,7 @@ interface UsersTableProps {
 
 function getRoleBadge(
   role: string,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
 ) {
   const upper = (role || "").toUpperCase();
   if (upper === "SUPER_ADMIN" || upper === "ADMIN") {
@@ -105,8 +109,10 @@ export function UsersTable({
 }: UsersTableProps) {
   const { t, locale } = useI18n();
   const [searchInput, setSearchInput] = useState("");
-  const [selectedUserForAdjust, setSelectedUserForAdjust] = useState<UserItem | null>(null);
-  const [selectedUserForEdit, setSelectedUserForEdit] = useState<UserItem | null>(null);
+  const [selectedUserForAdjust, setSelectedUserForAdjust] =
+    useState<UserItem | null>(null);
+  const [selectedUserForEdit, setSelectedUserForEdit] =
+    useState<UserItem | null>(null);
   const [isAdjustModalOpen, setIsAdjustModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -157,7 +163,9 @@ export function UsersTable({
             >
               <option value="ALL">{t("admin.users.filterAllRoles")}</option>
               <option value="SELLER">{t("admin.users.filterSeller")}</option>
-              <option value="SUPER_ADMIN">{t("admin.users.filterSuperAdmin")}</option>
+              <option value="SUPER_ADMIN">
+                {t("admin.users.filterSuperAdmin")}
+              </option>
               <option value="AGENT">{t("admin.users.filterAgent")}</option>
               <option value="USER">{t("admin.users.filterUser")}</option>
             </NativeSelect>
@@ -171,7 +179,9 @@ export function UsersTable({
             >
               <option value="ALL">{t("admin.users.filterAllStatus")}</option>
               <option value="ACTIVE">{t("admin.users.filterActive")}</option>
-              <option value="SUSPENDED">{t("admin.users.filterSuspended")}</option>
+              <option value="SUSPENDED">
+                {t("admin.users.filterSuspended")}
+              </option>
             </NativeSelect>
 
             {/* Refresh Button */}
@@ -183,7 +193,9 @@ export function UsersTable({
               className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
               aria-label={t("admin.users.refreshAria")}
             >
-              <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw
+                className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+              />
               <span className="hidden sm:inline">{t("refresh")}</span>
             </Button>
           </div>
@@ -195,7 +207,9 @@ export function UsersTable({
         {isLoading ? (
           <div className="text-foreground-muted flex flex-col items-center justify-center space-y-3 py-16">
             <Loader2 className="dark:text-wise-green size-7 animate-spin text-emerald-600" />
-            <span className="text-xs font-bold">{t("admin.users.loadingText")}</span>
+            <span className="text-xs font-bold">
+              {t("admin.users.loadingText")}
+            </span>
           </div>
         ) : users.length === 0 ? (
           <EmptyState
@@ -265,7 +279,10 @@ export function UsersTable({
                           {t("admin.users.walletBalanceLabel")}
                         </span>
                         <span className="dark:text-wise-green block truncate font-mono text-xs font-bold text-emerald-700">
-                          Rp {balance.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                          Rp{" "}
+                          {balance.toLocaleString(
+                            locale === "en" ? "en-US" : "id-ID",
+                          )}
                         </span>
                       </div>
                     </div>
@@ -357,11 +374,15 @@ export function UsersTable({
                 <TableBody>
                   {sortedUsers.map((u) => {
                     const balance = u.balance ?? u.depositBalance ?? 0;
-                    const isActive = u.status === "ACTIVE" || u.isActive === true;
+                    const isActive =
+                      u.status === "ACTIVE" || u.isActive === true;
                     const phone = u.phoneNumber || u.phone || "-";
 
                     return (
-                      <TableRow key={u.id} className="hover:bg-muted/30 transition-colors">
+                      <TableRow
+                        key={u.id}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
                         {/* 1. Nama Lengkap with Avatar */}
                         <TableCell className="px-5 py-3.5 align-middle">
                           <div className="flex items-center gap-2.5">
@@ -417,7 +438,10 @@ export function UsersTable({
                         {/* 6. Saldo Dompet */}
                         <TableCell className="text-foreground px-4 py-3.5 text-right align-middle font-mono font-bold">
                           <span className="dark:text-wise-green text-emerald-700">
-                            Rp {balance.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                            Rp{" "}
+                            {balance.toLocaleString(
+                              locale === "en" ? "en-US" : "id-ID",
+                            )}
                           </span>
                         </TableCell>
 

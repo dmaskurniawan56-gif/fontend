@@ -32,7 +32,11 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useI18n } from "@/lib/i18n/context";
 
 interface TemplateCardProps {
@@ -121,9 +125,16 @@ export function TemplateCard({
             </Badge>
 
             {template.mediaType !== "NONE" && (
-              <Badge variant="outline" className="gap-1 text-[10px] text-foreground-muted">
-                {template.mediaType === "IMAGE" && <ImageIcon className="size-3" />}
-                {template.mediaType === "DOCUMENT" && <FileText className="size-3" />}
+              <Badge
+                variant="outline"
+                className="gap-1 text-[10px] text-foreground-muted"
+              >
+                {template.mediaType === "IMAGE" && (
+                  <ImageIcon className="size-3" />
+                )}
+                {template.mediaType === "DOCUMENT" && (
+                  <FileText className="size-3" />
+                )}
                 <span>{template.mediaType}</span>
               </Badge>
             )}
@@ -148,12 +159,14 @@ export function TemplateCard({
                     "size-3.5 transition-colors",
                     template.isFavorite
                       ? "fill-amber-400 text-amber-500"
-                      : "text-foreground-muted hover:text-amber-400"
+                      : "text-foreground-muted hover:text-amber-400",
                   )}
                 />
               </TooltipTrigger>
               <TooltipContent>
-                {template.isFavorite ? t("template.removeFromFavorites") : t("template.addToFavorites")}
+                {template.isFavorite
+                  ? t("template.removeFromFavorites")
+                  : t("template.addToFavorites")}
               </TooltipContent>
             </Tooltip>
 
@@ -172,11 +185,17 @@ export function TemplateCard({
                 <MoreVertical className="size-3.5" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-36">
-                <DropdownMenuItem onClick={() => onEdit(template)} className="cursor-pointer gap-2">
+                <DropdownMenuItem
+                  onClick={() => onEdit(template)}
+                  className="cursor-pointer gap-2"
+                >
                   <Edit2 className="size-3.5 text-foreground-muted" />
                   <span>{t("actions.edit") || t("template.editTemplate")}</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onDuplicate(template.id)} className="cursor-pointer gap-2">
+                <DropdownMenuItem
+                  onClick={() => onDuplicate(template.id)}
+                  className="cursor-pointer gap-2"
+                >
                   <CopyPlus className="size-3.5 text-foreground-muted" />
                   <span>{t("template.duplicateTemplate")}</span>
                 </DropdownMenuItem>
@@ -186,7 +205,9 @@ export function TemplateCard({
                   className="cursor-pointer gap-2 text-destructive focus:bg-destructive/10 focus:text-destructive"
                 >
                   <Trash2 className="size-3.5" />
-                  <span>{t("actions.delete") || t("template.deleteTemplate")}</span>
+                  <span>
+                    {t("actions.delete") || t("template.deleteTemplate")}
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -254,7 +275,9 @@ export function TemplateCard({
             {isCopied ? (
               <>
                 <Check className="size-3 text-emerald-500" />
-                <span className="text-emerald-600 dark:text-emerald-400">{t("copied")}</span>
+                <span className="text-emerald-600 dark:text-emerald-400">
+                  {t("copied")}
+                </span>
               </>
             ) : (
               <>

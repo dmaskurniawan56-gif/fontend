@@ -128,7 +128,8 @@ export interface UpdatePlanInput {
   allow_schedule?: boolean;
 }
 
-export type BillingStatus = "PENDING" | "PROCESSING" | "PAID" | "EXPIRED" | "CANCELLED";
+export type BillingStatus =
+  "PENDING" | "PROCESSING" | "PAID" | "EXPIRED" | "CANCELLED";
 
 export interface AdminBillingUser {
   id: string;
@@ -262,7 +263,8 @@ export interface AdminDeviceItem {
   tenantId: string;
   jid: string;
   pushName: string;
-  status: "ONLINE" | "OFFLINE" | "QR_PENDING" | "HIBERNATED" | "BANNED" | string;
+  status:
+    "ONLINE" | "OFFLINE" | "QR_PENDING" | "HIBERNATED" | "BANNED" | string;
   trustScore: number;
   warmupDay: number;
   dailySentCount: number;
@@ -286,7 +288,8 @@ export interface AdminDeviceListResponse {
   pageSize: number;
 }
 
-export type SubscriptionStatus = "ACTIVE" | "EXPIRED" | "TRIAL" | "SUSPENDED" | string;
+export type SubscriptionStatus =
+  "ACTIVE" | "EXPIRED" | "TRIAL" | "SUSPENDED" | string;
 
 export interface AdminSubscriptionItem {
   id: string;

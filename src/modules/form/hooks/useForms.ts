@@ -20,7 +20,9 @@ export function useForms() {
   // Filters & Pagination State
   const [search, setSearch] = useState("");
   const [type, setType] = useState<FormType | "ALL">("ALL");
-  const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(undefined);
+  const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(
+    undefined,
+  );
   const [page, setPage] = useState(1);
   const [pageSize] = useState(9); // 3x3 grid
   const [total, setTotal] = useState(0);
@@ -36,15 +38,21 @@ export function useForms() {
         isActive?: boolean;
         page?: number;
       },
-      signal?: AbortSignal
+      signal?: AbortSignal,
     ) => {
       setIsLoading(true);
       setError(null);
       try {
-        const querySearch = overrideParams?.search !== undefined ? overrideParams.search : search;
-        const queryType = overrideParams?.type !== undefined ? overrideParams.type : type;
-        const queryActive = overrideParams?.isActive !== undefined ? overrideParams.isActive : isActiveFilter;
-        const queryPage = overrideParams?.page !== undefined ? overrideParams.page : page;
+        const querySearch =
+          overrideParams?.search !== undefined ? overrideParams.search : search;
+        const queryType =
+          overrideParams?.type !== undefined ? overrideParams.type : type;
+        const queryActive =
+          overrideParams?.isActive !== undefined
+            ? overrideParams.isActive
+            : isActiveFilter;
+        const queryPage =
+          overrideParams?.page !== undefined ? overrideParams.page : page;
 
         const res = await formApi.getForms({
           page: queryPage,
@@ -61,16 +69,13 @@ export function useForms() {
         setPage(res.page);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
-        const msg =
-          err instanceof Error
-            ? err.message
-            : t("form.fetchFailed");
+        const msg = err instanceof Error ? err.message : t("form.fetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [search, type, isActiveFilter, page, pageSize, t]
+    [search, type, isActiveFilter, page, pageSize, t],
   );
 
   // Auto-fetch on parameter changes
@@ -88,27 +93,24 @@ export function useForms() {
       await fetchForms();
       return created;
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.createFailed");
+      const msg = err instanceof Error ? err.message : t("form.createFailed");
       toast.error(msg);
       return null;
     }
   };
 
   // 3. Update Form
-  const updateForm = async (id: string, input: UpdateFormInput): Promise<Form | null> => {
+  const updateForm = async (
+    id: string,
+    input: UpdateFormInput,
+  ): Promise<Form | null> => {
     try {
       const updated = await formApi.updateForm(id, input);
       toast.success(t("form.updateSuccess"));
       setForms((prev) => prev.map((f) => (f.id === id ? updated : f)));
       return updated;
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.updateFailed");
+      const msg = err instanceof Error ? err.message : t("form.updateFailed");
       toast.error(msg);
       return null;
     }
@@ -120,18 +122,11 @@ export function useForms() {
     try {
       await formApi.updateForm(form.id, { isActive: newStatus });
       setForms((prev) =>
-        prev.map((f) => (f.id === form.id ? { ...f, isActive: newStatus } : f))
+        prev.map((f) => (f.id === form.id ? { ...f, isActive: newStatus } : f)),
       );
-      toast.success(
-        newStatus
-          ? t("form.activated")
-          : t("form.deactivated")
-      );
+      toast.success(newStatus ? t("form.activated") : t("form.deactivated"));
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.toggleFailed");
+      const msg = err instanceof Error ? err.message : t("form.toggleFailed");
       toast.error(msg);
     }
   };
@@ -145,10 +140,7 @@ export function useForms() {
       setTotal((prev) => Math.max(0, prev - 1));
       return true;
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error
-          ? err.message
-          : t("form.deleteFailed");
+      const msg = err instanceof Error ? err.message : t("form.deleteFailed");
       toast.error(msg);
       return false;
     }

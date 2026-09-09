@@ -12,17 +12,23 @@ const IAM_BASE = env.NEXT_PUBLIC_IAM_API_URL;
 
 export const authApi = {
   login: async (payload: LoginInput): Promise<BackendLoginPayload> => {
-    const res = await httpClient.post<BackendLoginPayload>(`${IAM_BASE}/auth/login`, payload);
+    const res = await httpClient.post<BackendLoginPayload>(
+      `${IAM_BASE}/auth/login`,
+      payload,
+    );
     return res.payload || (res as unknown as BackendLoginPayload);
   },
 
   register: async (payload: RegisterInput): Promise<{ message: string }> => {
-    const res = await httpClient.post<{ message: string }>(`${IAM_BASE}/auth/register`, {
-      name: payload.name,
-      email: payload.email,
-      phone_number: payload.phone,
-      password: payload.password,
-    });
+    const res = await httpClient.post<{ message: string }>(
+      `${IAM_BASE}/auth/register`,
+      {
+        name: payload.name,
+        email: payload.email,
+        phone_number: payload.phone,
+        password: payload.password,
+      },
+    );
     return { message: res.message || "Registrasi berhasil." };
   },
 
@@ -31,12 +37,19 @@ export const authApi = {
     return { success: res.success, message: res.message };
   },
 
-  forgotPassword: async (payload: ForgotPasswordInput): Promise<{ message: string }> => {
-    const res = await httpClient.post(`${IAM_BASE}/auth/forgot-password`, payload);
+  forgotPassword: async (
+    payload: ForgotPasswordInput,
+  ): Promise<{ message: string }> => {
+    const res = await httpClient.post(
+      `${IAM_BASE}/auth/forgot-password`,
+      payload,
+    );
     return { message: res.message || "Tautan pemulihan sandi telah dikirim." };
   },
 
-  resetPassword: async (payload: ResetPasswordInput): Promise<{ message: string }> => {
+  resetPassword: async (
+    payload: ResetPasswordInput,
+  ): Promise<{ message: string }> => {
     const res = await httpClient.post(`${IAM_BASE}/auth/reset-password`, {
       token: payload.token,
       password: payload.password,
@@ -45,7 +58,9 @@ export const authApi = {
   },
 
   getApiKey: async (): Promise<{ token: string }> => {
-    const res = await httpClient.get<{ token: string }>(`${IAM_BASE}/auth/token`);
+    const res = await httpClient.get<{ token: string }>(
+      `${IAM_BASE}/auth/token`,
+    );
     return res.payload || { token: "" };
   },
 

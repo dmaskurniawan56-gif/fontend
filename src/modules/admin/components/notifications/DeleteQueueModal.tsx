@@ -22,7 +22,12 @@ interface DeleteQueueModalProps {
   onConfirm: () => Promise<unknown>;
 }
 
-export function DeleteQueueModal({ queue, isOpen, onClose, onConfirm }: DeleteQueueModalProps) {
+export function DeleteQueueModal({
+  queue,
+  isOpen,
+  onClose,
+  onConfirm,
+}: DeleteQueueModalProps) {
   const { t } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,7 +72,9 @@ export function DeleteQueueModal({ queue, isOpen, onClose, onConfirm }: DeleteQu
           <div className="flex items-start gap-2.5 rounded-lg border border-rose-500/20 bg-rose-500/10 p-3.5 text-rose-700 dark:text-rose-400">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
             <div className="space-y-1">
-              <span className="block font-bold">{t("admin.notifications.deleteWarningTitle")}</span>
+              <span className="block font-bold">
+                {t("admin.notifications.deleteWarningTitle")}
+              </span>
               <p className="text-foreground-secondary text-[11px] leading-relaxed">
                 {t("admin.notifications.deleteWarningDesc")}
               </p>
@@ -77,7 +84,9 @@ export function DeleteQueueModal({ queue, isOpen, onClose, onConfirm }: DeleteQu
           <div className="border-border bg-muted/20 text-foreground-secondary space-y-1.5 rounded-lg border p-3 text-xs font-semibold">
             <div className="flex justify-between">
               <span>{t("admin.notifications.queueIdLabel")}</span>
-              <span className="text-foreground font-mono font-bold">{queue.id}</span>
+              <span className="text-foreground font-mono font-bold">
+                {queue.id}
+              </span>
             </div>
             <div className="flex justify-between">
               <span>{t("admin.notifications.taskTypeLabel")}</span>

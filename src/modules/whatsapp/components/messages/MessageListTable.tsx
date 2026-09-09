@@ -68,7 +68,14 @@ export function MessageListTable({
   // Export to CSV
   const handleExportCSV = () => {
     if (filteredLogs.length === 0) return;
-    const headers = ["ID", "Recipient", "Message", "Device", "Status", "Created At"];
+    const headers = [
+      "ID",
+      "Recipient",
+      "Message",
+      "Device",
+      "Status",
+      "Created At",
+    ];
     const rows = filteredLogs.map((l) => [
       l.id,
       `"${l.recipient_jid || ""}"`,
@@ -174,7 +181,9 @@ export function MessageListTable({
               className="border-border hover:border-foreground-muted h-10 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold"
               title={t("common.refresh")}
             >
-              <RefreshCw className={cn("size-3.5", isLoading && "animate-spin")} />
+              <RefreshCw
+                className={cn("size-3.5", isLoading && "animate-spin")}
+              />
               <span className="hidden sm:inline">{t("common.refresh")}</span>
             </Button>
           )}
@@ -216,7 +225,9 @@ export function MessageListTable({
         </div>
       ) : filteredLogs.length === 0 ? (
         <EmptyState
-          icon={<Inbox className="size-10 text-foreground-muted stroke-[1.5]" />}
+          icon={
+            <Inbox className="size-10 text-foreground-muted stroke-[1.5]" />
+          }
           title={t("whatsapp.messagesNoFound")}
           description={t("whatsapp.messagesNoFoundDesc")}
           action={
@@ -273,7 +284,9 @@ export function MessageListTable({
 
                   <div className="flex items-center justify-between text-[11px] text-foreground-secondary pt-0.5 font-medium">
                     <span className="font-mono truncate max-w-35 bg-muted/60 px-2 py-0.5 rounded border border-border/50">
-                      {log.device_id ? log.device_id.slice(0, 10) + "..." : t("whatsapp.messagesDefaultDevice")}
+                      {log.device_id
+                        ? log.device_id.slice(0, 10) + "..."
+                        : t("whatsapp.messagesDefaultDevice")}
                     </span>
                     <span className="whitespace-nowrap">{timeFormatted}</span>
                   </div>
@@ -287,11 +300,19 @@ export function MessageListTable({
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-border/80 bg-muted/30 text-[11px] font-bold text-foreground-secondary uppercase tracking-wider">
-                  <th className="py-3 px-4">{t("whatsapp.messagesColRecipient")}</th>
-                  <th className="py-3 px-4">{t("whatsapp.messagesColMessage")}</th>
-                  <th className="py-3 px-4">{t("whatsapp.messagesColDevice")}</th>
+                  <th className="py-3 px-4">
+                    {t("whatsapp.messagesColRecipient")}
+                  </th>
+                  <th className="py-3 px-4">
+                    {t("whatsapp.messagesColMessage")}
+                  </th>
+                  <th className="py-3 px-4">
+                    {t("whatsapp.messagesColDevice")}
+                  </th>
                   <th className="py-3 px-4">{t("whatsapp.messagesColTime")}</th>
-                  <th className="py-3 px-4">{t("whatsapp.messagesColStatus")}</th>
+                  <th className="py-3 px-4">
+                    {t("whatsapp.messagesColStatus")}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 text-xs">
@@ -308,7 +329,10 @@ export function MessageListTable({
                     : "-";
 
                   return (
-                    <tr key={log.id} className="hover:bg-muted/40 transition-colors">
+                    <tr
+                      key={log.id}
+                      className="hover:bg-muted/40 transition-colors"
+                    >
                       {/* Recipient */}
                       <td className="py-3 px-4 font-mono font-medium text-foreground whitespace-nowrap">
                         <span>+{phone.replace(/^\+/, "")}</span>
@@ -321,7 +345,10 @@ export function MessageListTable({
                             <FileText className="size-2.5" /> Media
                           </span>
                         )}
-                        <span>{log.message_body || t("whatsapp.messagesAttachmentOnly")}</span>
+                        <span>
+                          {log.message_body ||
+                            t("whatsapp.messagesAttachmentOnly")}
+                        </span>
                       </td>
 
                       {/* Device */}

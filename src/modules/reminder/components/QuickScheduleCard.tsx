@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { CreateReminderInput } from "../types/reminder.types";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -170,7 +176,9 @@ export function QuickScheduleCard({
             <CalendarPlus className="size-4" />
           </div>
           <div>
-            <CardTitle className="text-sm font-bold">{t("reminder.quick.title")}</CardTitle>
+            <CardTitle className="text-sm font-bold">
+              {t("reminder.quick.title")}
+            </CardTitle>
             <CardDescription className="text-xs">
               {t("reminder.quick.subtitle")}
             </CardDescription>
@@ -213,10 +221,16 @@ export function QuickScheduleCard({
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {/* Recipient Name */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rem-name" className="flex items-center gap-1.5 text-xs">
+            <Label
+              htmlFor="rem-name"
+              className="flex items-center gap-1.5 text-xs"
+            >
               <User className="size-3.5 text-primary" />
               <span>{t("reminder.quick.recipientName")} *</span>
             </Label>
@@ -233,7 +247,10 @@ export function QuickScheduleCard({
 
           {/* WhatsApp Phone */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rem-phone" className="flex items-center gap-1.5 text-xs">
+            <Label
+              htmlFor="rem-phone"
+              className="flex items-center gap-1.5 text-xs"
+            >
               <Phone className="size-3.5 text-emerald-500" />
               <span>{t("reminder.quick.phoneLabel")} *</span>
             </Label>
@@ -251,7 +268,10 @@ export function QuickScheduleCard({
           {/* Target Date */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
-              <Label htmlFor="rem-date-display" className="flex items-center gap-1.5 text-xs">
+              <Label
+                htmlFor="rem-date-display"
+                className="flex items-center gap-1.5 text-xs"
+              >
                 <Calendar className="size-3.5 text-blue-500" />
                 <span>{t("reminder.quick.targetDate")} *</span>
               </Label>
@@ -309,7 +329,10 @@ export function QuickScheduleCard({
 
           {/* Notes */}
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rem-notes" className="flex items-center gap-1.5 text-xs">
+            <Label
+              htmlFor="rem-notes"
+              className="flex items-center gap-1.5 text-xs"
+            >
               <FileText className="size-3.5 text-amber-500" />
               <span>{t("reminder.quick.notes")}</span>
             </Label>
@@ -333,7 +356,7 @@ export function QuickScheduleCard({
                 "h-10 px-5 text-xs font-bold gap-2 shadow-xs cursor-pointer transition-all",
                 !hasConfiguredDevice
                   ? "bg-amber-600 hover:bg-amber-700 text-white rounded-full"
-                  : ""
+                  : "",
               )}
             >
               {isSubmitting ? (

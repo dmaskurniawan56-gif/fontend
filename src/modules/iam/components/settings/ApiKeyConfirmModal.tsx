@@ -10,7 +10,14 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, RefreshCw, Trash2, ShieldAlert, Loader2, Zap } from "lucide-react";
+import {
+  AlertTriangle,
+  RefreshCw,
+  Trash2,
+  ShieldAlert,
+  Loader2,
+  Zap,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 
 interface ApiKeyConfirmModalProps {
@@ -59,7 +66,9 @@ export function ApiKeyConfirmModal({
           </div>
           <div>
             <AlertDialogTitle className="text-foreground text-lg font-black tracking-tight sm:text-xl">
-              {isRegenerate ? t("settings.regenerateTitle") : t("settings.revokeTitle")}
+              {isRegenerate
+                ? t("settings.regenerateTitle")
+                : t("settings.revokeTitle")}
             </AlertDialogTitle>
             <AlertDialogDescription className="text-foreground-secondary text-xs font-semibold">
               {isRegenerate

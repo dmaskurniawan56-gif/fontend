@@ -32,7 +32,7 @@ export function DataTableColumnHeader({
           "text-foreground-muted text-[11px] font-extrabold tracking-wider uppercase select-none",
           align === "center" && "text-center",
           align === "right" && "text-right",
-          className
+          className,
         )}
       >
         {title}
@@ -54,7 +54,7 @@ export function DataTableColumnHeader({
         isSorted
           ? "dark:text-wise-green font-black text-emerald-700"
           : "text-foreground-muted hover:text-foreground",
-        className
+        className,
       )}
     >
       <span>{title}</span>

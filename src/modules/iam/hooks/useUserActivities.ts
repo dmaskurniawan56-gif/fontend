@@ -21,7 +21,10 @@ export function useUserActivities() {
       setIsLoading(true);
       try {
         const p = targetPage !== undefined ? targetPage : page;
-        const search = overrideSearch !== undefined ? overrideSearch.trim() : activeSearch.trim();
+        const search =
+          overrideSearch !== undefined
+            ? overrideSearch.trim()
+            : activeSearch.trim();
 
         const res = await activityApi.getUserActivities({
           page: p,
@@ -37,13 +40,16 @@ export function useUserActivities() {
           setActiveSearch(overrideSearch.trim());
         }
       } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Gagal memuat log aktivitas akun";
+        const msg =
+          err instanceof Error
+            ? err.message
+            : "Gagal memuat log aktivitas akun";
         toast.error(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [activeSearch, page, pageSize]
+    [activeSearch, page, pageSize],
   );
 
   const executeSearch = async (query: string) => {
@@ -75,7 +81,7 @@ export function useUserActivities() {
       try {
         const res = await activityApi.getUserActivities(
           { page: 1, pageSize: 15 },
-          controller.signal
+          controller.signal,
         );
         if (isMounted) {
           setActivities(res.activities);

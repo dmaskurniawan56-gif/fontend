@@ -3,7 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { addressApi } from "../api/address.api";
-import { Province, City, District, UserAddress, AddressFormState } from "../types/address.types";
+import {
+  Province,
+  City,
+  District,
+  UserAddress,
+  AddressFormState,
+} from "../types/address.types";
 
 const DEFAULT_FORM_STATE: AddressFormState = {
   address: "",
@@ -19,7 +25,8 @@ export function useUserAddress() {
   const [cities, setCities] = useState<City[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
 
-  const [formState, setFormState] = useState<AddressFormState>(DEFAULT_FORM_STATE);
+  const [formState, setFormState] =
+    useState<AddressFormState>(DEFAULT_FORM_STATE);
   const [savedAddress, setSavedAddress] = useState<UserAddress | null>(null);
 
   const [isLoadingInitial, setIsLoadingInitial] = useState(true);
@@ -58,7 +65,9 @@ export function useUserAddress() {
 
       if (!provinceName) return;
 
-      const selected = provinces.find((p) => p.name.toUpperCase() === provinceName.toUpperCase());
+      const selected = provinces.find(
+        (p) => p.name.toUpperCase() === provinceName.toUpperCase(),
+      );
       if (selected) {
         setIsLoadingCities(true);
         try {
@@ -67,7 +76,7 @@ export function useUserAddress() {
 
           if (autoCity) {
             const cityMatch = citiesData.find(
-              (c) => c.name.toUpperCase() === autoCity.toUpperCase()
+              (c) => c.name.toUpperCase() === autoCity.toUpperCase(),
             );
             if (cityMatch) {
               setIsLoadingDistricts(true);
@@ -83,7 +92,7 @@ export function useUserAddress() {
         }
       }
     },
-    [provinces]
+    [provinces],
   );
 
   // Handle City Selection
@@ -98,12 +107,14 @@ export function useUserAddress() {
 
       if (!cityName) return;
 
-      const selected = cities.find((c) => c.name.toUpperCase() === cityName.toUpperCase());
+      const selected = cities.find(
+        (c) => c.name.toUpperCase() === cityName.toUpperCase(),
+      );
       if (selected) {
         await fetchDistricts(selected.id);
       }
     },
-    [cities, fetchDistricts]
+    [cities, fetchDistricts],
   );
 
   // Handle District Selection
@@ -134,12 +145,15 @@ export function useUserAddress() {
   }, []);
 
   // Handle Generic Field Change
-  const handleFieldChange = useCallback((field: keyof AddressFormState, value: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }, []);
+  const handleFieldChange = useCallback(
+    (field: keyof AddressFormState, value: string) => {
+      setFormState((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    },
+    [],
+  );
 
   // Initial Data Fetching (Provinces + User Address from Backend)
   useEffect(() => {
@@ -172,18 +186,25 @@ export function useUserAddress() {
           // Cascade fetch cities if state exists and country is Indonesia
           if (loadedCountry === "Indonesia" && existingAddr.state) {
             const selectedProv = provs.find(
-              (p) => p.name.toUpperCase() === existingAddr.state.toUpperCase()
+              (p) => p.name.toUpperCase() === existingAddr.state.toUpperCase(),
             );
             if (selectedProv) {
-              const citiesData = await addressApi.getCities(selectedProv.id, controller.signal);
+              const citiesData = await addressApi.getCities(
+                selectedProv.id,
+                controller.signal,
+              );
               if (isMounted) {
                 setCities(citiesData);
                 if (existingAddr.city) {
                   const selectedCity = citiesData.find(
-                    (c) => c.name.toUpperCase() === existingAddr.city.toUpperCase()
+                    (c) =>
+                      c.name.toUpperCase() === existingAddr.city.toUpperCase(),
                   );
                   if (selectedCity) {
-                    const distData = await addressApi.getDistricts(selectedCity.id, controller.signal);
+                    const distData = await addressApi.getDistricts(
+                      selectedCity.id,
+                      controller.signal,
+                    );
                     if (isMounted) setDistricts(distData);
                   }
                 }
@@ -211,18 +232,29 @@ export function useUserAddress() {
   const handleSubmit = async (e?: React.FormEvent): Promise<boolean> => {
     if (e) e.preventDefault();
 
-    const isIndonesia = !formState.country || formState.country === "Indonesia" || formState.country === "ID";
+    const isIndonesia =
+      !formState.country ||
+      formState.country === "Indonesia" ||
+      formState.country === "ID";
 
     if (!formState.address.trim()) {
       toast.error("Alamat jalan lengkap wajib diisi.");
       return false;
     }
     if (!formState.state.trim()) {
-      toast.error(isIndonesia ? "Provinsi wajib dipilih." : "Provinsi / State / Region wajib diisi.");
+      toast.error(
+        isIndonesia
+          ? "Provinsi wajib dipilih."
+          : "Provinsi / State / Region wajib diisi.",
+      );
       return false;
     }
     if (!formState.city.trim()) {
-      toast.error(isIndonesia ? "Kota / Kabupaten wajib dipilih." : "Kota / City wajib diisi.");
+      toast.error(
+        isIndonesia
+          ? "Kota / Kabupaten wajib dipilih."
+          : "Kota / City wajib diisi.",
+      );
       return false;
     }
     if (!formState.postal_code.trim()) {
@@ -240,7 +272,9 @@ export function useUserAddress() {
         postal_code: formState.postal_code.trim(),
       });
 
-      toast.success(res.message || "Alamat berhasil disimpan!", { id: "user-address-save" });
+      toast.success(res.message || "Alamat berhasil disimpan!", {
+        id: "user-address-save",
+      });
       setSavedAddress((prev) => ({
         id: prev?.id || "saved",
         userId: prev?.userId || "",
@@ -254,7 +288,8 @@ export function useUserAddress() {
       }));
       return true;
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Gagal menyimpan data alamat.";
+      const msg =
+        err instanceof Error ? err.message : "Gagal menyimpan data alamat.";
       toast.error(msg, { id: "user-address-save" });
       return false;
     } finally {

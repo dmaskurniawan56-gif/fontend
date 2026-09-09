@@ -64,7 +64,10 @@ export function FormCard({
       <div>
         {/* Top Header: Type Badge & Private Security Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
-          <Badge variant={typeBadge.variant} className="text-xs font-medium px-2 py-0.5 flex items-center">
+          <Badge
+            variant={typeBadge.variant}
+            className="text-xs font-medium px-2 py-0.5 flex items-center"
+          >
             {typeBadge.icon}
             {typeBadge.label}
           </Badge>
@@ -79,7 +82,10 @@ export function FormCard({
         </div>
 
         {/* Title & Description */}
-        <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-base line-clamp-1 mb-1" title={form.title}>
+        <h3
+          className="font-semibold text-slate-900 dark:text-slate-100 text-base line-clamp-1 mb-1"
+          title={form.title}
+        >
           {form.title}
         </h3>
         <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 min-h-8 mb-3">
@@ -90,7 +96,9 @@ export function FormCard({
         <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/60 rounded-lg p-2.5 mb-4 border border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-1.5 overflow-hidden text-xs text-slate-600 dark:text-slate-300 font-mono">
             <span className="text-slate-400 text-[11px]">ID:</span>
-            <span className="truncate font-semibold text-slate-800 dark:text-slate-200">{form.slug}</span>
+            <span className="truncate font-semibold text-slate-800 dark:text-slate-200">
+              {form.slug}
+            </span>
           </div>
           <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -136,7 +144,10 @@ export function FormCard({
             <Inbox className="h-3.5 w-3.5 mr-1.5 shrink-0" />
             <span className="truncate">{t("form.viewSubmissions")}</span>
             {form.submissionCount > 0 && (
-              <Badge variant="outline" className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary shrink-0">
+              <Badge
+                variant="outline"
+                className="ml-1.5 text-[10px] px-1.5 py-0 font-bold border-primary/20 text-primary shrink-0"
+              >
                 {form.submissionCount}
               </Badge>
             )}

@@ -81,12 +81,16 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
           icon={<Users className="size-4" />}
           iconClassName="bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green"
           value={t("overview.adminUserUnit", {
-            count: stats.total_users.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+            count: stats.total_users.toLocaleString(
+              locale === "en" ? "en-US" : "id-ID",
+            ),
           })}
           subtitle={
             <span className="text-foreground-muted block text-[11px] font-semibold">
               {t("overview.adminTenantUnit", {
-                count: stats.total_tenants.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+                count: stats.total_tenants.toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                ),
               })}
             </span>
           }
@@ -113,11 +117,15 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
           title={t("overview.adminGatewayVolume")}
           icon={<Send className="size-4" />}
           iconClassName="bg-sky-500/15 text-sky-500"
-          value={stats.total_messages_sent.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+          value={stats.total_messages_sent.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}
           subtitle={
             <span className="text-foreground-muted block text-[11px] font-semibold">
               {t("overview.adminCampaignCount", {
-                count: stats.total_campaigns.toLocaleString(locale === "en" ? "en-US" : "id-ID"),
+                count: stats.total_campaigns.toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                ),
               })}
             </span>
           }
@@ -131,7 +139,9 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
           value={`Rp ${stats.total_transactions.toLocaleString(locale === "en" ? "en-US" : "id-ID")}`}
           subtitle={
             <span className="block text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-              {t("overview.adminActiveTickets", { count: stats.active_tickets })}
+              {t("overview.adminActiveTickets", {
+                count: stats.active_tickets,
+              })}
             </span>
           }
         />
@@ -174,7 +184,9 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                     className="border-border bg-surface flex items-center justify-between rounded-xl border p-3 dark:bg-[#10110e]"
                   >
                     <div className="space-y-0.5">
-                      <span className="text-foreground block text-xs font-bold">{u.name}</span>
+                      <span className="text-foreground block text-xs font-bold">
+                        {u.name}
+                      </span>
                       <span className="text-foreground-muted block font-mono text-[11px]">
                         {u.email}
                       </span>
@@ -225,7 +237,9 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
                     className="border-border bg-surface flex items-center justify-between rounded-xl border p-3 dark:bg-[#10110e]"
                   >
                     <div className="space-y-0.5">
-                      <span className="text-foreground block text-xs font-bold">{tx.title}</span>
+                      <span className="text-foreground block text-xs font-bold">
+                        {tx.title}
+                      </span>
                       <span className="text-foreground-muted block font-mono text-[10px]">
                         {t("overview.adminRef", { ref: tx.ref })}
                       </span>
@@ -233,7 +247,10 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
 
                     <div className="space-y-0.5 text-right">
                       <span className="text-foreground block text-xs font-bold">
-                        Rp {tx.total_price.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
+                        Rp{" "}
+                        {tx.total_price.toLocaleString(
+                          locale === "en" ? "en-US" : "id-ID",
+                        )}
                       </span>
                       <Badge variant="success" className="text-[10px]">
                         {tx.status}

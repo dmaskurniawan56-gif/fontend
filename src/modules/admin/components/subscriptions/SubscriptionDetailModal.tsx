@@ -36,25 +36,31 @@ interface SubscriptionDetailModalProps {
   onClose: () => void;
 }
 
-function getSubscriptionStatusVisual(status: string, t: (key: string) => string) {
+function getSubscriptionStatusVisual(
+  status: string,
+  t: (key: string) => string,
+) {
   const upper = (status || "").toUpperCase();
   switch (upper) {
     case "ACTIVE":
       return {
         label: t("admin.subscriptions.statusActive"),
-        color: "bg-emerald-500/10 text-emerald-700 dark:text-wise-green border-emerald-500/20",
+        color:
+          "bg-emerald-500/10 text-emerald-700 dark:text-wise-green border-emerald-500/20",
         icon: <CheckCircle2 className="size-3.5" />,
       };
     case "EXPIRED":
       return {
         label: t("admin.subscriptions.statusExpired"),
-        color: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+        color:
+          "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
         icon: <Clock className="size-3.5" />,
       };
     case "TRIAL":
       return {
         label: t("admin.subscriptions.statusTrial"),
-        color: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
+        color:
+          "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
         icon: <Sparkles className="size-3.5" />,
       };
     case "SUSPENDED":
@@ -85,20 +91,31 @@ export function SubscriptionDetailModal({
   const handleCopy = async (text: string, label: string) => {
     const success = await copy(text, label);
     if (success) {
-      toast.success(t("admin.subscriptions.copiedToast", { label }), { id: "clipboard-copy" });
+      toast.success(t("admin.subscriptions.copiedToast", { label }), {
+        id: "clipboard-copy",
+      });
     } else {
-      toast.error(t("admin.subscriptions.copyFailedToast"), { id: "clipboard-copy" });
+      toast.error(t("admin.subscriptions.copyFailedToast"), {
+        id: "clipboard-copy",
+      });
     }
   };
 
   const plan = subscription.plan;
   const planName = plan?.name || `Paket ${subscription.planId.slice(0, 8)}`;
-  const tenantName = subscription.tenant?.name || `Tenant ${subscription.tenantId.slice(0, 8)}`;
-  const statusVisual = getSubscriptionStatusVisual(subscription.status, t as unknown as (key: string) => string);
+  const tenantName =
+    subscription.tenant?.name || `Tenant ${subscription.tenantId.slice(0, 8)}`;
+  const statusVisual = getSubscriptionStatusVisual(
+    subscription.status,
+    t as unknown as (key: string) => string,
+  );
 
   const quotaLimit = plan?.monthly_message_limit ?? 1000;
   const quotaUsed = subscription.currentMonthUsage;
-  const usagePercentage = Math.min(100, Math.round((quotaUsed / (quotaLimit || 1)) * 100));
+  const usagePercentage = Math.min(
+    100,
+    Math.round((quotaUsed / (quotaLimit || 1)) * 100),
+  );
 
   const isExpired = subscription.status === "EXPIRED";
 
@@ -129,7 +146,10 @@ export function SubscriptionDetailModal({
                 {t("admin.subscriptions.pricePerMonthLabel")}
               </span>
               <span className="text-foreground font-mono text-sm font-black">
-                Rp {(plan?.price ?? 0).toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+                Rp{" "}
+                {(plan?.price ?? 0).toLocaleString(
+                  locale === "en" ? "en-US" : "id-ID",
+                )}{" "}
                 {t("admin.subscriptions.perMonth")}
               </span>
             </div>
@@ -149,7 +169,8 @@ export function SubscriptionDetailModal({
                 {t("admin.subscriptions.monthlyQuotaUsage")}
               </span>
               <span className="text-foreground font-mono font-black">
-                {quotaUsed.toLocaleString(locale === "en" ? "en-US" : "id-ID")} /{" "}
+                {quotaUsed.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+                /{" "}
                 {quotaLimit.toLocaleString(locale === "en" ? "en-US" : "id-ID")}
               </span>
             </div>
@@ -157,11 +178,15 @@ export function SubscriptionDetailModal({
             {/* Progress Track */}
             <Progress value={usagePercentage} className="h-2 w-full" />
             <div className="text-foreground-muted flex justify-between font-mono text-[10px]">
-              <span>{t("admin.subscriptions.quotaUsedPercent", { percent: usagePercentage })}</span>
+              <span>
+                {t("admin.subscriptions.quotaUsedPercent", {
+                  percent: usagePercentage,
+                })}
+              </span>
               <span>
                 {t("admin.subscriptions.quotaRemaining", {
                   remaining: Math.max(0, quotaLimit - quotaUsed).toLocaleString(
-                    locale === "en" ? "en-US" : "id-ID"
+                    locale === "en" ? "en-US" : "id-ID",
                   ),
                 })}
               </span>
@@ -178,7 +203,9 @@ export function SubscriptionDetailModal({
                 </span>
               </div>
               <div className="text-foreground font-mono text-base font-black">
-                {t("admin.subscriptions.deviceLimitValue", { count: plan?.max_devices ?? 1 })}
+                {t("admin.subscriptions.deviceLimitValue", {
+                  count: plan?.max_devices ?? 1,
+                })}
               </div>
             </div>
 
@@ -190,7 +217,9 @@ export function SubscriptionDetailModal({
                 </span>
               </div>
               <div className="text-foreground font-mono text-base font-black">
-                {t("admin.subscriptions.agentLimitValue", { count: plan?.max_agents ?? 1 })}
+                {t("admin.subscriptions.agentLimitValue", {
+                  count: plan?.max_agents ?? 1,
+                })}
               </div>
             </div>
           </div>
@@ -277,7 +306,9 @@ export function SubscriptionDetailModal({
               </span>
               <span
                 className={`font-mono text-[11px] font-bold ${
-                  isExpired ? "text-rose-600 dark:text-rose-400" : "text-foreground"
+                  isExpired
+                    ? "text-rose-600 dark:text-rose-400"
+                    : "text-foreground"
                 }`}
               >
                 {formatDateTime(subscription.expiredAt)}

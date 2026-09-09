@@ -8,7 +8,10 @@ import { Alert } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
 import { TurnstileWidget } from "@/components/shared/TurnstileWidget";
 import { TurnstileInstance } from "@marsidev/react-turnstile";
-import { registerSchema, RegisterInput } from "@/modules/iam/schemas/auth.schema";
+import {
+  registerSchema,
+  RegisterInput,
+} from "@/modules/iam/schemas/auth.schema";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
 import {
@@ -210,9 +213,17 @@ export function RegisterForm() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="text-foreground-muted hover:text-foreground hover:bg-muted absolute top-1/2 right-2 flex size-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full transition"
-                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                aria-label={
+                  showPassword
+                    ? "Sembunyikan kata sandi"
+                    : "Tampilkan kata sandi"
+                }
               >
-                {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                {showPassword ? (
+                  <EyeOff className="size-5" />
+                ) : (
+                  <Eye className="size-5" />
+                )}
               </button>
             </div>
             {fieldErrors.password && (
@@ -251,7 +262,11 @@ export function RegisterForm() {
                     : "Tampilkan konfirmasi kata sandi"
                 }
               >
-                {showConfirmPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                {showConfirmPassword ? (
+                  <EyeOff className="size-5" />
+                ) : (
+                  <Eye className="size-5" />
+                )}
               </button>
             </div>
             {fieldErrors.confirmPassword && (
@@ -305,9 +320,15 @@ export function RegisterForm() {
         {/* Turnstile Protection */}
         <TurnstileWidget
           ref={turnstileRef}
-          onVerify={(token) => setFormData((prev) => ({ ...prev, turnstileToken: token }))}
-          onError={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
-          onExpire={() => setFormData((prev) => ({ ...prev, turnstileToken: "" }))}
+          onVerify={(token) =>
+            setFormData((prev) => ({ ...prev, turnstileToken: token }))
+          }
+          onError={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
+          onExpire={() =>
+            setFormData((prev) => ({ ...prev, turnstileToken: "" }))
+          }
         />
 
         <Button

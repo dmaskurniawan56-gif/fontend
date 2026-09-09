@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  RotateCcw,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -79,7 +84,8 @@ export function MonthlyCalendar({
         dayNumber: d,
         isCurrentMonth: false,
         isToday: dateStr === todayStr,
-        count: (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
+        count:
+          (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
       });
     }
 
@@ -94,7 +100,8 @@ export function MonthlyCalendar({
         dayNumber: d,
         isCurrentMonth: true,
         isToday: dateStr === todayStr,
-        count: (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
+        count:
+          (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
       });
     }
 
@@ -114,7 +121,8 @@ export function MonthlyCalendar({
           dayNumber: d,
           isCurrentMonth: false,
           isToday: dateStr === todayStr,
-          count: (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
+          count:
+            (calendarSummary?.summary && calendarSummary.summary[dateStr]) || 0,
         });
       }
     }
@@ -197,8 +205,7 @@ export function MonthlyCalendar({
       {selectedDate && (
         <div className="flex items-center justify-between bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 px-3 py-1.5 rounded-lg text-xs text-emerald-800 dark:text-emerald-300">
           <span>
-            {t("reservation.filteringByDate")}{" "}
-            <strong>{selectedDate}</strong>
+            {t("reservation.filteringByDate")} <strong>{selectedDate}</strong>
           </span>
           <Button
             variant="ghost"
@@ -241,7 +248,7 @@ export function MonthlyCalendar({
                   : "bg-slate-100/30 dark:bg-slate-950/30 text-slate-400 dark:text-slate-600 border-transparent hover:border-slate-200 dark:hover:border-slate-800",
                 item.isToday && "ring-1 ring-emerald-500 font-semibold",
                 isSelected &&
-                  "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 dark:border-emerald-500 ring-2 ring-emerald-500/20"
+                  "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 dark:border-emerald-500 ring-2 ring-emerald-500/20",
               )}
             >
               {/* Day number & today dot */}
@@ -252,9 +259,10 @@ export function MonthlyCalendar({
                     item.isToday
                       ? "text-emerald-600 dark:text-emerald-400 font-bold"
                       : item.isCurrentMonth
-                      ? "text-slate-700 dark:text-slate-200"
-                      : "text-slate-400 dark:text-slate-600",
-                    isSelected && "text-emerald-700 dark:text-emerald-300 font-bold"
+                        ? "text-slate-700 dark:text-slate-200"
+                        : "text-slate-400 dark:text-slate-600",
+                    isSelected &&
+                      "text-emerald-700 dark:text-emerald-300 font-bold",
                   )}
                 >
                   {item.dayNumber}
@@ -273,7 +281,7 @@ export function MonthlyCalendar({
                       "text-[10px] sm:text-xs h-4 px-1.5 font-medium leading-none",
                       isSelected
                         ? "bg-emerald-600 text-white"
-                        : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300"
+                        : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300",
                     )}
                   >
                     {item.count}

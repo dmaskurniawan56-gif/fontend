@@ -50,9 +50,12 @@ export function useTeam() {
     try {
       const newAgent = await teamApi.createAgent(input);
       setAgents((prev) => [newAgent, ...prev]);
-      toast.success(t("team.toastAgentCreated") || "Anggota tim berhasil ditambahkan", {
-        id: "team-agent-action",
-      });
+      toast.success(
+        t("team.toastAgentCreated") || "Anggota tim berhasil ditambahkan",
+        {
+          id: "team-agent-action",
+        },
+      );
       return newAgent;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "";
@@ -64,21 +67,26 @@ export function useTeam() {
       ) {
         toast.error(
           "Batas kuota penambahan anggota tim untuk paket langganan Anda telah tercapai. Silakan upgrade ke paket Regular atau Enterprise di menu Subscription.",
-          { id: "team-agent-action", duration: 6000 }
+          { id: "team-agent-action", duration: 6000 },
         );
       } else if (
         msg.toLowerCase().includes("email already registered") ||
         msg.toLowerCase().includes("email already exists")
       ) {
-        toast.error("Email tersebut sudah terdaftar di sistem. Gunakan email lain.", {
-          id: "team-agent-action",
-        });
+        toast.error(
+          "Email tersebut sudah terdaftar di sistem. Gunakan email lain.",
+          {
+            id: "team-agent-action",
+          },
+        );
       } else if (msg.toLowerCase().includes("only seller")) {
         toast.error("Hanya akun Seller yang dapat menambah anggota tim.", {
           id: "team-agent-action",
         });
       } else {
-        toast.error(msg || "Gagal menambah anggota tim", { id: "team-agent-action" });
+        toast.error(msg || "Gagal menambah anggota tim", {
+          id: "team-agent-action",
+        });
       }
       throw err;
     }

@@ -16,7 +16,9 @@ interface SubscriptionMetricsCardsProps {
   metrics: SubscriptionMetrics;
 }
 
-export function SubscriptionMetricsCards({ metrics }: SubscriptionMetricsCardsProps) {
+export function SubscriptionMetricsCards({
+  metrics,
+}: SubscriptionMetricsCardsProps) {
   const { t, locale } = useI18n();
 
   return (
@@ -29,7 +31,9 @@ export function SubscriptionMetricsCards({ metrics }: SubscriptionMetricsCardsPr
           <Receipt className="text-foreground-secondary size-4" />
         </div>
         <div className="text-foreground font-mono text-lg font-black sm:text-xl">
-          {metrics.totalCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.totalCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.subscriptions.accountUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
@@ -45,7 +49,9 @@ export function SubscriptionMetricsCards({ metrics }: SubscriptionMetricsCardsPr
           <CheckCircle2 className="dark:text-wise-green size-4 text-emerald-600" />
         </div>
         <div className="dark:text-wise-green font-mono text-lg font-black text-emerald-700 sm:text-xl">
-          {metrics.activeCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.activeCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.subscriptions.accountUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
@@ -61,7 +67,9 @@ export function SubscriptionMetricsCards({ metrics }: SubscriptionMetricsCardsPr
           <Clock className="size-4 text-rose-500" />
         </div>
         <div className="font-mono text-lg font-black text-rose-600 sm:text-xl dark:text-rose-400">
-          {metrics.expiredCount.toLocaleString(locale === "en" ? "en-US" : "id-ID")}{" "}
+          {metrics.expiredCount.toLocaleString(
+            locale === "en" ? "en-US" : "id-ID",
+          )}{" "}
           {t("admin.subscriptions.accountUnit")}
         </div>
         <span className="text-foreground-muted text-[10px]">
@@ -78,7 +86,7 @@ export function SubscriptionMetricsCards({ metrics }: SubscriptionMetricsCardsPr
         </div>
         <div className="font-mono text-lg font-black text-amber-600 sm:text-xl dark:text-amber-400">
           {(metrics.trialCount + metrics.suspendedCount).toLocaleString(
-            locale === "en" ? "en-US" : "id-ID"
+            locale === "en" ? "en-US" : "id-ID",
           )}{" "}
           {t("admin.subscriptions.accountUnit")}
         </div>

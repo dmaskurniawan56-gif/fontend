@@ -2,7 +2,11 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, Check, Globe } from "lucide-react";
-import { COUNTRIES, CountryCodeItem, DEFAULT_COUNTRY } from "@/lib/countryCodes";
+import {
+  COUNTRIES,
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+} from "@/lib/countryCodes";
 import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 
@@ -26,7 +30,10 @@ export function CountryCodeSelector({
   // Close on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     }
@@ -88,19 +95,21 @@ export function CountryCodeSelector({
           "flex h-full items-center gap-1.5 border-r border-border px-3 text-xs sm:text-sm font-bold transition select-none cursor-pointer rounded-l-xl",
           "bg-muted/40 text-foreground hover:bg-muted/70 active:bg-muted",
           disabled && "opacity-50 cursor-not-allowed",
-          isOpen && "bg-muted text-foreground"
+          isOpen && "bg-muted text-foreground",
         )}
         aria-label={t("whatsapp.messagesSelectCountry")}
         aria-expanded={isOpen}
       >
-        <span className="text-base leading-none select-none">{selectedCountry.flag}</span>
+        <span className="text-base leading-none select-none">
+          {selectedCountry.flag}
+        </span>
         <span className="font-mono text-xs sm:text-sm font-semibold text-foreground">
           +{selectedCountry.dialCode}
         </span>
         <ChevronDown
           className={cn(
             "size-3 text-foreground-secondary transition-transform duration-200",
-            isOpen && "rotate-180"
+            isOpen && "rotate-180",
           )}
         />
       </button>
@@ -126,7 +135,10 @@ export function CountryCodeSelector({
             {filteredCountries.length === 0 ? (
               <div className="py-6 text-center text-xs text-foreground-secondary">
                 <Globe className="size-6 mx-auto mb-1.5 opacity-40 text-foreground-secondary" />
-                <p>{t("whatsapp.messagesNoCountryFound") || "Tidak ditemukan negara"}</p>
+                <p>
+                  {t("whatsapp.messagesNoCountryFound") ||
+                    "Tidak ditemukan negara"}
+                </p>
               </div>
             ) : (
               filteredCountries.map((c) => {
@@ -141,12 +153,16 @@ export function CountryCodeSelector({
                       "flex w-full items-center justify-between gap-2 rounded-xl px-2.5 py-2 text-left text-xs transition cursor-pointer select-none",
                       isSelected
                         ? "bg-wise-green/15 text-dark-green dark:text-wise-green font-bold"
-                        : "hover:bg-muted text-foreground"
+                        : "hover:bg-muted text-foreground",
                     )}
                   >
                     <div className="flex items-center gap-2 min-w-0 flex-1">
-                      <span className="text-base leading-none shrink-0">{c.flag}</span>
-                      <span className="truncate font-medium">{displayName}</span>
+                      <span className="text-base leading-none shrink-0">
+                        {c.flag}
+                      </span>
+                      <span className="truncate font-medium">
+                        {displayName}
+                      </span>
                       <span className="text-[10px] text-foreground-secondary uppercase tracking-wider shrink-0 font-semibold">
                         ({c.code})
                       </span>

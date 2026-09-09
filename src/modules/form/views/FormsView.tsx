@@ -23,12 +23,13 @@ import { FormCard } from "../components/FormCard";
 import { SubmissionsDrawer } from "../components/SubmissionsDrawer";
 
 const FormBuilderModal = dynamic(
-  () => import("../components/FormBuilderModal").then((m) => m.FormBuilderModal),
-  { ssr: false }
+  () =>
+    import("../components/FormBuilderModal").then((m) => m.FormBuilderModal),
+  { ssr: false },
 );
 const DeleteFormModal = dynamic(
   () => import("../components/DeleteFormModal").then((m) => m.DeleteFormModal),
-  { ssr: false }
+  { ssr: false },
 );
 
 export function FormsView() {
@@ -58,7 +59,8 @@ export function FormsView() {
   const [deletingForm, setDeletingForm] = useState<Form | null>(null);
 
   const [isSubmissionsOpen, setIsSubmissionsOpen] = useState(false);
-  const [viewingSubmissionsForm, setViewingSubmissionsForm] = useState<Form | null>(null);
+  const [viewingSubmissionsForm, setViewingSubmissionsForm] =
+    useState<Form | null>(null);
 
   // Aggregated Stats from loaded forms
   const stats = useMemo(() => {
@@ -121,7 +123,9 @@ export function FormsView() {
             className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
             title="Muat Ulang Data"
           >
-            <RefreshCw className={`size-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
             <span className="hidden sm:inline">Refresh</span>
           </Button>
 
@@ -147,7 +151,9 @@ export function FormsView() {
             <p className="truncate text-[11px] font-medium text-foreground-muted">
               {t("form.stats.totalForms")}
             </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.totalForms}</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">
+              {stats.totalForms}
+            </p>
           </div>
         </div>
 
@@ -159,7 +165,9 @@ export function FormsView() {
             <p className="truncate text-[11px] font-medium text-foreground-muted">
               {t("form.stats.totalSubmissions")}
             </p>
-            <p className="text-lg font-bold text-primary sm:text-xl">{stats.totalSubmissions.toLocaleString()}</p>
+            <p className="text-lg font-bold text-primary sm:text-xl">
+              {stats.totalSubmissions.toLocaleString()}
+            </p>
           </div>
         </div>
 
@@ -171,7 +179,9 @@ export function FormsView() {
             <p className="truncate text-[11px] font-medium text-foreground-muted">
               {t("form.stats.reservationForms")}
             </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.reservationForms}</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">
+              {stats.reservationForms}
+            </p>
           </div>
         </div>
 
@@ -183,7 +193,9 @@ export function FormsView() {
             <p className="truncate text-[11px] font-medium text-foreground-muted">
               {t("form.stats.leadForms")}
             </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">{stats.leadForms}</p>
+            <p className="text-lg font-bold text-foreground sm:text-xl">
+              {stats.leadForms}
+            </p>
           </div>
         </div>
       </div>
@@ -222,16 +234,28 @@ export function FormsView() {
               className="w-full sm:w-auto"
             >
               <TabsList className="h-9 w-full sm:w-auto justify-start shrink-0">
-                <TabsTrigger value="ALL" className="text-xs px-2.5 cursor-pointer">
+                <TabsTrigger
+                  value="ALL"
+                  className="text-xs px-2.5 cursor-pointer"
+                >
                   Semua Tipe
                 </TabsTrigger>
-                <TabsTrigger value="STANDARD" className="text-xs px-2.5 cursor-pointer">
+                <TabsTrigger
+                  value="STANDARD"
+                  className="text-xs px-2.5 cursor-pointer"
+                >
                   Standard
                 </TabsTrigger>
-                <TabsTrigger value="RESERVATION" className="text-xs px-2.5 cursor-pointer">
+                <TabsTrigger
+                  value="RESERVATION"
+                  className="text-xs px-2.5 cursor-pointer"
+                >
                   Reservasi
                 </TabsTrigger>
-                <TabsTrigger value="LEAD" className="text-xs px-2.5 cursor-pointer">
+                <TabsTrigger
+                  value="LEAD"
+                  className="text-xs px-2.5 cursor-pointer"
+                >
                   Lead
                 </TabsTrigger>
               </TabsList>

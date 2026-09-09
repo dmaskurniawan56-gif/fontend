@@ -19,11 +19,15 @@ export function normalizeTicket(raw: Record<string, unknown>): Ticket {
     ? (raw.messages as Record<string, unknown>[]).map((m) => ({
         id: String(m.id || ""),
         senderName: String(
-          m.senderName || m.sender_name || (m.isStaff || m.is_staff ? "Staff Support" : "Anda")
+          m.senderName ||
+            m.sender_name ||
+            (m.isStaff || m.is_staff ? "Staff Support" : "Anda"),
         ),
         isStaff: Boolean(m.isStaff || m.is_staff),
         content: String(m.content || m.message || ""),
-        createdAt: String(m.createdAt || m.created_at || new Date().toISOString()),
+        createdAt: String(
+          m.createdAt || m.created_at || new Date().toISOString(),
+        ),
       }))
     : initMessage
       ? [
@@ -32,7 +36,9 @@ export function normalizeTicket(raw: Record<string, unknown>): Ticket {
             senderName: "Anda",
             isStaff: false,
             content: initMessage,
-            createdAt: String(raw.createdAt || raw.created_at || new Date().toISOString()),
+            createdAt: String(
+              raw.createdAt || raw.created_at || new Date().toISOString(),
+            ),
           },
         ]
       : [];
@@ -64,7 +70,9 @@ export function normalizeTicket(raw: Record<string, unknown>): Ticket {
 
   return {
     id: String(raw.id || ""),
-    ticketNumber: String(raw.ticketNumber || raw.ref_number || raw.ticket_number || "TKT"),
+    ticketNumber: String(
+      raw.ticketNumber || raw.ref_number || raw.ticket_number || "TKT",
+    ),
     subject: String(raw.subject || ""),
     category: String(raw.category || "GENERAL").toUpperCase() as TicketCategory,
     priority: String(raw.priority || "MEDIUM").toUpperCase() as TicketPriority,
@@ -72,14 +80,21 @@ export function normalizeTicket(raw: Record<string, unknown>): Ticket {
     message: initMessage,
     attachment: raw.attachment ? String(raw.attachment) : undefined,
     messages,
-    createdAt: String(raw.createdAt || raw.created_at || new Date().toISOString()),
-    updatedAt: String(raw.updatedAt || raw.updated_at || new Date().toISOString()),
+    createdAt: String(
+      raw.createdAt || raw.created_at || new Date().toISOString(),
+    ),
+    updatedAt: String(
+      raw.updatedAt || raw.updated_at || new Date().toISOString(),
+    ),
     user,
   };
 }
 
 export const supportApi = {
-  getTickets: async (params?: GetTicketsParams, signal?: AbortSignal): Promise<TicketListResponse> => {
+  getTickets: async (
+    params?: GetTicketsParams,
+    signal?: AbortSignal,
+  ): Promise<TicketListResponse> => {
     try {
       const page = params?.page ?? 1;
       const pageSize = params?.pageSize ?? 10;
@@ -93,18 +108,25 @@ export const supportApi = {
         query.set("status", params.status);
       }
       const queryString = `?${query.toString()}`;
-      const res = await httpClient.get<unknown>(`${SUPPORT_BASE}/support/tickets${queryString}`, {
-        signal,
-      });
+      const res = await httpClient.get<unknown>(
+        `${SUPPORT_BASE}/support/tickets${queryString}`,
+        {
+          signal,
+        },
+      );
       const rawList = res.payload || (Array.isArray(res) ? res : []);
-      const rawArray = Array.isArray(rawList) ? (rawList as Record<string, unknown>[]) : [];
+      const rawArray = Array.isArray(rawList)
+        ? (rawList as Record<string, unknown>[])
+        : [];
       const tickets = rawArray.map(normalizeTicket);
 
       const addInfo = res.additional_info as
         { total?: number; page?: number; size?: number } | undefined;
-      const total = typeof addInfo?.total === "number" ? addInfo.total : tickets.length;
+      const total =
+        typeof addInfo?.total === "number" ? addInfo.total : tickets.length;
       const resPage = typeof addInfo?.page === "number" ? addInfo.page : page;
-      const resSize = typeof addInfo?.size === "number" ? addInfo.size : pageSize;
+      const resSize =
+        typeof addInfo?.size === "number" ? addInfo.size : pageSize;
 
       return {
         tickets,
@@ -128,7 +150,7 @@ export const supportApi = {
     formData.append("file", file);
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUPPORT_BASE}/support/tickets/upload`,
-      formData
+      formData,
     );
     const raw = res.payload || (res as unknown as Record<string, unknown>);
     return String(raw.url || raw.public_url || "");
@@ -137,31 +159,40 @@ export const supportApi = {
   createTicket: async (payload: CreateTicketInput): Promise<Ticket> => {
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUPPORT_BASE}/support/tickets`,
-      payload
+      payload,
     );
     const raw = res.payload || (res as unknown as Record<string, unknown>);
     return normalizeTicket(raw);
   },
 
-  getReplies: async (ticketId: string, signal?: AbortSignal): Promise<TicketMessage[]> => {
+  getReplies: async (
+    ticketId: string,
+    signal?: AbortSignal,
+  ): Promise<TicketMessage[]> => {
     if (!ticketId) return [];
     try {
       const res = await httpClient.get<unknown>(
         `${SUPPORT_BASE}/support/tickets/${ticketId}/reply?page=1&page_size=100`,
-        { signal }
+        { signal },
       );
       const rawList = res.payload || (Array.isArray(res) ? res : []);
-      const rawArray = Array.isArray(rawList) ? (rawList as Record<string, unknown>[]) : [];
+      const rawArray = Array.isArray(rawList)
+        ? (rawList as Record<string, unknown>[])
+        : [];
       return rawArray.map((r) => {
         const user = r.user as Record<string, unknown> | undefined;
         const isAdmin = Boolean(r.is_admin || r.isAdmin);
         return {
           id: String(r.id || "reply_" + Math.random().toString(36).slice(2)),
-          senderName: String(user?.name || (isAdmin ? "Staff Support" : "Anda")),
+          senderName: String(
+            user?.name || (isAdmin ? "Staff Support" : "Anda"),
+          ),
           isStaff: isAdmin,
           content: String(r.message || r.content || ""),
           attachment: r.attachment ? String(r.attachment) : undefined,
-          createdAt: String(r.created_at || r.createdAt || new Date().toISOString()),
+          createdAt: String(
+            r.created_at || r.createdAt || new Date().toISOString(),
+          ),
         };
       });
     } catch (err: unknown) {
@@ -170,7 +201,11 @@ export const supportApi = {
     }
   },
 
-  replyTicket: async (id: string, content: string, attachment?: string): Promise<TicketMessage> => {
+  replyTicket: async (
+    id: string,
+    content: string,
+    attachment?: string,
+  ): Promise<TicketMessage> => {
     const body: Record<string, unknown> = {
       content,
       message: content,
@@ -180,7 +215,7 @@ export const supportApi = {
     }
     const res = await httpClient.post<Record<string, unknown>>(
       `${SUPPORT_BASE}/support/tickets/${id}/reply`,
-      body
+      body,
     );
     const raw = (res.payload || res) as Record<string, unknown>;
     return {
@@ -189,13 +224,15 @@ export const supportApi = {
       isStaff: Boolean(raw?.isStaff || raw?.is_staff),
       content: String(raw?.content || raw?.message || content),
       attachment: raw?.attachment ? String(raw.attachment) : attachment,
-      createdAt: String(raw?.createdAt || raw?.created_at || new Date().toISOString()),
+      createdAt: String(
+        raw?.createdAt || raw?.created_at || new Date().toISOString(),
+      ),
     };
   },
 
   getTicket: async (id: string): Promise<Ticket> => {
     const res = await httpClient.get<Record<string, unknown>>(
-      `${SUPPORT_BASE}/support/tickets/${id}`
+      `${SUPPORT_BASE}/support/tickets/${id}`,
     );
     const raw = (res.payload || res) as Record<string, unknown>;
     return normalizeTicket(raw);
@@ -204,17 +241,20 @@ export const supportApi = {
   closeTicket: async (id: string): Promise<void> => {
     await httpClient.patch<Record<string, unknown>>(
       `${SUPPORT_BASE}/support/tickets/${id}/close`,
-      {}
+      {},
     );
   },
 
-  updateTicketStatus: async (id: string, status: TicketStatus): Promise<void> => {
+  updateTicketStatus: async (
+    id: string,
+    status: TicketStatus,
+  ): Promise<void> => {
     await httpClient.patch<Record<string, unknown>>(
       `${SUPPORT_BASE}/admin/support/tickets/status`,
       {
         id,
         status,
-      }
+      },
     );
   },
 };

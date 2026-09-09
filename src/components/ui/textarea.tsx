@@ -17,11 +17,13 @@ const textareaVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface TextareaProps
-  extends React.ComponentProps<"textarea">, VariantProps<typeof textareaVariants> {
+  extends
+    React.ComponentProps<"textarea">,
+    VariantProps<typeof textareaVariants> {
   isError?: boolean;
 }
 
@@ -31,8 +33,9 @@ function Textarea({ className, variant, isError, ...props }: TextareaProps) {
       data-slot="textarea"
       className={cn(
         textareaVariants({ variant }),
-        isError && "border-rose-500 focus:border-rose-500 focus:ring-rose-500/30",
-        className
+        isError &&
+          "border-rose-500 focus:border-rose-500 focus:ring-rose-500/30",
+        className,
       )}
       {...props}
     />

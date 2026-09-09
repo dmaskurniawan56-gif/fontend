@@ -1,7 +1,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreHorizontalIcon,
+} from "lucide-react";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -15,7 +19,10 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   );
 }
 
-function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
+function PaginationContent({
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot="pagination-content"
@@ -32,7 +39,16 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 type PaginationLinkProps = {
   isActive?: boolean;
   disabled?: boolean;
-  size?: "default" | "xs" | "sm" | "lg" | "xl" | "icon" | "icon-xs" | "icon-sm" | "icon-lg";
+  size?:
+    | "default"
+    | "xs"
+    | "sm"
+    | "lg"
+    | "xl"
+    | "icon"
+    | "icon-xs"
+    | "icon-sm"
+    | "icon-lg";
 } & React.ButtonHTMLAttributes<HTMLButtonElement> &
   React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
@@ -55,7 +71,11 @@ function PaginationLink({
       <Button
         variant={isActive ? "primaryPill" : "outline"}
         size={size}
-        className={cn("size-8.5 rounded-full text-xs font-bold transition", activeClass, className)}
+        className={cn(
+          "size-8.5 rounded-full text-xs font-bold transition",
+          activeClass,
+          className,
+        )}
         nativeButton={false}
         render={
           <a
@@ -85,7 +105,7 @@ function PaginationLink({
       className={cn(
         "size-8.5 cursor-pointer rounded-full text-xs font-bold transition disabled:pointer-events-none disabled:opacity-40",
         activeClass,
-        className
+        className,
       )}
       {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
@@ -107,7 +127,7 @@ function PaginationPrevious({
       disabled={disabled}
       className={cn(
         "h-8.5 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold sm:px-3.5",
-        className
+        className,
       )}
       {...props}
     >
@@ -130,7 +150,7 @@ function PaginationNext({
       disabled={disabled}
       className={cn(
         "h-8.5 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold sm:px-3.5",
-        className
+        className,
       )}
       {...props}
     >
@@ -140,14 +160,17 @@ function PaginationNext({
   );
 }
 
-function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
+function PaginationEllipsis({
+  className,
+  ...props
+}: React.ComponentProps<"span">) {
   return (
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
       className={cn(
         "text-foreground-muted flex size-8 items-center justify-center select-none",
-        className
+        className,
       )}
       {...props}
     >
@@ -248,14 +271,18 @@ export function DataTablePagination({
   );
 
   if (!isFullFooter) {
-    return <div className={cn("flex items-center gap-2", className)}>{rightControls}</div>;
+    return (
+      <div className={cn("flex items-center gap-2", className)}>
+        {rightControls}
+      </div>
+    );
   }
 
   return (
     <div
       className={cn(
         "border-border bg-muted/30 flex flex-col items-center justify-between gap-3 border-t p-3 sm:flex-row sm:px-5 sm:py-3.5",
-        className
+        className,
       )}
     >
       {/* Left: Summary and Page Size Selector */}
@@ -268,7 +295,9 @@ export function DataTablePagination({
 
         {onPageSizeChange && (
           <div className="border-border flex items-center gap-1.5 border-l pl-3">
-            <span className="text-foreground-muted text-[11px]">Baris per halaman:</span>
+            <span className="text-foreground-muted text-[11px]">
+              Baris per halaman:
+            </span>
             <select
               value={pageSize}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}

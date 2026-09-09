@@ -31,9 +31,9 @@ export function CountrySearchCombobox({
       COUNTRIES.find(
         (c) =>
           c.name.toLowerCase() === (value || "Indonesia").toLowerCase() ||
-          c.code.toUpperCase() === (value || "").toUpperCase()
+          c.code.toUpperCase() === (value || "").toUpperCase(),
       ) ?? COUNTRIES[0],
-    [value]
+    [value],
   );
 
   // Filter countries by search query
@@ -44,7 +44,7 @@ export function CountrySearchCombobox({
       (c) =>
         c.name.toLowerCase().includes(q) ||
         c.nameId.toLowerCase().includes(q) ||
-        c.code.toLowerCase().includes(q)
+        c.code.toLowerCase().includes(q),
     );
   }, [search]);
 
@@ -114,7 +114,8 @@ export function CountrySearchCombobox({
   // Scroll focused item into view
   useEffect(() => {
     if (focusedIndex < 0 || !listRef.current) return;
-    const item = listRef.current.children[focusedIndex] as HTMLElement | undefined;
+    const item = listRef.current.children[focusedIndex] as
+      HTMLElement | undefined;
     item?.scrollIntoView({ block: "nearest" });
   }, [focusedIndex]);
 
@@ -138,6 +139,7 @@ export function CountrySearchCombobox({
         type="button"
         role="combobox"
         aria-expanded={open}
+        aria-controls="country-search-listbox"
         aria-haspopup="listbox"
         onClick={() => setOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
@@ -147,7 +149,7 @@ export function CountrySearchCombobox({
           "text-xs font-semibold transition",
           "focus:border-wise-green focus:ring-wise-green focus:ring-2 focus:outline-none",
           open && "border-wise-green ring-wise-green ring-2",
-          "dark:bg-[#10110e]"
+          "dark:bg-[#10110e]",
         )}
       >
         {/* Leading globe icon */}
@@ -170,7 +172,7 @@ export function CountrySearchCombobox({
         <ChevronDown
           className={cn(
             "text-foreground-muted size-4 shrink-0 transition-transform duration-150",
-            open && "rotate-180"
+            open && "rotate-180",
           )}
         />
       </button>
@@ -181,7 +183,7 @@ export function CountrySearchCombobox({
           className={cn(
             "border-border bg-surface animate-in fade-in-0 zoom-in-95 absolute top-full left-0 z-50 mt-1.5",
             "w-full min-w-65 rounded-xl border shadow-lg",
-            "dark:bg-[#10110e]"
+            "dark:bg-[#10110e]",
           )}
           role="dialog"
           aria-label={t("address.selectCountry")}
@@ -201,7 +203,7 @@ export function CountrySearchCombobox({
                   "bg-muted/40 text-foreground placeholder:text-foreground-muted",
                   "border-border focus:border-wise-green focus:ring-wise-green",
                   "h-8 w-full rounded-lg border pr-3 pl-8 text-xs font-medium",
-                  "outline-none transition focus:ring-2 dark:bg-[#16180f]"
+                  "outline-none transition focus:ring-2 dark:bg-[#16180f]",
                 )}
                 autoComplete="off"
                 autoCorrect="off"
@@ -212,6 +214,7 @@ export function CountrySearchCombobox({
 
           {/* Country list */}
           <ul
+            id="country-search-listbox"
             ref={listRef}
             role="listbox"
             aria-label={t("address.selectCountry")}
@@ -238,7 +241,7 @@ export function CountrySearchCombobox({
                         ? "bg-muted text-foreground"
                         : "hover:bg-muted/60",
                       isSelected &&
-                        "text-wise-green dark:text-wise-green font-semibold"
+                        "text-wise-green dark:text-wise-green font-semibold",
                     )}
                   >
                     <span className="text-base leading-none" aria-hidden="true">

@@ -62,7 +62,10 @@ const mapBackendForm = (f: any): Form => {
     fields,
     successMessage: f.success_message || f.successMessage || "",
     redirectUrl: f.redirect_url || f.redirectUrl || "",
-    isActive: f.is_active !== undefined ? Boolean(f.is_active) : Boolean(f.isActive ?? true),
+    isActive:
+      f.is_active !== undefined
+        ? Boolean(f.is_active)
+        : Boolean(f.isActive ?? true),
     viewCount: Number(f.view_count ?? f.viewCount ?? 0),
     submissionCount: Number(f.submission_count ?? f.submissionCount ?? 0),
     createdAt: f.created_at || f.createdAt || new Date().toISOString(),
@@ -91,7 +94,10 @@ const mapBackendSubmission = (s: any): FormSubmission => {
     formId: s.form_id || s.formId || "",
     respondentName: s.respondent_name || s.respondentName || "",
     respondentPhone: s.respondent_phone || s.respondentPhone || "",
-    responses: typeof s.responses === "object" && s.responses !== null ? s.responses : {},
+    responses:
+      typeof s.responses === "object" && s.responses !== null
+        ? s.responses
+        : {},
     ipAddress: s.ip_address || s.ipAddress || "",
     status: (s.status || "PENDING").toUpperCase() as SubmissionStatus,
     createdAt: s.created_at || s.createdAt || new Date().toISOString(),
@@ -114,7 +120,8 @@ export const formApi = {
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
     if (params?.type && params.type !== "ALL") query.set("type", params.type);
-    if (params?.isActive !== undefined) query.set("is_active", params.isActive ? "true" : "false");
+    if (params?.isActive !== undefined)
+      query.set("is_active", params.isActive ? "true" : "false");
 
     const qs = query.toString();
     const endpoint = `${FORM_BASE}/forms${qs ? `?${qs}` : ""}`;
@@ -125,8 +132,7 @@ export const formApi = {
     const items = Array.isArray(rawItems) ? rawItems.map(mapBackendForm) : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       items,
@@ -174,7 +180,8 @@ export const formApi = {
     const payload: Record<string, unknown> = {};
     if (input.title !== undefined) payload.title = input.title;
     if (input.slug !== undefined) payload.slug = input.slug;
-    if (input.description !== undefined) payload.description = input.description;
+    if (input.description !== undefined)
+      payload.description = input.description;
     if (input.type !== undefined) payload.type = input.type;
     if (input.fields !== undefined) {
       payload.fields = input.fields.map((f) => ({
@@ -187,8 +194,10 @@ export const formApi = {
         options: f.options || [],
       }));
     }
-    if (input.successMessage !== undefined) payload.success_message = input.successMessage;
-    if (input.redirectUrl !== undefined) payload.redirect_url = input.redirectUrl;
+    if (input.successMessage !== undefined)
+      payload.success_message = input.successMessage;
+    if (input.redirectUrl !== undefined)
+      payload.redirect_url = input.redirectUrl;
     if (input.isActive !== undefined) payload.is_active = input.isActive;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -204,7 +213,9 @@ export const formApi = {
   // Public: Get Form Schema by Slug
   getPublicForm: async (slug: string): Promise<PublicForm> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.get<any>(`${FORM_BASE}/forms/public/${encodeURIComponent(slug)}`);
+    const res = await httpClient.get<any>(
+      `${FORM_BASE}/forms/public/${encodeURIComponent(slug)}`,
+    );
     const p = res.payload || res;
     const rawFields = Array.isArray(p.fields) ? p.fields : [];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -231,7 +242,10 @@ export const formApi = {
   },
 
   // Public: Submit Form
-  submitPublicForm: async (slug: string, input: SubmitFormInput): Promise<FormSubmission> => {
+  submitPublicForm: async (
+    slug: string,
+    input: SubmitFormInput,
+  ): Promise<FormSubmission> => {
     const payload = {
       respondent_name: input.respondentName,
       respondent_phone: input.respondentPhone,
@@ -240,17 +254,24 @@ export const formApi = {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.post<any>(`${FORM_BASE}/forms/public/${encodeURIComponent(slug)}/submit`, payload);
+    const res = await httpClient.post<any>(
+      `${FORM_BASE}/forms/public/${encodeURIComponent(slug)}/submit`,
+      payload,
+    );
     return mapBackendSubmission(res.payload || res);
   },
 
   // Seller: List Submissions by Form ID
-  getSubmissions: async (formId: string, params?: ListSubmissionsQuery): Promise<PaginatedResult<FormSubmission>> => {
+  getSubmissions: async (
+    formId: string,
+    params?: ListSubmissionsQuery,
+  ): Promise<PaginatedResult<FormSubmission>> => {
     const query = new URLSearchParams();
     if (params?.page) query.set("page", params.page.toString());
     if (params?.pageSize) query.set("page_size", params.pageSize.toString());
     if (params?.search) query.set("search", params.search);
-    if (params?.status && params.status !== "ALL") query.set("status", params.status);
+    if (params?.status && params.status !== "ALL")
+      query.set("status", params.status);
 
     const qs = query.toString();
     const endpoint = `${FORM_BASE}/forms/${formId}/submissions${qs ? `?${qs}` : ""}`;
@@ -258,11 +279,12 @@ export const formApi = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res = await httpClient.get<any>(endpoint);
     const rawItems = res.payload || (Array.isArray(res) ? res : []);
-    const items = Array.isArray(rawItems) ? rawItems.map(mapBackendSubmission) : [];
+    const items = Array.isArray(rawItems)
+      ? rawItems.map(mapBackendSubmission)
+      : [];
 
     const additionalInfo = res.additional_info as
-      | { page?: number; size?: number; total?: number }
-      | undefined;
+      { page?: number; size?: number; total?: number } | undefined;
 
     return {
       items,
@@ -273,9 +295,15 @@ export const formApi = {
   },
 
   // Seller: Update Submission Status
-  updateSubmissionStatus: async (id: string, status: SubmissionStatus): Promise<FormSubmission> => {
+  updateSubmissionStatus: async (
+    id: string,
+    status: SubmissionStatus,
+  ): Promise<FormSubmission> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res = await httpClient.patch<any>(`${FORM_BASE}/forms/submissions/${id}/status`, { status });
+    const res = await httpClient.patch<any>(
+      `${FORM_BASE}/forms/submissions/${id}/status`,
+      { status },
+    );
     return mapBackendSubmission(res.payload || res);
   },
 

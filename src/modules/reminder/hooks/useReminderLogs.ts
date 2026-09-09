@@ -38,15 +38,13 @@ export function useReminderLogs() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === "AbortError") return;
         const msg =
-          err instanceof Error
-            ? err.message
-            : t("reminder.logsFetchFailed");
+          err instanceof Error ? err.message : t("reminder.logsFetchFailed");
         setError(msg);
       } finally {
         setIsLoading(false);
       }
     },
-    [page, pageSize, t]
+    [page, pageSize, t],
   );
 
   useEffect(() => {
@@ -69,9 +67,7 @@ export function useReminderLogs() {
       await fetchLogs(1);
     } catch (err: unknown) {
       const msg =
-        err instanceof Error
-          ? err.message
-          : t("reminder.dispatchFailed");
+        err instanceof Error ? err.message : t("reminder.dispatchFailed");
       toast.error(msg);
     } finally {
       setIsDispatching(false);

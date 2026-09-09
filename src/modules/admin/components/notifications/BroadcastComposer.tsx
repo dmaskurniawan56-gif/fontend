@@ -24,11 +24,16 @@ import {
 interface BroadcastComposerProps {
   isSending: boolean;
   onSendAll: (subject: string, message: string) => Promise<unknown>;
-  onSendDirect: (email: string, name: string, subject: string, message: string) => Promise<unknown>;
+  onSendDirect: (
+    email: string,
+    name: string,
+    subject: string,
+    message: string,
+  ) => Promise<unknown>;
   onSendBatch?: (
     targets: { email: string; name?: string }[],
     subject: string,
-    message: string
+    message: string,
   ) => Promise<unknown>;
 }
 
@@ -39,7 +44,9 @@ export function BroadcastComposer({
   onSendBatch,
 }: BroadcastComposerProps) {
   const { t } = useI18n();
-  const [broadcastTarget, setBroadcastTarget] = useState<"ALL" | "SPECIFIC">("ALL");
+  const [broadcastTarget, setBroadcastTarget] = useState<"ALL" | "SPECIFIC">(
+    "ALL",
+  );
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [formErrors, setFormErrors] = useState<{
@@ -91,7 +98,10 @@ export function BroadcastComposer({
   // Click outside listener for dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -107,7 +117,7 @@ export function BroadcastComposer({
       (u) =>
         u.name.toLowerCase().includes(q) ||
         u.email.toLowerCase().includes(q) ||
-        (u.phone && u.phone.includes(q))
+        (u.phone && u.phone.includes(q)),
     );
   }, [users, userSearchQuery]);
 
@@ -142,7 +152,12 @@ export function BroadcastComposer({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errors: { subject?: string; message?: string; email?: string; target?: string } = {};
+    const errors: {
+      subject?: string;
+      message?: string;
+      email?: string;
+      target?: string;
+    } = {};
 
     if (!subject.trim()) {
       errors.subject = t("admin.notifications.errSubjectRequired");
@@ -176,7 +191,12 @@ export function BroadcastComposer({
       setMessage("");
     } else {
       if (isManualMode) {
-        await onSendDirect(manualEmail.trim(), manualName.trim(), subject.trim(), message.trim());
+        await onSendDirect(
+          manualEmail.trim(),
+          manualName.trim(),
+          subject.trim(),
+          message.trim(),
+        );
         setSubject("");
         setMessage("");
         setManualEmail("");
@@ -186,7 +206,10 @@ export function BroadcastComposer({
           const u = selectedUsers[0];
           await onSendDirect(u.email, u.name, subject.trim(), message.trim());
         } else if (onSendBatch) {
-          const targets = selectedUsers.map((u) => ({ email: u.email, name: u.name }));
+          const targets = selectedUsers.map((u) => ({
+            email: u.email,
+            name: u.name,
+          }));
           await onSendBatch(targets, subject.trim(), message.trim());
         } else {
           for (const u of selectedUsers) {
@@ -306,7 +329,9 @@ export function BroadcastComposer({
                         setIsDropdownOpen(true);
                       }}
                       onFocus={() => setIsDropdownOpen(true)}
-                      placeholder={t("admin.notifications.userSearchPlaceholder")}
+                      placeholder={t(
+                        "admin.notifications.userSearchPlaceholder",
+                      )}
                       className="bg-surface text-foreground border-border hover:border-foreground-muted dark:focus:border-wise-green h-9 w-full rounded-lg border pr-8 pl-9 text-xs font-semibold outline-none focus:border-emerald-600 dark:bg-[#10110e]"
                     />
                     {userSearchQuery && (
@@ -330,12 +355,18 @@ export function BroadcastComposer({
                         </div>
                       ) : filteredUsers.length === 0 ? (
                         <div className="text-foreground-muted p-4 text-center text-xs">
-                          {t("admin.notifications.noUsersFound", { query: userSearchQuery })}
+                          {t("admin.notifications.noUsersFound", {
+                            query: userSearchQuery,
+                          })}
                         </div>
                       ) : (
                         <div>
                           <div className="border-border/50 text-foreground-muted mb-1 flex items-center justify-between border-b px-2 py-1 text-[10px]">
-                            <span>{t("admin.notifications.usersFoundCount", { count: filteredUsers.length })}</span>
+                            <span>
+                              {t("admin.notifications.usersFoundCount", {
+                                count: filteredUsers.length,
+                              })}
+                            </span>
                             <button
                               type="button"
                               onClick={handleSelectAllFiltered}
@@ -346,7 +377,9 @@ export function BroadcastComposer({
                           </div>
 
                           {filteredUsers.map((u) => {
-                            const isSelected = selectedUsers.some((item) => item.id === u.id);
+                            const isSelected = selectedUsers.some(
+                              (item) => item.id === u.id,
+                            );
                             return (
                               <button
                                 key={u.id}
@@ -385,7 +418,9 @@ export function BroadcastComposer({
                                         : "border-border"
                                     }`}
                                   >
-                                    {isSelected && <Check className="size-3 stroke-3" />}
+                                    {isSelected && (
+                                      <Check className="size-3 stroke-3" />
+                                    )}
                                   </div>
                                 </div>
                               </button>
@@ -404,7 +439,9 @@ export function BroadcastComposer({
                       <span>
                         {t("admin.notifications.selectedRecipientsLabel")}{" "}
                         <strong className="text-foreground">
-                          {t("admin.notifications.selectedUsersCount", { count: selectedUsers.length })}
+                          {t("admin.notifications.selectedUsersCount", {
+                            count: selectedUsers.length,
+                          })}
                         </strong>
                       </span>
                       <button
@@ -422,7 +459,9 @@ export function BroadcastComposer({
                           key={u.id}
                           className="dark:text-wise-green inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-800"
                         >
-                          <span className="max-w-35 truncate font-bold">{u.name}</span>
+                          <span className="max-w-35 truncate font-bold">
+                            {u.name}
+                          </span>
                           <span className="text-foreground-muted max-w-30 truncate font-mono text-[10px]">
                             ({u.email})
                           </span>
@@ -439,7 +478,9 @@ export function BroadcastComposer({
                   </div>
                 )}
                 {formErrors.target && (
-                  <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.target}</p>
+                  <p className="mt-1 text-xs font-semibold text-rose-500">
+                    {formErrors.target}
+                  </p>
                 )}
               </div>
             ) : (
@@ -460,7 +501,8 @@ export function BroadcastComposer({
 
                 <div>
                   <label className="text-foreground-secondary mb-1 block text-[11px] font-bold">
-                    {t("admin.notifications.manualEmailLabel")} <span className="text-rose-500">*</span>
+                    {t("admin.notifications.manualEmailLabel")}{" "}
+                    <span className="text-rose-500">*</span>
                   </label>
                   <Input
                     type="email"
@@ -469,15 +511,22 @@ export function BroadcastComposer({
                     onChange={(e) => {
                       setManualEmail(e.target.value);
                       if (formErrors.email)
-                        setFormErrors((prev) => ({ ...prev, email: undefined }));
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          email: undefined,
+                        }));
                     }}
-                    placeholder={t("admin.notifications.manualEmailPlaceholder")}
+                    placeholder={t(
+                      "admin.notifications.manualEmailPlaceholder",
+                    )}
                     variant="rounded"
                     isError={!!formErrors.email}
                     className="h-9"
                   />
                   {formErrors.email && (
-                    <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.email}</p>
+                    <p className="mt-1 text-xs font-semibold text-rose-500">
+                      {formErrors.email}
+                    </p>
                   )}
                 </div>
 
@@ -502,7 +551,8 @@ export function BroadcastComposer({
         {/* Subject */}
         <div>
           <label className="text-foreground-secondary mb-1 block text-[11px] font-bold tracking-wider uppercase">
-            {t("admin.notifications.subjectLabel")} <span className="text-rose-500">*</span>
+            {t("admin.notifications.subjectLabel")}{" "}
+            <span className="text-rose-500">*</span>
           </label>
           <Input
             type="text"
@@ -510,21 +560,25 @@ export function BroadcastComposer({
             value={subject}
             onChange={(e) => {
               setSubject(e.target.value);
-              if (formErrors.subject) setFormErrors((prev) => ({ ...prev, subject: undefined }));
+              if (formErrors.subject)
+                setFormErrors((prev) => ({ ...prev, subject: undefined }));
             }}
             placeholder={t("admin.notifications.subjectPlaceholder")}
             variant="rounded"
             isError={!!formErrors.subject}
           />
           {formErrors.subject && (
-            <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.subject}</p>
+            <p className="mt-1 text-xs font-semibold text-rose-500">
+              {formErrors.subject}
+            </p>
           )}
         </div>
 
         {/* Message Content */}
         <div>
           <label className="text-foreground-secondary mb-1 block text-[11px] font-bold tracking-wider uppercase">
-            {t("admin.notifications.messageLabel")} <span className="text-rose-500">*</span>
+            {t("admin.notifications.messageLabel")}{" "}
+            <span className="text-rose-500">*</span>
           </label>
           <Textarea
             rows={5}
@@ -532,14 +586,17 @@ export function BroadcastComposer({
             value={message}
             onChange={(e) => {
               setMessage(e.target.value);
-              if (formErrors.message) setFormErrors((prev) => ({ ...prev, message: undefined }));
+              if (formErrors.message)
+                setFormErrors((prev) => ({ ...prev, message: undefined }));
             }}
             placeholder={t("admin.notifications.messagePlaceholder")}
             variant="rounded"
             isError={!!formErrors.message}
           />
           {formErrors.message && (
-            <p className="mt-1 text-xs font-semibold text-rose-500">{formErrors.message}</p>
+            <p className="mt-1 text-xs font-semibold text-rose-500">
+              {formErrors.message}
+            </p>
           )}
         </div>
 
@@ -565,7 +622,9 @@ export function BroadcastComposer({
                   : isManualMode
                     ? t("admin.notifications.sendToQueue")
                     : selectedUsers.length > 1
-                      ? t("admin.notifications.sendToSelectedUsers", { count: selectedUsers.length })
+                      ? t("admin.notifications.sendToSelectedUsers", {
+                          count: selectedUsers.length,
+                        })
                       : t("admin.notifications.sendToQueue")}
               </span>
             </>

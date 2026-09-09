@@ -60,8 +60,11 @@ export function ComposeMessageCard({
 
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
   const [recipientNumber, setRecipientNumber] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(DEFAULT_COUNTRY);
-  const [activeTab, setActiveTab] = useState<"chat" | "image" | "location" | "file">("chat");
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryCodeItem>(DEFAULT_COUNTRY);
+  const [activeTab, setActiveTab] = useState<
+    "chat" | "image" | "location" | "file"
+  >("chat");
 
   // Content states
   const [messageText, setMessageText] = useState<string>("");
@@ -79,7 +82,7 @@ export function ComposeMessageCard({
 
   // Filter strictly connected and non-overlimit devices
   const connectedDevices = devices.filter(
-    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit
+    (d) => d.status === "CONNECTED" && !d.is_over_limit && !d.isOverLimit,
   );
   const hasActiveDevice = connectedDevices.length > 0;
 
@@ -112,7 +115,9 @@ export function ComposeMessageCard({
 
   const handleSelectCountry = (country: CountryCodeItem) => {
     setSelectedCountry(country);
-    const full = recipientNumber.trim() ? `${country.dialCode}${recipientNumber.trim()}` : "";
+    const full = recipientNumber.trim()
+      ? `${country.dialCode}${recipientNumber.trim()}`
+      : "";
     onRecipientChange?.(full);
   };
 
@@ -249,7 +254,10 @@ export function ComposeMessageCard({
 
       onSuccess?.();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : t("whatsapp.messagesErrSendFailed");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : t("whatsapp.messagesErrSendFailed");
       setErrorMessage(msg);
       toast.error(msg);
     } finally {
@@ -257,7 +265,9 @@ export function ComposeMessageCard({
     }
   };
 
-  const selectedDevice = connectedDevices.find((d) => d.id === selectedDeviceId);
+  const selectedDevice = connectedDevices.find(
+    (d) => d.id === selectedDeviceId,
+  );
 
   return (
     <div className="border-border bg-surface overflow-hidden rounded-2xl border p-5 shadow-xs sm:rounded-3xl sm:p-7">
@@ -338,7 +348,10 @@ export function ComposeMessageCard({
                   {connectedDevices.map((d) => (
                     <option key={d.id} value={d.id}>
                       {d.name || d.pushName || "Device"} (
-                      {d.phone ? `+${d.phone.replace(/^\+/, "")}` : "Nomor Belum Ada"})
+                      {d.phone
+                        ? `+${d.phone.replace(/^\+/, "")}`
+                        : "Nomor Belum Ada"}
+                      )
                     </option>
                   ))}
                 </>
@@ -407,7 +420,7 @@ export function ComposeMessageCard({
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer select-none",
                 activeTab === "chat"
                   ? "bg-wise-green text-dark-green shadow-xs font-black"
-                  : "text-foreground-secondary hover:text-foreground"
+                  : "text-foreground-secondary hover:text-foreground",
               )}
             >
               <MessageSquare className="size-3.5" />
@@ -420,7 +433,7 @@ export function ComposeMessageCard({
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer select-none",
                 activeTab === "image"
                   ? "bg-wise-green text-dark-green shadow-xs font-black"
-                  : "text-foreground-secondary hover:text-foreground"
+                  : "text-foreground-secondary hover:text-foreground",
               )}
             >
               <ImageIcon className="size-3.5" />
@@ -433,7 +446,7 @@ export function ComposeMessageCard({
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer select-none",
                 activeTab === "location"
                   ? "bg-wise-green text-dark-green shadow-xs font-black"
-                  : "text-foreground-secondary hover:text-foreground"
+                  : "text-foreground-secondary hover:text-foreground",
               )}
             >
               <MapPin className="size-3.5" />
@@ -446,7 +459,7 @@ export function ComposeMessageCard({
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition cursor-pointer select-none",
                 activeTab === "file"
                   ? "bg-wise-green text-dark-green shadow-xs font-black"
-                  : "text-foreground-secondary hover:text-foreground"
+                  : "text-foreground-secondary hover:text-foreground",
               )}
             >
               <Paperclip className="size-3.5" />
@@ -594,7 +607,12 @@ export function ComposeMessageCard({
             type="submit"
             variant="primaryPill"
             size="default"
-            disabled={!hasActiveDevice || isSending || !selectedDeviceId || !recipientNumber.trim()}
+            disabled={
+              !hasActiveDevice ||
+              isSending ||
+              !selectedDeviceId ||
+              !recipientNumber.trim()
+            }
             className="w-full sm:w-auto h-11 px-8 text-sm font-bold shadow-xs cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isSending ? (

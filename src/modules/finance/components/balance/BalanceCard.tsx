@@ -28,7 +28,9 @@ export function BalanceCard({ balance, onOpenTopUp }: BalanceCardProps) {
             <span className="text-foreground text-2xl font-black tracking-tight sm:text-3xl">
               Rp {(balance?.amount || 0).toLocaleString("id-ID")}
             </span>
-            <span className="text-dark-green dark:text-wise-green text-xs font-semibold">IDR</span>
+            <span className="text-dark-green dark:text-wise-green text-xs font-semibold">
+              IDR
+            </span>
           </div>
           <p className="text-foreground-secondary text-[11px] font-semibold">
             {t("billing.depositBalanceDesc")}

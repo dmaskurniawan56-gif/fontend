@@ -151,7 +151,11 @@ export const whatsappApi = {
   sendMessage: async (payload: {
     device_id: string;
     phone: string;
-    message: string;
+    message?: string;
+    media_url?: string;
+    file_name?: string;
+    simulate_typing?: boolean;
+    parse_spintax?: boolean;
   }): Promise<{ message_id: string; status: string; sent_at: string }> => {
     const res = await httpClient.post<{ message_id: string; status: string; sent_at: string }>(
       `${WHATSAPP_BASE}/whatsapp/messages/send`,

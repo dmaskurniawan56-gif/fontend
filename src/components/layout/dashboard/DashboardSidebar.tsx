@@ -19,6 +19,8 @@ import {
   BellRing,
   CalendarDays,
   ClipboardList,
+  MessageSquare,
+  Megaphone,
 } from "lucide-react";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
@@ -52,7 +54,7 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
     ],
   },
   {
-    // WhatsApp & Pesan (Core Messaging)
+    // WhatsApp (Perangkat & Pesan Langsung)
     groupKey: "dashboardMenu.groupWhatsapp",
     items: [
       {
@@ -62,21 +64,32 @@ export const DASHBOARD_NAV_GROUPS: DashboardNavGroup[] = [
         badge: "Engine",
       },
       {
+        key: "dashboardMenu.messages",
+        href: "/messages",
+        icon: MessageSquare,
+      },
+    ],
+  },
+  {
+    // Broadcast & Kontak (Pemasaran & Kontak)
+    groupKey: "dashboardMenu.groupBroadcast",
+    items: [
+      {
         key: "dashboardMenu.campaigns",
         href: "/campaigns",
-        icon: Send,
-        roles: SELLER_ROLES,
-      },
-      {
-        key: "dashboardMenu.templates",
-        href: "/templates",
-        icon: FileText,
+        icon: Megaphone,
         roles: SELLER_ROLES,
       },
       {
         key: "dashboardMenu.contacts",
         href: "/contacts",
         icon: Users,
+      },
+      {
+        key: "dashboardMenu.templates",
+        href: "/templates",
+        icon: FileText,
+        roles: SELLER_ROLES,
       },
     ],
   },

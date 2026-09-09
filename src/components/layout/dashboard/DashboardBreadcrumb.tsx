@@ -52,7 +52,7 @@ export function DashboardBreadcrumb() {
       case "subscriptions":
         return t("admin.subscriptionsTitle");
       case "messages":
-        return t("admin.messagesTitle");
+        return t("dashboardMenu.messages");
       case "notifications":
         return t("admin.notificationsTitle");
       default:

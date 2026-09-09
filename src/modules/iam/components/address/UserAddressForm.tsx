@@ -21,6 +21,7 @@ import {
   Info,
   ArrowLeft,
 } from "lucide-react";
+import { COUNTRIES } from "@/lib/countryCodes";
 
 export function UserAddressForm() {
   const router = useRouter();
@@ -40,12 +41,18 @@ export function UserAddressForm() {
     isLoadingCities,
     isLoadingDistricts,
     isSaving,
+    handleCountryChange,
     handleProvinceChange,
     handleCityChange,
     handleDistrictChange,
     handleFieldChange,
     handleSubmit,
   } = useUserAddress();
+
+  const isIndonesia =
+    !formState.country ||
+    formState.country.toLowerCase() === "indonesia" ||
+    formState.country.toUpperCase() === "ID";
 
   const redirectTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -149,121 +156,168 @@ export function UserAddressForm() {
           {/* 1. Country / Negara */}
           <div className="space-y-2">
             <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.countryLabel")}
+              {t("address.countryLabel")} <span className="text-rose-500">*</span>
             </label>
             <div className="relative">
               <Globe className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <Input
-                type="text"
-                value={formState.country}
-                disabled
-                readOnly
+              <NativeSelect
+                value={formState.country || "Indonesia"}
+                onChange={(e) => handleCountryChange(e.target.value)}
+                required
                 variant="rounded"
-                className="bg-muted/50 h-11 cursor-not-allowed pr-4 pl-10 sm:text-sm"
-              />
+                className="h-11 pr-8 pl-10 sm:text-sm font-semibold"
+              >
+                {COUNTRIES.map((c) => (
+                  <option key={c.code} value={c.name}>
+                    {c.flag} {c.name} ({c.code})
+                  </option>
+                ))}
+              </NativeSelect>
             </div>
           </div>
 
           {/* 2. State / Provinsi */}
-          <div className="space-y-2">
-            <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-              {t("address.provinceLabel")} <span className="text-rose-500">*</span>
-            </label>
-            <div className="relative">
-              <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.state}
-                onChange={(e) => handleProvinceChange(e.target.value)}
-                required
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">{t("address.provincePlaceholder")}</option>
-                {provinces.map((prov) => (
-                  <option key={prov.id} value={prov.name}>
-                    {prov.name}
-                  </option>
-                ))}
-              </NativeSelect>
+          {isIndonesia ? (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.provinceLabel")} <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.state}
+                  onChange={(e) => handleProvinceChange(e.target.value)}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">{t("address.provincePlaceholder")}</option>
+                  {provinces.map((prov) => (
+                    <option key={prov.id} value={prov.name}>
+                      {prov.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.provinceInternationalLabel")} <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  value={formState.state}
+                  onChange={(e) => handleFieldChange("state", e.target.value)}
+                  placeholder={t("address.provinceInternationalPlaceholder")}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-4 pl-10 sm:text-sm font-medium"
+                />
+              </div>
+            </div>
+          )}
 
           {/* 3. City / Kota / Kabupaten */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.cityLabel")} <span className="text-rose-500">*</span>
-              </label>
-              {isLoadingCities && (
-                <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
-                  <Loader2 className="size-3 animate-spin" />
-                  <span>Memuat...</span>
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.city}
-                onChange={(e) => handleCityChange(e.target.value)}
-                disabled={!formState.state || isLoadingCities}
-                required
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">
-                  {!formState.state
-                    ? "Pilih provinsi terlebih dahulu"
-                    : isLoadingCities
-                      ? "Memuat kota..."
-                      : t("address.cityPlaceholder")}
-                </option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.name}>
-                    {city.name}
+          {isIndonesia ? (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                  {t("address.cityLabel")} <span className="text-rose-500">*</span>
+                </label>
+                {isLoadingCities && (
+                  <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+                    <Loader2 className="size-3 animate-spin" />
+                    <span>Memuat...</span>
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.city}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  disabled={!formState.state || isLoadingCities}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">
+                    {!formState.state
+                      ? "Pilih provinsi terlebih dahulu"
+                      : isLoadingCities
+                        ? "Memuat kota..."
+                        : t("address.cityPlaceholder")}
                   </option>
-                ))}
-              </NativeSelect>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.name}>
+                      {city.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-2">
+              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                {t("address.cityInternationalLabel")} <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <Navigation className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <Input
+                  type="text"
+                  value={formState.city}
+                  onChange={(e) => handleFieldChange("city", e.target.value)}
+                  placeholder={t("address.cityInternationalPlaceholder")}
+                  required
+                  variant="rounded"
+                  className="h-11 pr-4 pl-10 sm:text-sm font-medium"
+                />
+              </div>
+            </div>
+          )}
 
-          {/* 4. District / Kecamatan (UI Helper) */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
-                {t("address.districtLabel")}
-              </label>
-              {isLoadingDistricts && (
-                <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
-                  <Loader2 className="size-3 animate-spin" />
-                  <span>Memuat...</span>
-                </span>
-              )}
-            </div>
-            <div className="relative">
-              <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
-              <NativeSelect
-                value={formState.district}
-                onChange={(e) => handleDistrictChange(e.target.value)}
-                disabled={!formState.city || isLoadingDistricts}
-                variant="rounded"
-                className="h-11 pr-8 pl-10 sm:text-sm"
-              >
-                <option value="">
-                  {!formState.city
-                    ? "Pilih kota terlebih dahulu"
-                    : isLoadingDistricts
-                      ? "Memuat kecamatan..."
-                      : t("address.districtPlaceholder")}
-                </option>
-                {districts.map((dist) => (
-                  <option key={dist.id} value={dist.name}>
-                    {dist.name}
+          {/* 4. District / Kecamatan (UI Helper - Only for Indonesia) */}
+          {isIndonesia && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-foreground-secondary block text-xs font-bold tracking-wider uppercase">
+                  {t("address.districtLabel")}
+                </label>
+                {isLoadingDistricts && (
+                  <span className="dark:text-wise-green inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+                    <Loader2 className="size-3 animate-spin" />
+                    <span>Memuat...</span>
+                  </span>
+                )}
+              </div>
+              <div className="relative">
+                <Building className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
+                <NativeSelect
+                  value={formState.district}
+                  onChange={(e) => handleDistrictChange(e.target.value)}
+                  disabled={!formState.city || isLoadingDistricts}
+                  variant="rounded"
+                  className="h-11 pr-8 pl-10 sm:text-sm"
+                >
+                  <option value="">
+                    {!formState.city
+                      ? "Pilih kota terlebih dahulu"
+                      : isLoadingDistricts
+                        ? "Memuat kecamatan..."
+                        : t("address.districtPlaceholder")}
                   </option>
-                ))}
-              </NativeSelect>
+                  {districts.map((dist) => (
+                    <option key={dist.id} value={dist.name}>
+                      {dist.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* 5. Postal Code / Kode Pos */}
           <div className="space-y-2">
@@ -276,11 +330,15 @@ export function UserAddressForm() {
                 type="text"
                 value={formState.postal_code}
                 onChange={(e) => handleFieldChange("postal_code", e.target.value)}
-                placeholder={t("address.postalCodePlaceholder")}
+                placeholder={
+                  isIndonesia
+                    ? t("address.postalCodePlaceholder")
+                    : t("address.postalCodeInternationalPlaceholder")
+                }
                 maxLength={10}
                 required
                 variant="rounded"
-                className="h-11 pr-4 pl-10 sm:text-sm"
+                className="h-11 pr-4 pl-10 sm:text-sm font-medium"
               />
             </div>
           </div>

@@ -10,6 +10,7 @@ function normalizeUserAddress(raw: Record<string, unknown>): UserAddress {
     id: String(raw.id || ""),
     userId: String(raw.user_id || raw.userId || ""),
     name: String(raw.name || ""),
+    country: String(raw.country || "Indonesia"),
     address: String(raw.address || ""),
     city: String(raw.city || ""),
     state: String(raw.state || ""),

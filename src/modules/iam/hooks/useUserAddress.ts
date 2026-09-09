@@ -114,6 +114,25 @@ export function useUserAddress() {
     }));
   }, []);
 
+  // Handle Country Selection
+  const handleCountryChange = useCallback((newCountry: string) => {
+    setFormState((prev) => {
+      const isSwitchingMode =
+        (prev.country === "Indonesia" && newCountry !== "Indonesia") ||
+        (prev.country !== "Indonesia" && newCountry === "Indonesia");
+
+      return {
+        ...prev,
+        country: newCountry,
+        state: isSwitchingMode ? "" : prev.state,
+        city: isSwitchingMode ? "" : prev.city,
+        district: isSwitchingMode ? "" : prev.district,
+      };
+    });
+    setCities([]);
+    setDistricts([]);
+  }, []);
+
   // Handle Generic Field Change
   const handleFieldChange = useCallback((field: keyof AddressFormState, value: string) => {
     setFormState((prev) => ({
@@ -139,6 +158,7 @@ export function useUserAddress() {
         setProvinces(provs);
 
         if (existingAddr) {
+          const loadedCountry = existingAddr.country?.trim() || "Indonesia";
           setSavedAddress(existingAddr);
           setFormState({
             address: existingAddr.address || "",
@@ -146,11 +166,11 @@ export function useUserAddress() {
             city: existingAddr.city || "",
             district: "",
             postal_code: existingAddr.postalCode || "",
-            country: "Indonesia",
+            country: loadedCountry,
           });
 
-          // Cascade fetch cities if state exists
-          if (existingAddr.state) {
+          // Cascade fetch cities if state exists and country is Indonesia
+          if (loadedCountry === "Indonesia" && existingAddr.state) {
             const selectedProv = provs.find(
               (p) => p.name.toUpperCase() === existingAddr.state.toUpperCase()
             );
@@ -191,16 +211,18 @@ export function useUserAddress() {
   const handleSubmit = async (e?: React.FormEvent): Promise<boolean> => {
     if (e) e.preventDefault();
 
+    const isIndonesia = !formState.country || formState.country === "Indonesia" || formState.country === "ID";
+
     if (!formState.address.trim()) {
       toast.error("Alamat jalan lengkap wajib diisi.");
       return false;
     }
-    if (!formState.state) {
-      toast.error("Provinsi wajib dipilih.");
+    if (!formState.state.trim()) {
+      toast.error(isIndonesia ? "Provinsi wajib dipilih." : "Provinsi / State / Region wajib diisi.");
       return false;
     }
-    if (!formState.city) {
-      toast.error("Kota / Kabupaten wajib dipilih.");
+    if (!formState.city.trim()) {
+      toast.error(isIndonesia ? "Kota / Kabupaten wajib dipilih." : "Kota / City wajib diisi.");
       return false;
     }
     if (!formState.postal_code.trim()) {
@@ -211,9 +233,10 @@ export function useUserAddress() {
     try {
       setIsSaving(true);
       const res = await addressApi.upsertUserAddress({
+        country: formState.country || "Indonesia",
         address: formState.address.trim(),
-        state: formState.state,
-        city: formState.city,
+        state: formState.state.trim(),
+        city: formState.city.trim(),
         postal_code: formState.postal_code.trim(),
       });
 
@@ -222,9 +245,10 @@ export function useUserAddress() {
         id: prev?.id || "saved",
         userId: prev?.userId || "",
         name: prev?.name || "",
+        country: formState.country || "Indonesia",
         address: formState.address.trim(),
-        state: formState.state,
-        city: formState.city,
+        state: formState.state.trim(),
+        city: formState.city.trim(),
         postalCode: formState.postal_code.trim(),
         updatedAt: new Date().toISOString(),
       }));
@@ -248,6 +272,7 @@ export function useUserAddress() {
     isLoadingCities,
     isLoadingDistricts,
     isSaving,
+    handleCountryChange,
     handleProvinceChange,
     handleCityChange,
     handleDistrictChange,

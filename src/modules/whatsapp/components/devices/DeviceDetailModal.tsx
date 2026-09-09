@@ -206,30 +206,33 @@ export function DeviceDetailModal({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 7000);
 
-      await fetch(webhookUrl.trim(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Wahide-Secret": webhookSecret || "",
-          "User-Agent": "Wahide-WhatsApp-Device-Webhook/2.0-TestPing",
-        },
-        body: JSON.stringify({
-          event: "test.ping",
-          device_id: device.id,
-          timestamp: Math.floor(Date.now() / 1000),
-          data: {
-            phone: device.phone,
-            push_name: device.push_name || device.pushName || device.name,
-            message: "Uji coba konektivitas khusus untuk perangkat WhatsApp ini.",
+      try {
+        await fetch(webhookUrl.trim(), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Wahide-Secret": webhookSecret || "",
+            "User-Agent": "Wahide-WhatsApp-Device-Webhook/2.0-TestPing",
           },
-        }),
-        signal: controller.signal,
-        mode: "no-cors",
-      });
-      clearTimeout(timeoutId);
-      const latency = Math.round(performance.now() - startTime);
-      setPingResult({ success: true, latency });
-      toast.success(`Ping berhasil terkirim (~${latency}ms)`, { id: "device-webhook-ping" });
+          body: JSON.stringify({
+            event: "test.ping",
+            device_id: device.id,
+            timestamp: Math.floor(Date.now() / 1000),
+            data: {
+              phone: device.phone,
+              push_name: device.push_name || device.pushName || device.name,
+              message: "Uji coba konektivitas khusus untuk perangkat WhatsApp ini.",
+            },
+          }),
+          signal: controller.signal,
+          mode: "no-cors",
+        });
+        const latency = Math.round(performance.now() - startTime);
+        setPingResult({ success: true, latency });
+        toast.success(`Ping berhasil terkirim (~${latency}ms)`, { id: "device-webhook-ping" });
+      } finally {
+        clearTimeout(timeoutId);
+      }
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : "Koneksi ke endpoint gagal atau timeout";
       setPingResult({ success: false, error: errorMsg });

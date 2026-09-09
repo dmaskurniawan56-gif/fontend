@@ -138,6 +138,7 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
     }
 
     let isCancelled = false;
+    let inFlight = false;
     pollStartTimeRef.current = Date.now();
 
     const scheduleNext = () => {
@@ -152,16 +153,21 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       }
 
       // Schedule next poll only after previous request finished
+      if (pollTimerRef.current) {
+        clearTimeout(pollTimerRef.current);
+      }
       pollTimerRef.current = setTimeout(runPoll, 3000);
     };
 
     const runPoll = async () => {
-      if (isCancelled || !isMountedRef.current) return;
+      if (isCancelled || !isMountedRef.current || inFlight) return;
 
       // Tab Visibility check: pause polling when browser tab is inactive/minimized
       if (typeof document !== "undefined" && document.visibilityState === "hidden") {
         return;
       }
+
+      inFlight = true;
 
       // Layer 2: Per-request AbortController
       const controller = new AbortController();
@@ -185,6 +191,7 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
       } catch {
         // Silently catch network drops during polling
       } finally {
+        inFlight = false;
         if (!isCancelled && isMountedRef.current) {
           scheduleNext();
         }
@@ -193,7 +200,11 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
 
     // Tab Visibility listener: immediately resume poll when tab gains focus
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible" && !isCancelled && isMountedRef.current) {
+      if (document.visibilityState === "visible" && !isCancelled && isMountedRef.current && !inFlight) {
+        if (pollTimerRef.current) {
+          clearTimeout(pollTimerRef.current);
+          pollTimerRef.current = null;
+        }
         runPoll();
       }
     };
@@ -207,6 +218,7 @@ export function useQRPairing({ deviceId, isOpen, onSuccess, onError }: UseQRPair
 
     return () => {
       isCancelled = true;
+      inFlight = false;
       if (typeof document !== "undefined") {
         document.removeEventListener("visibilitychange", handleVisibilityChange);
       }

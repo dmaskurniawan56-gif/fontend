@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { subscriptionApi } from "../../api/subscription.api";
 import { WebhookLogItem, WebhookLogFilters } from "../../types/subscription.types";
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,16 @@ export function WebhookLogsTable() {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [retryingId, setRetryingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const retryTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
+      }
+    };
+  }, []);
 
   const fetchLogs = useCallback(async () => {
     setIsLoading(true);
@@ -66,7 +76,13 @@ export function WebhookLogsTable() {
     try {
       await subscriptionApi.retryWebhookLog(log.id);
       toast.success("Pengiriman ulang webhook dijadwalkan!");
-      setTimeout(() => fetchLogs(), 1500);
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+      }
+      retryTimerRef.current = setTimeout(() => {
+        fetchLogs();
+        retryTimerRef.current = null;
+      }, 1500);
     } catch {
       toast.error("Gagal mengirim ulang webhook");
     } finally {

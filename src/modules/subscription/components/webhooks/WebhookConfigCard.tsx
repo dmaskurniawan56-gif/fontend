@@ -132,28 +132,31 @@ export function WebhookConfigCard({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 7000);
 
-      await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Wahide-Secret": config?.secret || "",
-          "User-Agent": "Wahide-WhatsApp-Webhook-Engine/2.0-TestPing",
-        },
-        body: JSON.stringify({
-          event: "test.ping",
-          device_id: "test_simulation_device",
-          timestamp: Math.floor(Date.now() / 1000),
-          data: {
-            message: "Simulasi uji coba konektivitas webhook dari Wahide Dashboard.",
+      try {
+        await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Wahide-Secret": config?.secret || "",
+            "User-Agent": "Wahide-WhatsApp-Webhook-Engine/2.0-TestPing",
           },
-        }),
-        signal: controller.signal,
-        mode: "no-cors",
-      });
-      clearTimeout(timeoutId);
-      const latency = Math.round(performance.now() - startTime);
-      setPingResult({ success: true, latency });
-      toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, { id: "webhook-ping" });
+          body: JSON.stringify({
+            event: "test.ping",
+            device_id: "test_simulation_device",
+            timestamp: Math.floor(Date.now() / 1000),
+            data: {
+              message: "Simulasi uji coba konektivitas webhook dari Wahide Dashboard.",
+            },
+          }),
+          signal: controller.signal,
+          mode: "no-cors",
+        });
+        const latency = Math.round(performance.now() - startTime);
+        setPingResult({ success: true, latency });
+        toast.success(`Endpoint webhook terjangkau! (${latency}ms)`, { id: "webhook-ping" });
+      } finally {
+        clearTimeout(timeoutId);
+      }
     } catch (err) {
       const isTimeout = err instanceof Error && err.name === "AbortError";
       setPingResult({ success: false, error: isTimeout ? "Timeout (>7s)" : "Gagal terhubung" });

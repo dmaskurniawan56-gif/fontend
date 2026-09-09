@@ -4,59 +4,59 @@ export const n8nDoc: GuideDoc = {
   type: "guide",
   id: "webhooks-n8n",
   slug: "webhooks/n8n",
-  title: "Integrasi n8n & AI Bot (Zero-Timeout)",
+  title: "n8n & AI Bot Integration (Zero-Timeout)",
   description:
-    "Panduan arsitektur terbaik untuk menghubungkan Webhook WhatsApp Wahide dengan n8n dan AI Agent (OpenAI, Claude, Gemini) tanpa risiko HTTP timeout atau eksekusi pesan ganda.",
+    "Architectural best-practice guide for connecting Wahide WhatsApp Webhooks with n8n and AI Agents (OpenAI, Claude, Gemini) without HTTP timeout errors or duplicate message executions.",
   category: "Webhooks",
   categorySlug: "webhooks",
   bannerNotice: {
     type: "info",
-    title: "Pola Asinkron Decoupled Berstandar Enterprise",
+    title: "Enterprise-Grade Decoupled Asynchronous Pattern",
     content:
-      "Webhook adalah notifikasi event satu arah. Dengan menyetel Webhook n8n ke mode 'Immediately (200 OK)', server Wahide menerima konfirmasi tanda terima seketika (< 50ms), sementara node AI bebas berpikir di latar belakang tanpa batas waktu.",
+      "A Webhook is a one-way event notification. By configuring your n8n Webhook node to 'Immediately (200 OK)', the Wahide server receives an instant acknowledgment receipt (< 50ms), allowing downstream AI nodes to think freely in the background with zero time constraints.",
   },
   sections: [
     {
       id: "architecture-overview",
-      title: "1. Mengapa Perlu Pola Asinkron (Decoupled Pattern)?",
+      title: "1. Why Decoupled Asynchronous Architecture is Mandatory",
       content:
-        "Saat menghubungkan WhatsApp dengan AI (Large Language Models), proses inferensi model seperti OpenAI GPT-4o, Anthropic Claude, atau Google Gemini sering kali membutuhkan waktu antara **10 hingga 30 detik** untuk menyusun jawaban lengkap.\n\nJika Webhook n8n disetel ke mode sinkron (*Respond: When Last Node Finishes*):\n1. n8n menahan respon HTTP selama 15–30 detik menunggu AI selesai.\n2. Klien HTTP Wahide memiliki batas tunggu maksimal 15 detik. Karena belum menerima respon, Wahide menganggap pengiriman gagal (*Context Deadline Exceeded*).\n3. Sistem *Exponential Backoff* Wahide mengirim ulang webhook hingga 5 kali, memicu loop eksekusi AI ganda yang boros kuota token AI dan mengirim pesan berulang ke pelanggan.\n\n### Solusi: Pola Asinkron Decoupled\nWahide **tidak pernah membaca teks balasan dari badan respon HTTP webhook**. Wahide hanya membutuhkan tanda terima status `200 OK`. Jawaban dari AI harus dikirimkan melalui panggilan terpisah ke API Kirim Pesan Wahide (`POST /messages/send`).",
+        "When connecting WhatsApp to Large Language Models (LLMs), model inference via OpenAI GPT-4o, Anthropic Claude, or Google Gemini typically takes **10 to 30 seconds** to formulate a thoughtful response.\n\nIf the n8n Webhook node is configured in synchronous mode (*Respond: When Last Node Finishes*):\n1. n8n holds the HTTP response socket open for 15–30 seconds waiting for the AI agent to finish.\n2. The Wahide HTTP client has a 15-second timeout limit. Failing to receive an acknowledgment within 15 seconds, Wahide considers the delivery failed (*Context Deadline Exceeded*).\n3. Wahide's *Exponential Backoff* retry engine re-dispatches the webhook up to 5 times, triggering an expensive duplicate AI loop that wastes AI tokens and spams your customer with repeated messages.\n\n### The Solution: Decoupled Asynchronous Pattern\nWahide **never reads the AI response text from the webhook HTTP response body**. Wahide only expects a clean `200 OK` acknowledgment receipt. The generated AI response must be dispatched separately via an outbound call to the Wahide Send Message API (`POST /messages/send`).",
     },
     {
       id: "sync-vs-async-table",
-      title: "2. Perbandingan Pola Sinkron vs Asinkron",
+      title: "2. Synchronous vs. Asynchronous Decoupled Comparison",
       content:
-        "Tabel berikut mengilustrasikan perbedaan performa dan keandalan sistem antara kedua pola integrasi di n8n:\n\n| Aspek Teknis | ❌ Pola Sinkron (When Last Node Finishes) | ✅ Pola Asinkron Decoupled (Immediately 200 OK) |\n|---|---|---|\n| **Waktu Respon Webhook** | 15–30 detik (menunggu AI) | **< 50 milidetik** (instan) |\n| **Risiko Timeout Wahide** | **Tinggi** (terputus di detik ke-15) | **Zero (0%)** (sukses sebelum 0.1 detik) |\n| **Risiko Pesan Ganda / Retry** | **Tinggi** (Wahide retry hingga 5x) | **Zero (0%)** (tidak ada retry palsu) |\n| **Batas Waktu Berpikir AI** | Terbatas ketat (< 15 detik) | **Bebas tanpa batas** (bisa 30s, 60s, dsb.) |\n| **Pemakaian Token AI** | Boros (tereksekusi berulang kali) | **Efisien & Terkendali** (1 chat = 1 eksekusi) |",
+        "The following table highlights the performance and reliability differences between both integration patterns in n8n:\n\n| Technical Aspect | ❌ Synchronous Pattern (When Last Node Finishes) | ✅ Decoupled Asynchronous Pattern (Immediately 200 OK) |\n|---|---|---|\n| **Webhook Response Time** | 15–30 seconds (holds socket waiting for AI) | **< 50 milliseconds** (instant receipt) |\n| **Wahide Timeout Risk** | **High** (connection terminated at 15s) | **Zero (0%)** (acknowledged within 0.1s) |\n| **Duplicate Retry Risk** | **High** (triggers up to 5 duplicate runs) | **Zero (0%)** (zero false retries) |\n| **AI Thinking Time Budget** | Strictly limited (< 15 seconds) | **Unlimited** (free to run 30s, 60s, etc.) |\n| **AI Token Consumption** | Wasteful (re-executes prompts repeatedly) | **Predictable & Controlled** (1 chat = 1 execution) |",
       callout: {
         type: "tip",
-        title: "Kaidah Wajib Konfigurasi n8n",
+        title: "Mandatory n8n Webhook Configuration Rule",
         content:
-          "Pada node Webhook di n8n, selalu pilih opsi: 'Respond: Immediately' dengan Response Code 200. Jangan pernah menggunakan opsi 'When Last Node Finishes' untuk workflow AI.",
+          "In the n8n Webhook node, always select: 'Respond: Immediately' with Response Code 200. Never use 'When Last Node Finishes' for AI automation workflows.",
       },
     },
     {
       id: "step-by-step-guide",
-      title: "3. Panduan Konfigurasi Alur n8n Langkah demi Langkah",
+      title: "3. Step-by-Step n8n Workflow Configuration",
       content:
-        `Berikut adalah langkah-langkah merangkai 3 node utama di n8n untuk membuat WhatsApp AI Bot otomatis:
+        `Follow these steps to wire the 3 core nodes in n8n for an automated WhatsApp AI Chatbot:
 
-### Node 1: Webhook Inbound (Wahide)
+### Node 1: Inbound Webhook (Wahide)
 - **HTTP Method**: \`POST\`
-- **Path**: \`wahide-inbound\` (bebas)
+- **Path**: \`wahide-inbound\`
 - **Authentication**: \`Header Auth\`
   - Header Name: \`X-Wahide-Secret\`
-  - Header Value: Masukkan Webhook Secret dari Dashboard Wahide (\`whsec_live_...\`)
+  - Header Value: Enter your Webhook Secret from the Wahide Dashboard (\`whsec_live_...\`)
 - **Response Mode**: \`Immediately\` (Response Code: \`200\`)
 - **Response Data**: \`{"status": "success", "received": true}\`
 
 ### Node 2: AI Agent (OpenAI / Claude / Gemini)
-- Sambungkan output dari Webhook Node ke AI Agent.
-- Ambil pesan pelanggan dengan ekspresi: \`{{ $json.body.data.text }}\`.
-- Ambil nama pelanggan dengan ekspresi: \`{{ $json.body.data.push_name }}\`.
-- Buat System Prompt yang ramah, misalnya: *'Anda adalah asisten customer service resmi yang ramah dan solutif.'*
+- Connect the output of the Webhook Node to your AI Agent node.
+- Extract the customer's text message: \`{{ $json.body.data.text }}\`.
+- Extract the customer's display name: \`{{ $json.body.data.push_name }}\`.
+- Set a clear System Prompt, for example: *"You are an official customer support AI assistant. Respond warmly, concisely, and helpfully."*
 
-### Node 3: HTTP Request Outbound (Wahide API)
-- Sambungkan output AI ke node **HTTP Request** untuk mengirim balasan ke WhatsApp pelanggan:
+### Node 3: Outbound HTTP Request (Wahide API)
+- Connect the output of the AI Agent to an **HTTP Request** node to send the reply back to the customer:
 - **Method**: \`POST\`
 - **URL**: \`https://api.wahide.com/api/v1/messages/send\`
 - **Headers**:
@@ -70,15 +70,21 @@ export const n8nDoc: GuideDoc = {
   "message": "{{ $json.output }}"
 }
 \`\`\``,
+      callout: {
+        type: "tip",
+        title: "Use Tenant Webhook (Workspace), Not Device Webhook",
+        content:
+          "Simply configure your n8n URL under **Settings (/settings) → Webhook Integration** and leave the webhook fields in /devices empty. In n8n, a single Webhook Node handles messages from all your WhatsApp numbers because the originating device slot is automatically provided in `{{ $json.body.device_id }}`.",
+      },
     },
     {
       id: "ready-to-import-json",
-      title: "4. Template Workflow JSON Siap Import (1-Click Copy)",
+      title: "4. Production-Ready Workflow JSON Template (1-Click Import)",
       content:
-        "Anda dapat menyalin seluruh kode JSON di bawah ini dan langsung menempelkannya (*Ctrl+V* / *Cmd+V*) ke dalam kanvas kerja n8n Anda:",
+        "You can copy the entire JSON snippet below and paste it directly (*Ctrl+V* / *Cmd+V*) onto your n8n workflow canvas:",
       code: {
         language: "json",
-        title: "Template n8n: WhatsApp AI Customer Service Bot (Zero-Timeout)",
+        title: "n8n Template: WhatsApp AI Customer Service Bot (Zero-Timeout)",
         content: `{
   "name": "Wahide WhatsApp AI Customer Support Bot (Zero-Timeout)",
   "nodes": [
@@ -87,7 +93,7 @@ export const n8nDoc: GuideDoc = {
         "httpMethod": "POST",
         "path": "wahide-inbound",
         "responseMode": "onReceived",
-        "responseData": "{\\"status\\":\\"success\\",\\"received\\":true}",
+        "responseData": "{\\\"status\\\":\\\"success\\\",\\\"received\\\":true}",
         "options": {}
       },
       "id": "wahide-webhook-node",
@@ -99,9 +105,9 @@ export const n8nDoc: GuideDoc = {
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Pelanggan: {{ $json.body.data.push_name }} ({{ $json.body.data.sender }})\\nPesan: {{ $json.body.data.text }}",
+        "text": "=Customer: {{ $json.body.data.push_name }} ({{ $json.body.data.sender }})\\nMessage: {{ $json.body.data.text }}",
         "options": {
-          "systemMessage": "Anda adalah asisten virtual WhatsApp resmi yang ramah, santun, dan responsif. Jawab pertanyaan pelanggan dengan ringkas dan membantu."
+          "systemMessage": "You are an official WhatsApp virtual customer assistant. Answer questions concisely, politely, and helpfully."
         }
       },
       "id": "ai-agent-node",
@@ -131,11 +137,11 @@ export const n8nDoc: GuideDoc = {
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\\n  \\"device_id\\": \\"{{ $('Wahide Webhook Inbound').item.json.body.device_id }}\\",\\n  \\"phone\\": \\"{{ $('Wahide Webhook Inbound').item.json.body.data.sender }}\\",\\n  \\"message\\": \\"{{ $json.output }}\\"\\n}",
+        "jsonBody": "={\\n  \\\"device_id\\\": \\\"{{ $('Wahide Webhook Inbound').item.json.body.device_id }}\\\",\\n  \\\"phone\\\": \\\"{{ $('Wahide Webhook Inbound').item.json.body.data.sender }}\\\",\\n  \\\"message\\\": \\\"{{ $json.output }}\\\"\\n}",
         "options": {}
       },
       "id": "wahide-outbound-api",
-      "name": "Kirim Balasan via Wahide API",
+      "name": "Send Reply via Wahide API",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [840, 300]
@@ -157,7 +163,7 @@ export const n8nDoc: GuideDoc = {
       "main": [
         [
           {
-            "node": "Kirim Balasan via Wahide API",
+            "node": "Send Reply via Wahide API",
             "type": "main",
             "index": 0
           }
@@ -170,14 +176,14 @@ export const n8nDoc: GuideDoc = {
     },
     {
       id: "troubleshooting-n8n",
-      title: "5. Troubleshooting & Tips Pengujian Lokal",
+      title: "5. Troubleshooting & Local Development Tips",
       content:
-        "### A. Menguji n8n di Komputer Lokal (Localhost)\nJika instance n8n Anda berjalan di laptop (`http://localhost:5678`), Wahide tidak dapat mengirim webhook ke alamat `localhost` tersebut secara langsung. Gunakan salah satu solusi tunnel publik gratis berikut:\n- **Cloudflare Tunnel (`cloudflared`)**: `cloudflared tunnel --url http://localhost:5678`\n- **Ngrok**: `ngrok http 5678`\nSalin URL HTTPS publik yang dihasilkan (contoh: `https://xyz.ngrok-free.app/webhook/wahide-inbound`) ke pengaturan webhook Wahide.\n\n### B. Verifikasi Idempotency (Mencegah Duplikasi)\nWahide secara otomatis menyertakan header `X-Wahide-Delivery-ID` pada setiap paket data. Jika Anda mengaktifkan node cache/Redis di n8n, Anda dapat menyimpan ID ini selama 5 menit untuk memastikan tidak ada pesan duplikat yang diproses dua kali.",
+        "### A. Testing n8n on Localhost\nIf your n8n instance runs locally on your computer (`http://localhost:5678`), Wahide cannot dispatch webhooks to a private `localhost` address directly. Use one of the following free public tunneling tools:\n- **Cloudflare Tunnel (`cloudflared`)**: `cloudflared tunnel --url http://localhost:5678`\n- **Ngrok**: `ngrok http 5678`\nCopy the resulting public HTTPS URL (e.g., `https://xyz.ngrok-free.app/webhook/wahide-inbound`) into your Wahide webhook settings.\n\n### B. Idempotency Verification (Preventing Duplicate Executions)\nWahide automatically attaches the `X-Wahide-Delivery-ID` header to every webhook request. If you use a cache/Redis node in n8n, you can store this ID for 5 minutes to ensure no incoming message is processed more than once.",
       callout: {
         type: "info",
-        title: "Perlindungan Media Cloudflare R2",
+        title: "Cloudflare R2 Media Protection",
         content:
-          "Jika pelanggan mengirim foto atau dokumen PDF, Wahide otomatis mengunggah file tersebut ke Cloudflare R2 dan menyertakan URL publik ringan di `data.media.url`. n8n tidak akan kehabisan memori (*Out of Memory*) karena tidak perlu mengolah file biner mentah secara langsung.",
+          "When a customer sends photos or PDF documents, Wahide automatically offloads the media to Cloudflare R2 and provides a lightweight public URL at `data.media.url`. Your n8n server avoids Out of Memory (OOM) errors because it never needs to handle raw binary streams directly.",
       },
     },
   ],

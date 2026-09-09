@@ -206,7 +206,7 @@ export const docNavigation: NavSection[] = [
       },
       {
         id: "webhooks-n8n",
-        title: "Integrasi n8n & AI Bot",
+        title: "n8n & AI Bot Integration",
         path: "/docs/webhooks/n8n",
         badge: "Workflow",
       },

@@ -56,10 +56,10 @@ export const otpEndpoints: EndpointDoc[] = [
         name: "template",
         type: "string",
         required: false,
-        defaultValue: `"Kode verifikasi Anda adalah *{{otp}}*. Rahasiakan kode ini. Berlaku 5 menit."`,
+        defaultValue: `"Your verification code is *{{otp}}*. Keep this code confidential. Valid for 5 minutes."`,
         description:
           "Custom message template body. Must include the '{{otp}}' placeholder which will be replaced by the generated OTP code.",
-        example: "Kode verifikasi login Anda adalah *{{otp}}*. Jangan bagikan ke siapapun.",
+        example: "Your login verification code is *{{otp}}*. Do not share this code with anyone.",
       },
       {
         name: "device_id",
@@ -95,7 +95,7 @@ export const otpEndpoints: EndpointDoc[] = [
   -H "Content-Type: application/json" \\
   -d '{
     "phone": "628123456789",
-    "template": "Kode verifikasi akun Anda adalah *{{otp}}*. Berlaku 5 menit.",
+    "template": "Your account verification code is *{{otp}}*. Valid for 5 minutes.",
     "device_id": "auto",
     "expires_in": 300,
     "priority": true
@@ -106,7 +106,7 @@ const response = await axios.post(
   "https://api.wahide.com/api/v1/otp/send",
   {
     phone: "628123456789",
-    template: "Kode verifikasi akun Anda adalah *{{otp}}*. Berlaku 5 menit.",
+    template: "Your account verification code is *{{otp}}*. Valid for 5 minutes.",
     device_id: "auto",
     expires_in: 300,
     priority: true,
@@ -126,7 +126,7 @@ $curl = curl_init();
 
 $payload = [
     "phone" => "628123456789",
-    "template" => "Kode verifikasi akun Anda adalah *{{otp}}*. Berlaku 5 menit.",
+    "template" => "Your account verification code is *{{otp}}*. Valid for 5 minutes.",
     "device_id" => "auto",
     "expires_in" => 300,
     "priority" => true,
@@ -155,7 +155,7 @@ headers = {
 }
 payload = {
     "phone": "628123456789",
-    "template": "Kode verifikasi akun Anda adalah *{{otp}}*. Berlaku 5 menit.",
+    "template": "Your account verification code is *{{otp}}*. Valid for 5 minutes.",
     "device_id": "auto",
     "expires_in": 300,
     "priority": True,
@@ -176,7 +176,7 @@ import (
 func main() {
 	payload, _ := json.Marshal(map[string]any{
 		"phone":      "628123456789",
-		"template":   "Kode verifikasi akun Anda adalah *{{otp}}*. Berlaku 5 menit.",
+		"template":   "Your account verification code is *{{otp}}*. Valid for 5 minutes.",
 		"device_id":  "auto",
 		"expires_in": 300,
 		"priority":   true,
@@ -257,26 +257,26 @@ func main() {
       {
         code: 429,
         error: "ERR_OTP_COOLDOWN",
-        description: "Permintaan OTP baru diajukan sebelum jeda 60 detik berakhir.",
-        solution: "Tampilkan hitung mundur 60 detik pada antarmuka tombol 'Kirim Ulang OTP' aplikasi Anda.",
+        description: "New OTP request submitted before the 60-second cooldown elapsed.",
+        solution: "Display a 60-second countdown timer on your application's 'Resend OTP' button.",
       },
       {
         code: 429,
         error: "ERR_OTP_DAILY_LIMIT",
-        description: "Batas kuota harian (10x OTP/hari) untuk nomor tujuan ini telah tercapai.",
-        solution: "Arahkan pengguna untuk menunggu pergantian hari UTC atau gunakan metode verifikasi alternatif.",
+        description: "Daily limit quota (10x OTP/day) for this destination phone number has been reached.",
+        solution: "Prompt the user to wait for UTC day reset or offer an alternative verification method.",
       },
       {
         code: 503,
         error: "ERR_NO_CONNECTED_DEVICE",
-        description: "Tenant tidak memiliki perangkat WhatsApp berstatus 'Connected'.",
-        solution: "Sambungkan minimal satu perangkat WhatsApp via scan QR di dashboard Wahide.",
+        description: "Tenant has no WhatsApp device currently in 'Connected' state.",
+        solution: "Connect at least one WhatsApp device via QR code pairing in the Wahide dashboard.",
       },
       {
         code: 402,
         error: "ERR_QUOTA_EXCEEDED",
-        description: "Kuota saldo atau batas kuota pesan langganan tenant telah habis.",
-        solution: "Lakukan pengisian saldo deposit atau upgrade tier paket langganan Anda.",
+        description: "Tenant subscription quota limit or prepaid credit balance has been exhausted.",
+        solution: "Top up your account balance or upgrade your subscription tier.",
       },
     ],
   },
@@ -476,20 +476,20 @@ func main() {
       {
         code: 400,
         error: "ERR_OTP_INVALID",
-        description: "Kode OTP yang dimasukkan tidak cocok dengan nilai yang tersimpan.",
-        solution: "Minta pengguna memeriksa kembali pesan WhatsApp dan memasukkan kode yang benar.",
+        description: "Submitted OTP code does not match the stored code.",
+        solution: "Ask the user to check their WhatsApp messages and enter the correct code.",
       },
       {
         code: 400,
         error: "ERR_OTP_NOT_FOUND",
-        description: "Kode OTP telah kedaluwarsa (lebih dari 5 menit) atau belum pernah diminta.",
-        solution: "Arahkan pengguna untuk menekan tombol 'Kirim Ulang OTP' untuk mendapatkan kode baru.",
+        description: "OTP code has expired (exceeded 5 minutes) or was never requested.",
+        solution: "Direct the user to tap 'Resend OTP' to receive a fresh verification code.",
       },
       {
         code: 429,
         error: "ERR_OTP_MAX_ATTEMPTS",
-        description: "Percobaan verifikasi salah telah mencapai batas 5 kali.",
-        solution: "Kode OTP otomatis dihapus demi keamanan anti brute-force. Pengguna harus meminta kode OTP baru.",
+        description: "Maximum invalid verification attempts (5 times) reached.",
+        solution: "OTP code has been permanently deleted for anti-brute-force protection. User must request a new OTP.",
       },
     ],
   },

@@ -74,44 +74,60 @@ export function useDevices() {
   };
 
   const deleteDevice = async (id: string): Promise<void> => {
+    const previousDevices = devices;
+    // Optimistic update
+    setDevices((prev) => prev.filter((d) => d.id !== id));
     try {
       await whatsappApi.deleteDevice(id);
-      setDevices((prev) => prev.filter((d) => d.id !== id));
       toast.success(t("whatsapp.toastDeleted"));
     } catch (err: unknown) {
+      // Rollback to snapshot on error
+      setDevices(previousDevices);
       const msg = err instanceof Error ? err.message : "Gagal menghapus perangkat";
       toast.error(msg);
     }
   };
 
   const disconnectDevice = async (id: string): Promise<void> => {
+    const previousDevices = devices;
+    // Optimistic update
+    setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "DISCONNECTED" } : d)));
     try {
       await whatsappApi.disconnectDevice(id);
-      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "DISCONNECTED" } : d)));
       toast.success(t("whatsapp.toastDisconnected"));
     } catch (err: unknown) {
+      // Rollback to snapshot on error
+      setDevices(previousDevices);
       const msg = err instanceof Error ? err.message : "Gagal memutuskan koneksi";
       toast.error(msg);
     }
   };
 
   const hibernateDevice = async (id: string): Promise<void> => {
+    const previousDevices = devices;
+    // Optimistic update
+    setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "HIBERNATED" } : d)));
     try {
       await whatsappApi.hibernateDevice(id);
-      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "HIBERNATED" } : d)));
       toast.success(t("whatsapp.toastHibernated"));
     } catch (err: unknown) {
+      // Rollback to snapshot on error
+      setDevices(previousDevices);
       const msg = err instanceof Error ? err.message : "Gagal menghibernasi sesi";
       toast.error(msg);
     }
   };
 
   const wakeDevice = async (id: string): Promise<void> => {
+    const previousDevices = devices;
+    // Optimistic update
+    setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "CONNECTED" } : d)));
     try {
       await whatsappApi.wakeDevice(id);
-      setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, status: "CONNECTED" } : d)));
       toast.success(t("whatsapp.toastWoken"));
     } catch (err: unknown) {
+      // Rollback to snapshot on error
+      setDevices(previousDevices);
       const msg = err instanceof Error ? err.message : "Gagal membangunkan sesi";
       toast.error(msg);
       // Auto-transition device state in UI to DISCONNECTED and clear JID/phone when wake fails (e.g. session expired)
@@ -141,12 +157,17 @@ export function useDevices() {
     id: string,
     data: { push_name?: string; webhook_url?: string | null; webhook_secret?: string | null }
   ): Promise<Device> => {
+    const previousDevices = devices;
+    // Optimistic update
+    setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, ...data } : d)));
     try {
       const updated = await whatsappApi.updateDevice(id, data);
       setDevices((prev) => prev.map((d) => (d.id === id ? { ...d, ...updated } : d)));
       toast.success("Pengaturan perangkat berhasil diperbarui");
       return updated;
     } catch (err: unknown) {
+      // Rollback to snapshot on error
+      setDevices(previousDevices);
       const msg = err instanceof Error ? err.message : "Gagal memperbarui pengaturan perangkat";
       toast.error(msg);
       throw err;

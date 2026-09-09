@@ -160,6 +160,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="id"
       className={`h-full font-sans antialiased ${inter.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

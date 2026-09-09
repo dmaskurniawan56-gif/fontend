@@ -48,7 +48,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     keywords: [
       "Send WhatsApp Message API",
       "WhatsApp Text Message REST API",
-      "Kirim Pesan WhatsApp API",
+      "Send WhatsApp Message API",
       "WhatsApp cURL Node PHP",
       "WhatsApp Anti Ban API",
     ],
@@ -83,7 +83,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Send WhatsApp PDF API",
       "Send WhatsApp Image API",
       "WhatsApp Media REST API",
-      "Kirim Gambar WhatsApp API",
+      "Send WhatsApp Media API",
     ],
   },
   "messaging/meta-cloud-api": {
@@ -104,7 +104,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
     keywords: [
       "Send WhatsApp OTP API",
       "WhatsApp OTP REST API",
-      "Kirim OTP WhatsApp",
+      "Send WhatsApp OTP API",
       "WhatsApp Verification Code API",
       "WhatsApp OTP Gateway Indonesia",
     ],
@@ -115,7 +115,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Atomic WhatsApp OTP verification API. Features single-use auto-burn against replay attacks, 5-attempt brute-force protection, and constant-time validation.",
     keywords: [
       "Verify WhatsApp OTP API",
-      "Validasi OTP WhatsApp",
+      "Verify WhatsApp OTP API",
       "WhatsApp OTP Verification API",
       "Single Use OTP API",
       "WhatsApp Secure Auth API",
@@ -236,7 +236,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "Configure automated WhatsApp broadcast queues with rate limits, randomized jitter backoff, and targeted contact tags.",
     keywords: [
       "Create WhatsApp Broadcast API",
-      "Kirim Broadcast WhatsApp API",
+      "Send WhatsApp Broadcast API",
       "WhatsApp Blast API",
     ],
   },
@@ -276,7 +276,7 @@ const SEO_DIRECTORY: Record<string, DocSeoMetadata> = {
       "WhatsApp Webhook",
       "WhatsApp Real-Time Events",
       "WhatsApp Webhook Secret",
-      "Kirim Webhook WhatsApp",
+      "WhatsApp Webhooks API",
     ],
   },
   "webhooks/events": {

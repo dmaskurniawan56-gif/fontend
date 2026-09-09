@@ -74,6 +74,18 @@ export function DeviceList() {
   const [isSendModalOpen, setIsSendModalOpen] = useState(false);
   const [selectedDeviceForDetail, setSelectedDeviceForDetail] = useState<Device | null>(null);
 
+  // Local uncommitted input for submit-based search
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchSubmit = (val: string) => {
+    setSearchQuery(val.trim());
+  };
+
+  const handleSearchClear = () => {
+    setSearchInput("");
+    setSearchQuery("");
+  };
+
   const handleOpenQR = (device: Device) => {
     setSelectedDeviceForQR(device);
     setIsQRModalOpen(true);
@@ -201,10 +213,10 @@ export function DeviceList() {
           {/* Search Input */}
           <div className="flex-1">
             <SearchInput
-              value={searchQuery}
-              onChange={setSearchQuery}
-              onSearch={(val) => setSearchQuery(val)}
-              onClear={() => setSearchQuery("")}
+              value={searchInput}
+              onChange={setSearchInput}
+              onSearch={handleSearchSubmit}
+              onClear={handleSearchClear}
               placeholder={t("whatsapp.searchPlaceholder")}
             />
           </div>

@@ -180,7 +180,7 @@ export function CountrySearchCombobox({
         <div
           className={cn(
             "border-border bg-surface animate-in fade-in-0 zoom-in-95 absolute top-full left-0 z-50 mt-1.5",
-            "w-full min-w-[260px] rounded-xl border shadow-lg",
+            "w-full min-w-65 rounded-xl border shadow-lg",
             "dark:bg-[#10110e]"
           )}
           role="dialog"

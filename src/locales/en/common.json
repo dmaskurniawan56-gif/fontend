@@ -474,7 +474,6 @@
     "saveBtn": "Save Business Address",
     "saving": "Saving...",
     "saveSuccess": "Address saved successfully!",
-    "securityNote": "Address data is encrypted & stored securely in IAM database.",
     "billingRequiredBannerTitle": "Address Required for Balance Top-Up",
     "billingRequiredBannerDesc": "To proceed with balance top-up transactions and official invoice generation, please complete your registered business address first.",
     "saveAndReturnToast": "Address saved! Redirecting back to Top-Up transaction..."

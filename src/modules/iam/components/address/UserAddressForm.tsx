@@ -17,7 +17,6 @@ import {
   Loader2,
   Save,
   CheckCircle2,
-  ShieldCheck,
   Info,
   ArrowLeft,
 } from "lucide-react";
@@ -351,46 +350,39 @@ export function UserAddressForm() {
           <p className="text-foreground-muted text-[11px]">{t("address.streetAddressHelp")}</p>
         </div>
 
-        {/* Footer Security Notice & Action Button */}
-        <div className="border-border/60 flex flex-col justify-between gap-4 border-t pt-4 sm:flex-row sm:items-center">
-          <div className="text-foreground-muted flex items-center gap-2 text-xs">
-            <ShieldCheck className="size-4 shrink-0 text-emerald-500" />
-            <span>{t("address.securityNote")}</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {from === "billing" && (
-              <Button
-                type="button"
-                variant="outlinePill"
-                size="lg"
-                onClick={() => router.push("/billing")}
-                className="cursor-pointer gap-1.5 text-xs font-bold"
-              >
-                <ArrowLeft className="size-4" />
-                <span>Batal & Kembali ke Tagihan</span>
-              </Button>
-            )}
+        {/* Footer Action Button */}
+        <div className="border-border/60 flex flex-col justify-end gap-3 border-t pt-4 sm:flex-row sm:items-center">
+          {from === "billing" && (
             <Button
-              type="submit"
-              variant="primaryPill"
+              type="button"
+              variant="outlinePill"
               size="lg"
-              disabled={isSaving}
-              className="w-full min-w-44 cursor-pointer gap-2 font-bold shadow-sm sm:w-auto"
+              onClick={() => router.push("/billing")}
+              className="cursor-pointer gap-1.5 text-xs font-bold"
             >
-              {isSaving ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" />
-                  <span>{t("address.saving")}</span>
-                </>
-              ) : (
-                <>
-                  <Save className="size-4" />
-                  <span>{t("address.saveBtn")}</span>
-                </>
-              )}
+              <ArrowLeft className="size-4" />
+              <span>Batal & Kembali ke Tagihan</span>
             </Button>
-          </div>
+          )}
+          <Button
+            type="submit"
+            variant="primaryPill"
+            size="lg"
+            disabled={isSaving}
+            className="w-full min-w-44 cursor-pointer gap-2 font-bold shadow-sm sm:w-auto"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                <span>{t("address.saving")}</span>
+              </>
+            ) : (
+              <>
+                <Save className="size-4" />
+                <span>{t("address.saveBtn")}</span>
+              </>
+            )}
+          </Button>
         </div>
       </form>
     </div>

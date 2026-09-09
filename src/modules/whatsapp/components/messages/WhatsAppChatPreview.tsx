@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import { Badge } from "@/components/ui/badge";
+import { formatDisplayPhone } from "@/lib/phone";
 
 interface WhatsAppChatPreviewProps {
   recipientName?: string;
@@ -41,7 +42,7 @@ export function WhatsAppChatPreview({
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
 
-  const displayName = recipientPhone || recipientName;
+  const displayName = recipientPhone ? formatDisplayPhone(recipientPhone) : recipientName;
 
   return (
     <div className="space-y-4">
@@ -156,7 +157,7 @@ export function WhatsAppChatPreview({
             <User className="size-3 text-muted-foreground" />
             <span>
               {t("whatsapp.messagesStatusTo")}{" "}
-              {recipientPhone ? `+${recipientPhone.replace(/^\+/, "")}` : t("whatsapp.messagesStatusNotSelected")}
+              {recipientPhone ? formatDisplayPhone(recipientPhone) : t("whatsapp.messagesStatusNotSelected")}
             </span>
           </Badge>
 

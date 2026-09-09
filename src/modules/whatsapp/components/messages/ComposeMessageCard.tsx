@@ -26,6 +26,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { CountryCodeSelector } from "./CountryCodeSelector";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+} from "@/lib/countryCodes";
+import { isValidE164 } from "@/lib/phone";
 
 interface ComposeMessageCardProps {
   onMessageChange?: (text: string) => void;
@@ -53,7 +60,7 @@ export function ComposeMessageCard({
 
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
   const [recipientNumber, setRecipientNumber] = useState<string>("");
-  const [countryCode, setCountryCode] = useState<string>("62");
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [activeTab, setActiveTab] = useState<"chat" | "image" | "location" | "file">("chat");
 
   // Content states
@@ -103,15 +110,45 @@ export function ComposeMessageCard({
     }
   };
 
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    const full = recipientNumber.trim() ? `${country.dialCode}${recipientNumber.trim()}` : "";
+    onRecipientChange?.(full);
+  };
+
   const handlePhoneInput = (val: string) => {
+    // If user pastes or types a number with explicit '+' (e.g. +60123456789 or +1 415 555 2671)
+    if (val.trim().startsWith("+") || val.trim().startsWith("00")) {
+      const detected = detectCountryFromPhone(val);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+        setRecipientNumber(detected.subscriberNumber);
+        const full = detected.subscriberNumber
+          ? `${detected.country.dialCode}${detected.subscriberNumber}`
+          : "";
+        onRecipientChange?.(full);
+        return;
+      }
+    }
+
     // Clean non-digits
     let clean = val.replace(/[^0-9]/g, "");
-    // Auto-strip leading 0 if typing Indonesian numbers
-    if (countryCode === "62" && clean.startsWith("0")) {
+
+    // Auto-strip leading trunk 0 if present (e.g. Indonesia 0812..., Malaysia 012..., UK 07...)
+    if (clean.startsWith("0")) {
       clean = clean.slice(1);
     }
+
+    // If user pasted a number already prefixed with current dial code (e.g. 62812... while +62 is active)
+    if (
+      clean.startsWith(selectedCountry.dialCode) &&
+      clean.length > selectedCountry.dialCode.length + 6
+    ) {
+      clean = clean.slice(selectedCountry.dialCode.length);
+    }
+
     setRecipientNumber(clean);
-    const full = clean ? `${countryCode}${clean}` : "";
+    const full = clean ? `${selectedCountry.dialCode}${clean}` : "";
     onRecipientChange?.(full);
   };
 
@@ -145,7 +182,12 @@ export function ComposeMessageCard({
       return;
     }
 
-    const fullPhone = `${countryCode}${recipientNumber.trim()}`;
+    const fullPhone = `${selectedCountry.dialCode}${recipientNumber.trim()}`;
+
+    if (!isValidE164(fullPhone)) {
+      setErrorMessage(t("whatsapp.messagesErrInvalidPhone"));
+      return;
+    }
 
     if (activeTab === "chat" && !messageText.trim()) {
       setErrorMessage(t("whatsapp.messagesErrTextRequired"));
@@ -333,19 +375,20 @@ export function ComposeMessageCard({
           <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("whatsapp.messagesRecipient")}
           </Label>
-          <div className="flex h-10 sm:h-11 rounded-xl border border-border bg-surface shadow-xs focus-within:ring-2 focus-within:ring-wise-green focus-within:border-wise-green transition-all hover:border-foreground-muted overflow-hidden">
+          <div className="flex h-10 sm:h-11 rounded-xl border border-border bg-surface shadow-xs focus-within:ring-2 focus-within:ring-wise-green focus-within:border-wise-green transition-all hover:border-foreground-muted">
             {/* Country flag selector */}
-            <div className="flex items-center gap-1.5 border-r border-border px-3 text-xs sm:text-sm font-bold bg-muted/40 text-foreground select-none">
-              <span>🇮🇩</span>
-              <span>+{countryCode}</span>
-            </div>
+            <CountryCodeSelector
+              selectedCountry={selectedCountry}
+              onSelectCountry={handleSelectCountry}
+              disabled={isSending}
+            />
             {/* Phone digits */}
             <input
               type="tel"
               value={recipientNumber}
               onChange={(e) => handlePhoneInput(e.target.value)}
               disabled={isSending}
-              placeholder="81234567890"
+              placeholder={selectedCountry.formatHint || "81234567890"}
               className="flex-1 bg-transparent px-3 text-xs sm:text-sm font-mono font-semibold text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
             />
           </div>

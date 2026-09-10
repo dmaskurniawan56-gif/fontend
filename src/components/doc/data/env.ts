@@ -9,7 +9,7 @@ export function getApiBaseUrl(): string {
   if (envUrl && envUrl.trim()) {
     return envUrl.trim().replace(/\/+$/, "");
   }
-  return "https://api-wa.hidessh.com/api/v1";
+  return env.NEXT_PUBLIC_API_BASE_URL || "";
 }
 
 /**

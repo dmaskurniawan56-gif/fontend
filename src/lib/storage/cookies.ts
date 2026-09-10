@@ -38,6 +38,7 @@ export function clearAllAuthStorage() {
 
   // 1. Purge all known active and legacy auth cookies
   const authCookieNames = [
+    "hide-jwt",
     "wahide_session_token",
     "wahide_user_role",
     "wahide_token",

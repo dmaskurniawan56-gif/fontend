@@ -71,6 +71,7 @@ export const useAuth = create<AuthState>()(
           };
 
           // Synchronize cookies for 0ms Edge Middleware route protection
+          setCookie("hide-jwt", res.token, 2592000);
           setCookie("wahide_session_token", res.token, 2592000);
           setCookie("wahide_user_role", user.role, 2592000);
 

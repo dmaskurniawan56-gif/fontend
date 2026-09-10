@@ -97,7 +97,8 @@ class HttpClient {
   private getAuthToken(): string | null {
     if (typeof window === "undefined") return null;
     // 1. Try Cookie First
-    const cookieToken = getCookie("wahide_session_token");
+    const cookieToken =
+      getCookie("hide-jwt") || getCookie("wahide_session_token");
     if (cookieToken) return cookieToken;
 
     // 2. Fallback to localStorage

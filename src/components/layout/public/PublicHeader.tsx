@@ -112,7 +112,7 @@ export function PublicHeader() {
                   href="/solutions/ecommerce"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-emerald-500/10 text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
                     <ShoppingBag className="size-4" />
                   </div>
                   <div>
@@ -154,7 +154,7 @@ export function PublicHeader() {
                   href="/features/api-gateway"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-emerald-500/10 text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
                     <Code2 className="size-4" />
                   </div>
                   <div>
@@ -179,7 +179,7 @@ export function PublicHeader() {
                       Smart Broadcast Messaging
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      5-lapis anti-ban, spintax simulator, kampanye massal
+                      Pesan massal aman, variasi kata otomatis, bebas blokir
                     </div>
                   </div>
                 </Link>
@@ -313,7 +313,7 @@ export function PublicHeader() {
               onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <ShoppingBag className="size-3.5 text-wise-green" />
+              <ShoppingBag className="size-3.5 text-emerald-600 dark:text-wise-green" />
               <span>E-Commerce & Retail</span>
             </Link>
 
@@ -326,7 +326,7 @@ export function PublicHeader() {
               onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <Code2 className="size-3.5 text-wise-green" />
+              <Code2 className="size-3.5 text-emerald-600 dark:text-wise-green" />
               <span>WhatsApp API Gateway</span>
             </Link>
             <Link

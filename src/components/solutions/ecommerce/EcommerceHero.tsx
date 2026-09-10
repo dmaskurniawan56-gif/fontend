@@ -22,7 +22,7 @@ export function EcommerceHero() {
         <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
-            <ShoppingBag className="size-4 text-wise-green" />
+            <ShoppingBag className="size-4 text-emerald-600 dark:text-wise-green" />
             <span className="text-foreground">
               {t("landingPages.ecommerce.badge")}
             </span>
@@ -68,11 +68,11 @@ export function EcommerceHero() {
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <ShoppingCart className="size-3.5" /> Recovery Abandoned Cart
+              <ShoppingCart className="size-3.5" /> Pengingat Keranjang Belanja Otomatis
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-500">
-              <Zap className="size-3.5" /> Midtrans & Xendit Webhook Ready
+              <Zap className="size-3.5" /> Siap Terhubung ke Midtrans & Xendit
             </span>
           </div>
         </div>

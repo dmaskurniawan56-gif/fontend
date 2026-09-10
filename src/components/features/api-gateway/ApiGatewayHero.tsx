@@ -57,7 +57,7 @@ export function ApiGatewayHero() {
                 "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:text-base gap-2",
               )}
             >
-              <Code2 className="size-4 text-wise-green" />
+              <Code2 className="size-4 text-emerald-600 dark:text-wise-green" />
               <span>{t("landingPages.apiGateway.ctaDocs")}</span>
             </Link>
           </div>
@@ -69,7 +69,7 @@ export function ApiGatewayHero() {
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> &lt; 400ms Sub-Second Delivery
+              <Zap className="size-3.5" /> Transmisi Cepat &lt; 400ms
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">

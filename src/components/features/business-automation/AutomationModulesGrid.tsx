@@ -24,7 +24,7 @@ export function AutomationModulesGrid() {
         "Pencegahan jadwal bentrok otomatis",
         "Notifikasi WhatsApp ke pelanggan & tim",
       ],
-      badge: "Booking & Appointment",
+      badge: "Reservasi Jadwal",
     },
     {
       id: "reminder",
@@ -36,7 +36,7 @@ export function AutomationModulesGrid() {
         "Pengurangan risiko tagihan macet",
         "Variabel dinamis nama & nominal faktur",
       ],
-      badge: "Due Date & Invoicing",
+      badge: "Pengingat Tagihan",
     },
     {
       id: "form",
@@ -48,7 +48,7 @@ export function AutomationModulesGrid() {
         "Validasi input nomor telepon WhatsApp",
         "Otomatis kirim pesan terima kasih ke responden",
       ],
-      badge: "No-Code Dynamic Forms",
+      badge: "Formulir Publik",
     },
     {
       id: "template",
@@ -60,7 +60,7 @@ export function AutomationModulesGrid() {
         "Kategori pesan lengkap (Sales, Billing, CS)",
         "Dukungan media gambar dan tombol pesan",
       ],
-      badge: "Template Library",
+      badge: "Template Pesan CS",
     },
   ];
 
@@ -87,7 +87,7 @@ export function AutomationModulesGrid() {
                 <div className="size-12 rounded-2xl bg-muted/60 flex items-center justify-center">
                   {m.icon}
                 </div>
-                <span className="text-[11px] font-bold font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-wise-green/10 text-dark-green dark:text-wise-green">
+                <span className="text-[11px] font-bold tracking-wider px-2.5 py-1 rounded-full bg-muted/80 text-foreground-secondary border border-border/60">
                   {m.badge}
                 </span>
               </div>
@@ -107,7 +107,7 @@ export function AutomationModulesGrid() {
                     key={bi}
                     className="flex items-center gap-2 text-xs font-semibold text-foreground-secondary"
                   >
-                    <CheckCircle2 className="size-3.5 text-wise-green shrink-0" />
+                    <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-wise-green shrink-0" />
                     <span>{b}</span>
                   </li>
                 ))}

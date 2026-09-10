@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Check, Copy, Terminal } from "lucide-react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n/context";
+import { env } from "@/lib/config/env";
 
 type Lang = "curl" | "node" | "go" | "python" | "php";
 
@@ -13,11 +14,19 @@ interface CodeSnippet {
   code: string;
 }
 
-const SNIPPETS: CodeSnippet[] = [
-  {
-    id: "curl",
-    label: "cURL",
-    code: `curl -X POST https://api.wahide.id/api/v1/whatsapp/messages \\
+function getSnippets(apiBaseUrl: string): CodeSnippet[] {
+  const cleanBase = apiBaseUrl.replace(/\/+$/, "");
+  const endpoint = cleanBase.endsWith("/whatsapp/messages")
+    ? cleanBase
+    : cleanBase.endsWith("/api/v1") || cleanBase.endsWith("/v1")
+      ? `${cleanBase}/whatsapp/messages`
+      : `${cleanBase}/api/v1/whatsapp/messages`;
+
+  return [
+    {
+      id: "curl",
+      label: "cURL",
+      code: `curl -X POST ${endpoint} \\
   -H "Authorization: Bearer hide_live_9a8b7c6d5e4f3a2b1c" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -26,11 +35,11 @@ const SNIPPETS: CodeSnippet[] = [
     "message": "Kode OTP verifikasi Anda adalah 884210. Berlaku 5 menit.",
     "is_priority": true
   }'`,
-  },
-  {
-    id: "node",
-    label: "Node.js (Fetch)",
-    code: `const response = await fetch("https://api.wahide.id/api/v1/whatsapp/messages", {
+    },
+    {
+      id: "node",
+      label: "Node.js (Fetch)",
+      code: `const response = await fetch("${endpoint}", {
   method: "POST",
   headers: {
     "Authorization": "Bearer hide_live_9a8b7c6d5e4f3a2b1c",
@@ -46,11 +55,11 @@ const SNIPPETS: CodeSnippet[] = [
 
 const data = await response.json();
 console.log("Status pengiriman:", data.message_id);`,
-  },
-  {
-    id: "go",
-    label: "Go",
-    code: `package main
+    },
+    {
+      id: "go",
+      label: "Go",
+      code: `package main
 
 import (
 	"bytes"
@@ -70,20 +79,20 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	req, _ := http.NewRequestWithContext(ctx, "POST", "https://api.wahide.id/api/v1/whatsapp/messages", bytes.NewBuffer(payload))
+	req, _ := http.NewRequestWithContext(ctx, "POST", "${endpoint}", bytes.NewBuffer(payload))
 	req.Header.Set("Authorization", "Bearer hide_live_9a8b7c6d5e4f3a2b1c")
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	// Handle response (< 400ms)
 }`,
-  },
-  {
-    id: "python",
-    label: "Python",
-    code: `import requests
+    },
+    {
+      id: "python",
+      label: "Python",
+      code: `import requests
 
-url = "https://api.wahide.id/api/v1/whatsapp/messages"
+url = "${endpoint}"
 headers = {
     "Authorization": "Bearer hide_live_9a8b7c6d5e4f3a2b1c",
     "Content-Type": "application/json"
@@ -97,11 +106,11 @@ payload = {
 
 response = requests.post(url, json=payload, headers=headers, timeout=5)
 print(response.json())`,
-  },
-  {
-    id: "php",
-    label: "PHP",
-    code: `<?php
+    },
+    {
+      id: "php",
+      label: "PHP",
+      code: `<?php
 
 $payload = json_encode([
     'device_id'   => '01M237H3Z63XCG3D15WJAW8QAM',
@@ -110,7 +119,7 @@ $payload = json_encode([
     'is_priority' => true,
 ]);
 
-$ch = curl_init('https://api.wahide.id/api/v1/whatsapp/messages');
+$ch = curl_init('${endpoint}');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -122,16 +131,24 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 $response = curl_exec($ch);
 curl_close($ch);
 echo $response;`,
-  },
-];
+    },
+  ];
+}
 
 export function LiveEndpointSandbox() {
   const { t } = useI18n();
   const [activeLang, setActiveLang] = useState<Lang>("curl");
   const [copied, setCopied] = useState(false);
 
+  const apiBaseUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    env.NEXT_PUBLIC_API_BASE_URL ||
+    "https://api.wahide.id/api/v1";
+
+  const snippets = useMemo(() => getSnippets(apiBaseUrl), [apiBaseUrl]);
+
   const currentSnippet =
-    SNIPPETS.find((s) => s.id === activeLang) || SNIPPETS[0];
+    snippets.find((s) => s.id === activeLang) || snippets[0];
 
   const handleCopy = async () => {
     try {
@@ -166,7 +183,7 @@ export function LiveEndpointSandbox() {
             </div>
             <Terminal className="size-4 text-zinc-400 hidden sm:inline" />
             <div className="flex items-center gap-1 overflow-x-auto py-1">
-              {SNIPPETS.map((snippet) => (
+              {snippets.map((snippet) => (
                 <button
                   key={snippet.id}
                   onClick={() => setActiveLang(snippet.id)}

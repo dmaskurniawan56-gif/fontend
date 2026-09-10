@@ -12,7 +12,7 @@ export function EcommerceUseCases() {
       icon: <FileText className="size-5 text-emerald-500" />,
       title: t("landingPages.ecommerce.useCaseOrderTitle"),
       desc: t("landingPages.ecommerce.useCaseOrderDesc"),
-      badge: "Instant Order",
+      badge: "Konfirmasi Pesanan",
       mockup: {
         time: "10:14",
         text: "Halo Kak Budi, pesanan #INV-88219 telah kami terima! 🛍️\n\nTotal: Rp 285.000\nMetode: QRIS / Virtual Account\n\nSelesaikan pembayaran sebelum 12:14 WIB agar langsung diproses:\nhttps://pay.tokokamu.com/inv/88219",
@@ -22,7 +22,7 @@ export function EcommerceUseCases() {
       icon: <Truck className="size-5 text-blue-500" />,
       title: t("landingPages.ecommerce.useCaseShippingTitle"),
       desc: t("landingPages.ecommerce.useCaseShippingDesc"),
-      badge: "Automated Resi",
+      badge: "Kirim Resi Otomatis",
       mockup: {
         time: "14:30",
         text: "Paket pesanan #INV-88219 telah diserahkan ke kurir J&T Express! 🚚\n\nNo. Resi: JP9018276354\nLacak status pengiriman Anda secara live di: https://lacak.tokokamu.com/JP9018276354",
@@ -32,7 +32,7 @@ export function EcommerceUseCases() {
       icon: <ShoppingCart className="size-5 text-amber-500" />,
       title: t("landingPages.ecommerce.useCaseCartTitle"),
       desc: t("landingPages.ecommerce.useCaseCartDesc"),
-      badge: "Cart Recovery",
+      badge: "Pengingat Keranjang Belanja",
       mockup: {
         time: "16:45",
         text: "Hai Kak Sarah! Masih ada 2 barang impian di keranjang belanja Anda nih ✨\n\nCheckout sekarang dan gunakan kupon HEMAT10 untuk cashback 10% spesial hari ini: https://tokokamu.com/cart",
@@ -42,7 +42,7 @@ export function EcommerceUseCases() {
       icon: <Users className="size-5 text-purple-500" />,
       title: t("landingPages.ecommerce.useCaseSupportTitle"),
       desc: t("landingPages.ecommerce.useCaseSupportDesc"),
-      badge: "Multi-Agent Support",
+      badge: "Multi-CS Toko",
       mockup: {
         time: "09:00",
         text: "[Sistem Agen Wahide]\nPesan baru dari Reseller VIP (Jawa Barat). Dialihkan otomatis ke Tim CS Wilayah 1.",
@@ -73,7 +73,7 @@ export function EcommerceUseCases() {
                 <div className="size-11 rounded-xl bg-muted/60 flex items-center justify-center">
                   {uc.icon}
                 </div>
-                <span className="text-[10px] font-bold font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-wise-green/10 text-dark-green dark:text-wise-green">
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-wise-green border border-emerald-500/20">
                   {uc.badge}
                 </span>
               </div>
@@ -91,7 +91,7 @@ export function EcommerceUseCases() {
                 <span>Notifikasi WhatsApp Pelanggan</span>
                 <span className="text-[10px]">{uc.mockup.time}</span>
               </div>
-              <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 p-3 text-foreground text-xs leading-relaxed whitespace-pre-line font-mono">
+              <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 p-3 text-foreground text-xs leading-relaxed whitespace-pre-line">
                 {uc.mockup.text}
                 <div className="flex justify-end items-center gap-1 mt-1 text-[10px] text-emerald-600 dark:text-emerald-400">
                   <span>{uc.mockup.time}</span>

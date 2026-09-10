@@ -206,6 +206,25 @@ export function CampaignDetailModal({
             </div>
           )}
 
+          {/* Partial Dispatch Warm-up auto-paused banner */}
+          {campaign.status === "PAUSED" &&
+            (campaign.processedOffset ?? 0) > 0 && (
+              <div className="flex items-start gap-2.5 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs font-semibold text-amber-800 dark:border-amber-500/40 dark:text-amber-300">
+                <Pause className="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                <div>
+                  <span className="block font-bold">
+                    {t("campaign.warmupPausedBanner")}
+                  </span>
+                  <p className="text-foreground-secondary mt-0.5 text-[11px] font-medium leading-relaxed">
+                    {t("campaign.warmupPausedDesc", {
+                      offset: String(campaign.processedOffset),
+                      total: String(totalRecipients),
+                    })}
+                  </p>
+                </div>
+              </div>
+            )}
+
           {/* Key Details Grid */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {/* Created At */}

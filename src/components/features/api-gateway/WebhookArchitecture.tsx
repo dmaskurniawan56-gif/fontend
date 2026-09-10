@@ -25,17 +25,17 @@ export function WebhookArchitecture() {
 
             <ul className="space-y-2.5 pt-2 text-xs font-semibold text-foreground-secondary">
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-wise-green shrink-0" />
+                <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
                 <span>HMAC-SHA256 Signature Header (X-Wahide-Secret)</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-wise-green shrink-0" />
+                <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
                 <span>
-                  Otomatis retry 3x dengan Jittered Backoff saat endpoint gagal
+                  Otomatis coba ulang (retry) 3x secara cerdas jika server Anda sibuk
                 </span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="size-4 text-wise-green shrink-0" />
+                <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
                 <span>
                   Dukungan event: message.received, message.status,
                   device.status

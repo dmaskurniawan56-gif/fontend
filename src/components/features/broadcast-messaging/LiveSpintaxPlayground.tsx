@@ -47,7 +47,7 @@ export function LiveSpintaxPlayground() {
       <div className="text-center max-w-2xl mx-auto space-y-3 mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
           <Sparkles className="size-3.5" />
-          <span>Interactive Sandbox</span>
+          <span>Coba Langsung di Sini</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
           {t("landingPages.broadcast.playgroundTitle")}
@@ -61,14 +61,14 @@ export function LiveSpintaxPlayground() {
         {/* Editor Area */}
         <div className="space-y-2">
           <label className="text-xs font-bold text-foreground block">
-            Template Pesan Spintax:
+            Contoh Format Pesan Bergantian:
           </label>
           <textarea
             value={template}
             onChange={(e) => setTemplate(e.target.value)}
             rows={3}
             className="w-full rounded-xl border border-border bg-background/60 p-4 text-xs sm:text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-wise-green leading-relaxed"
-            placeholder="Ketik template dengan format {opsi1|opsi2}..."
+            placeholder="Contoh: {Halo|Hai|Selamat Siang} Kak {Budi|Siti}..."
           />
         </div>
 
@@ -88,7 +88,7 @@ export function LiveSpintaxPlayground() {
         {/* WhatsApp Preview Bubble */}
         <div className="space-y-2 pt-2">
           <span className="text-xs font-bold text-foreground-secondary flex items-center gap-1.5">
-            <MessageSquare className="size-3.5 text-wise-green" />
+            <MessageSquare className="size-3.5 text-emerald-600 dark:text-wise-green" />
             <span>{t("landingPages.broadcast.playgroundResult")}</span>
           </span>
 

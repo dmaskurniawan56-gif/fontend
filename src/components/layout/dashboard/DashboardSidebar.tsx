@@ -179,7 +179,7 @@ export function DashboardSidebar({
       )}
     >
       {/* Brand Header - Clean without badge */}
-      <div className="border-border flex h-18 items-center justify-between border-b px-6">
+      <div className="border-border flex h-14 items-center justify-between border-b px-6 sm:h-16 lg:h-18">
         <Link href="/" className="flex items-center gap-2.5">
           <span className="bg-wise-green h-3.5 w-3.5 animate-pulse rounded-full" />
           <span className="text-foreground text-xl font-black tracking-tight">

@@ -60,37 +60,57 @@ export function DashboardBreadcrumb() {
     }
   };
 
+  const activeTitle =
+    segments.length > 0
+      ? getSegmentTitle(segments[segments.length - 1])
+      : t("common.breadcrumbDashboard");
+
   return (
-    <nav
-      className="text-foreground-muted flex items-center gap-1.5 text-xs font-semibold"
-      aria-label="Breadcrumb"
-    >
-      <Link
-        href="/dashboard"
-        className="hover:text-foreground flex items-center gap-1"
+    <div className="flex min-w-0 items-center">
+      {/* Mobile Single Page Title (< sm) */}
+      <div className="flex min-w-0 items-center sm:hidden">
+        <h1 className="text-foreground max-w-[130px] truncate text-sm font-bold tracking-tight xs:max-w-[180px]">
+          {activeTitle}
+        </h1>
+      </div>
+
+      {/* Desktop / Tablet Breadcrumb Trail (≥ sm) */}
+      <nav
+        className="text-foreground-muted hidden min-w-0 items-center gap-1.5 text-xs font-semibold sm:flex"
+        aria-label="Breadcrumb"
       >
-        <Home className="size-3.5" />
-        <span className="hidden sm:inline">{t("common.breadcrumbHome")}</span>
-      </Link>
+        <Link
+          href="/dashboard"
+          className="hover:text-foreground flex shrink-0 items-center gap-1"
+        >
+          <Home className="size-3.5" />
+          <span>{t("common.breadcrumbHome")}</span>
+        </Link>
 
-      {segments.map((segment, index) => {
-        const href = `/${segments.slice(0, index + 1).join("/")}`;
-        const isLast = index === segments.length - 1;
-        const title = getSegmentTitle(segment);
+        {segments.map((segment, index) => {
+          const href = `/${segments.slice(0, index + 1).join("/")}`;
+          const isLast = index === segments.length - 1;
+          const title = getSegmentTitle(segment);
 
-        return (
-          <React.Fragment key={href}>
-            <ChevronRight className="text-border size-3" />
-            {isLast ? (
-              <span className="text-foreground font-bold">{title}</span>
-            ) : (
-              <Link href={href} className="hover:text-foreground">
-                {title}
-              </Link>
-            )}
-          </React.Fragment>
-        );
-      })}
-    </nav>
+          return (
+            <React.Fragment key={href}>
+              <ChevronRight className="text-border size-3 shrink-0" />
+              {isLast ? (
+                <span className="text-foreground max-w-[160px] truncate font-bold md:max-w-[240px] lg:max-w-none">
+                  {title}
+                </span>
+              ) : (
+                <Link
+                  href={href}
+                  className="hover:text-foreground max-w-[100px] truncate md:max-w-[140px]"
+                >
+                  {title}
+                </Link>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </nav>
+    </div>
   );
 }

@@ -65,15 +65,18 @@ export function ApiGatewayHero() {
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-3.5" /> 99.9% Uptime SLA
+              <CheckCircle2 className="size-3.5" />{" "}
+              {t("landingPages.apiGateway.trustUptime")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> Transmisi Cepat &lt; 400ms
+              <Zap className="size-3.5" />{" "}
+              {t("landingPages.apiGateway.trustSpeed")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
-              <ShieldCheck className="size-3.5" /> HMAC-SHA256 Webhooks
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("landingPages.apiGateway.trustSecurity")}
             </span>
           </div>
         </div>

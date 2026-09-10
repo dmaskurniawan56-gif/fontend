@@ -2,44 +2,39 @@
 
 import React from "react";
 import { ArrowRight, CheckCircle2, Shield, Webhook } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function WebhookArchitecture() {
+  const { t } = useI18n();
+
   return (
     <section className="mx-auto max-w-5xl px-4 sm:px-6 py-4 sm:py-6">
-      <div className="rounded-3xl border border-border bg-gradient-to-br from-surface to-muted/20 p-6 sm:p-10 shadow-sm">
+      <div className="rounded-3xl border border-border bg-linear-to-br from-surface to-muted/20 p-6 sm:p-10 shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-5 space-y-4">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold">
               <Webhook className="size-3.5" />
-              <span>Two-Way Webhook Pipeline</span>
+              <span>{t("landingPages.apiGateway.webhookBadge")}</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-foreground">
-              Event Real-time Langsung ke Server Anda
+              {t("landingPages.apiGateway.webhookTitle")}
             </h3>
             <p className="text-sm font-medium leading-relaxed text-foreground-secondary">
-              Tidak perlu polling manual. Setiap kali ada pesan baru dari
-              pelanggan atau status pengiriman berubah, Wahide mengirimkan
-              payload HTTP POST ke webhook endpoint Anda dalam hitungan
-              milidetik.
+              {t("landingPages.apiGateway.webhookDesc")}
             </p>
 
             <ul className="space-y-2.5 pt-2 text-xs font-semibold text-foreground-secondary">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                <span>HMAC-SHA256 Signature Header (X-Wahide-Secret)</span>
+                <span>{t("landingPages.apiGateway.webhookF1")}</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                <span>
-                  Otomatis coba ulang (retry) 3x secara cerdas jika server Anda sibuk
-                </span>
+                <span>{t("landingPages.apiGateway.webhookF2")}</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="size-4 text-emerald-600 dark:text-wise-green shrink-0" />
-                <span>
-                  Dukungan event: message.received, message.status,
-                  device.status
-                </span>
+                <span>{t("landingPages.apiGateway.webhookF3")}</span>
               </li>
             </ul>
           </div>
@@ -84,7 +79,8 @@ export function WebhookArchitecture() {
 
               <div className="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-zinc-400">
                 <span className="flex items-center gap-1.5 text-emerald-400">
-                  <Shield className="size-3.5" /> Terverifikasi Aman
+                  <Shield className="size-3.5" />{" "}
+                  {t("landingPages.apiGateway.webhookVerified")}
                 </span>
                 <span className="flex items-center gap-1 text-zinc-500">
                   Dispatch time: 45ms <ArrowRight className="size-3" />

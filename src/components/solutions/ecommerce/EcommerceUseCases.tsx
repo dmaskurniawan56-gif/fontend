@@ -12,7 +12,7 @@ export function EcommerceUseCases() {
       icon: <FileText className="size-5 text-emerald-500" />,
       title: t("landingPages.ecommerce.useCaseOrderTitle"),
       desc: t("landingPages.ecommerce.useCaseOrderDesc"),
-      badge: "Konfirmasi Pesanan",
+      badge: t("landingPages.ecommerce.badgeOrder"),
       mockup: {
         time: "10:14",
         text: "Halo Kak Budi, pesanan #INV-88219 telah kami terima! 🛍️\n\nTotal: Rp 285.000\nMetode: QRIS / Virtual Account\n\nSelesaikan pembayaran sebelum 12:14 WIB agar langsung diproses:\nhttps://pay.tokokamu.com/inv/88219",
@@ -22,7 +22,7 @@ export function EcommerceUseCases() {
       icon: <Truck className="size-5 text-blue-500" />,
       title: t("landingPages.ecommerce.useCaseShippingTitle"),
       desc: t("landingPages.ecommerce.useCaseShippingDesc"),
-      badge: "Kirim Resi Otomatis",
+      badge: t("landingPages.ecommerce.badgeShipping"),
       mockup: {
         time: "14:30",
         text: "Paket pesanan #INV-88219 telah diserahkan ke kurir J&T Express! 🚚\n\nNo. Resi: JP9018276354\nLacak status pengiriman Anda secara live di: https://lacak.tokokamu.com/JP9018276354",
@@ -32,7 +32,7 @@ export function EcommerceUseCases() {
       icon: <ShoppingCart className="size-5 text-amber-500" />,
       title: t("landingPages.ecommerce.useCaseCartTitle"),
       desc: t("landingPages.ecommerce.useCaseCartDesc"),
-      badge: "Pengingat Keranjang Belanja",
+      badge: t("landingPages.ecommerce.badgeCart"),
       mockup: {
         time: "16:45",
         text: "Hai Kak Sarah! Masih ada 2 barang impian di keranjang belanja Anda nih ✨\n\nCheckout sekarang dan gunakan kupon HEMAT10 untuk cashback 10% spesial hari ini: https://tokokamu.com/cart",
@@ -42,7 +42,7 @@ export function EcommerceUseCases() {
       icon: <Users className="size-5 text-purple-500" />,
       title: t("landingPages.ecommerce.useCaseSupportTitle"),
       desc: t("landingPages.ecommerce.useCaseSupportDesc"),
-      badge: "Multi-CS Toko",
+      badge: t("landingPages.ecommerce.badgeSupport"),
       mockup: {
         time: "09:00",
         text: "[Sistem Agen Wahide]\nPesan baru dari Reseller VIP (Jawa Barat). Dialihkan otomatis ke Tim CS Wilayah 1.",
@@ -57,8 +57,7 @@ export function EcommerceUseCases() {
           {t("landingPages.ecommerce.useCasesTitle")}
         </h2>
         <p className="text-foreground-secondary text-sm sm:text-base font-semibold leading-relaxed">
-          Ubah proses manual menjadi serba otomatis dengan pemicu webhook dari
-          platform toko online Anda.
+          {t("landingPages.ecommerce.useCasesSubtitle")}
         </p>
       </div>
 
@@ -88,7 +87,7 @@ export function EcommerceUseCases() {
             {/* Simulated WhatsApp Bubble */}
             <div className="rounded-xl border border-border/70 bg-muted/30 p-3.5 space-y-2 text-xs">
               <div className="flex items-center justify-between text-[11px] text-foreground-muted font-medium">
-                <span>Notifikasi WhatsApp Pelanggan</span>
+                <span>{t("landingPages.ecommerce.useCaseBubbleTitle")}</span>
                 <span className="text-[10px]">{uc.mockup.time}</span>
               </div>
               <div className="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 p-3 text-foreground text-xs leading-relaxed whitespace-pre-line">

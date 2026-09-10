@@ -17,10 +17,12 @@ export function AntiBan5LayersVisual() {
   const layers = [
     {
       num: "01",
-      icon: <Shuffle className="size-5 text-emerald-600 dark:text-wise-green" />,
+      icon: (
+        <Shuffle className="size-5 text-emerald-600 dark:text-wise-green" />
+      ),
       title: t("landingPages.broadcast.layer1Title"),
       desc: t("landingPages.broadcast.layer1Desc"),
-      tag: "Pesan Selalu Berbeda",
+      tag: t("landingPages.broadcast.layer1Tag"),
       badgeStyle:
         "bg-emerald-500/10 text-emerald-800 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30",
     },
@@ -29,7 +31,7 @@ export function AntiBan5LayersVisual() {
       icon: <Keyboard className="size-5 text-blue-600 dark:text-blue-400" />,
       title: t("landingPages.broadcast.layer2Title"),
       desc: t("landingPages.broadcast.layer2Desc"),
-      tag: "Meniru Kebiasaan Mengetik",
+      tag: t("landingPages.broadcast.layer2Tag"),
       badgeStyle:
         "bg-blue-500/10 text-blue-800 border-blue-500/20 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30",
     },
@@ -38,7 +40,7 @@ export function AntiBan5LayersVisual() {
       icon: <Clock className="size-5 text-amber-600 dark:text-amber-400" />,
       title: t("landingPages.broadcast.layer3Title"),
       desc: t("landingPages.broadcast.layer3Desc"),
-      tag: "Jeda Waktu Kirim Santai",
+      tag: t("landingPages.broadcast.layer3Tag"),
       badgeStyle:
         "bg-amber-500/10 text-amber-900 border-amber-500/20 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30",
     },
@@ -47,16 +49,18 @@ export function AntiBan5LayersVisual() {
       icon: <TrendingUp className="size-5 text-teal-600 dark:text-teal-400" />,
       title: t("landingPages.broadcast.layer4Title"),
       desc: t("landingPages.broadcast.layer4Desc"),
-      tag: "Penyesuaian Nomor Baru",
+      tag: t("landingPages.broadcast.layer4Tag"),
       badgeStyle:
         "bg-teal-500/10 text-teal-800 border-teal-500/20 dark:bg-teal-500/15 dark:text-teal-300 dark:border-teal-500/30",
     },
     {
       num: "05",
-      icon: <RotateCw className="size-5 text-indigo-600 dark:text-indigo-400" />,
+      icon: (
+        <RotateCw className="size-5 text-indigo-600 dark:text-indigo-400" />
+      ),
       title: t("landingPages.broadcast.layer5Title"),
       desc: t("landingPages.broadcast.layer5Desc"),
-      tag: "Bagi Beban Banyak Nomor",
+      tag: t("landingPages.broadcast.layer5Tag"),
       badgeStyle:
         "bg-indigo-500/10 text-indigo-800 border-indigo-500/20 dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30",
     },
@@ -70,7 +74,7 @@ export function AntiBan5LayersVisual() {
       <div className="text-center max-w-2xl mx-auto space-y-3 mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-wise-green/15 text-dark-green dark:text-wise-green text-xs font-bold">
           <ShieldCheck className="size-3.5" />
-          <span>Sistem Perlindungan Akun WhatsApp</span>
+          <span>{t("landingPages.broadcast.protectionBadge")}</span>
         </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground">
           {t("landingPages.broadcast.protectionTitle")}

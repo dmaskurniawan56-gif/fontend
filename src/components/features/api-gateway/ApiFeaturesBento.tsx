@@ -19,37 +19,37 @@ export function ApiFeaturesBento() {
       icon: <Zap className="size-5 text-amber-500" />,
       title: t("landingPages.apiGateway.featureFastTitle"),
       desc: t("landingPages.apiGateway.featureFastDesc"),
-      badge: "< 400ms Cepat",
+      badge: t("landingPages.apiGateway.bentoBadgeFast"),
     },
     {
       icon: <Layers className="size-5 text-emerald-600 dark:text-wise-green" />,
       title: t("landingPages.apiGateway.featureOtpTitle"),
       desc: t("landingPages.apiGateway.featureOtpDesc"),
-      badge: "Prioritas OTP",
+      badge: t("landingPages.apiGateway.bentoBadgeOtp"),
     },
     {
       icon: <Webhook className="size-5 text-blue-500" />,
       title: t("landingPages.apiGateway.featureWebhookTitle"),
       desc: t("landingPages.apiGateway.featureWebhookDesc"),
-      badge: "Webhook 2 Arah",
+      badge: t("landingPages.apiGateway.bentoBadgeWebhook"),
     },
     {
       icon: <ShieldCheck className="size-5 text-emerald-500" />,
       title: t("landingPages.apiGateway.featureMultiTitle"),
       desc: t("landingPages.apiGateway.featureMultiDesc"),
-      badge: "Multi-Nomor",
+      badge: t("landingPages.apiGateway.bentoBadgeMulti"),
     },
     {
       icon: <Lock className="size-5 text-rose-500" />,
       title: t("landingPages.apiGateway.featureSecurityTitle"),
       desc: t("landingPages.apiGateway.featureSecurityDesc"),
-      badge: "Data Terenkripsi",
+      badge: t("landingPages.apiGateway.bentoBadgeSecurity"),
     },
     {
       icon: <RotateCcw className="size-5 text-indigo-500" />,
       title: t("landingPages.apiGateway.featureRetryTitle"),
       desc: t("landingPages.apiGateway.featureRetryDesc"),
-      badge: "Garansi Terkirim",
+      badge: t("landingPages.apiGateway.bentoBadgeRetry"),
     },
   ];
 

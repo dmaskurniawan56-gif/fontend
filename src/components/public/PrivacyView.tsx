@@ -35,14 +35,14 @@ export function PrivacyView() {
           <div className="space-y-1">
             <div className="text-foreground font-bold flex items-center gap-1.5">
               <FileText className="size-3.5 text-dark-green dark:text-wise-green" />
-              <span>Pengelola</span>
+              <span>{t("legal.operatorLabel")}</span>
             </div>
             <div>Hide Group</div>
           </div>
           <div className="space-y-1">
             <div className="text-foreground font-bold flex items-center gap-1.5">
               <Mail className="size-3.5 text-dark-green dark:text-wise-green" />
-              <span>Email Resmi</span>
+              <span>{t("legal.emailLabel")}</span>
             </div>
             <a
               href="mailto:dmaskurniawan56@gmail.com"
@@ -54,7 +54,7 @@ export function PrivacyView() {
           <div className="space-y-1">
             <div className="text-foreground font-bold flex items-center gap-1.5">
               <Phone className="size-3.5 text-dark-green dark:text-wise-green" />
-              <span>WhatsApp / Hotline</span>
+              <span>{t("legal.phoneLabel")}</span>
             </div>
             <div>0877111301818</div>
           </div>

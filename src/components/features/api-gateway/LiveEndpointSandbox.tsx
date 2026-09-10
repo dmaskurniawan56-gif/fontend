@@ -154,10 +154,10 @@ export function LiveEndpointSandbox() {
     try {
       await navigator.clipboard.writeText(currentSnippet.code);
       setCopied(true);
-      toast.success("Contoh kode berhasil disalin ke clipboard!");
+      toast.success(t("landingPages.apiGateway.sandboxCopySuccess"));
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("Gagal menyalin kode");
+      toast.error(t("landingPages.apiGateway.sandboxCopyError"));
     }
   };
 
@@ -206,12 +206,14 @@ export function LiveEndpointSandbox() {
             {copied ? (
               <>
                 <Check className="size-3.5 text-emerald-400" />
-                <span className="text-emerald-400">Tersalin!</span>
+                <span className="text-emerald-400">
+                  {t("landingPages.apiGateway.sandboxCopied")}
+                </span>
               </>
             ) : (
               <>
                 <Copy className="size-3.5" />
-                <span>Salin Kode</span>
+                <span>{t("landingPages.apiGateway.sandboxCopyBtn")}</span>
               </>
             )}
           </button>
@@ -228,9 +230,11 @@ export function LiveEndpointSandbox() {
         <div className="border-t border-zinc-800/80 bg-zinc-900/60 px-4 py-2.5 flex items-center justify-between text-xs text-zinc-400 font-mono">
           <span className="flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>Response: 200 OK</span>
+            <span>{t("landingPages.apiGateway.sandboxResponse")}</span>
           </span>
-          <span className="text-zinc-500">Latency: ~210ms • VIP Queue</span>
+          <span className="text-zinc-500">
+            {t("landingPages.apiGateway.sandboxLatency")}
+          </span>
         </div>
       </div>
     </section>

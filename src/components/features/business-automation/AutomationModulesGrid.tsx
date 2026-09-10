@@ -20,11 +20,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.reservationTitle"),
       desc: t("landingPages.automation.reservationDesc"),
       benefits: [
-        "Link booking publik mandiri",
-        "Pencegahan jadwal bentrok otomatis",
-        "Notifikasi WhatsApp ke pelanggan & tim",
+        t("landingPages.automation.resB1"),
+        t("landingPages.automation.resB2"),
+        t("landingPages.automation.resB3"),
       ],
-      badge: "Reservasi Jadwal",
+      badge: t("landingPages.automation.badgeReservation"),
     },
     {
       id: "reminder",
@@ -32,11 +32,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.reminderTitle"),
       desc: t("landingPages.automation.reminderDesc"),
       benefits: [
-        "Jadwal pengingat berkala otomatis",
-        "Pengurangan risiko tagihan macet",
-        "Variabel dinamis nama & nominal faktur",
+        t("landingPages.automation.remB1"),
+        t("landingPages.automation.remB2"),
+        t("landingPages.automation.remB3"),
       ],
-      badge: "Pengingat Tagihan",
+      badge: t("landingPages.automation.badgeReminder"),
     },
     {
       id: "form",
@@ -44,11 +44,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.formTitle"),
       desc: t("landingPages.automation.formDesc"),
       benefits: [
-        "Link instan siap bagikan di bio medsos",
-        "Validasi input nomor telepon WhatsApp",
-        "Otomatis kirim pesan terima kasih ke responden",
+        t("landingPages.automation.formB1"),
+        t("landingPages.automation.formB2"),
+        t("landingPages.automation.formB3"),
       ],
-      badge: "Formulir Publik",
+      badge: t("landingPages.automation.badgeForm"),
     },
     {
       id: "template",
@@ -56,11 +56,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.templateTitle"),
       desc: t("landingPages.automation.templateDesc"),
       benefits: [
-        "Standarisasi komunikasi tim CS",
-        "Kategori pesan lengkap (Sales, Billing, CS)",
-        "Dukungan media gambar dan tombol pesan",
+        t("landingPages.automation.tmplB1"),
+        t("landingPages.automation.tmplB2"),
+        t("landingPages.automation.tmplB3"),
       ],
-      badge: "Template Pesan CS",
+      badge: t("landingPages.automation.badgeTemplate"),
     },
   ];
 

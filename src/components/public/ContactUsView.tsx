@@ -58,7 +58,7 @@ export function ContactUsView() {
               </div>
               <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Respon Cepat
+                {t("contactUs.badgeFastResponse")}
               </span>
             </div>
 
@@ -101,7 +101,7 @@ export function ContactUsView() {
                 <Mail className="size-5" />
               </div>
               <span className="text-[11px] font-semibold text-foreground-muted">
-                B2B &amp; Kemitraan
+                {t("contactUs.badgePartnership")}
               </span>
             </div>
 
@@ -281,7 +281,7 @@ export function ContactUsView() {
               {t("contactUs.slaResponse")}
             </span>
             <span className="text-[11px] font-semibold text-foreground-secondary">
-              WhatsApp CS Siap Membantu
+              {t("contactUs.slaResponseDesc")}
             </span>
           </div>
 
@@ -291,7 +291,7 @@ export function ContactUsView() {
               {t("contactUs.slaSecurity")}
             </span>
             <span className="text-[11px] font-semibold text-foreground-secondary">
-              Perlindungan Privasi Payload
+              {t("contactUs.slaSecurityDesc")}
             </span>
           </div>
 
@@ -301,7 +301,7 @@ export function ContactUsView() {
               {t("contactUs.slaUptime")}
             </span>
             <span className="text-[11px] font-semibold text-foreground-secondary">
-              Infrastruktur Terdistribusi
+              {t("contactUs.slaUptimeDesc")}
             </span>
           </div>
         </div>

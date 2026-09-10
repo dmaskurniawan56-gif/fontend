@@ -100,10 +100,10 @@ export function PublicHeader() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
-                      Enterprise & Dedicated
+                      {t("common.nav.solutionEnterprise")}
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      Private VPS, SLA 99.9%, isolasi data korporat
+                      {t("common.nav.solutionEnterpriseDesc")}
                     </div>
                   </div>
                 </Link>
@@ -117,10 +117,10 @@ export function PublicHeader() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
-                      E-Commerce & Retail
+                      {t("common.nav.solutionEcommerce")}
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      Konfirmasi order otomatis, kirim resi & cart recovery
+                      {t("common.nav.solutionEcommerceDesc")}
                     </div>
                   </div>
                 </Link>
@@ -131,7 +131,7 @@ export function PublicHeader() {
                     onClick={(e) => handleAnchorClick(e, "solutions")}
                     className="flex items-center justify-between px-2.5 py-1.5 text-[11px] font-bold text-dark-green dark:text-wise-green hover:underline"
                   >
-                    <span>Lihat Ringkasan Solusi</span>
+                    <span>{t("common.nav.solutionOverview")}</span>
                     <ArrowRight className="size-3" />
                   </Link>
                 </div>
@@ -159,10 +159,10 @@ export function PublicHeader() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
-                      WhatsApp API Gateway
+                      {t("common.nav.featureApi")}
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      REST API, 2-way Webhooks, antrean OTP &lt;400ms
+                      {t("common.nav.featureApiDesc")}
                     </div>
                   </div>
                 </Link>
@@ -176,10 +176,10 @@ export function PublicHeader() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
-                      Smart Broadcast Messaging
+                      {t("common.nav.featureBroadcast")}
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      Pesan massal aman, variasi kata otomatis, bebas blokir
+                      {t("common.nav.featureBroadcastDesc")}
                     </div>
                   </div>
                 </Link>
@@ -193,10 +193,10 @@ export function PublicHeader() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-foreground group-hover/item:text-dark-green dark:group-hover/item:text-wise-green">
-                      Business Automation
+                      {t("common.nav.featureAutomation")}
                     </div>
                     <div className="text-[11px] font-medium text-foreground-muted leading-tight mt-0.5">
-                      Sistem booking jadwal, auto-reminder, web forms
+                      {t("common.nav.featureAutomationDesc")}
                     </div>
                   </div>
                 </Link>
@@ -207,7 +207,7 @@ export function PublicHeader() {
                     onClick={(e) => handleAnchorClick(e, "features")}
                     className="flex items-center justify-between px-2.5 py-1.5 text-[11px] font-bold text-dark-green dark:text-wise-green hover:underline"
                   >
-                    <span>Lihat Semua Fitur & Ringkasan</span>
+                    <span>{t("common.nav.featureOverview")}</span>
                     <ArrowRight className="size-3" />
                   </Link>
                 </div>
@@ -306,7 +306,7 @@ export function PublicHeader() {
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
               <Building2 className="size-3.5 text-blue-500" />
-              <span>Enterprise & Dedicated</span>
+              <span>{t("common.nav.solutionEnterprise")}</span>
             </Link>
             <Link
               href="/solutions/ecommerce"
@@ -314,7 +314,7 @@ export function PublicHeader() {
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
               <ShoppingBag className="size-3.5 text-emerald-600 dark:text-wise-green" />
-              <span>E-Commerce & Retail</span>
+              <span>{t("common.nav.solutionEcommerce")}</span>
             </Link>
 
             {/* Fitur Section */}
@@ -327,7 +327,7 @@ export function PublicHeader() {
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
               <Code2 className="size-3.5 text-emerald-600 dark:text-wise-green" />
-              <span>WhatsApp API Gateway</span>
+              <span>{t("common.nav.featureApi")}</span>
             </Link>
             <Link
               href="/features/broadcast-messaging"
@@ -335,7 +335,7 @@ export function PublicHeader() {
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
               <Radio className="size-3.5 text-amber-500" />
-              <span>Smart Broadcast Messaging</span>
+              <span>{t("common.nav.featureBroadcast")}</span>
             </Link>
             <Link
               href="/features/business-automation"
@@ -343,7 +343,7 @@ export function PublicHeader() {
               className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
               <Sparkles className="size-3.5 text-purple-500" />
-              <span>Business Automation</span>
+              <span>{t("common.nav.featureAutomation")}</span>
             </Link>
 
             {/* Standalone Links */}

@@ -64,15 +64,18 @@ export function EnterpriseHero() {
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <Clock className="size-3.5" /> Layanan Siap Pakai 24/7
+              <Clock className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trust247")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-500">
-              <ShieldCheck className="size-3.5" /> Data Terjaga Rahasia & Aman
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trustSecurity")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-indigo-500">
-              <Headphones className="size-3.5" /> Pendampingan Langsung Tim Ahli
+              <Headphones className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trustExperts")}
             </span>
           </div>
         </div>

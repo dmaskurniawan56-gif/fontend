@@ -65,19 +65,23 @@ export function BroadcastHero() {
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <ShieldCheck className="size-3.5" /> 5 Lapis Perlindungan Anti-Blokir
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustProtection")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> Efek Sedang Mengetik Alami
+              <Zap className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustTyping")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
-              <Users className="size-3.5" /> Bagi Beban ke Banyak Nomor
+              <Users className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustMultiNumber")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
-              <CheckCircle2 className="size-3.5" /> Tanpa Biaya Tambahan Per Pesan
+              <CheckCircle2 className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustNoMarkup")}
             </span>
           </div>
         </div>

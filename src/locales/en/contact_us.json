@@ -26,5 +26,10 @@
   "mapCity": "Semarang, Central Java, Indonesia",
   "slaResponse": "Average WhatsApp Response < 5 Mins",
   "slaUptime": "99.9% Availability SLA",
-  "slaSecurity": "End-to-End AES-GCM 256 Encryption"
+  "slaSecurity": "End-to-End AES-GCM 256 Encryption",
+  "badgeFastResponse": "Fast Response",
+  "badgePartnership": "B2B & Partnerships",
+  "slaResponseDesc": "WhatsApp CS Ready to Assist",
+  "slaSecurityDesc": "Payload Privacy Protection",
+  "slaUptimeDesc": "Distributed Infrastructure"
 }

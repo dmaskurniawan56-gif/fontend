@@ -46,7 +46,7 @@ export function ComplianceSecuritySection() {
         <div className="mx-auto mb-6 sm:mb-8 max-w-2xl text-center space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
             <CheckCircle2 className="size-3.5" />
-            <span>Pendampingan Bisnis Terpercaya</span>
+            <span>{t("landingPages.enterprise.processBadge")}</span>
           </div>
           <h2 className="text-foreground text-2xl font-black tracking-tight sm:text-3xl lg:text-4xl">
             {t("landingPages.enterprise.processTitle")}

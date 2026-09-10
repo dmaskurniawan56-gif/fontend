@@ -5,7 +5,8 @@ import { env } from "@/lib/config/env";
  * Resolves directly from NEXT_PUBLIC_API_BASE_URL environment variable
  */
 export function getApiBaseUrl(): string {
-  const envUrl = process.env.NEXT_PUBLIC_API_BASE_URL || env.NEXT_PUBLIC_API_BASE_URL;
+  const envUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL || env.NEXT_PUBLIC_API_BASE_URL;
   if (envUrl && envUrl.trim()) {
     return envUrl.trim().replace(/\/+$/, "");
   }
@@ -24,4 +25,3 @@ export function getApiHost(): string {
     return baseUrl.replace(/\/api\/v1\/?$/, "");
   }
 }
-

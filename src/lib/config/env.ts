@@ -3,7 +3,9 @@ import { z } from "zod";
 const envSchema = z
   .object({
     NEXT_PUBLIC_APP_NAME: z.string().optional().default("Wahide"),
-    NEXT_PUBLIC_APP_URL: z.string().min(1, "NEXT_PUBLIC_APP_URL is required in .env"),
+    NEXT_PUBLIC_APP_URL: z
+      .string()
+      .min(1, "NEXT_PUBLIC_APP_URL is required in .env"),
     NEXT_PUBLIC_API_BASE_URL: z
       .string()
       .min(1, "NEXT_PUBLIC_API_BASE_URL is required in .env"),
@@ -30,8 +32,7 @@ const envSchema = z
         data.NEXT_PUBLIC_WHATSAPP_API_URL || baseApi,
       NEXT_PUBLIC_CAMPAIGN_API_URL:
         data.NEXT_PUBLIC_CAMPAIGN_API_URL || baseApi,
-      NEXT_PUBLIC_FINANCE_API_URL:
-        data.NEXT_PUBLIC_FINANCE_API_URL || baseApi,
+      NEXT_PUBLIC_FINANCE_API_URL: data.NEXT_PUBLIC_FINANCE_API_URL || baseApi,
       NEXT_PUBLIC_TEMPLATE_API_URL:
         data.NEXT_PUBLIC_TEMPLATE_API_URL || baseApi,
       NEXT_PUBLIC_REMINDER_API_URL:
@@ -60,6 +61,3 @@ export const env = envSchema.parse({
   NEXT_PUBLIC_WS_GATEWAY_URL: process.env.NEXT_PUBLIC_WS_GATEWAY_URL,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 });
-
-
-

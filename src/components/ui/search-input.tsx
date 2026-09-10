@@ -95,10 +95,12 @@ export function SearchInput({
         variant="primaryPill"
         size="sm"
         disabled={disabled}
-        className="h-10 shrink-0 cursor-pointer px-4 text-xs font-bold shadow-xs"
+        aria-label={buttonText}
+        title={buttonText}
+        className="h-10 w-10 shrink-0 cursor-pointer justify-center rounded-full p-0 text-xs font-bold shadow-xs sm:w-auto sm:px-4"
       >
-        <Search className="mr-1 size-3.5" />
-        <span>{buttonText}</span>
+        <Search className="size-3.5 sm:mr-1" />
+        <span className="hidden sm:inline">{buttonText}</span>
       </Button>
     </form>
   );

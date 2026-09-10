@@ -25,63 +25,75 @@ function GithubIcon({ className }: { className?: string }) {
 
 interface DocsHeaderProps {
   onOpenMobileMenu: () => void;
+  onOpenSearch?: () => void;
 }
 
-export function DocsHeader({ onOpenMobileMenu }: DocsHeaderProps) {
+export function DocsHeader({
+  onOpenMobileMenu,
+  onOpenSearch,
+}: DocsHeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
+
+  const handleTriggerSearch = () => {
+    if (onOpenSearch) {
+      onOpenSearch();
+    } else {
+      setSearchOpen(true);
+    }
+  };
 
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3.5 sm:h-16 sm:gap-4 sm:px-6">
           {/* Brand & Mobile Hamburger */}
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <button
               onClick={onOpenMobileMenu}
               type="button"
-              className="lg:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors"
+              className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted/50 hover:text-foreground active:scale-95 lg:hidden"
               aria-label="Open documentation sidebar menu"
             >
               <Menu className="size-5" />
             </button>
 
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <span className="h-3.5 w-3.5 rounded-full bg-wise-green shadow-xs transition-transform group-hover:scale-110" />
+            <Link href="/" className="group flex shrink-0 items-center gap-2">
+              <span className="bg-wise-green size-3.5 rounded-full shadow-xs transition-transform group-hover:scale-110" />
               <div className="flex items-baseline gap-1.5">
-                <span className="font-black text-lg tracking-tight text-foreground">
+                <span className="text-foreground text-base font-black tracking-tight sm:text-lg">
                   Wahide
                 </span>
-                <span className="text-xs font-bold px-1.5 py-0.2 rounded-md bg-wise-green/15 text-dark-green dark:text-wise-green border border-wise-green/30">
+                <span className="rounded-md border border-wise-green/30 bg-wise-green/15 px-1.5 py-0.5 text-[10px] font-bold text-dark-green sm:text-xs dark:text-wise-green">
                   API Docs
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Quick Search Bar (Ctrl+K / Cmd+K trigger) */}
-          <div className="flex-1 max-w-md hidden sm:block">
+          {/* Quick Search Bar (Ctrl+K / Cmd+K trigger) - Tablet & Desktop */}
+          <div className="hidden max-w-md flex-1 sm:block">
             <button
-              onClick={() => setSearchOpen(true)}
+              onClick={handleTriggerSearch}
               type="button"
-              className="w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-xl border border-border bg-muted/40 hover:bg-muted/70 text-xs text-muted-foreground transition-colors shadow-xs"
+              className="flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border border-border bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground shadow-xs transition hover:bg-muted/70"
             >
               <div className="flex items-center gap-2">
-                <Search className="size-3.5 text-muted-foreground" />
+                <Search className="text-muted-foreground size-3.5" />
                 <span>Search documentation...</span>
               </div>
-              <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-semibold text-muted-foreground bg-background rounded border border-border">
+              <kbd className="bg-background text-muted-foreground inline-flex items-center gap-0.5 rounded border border-border px-1.5 py-0.5 font-mono text-[10px] font-semibold">
                 ⌘K
               </kbd>
             </button>
           </div>
 
           {/* Action Links & Controls */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
             {/* Mobile Search Button */}
             <button
-              onClick={() => setSearchOpen(true)}
+              onClick={handleTriggerSearch}
               type="button"
-              className="sm:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/40"
+              className="flex size-9 cursor-pointer items-center justify-center rounded-xl text-muted-foreground transition hover:bg-muted/50 hover:text-foreground active:scale-95 sm:hidden"
               aria-label="Search docs"
             >
               <Search className="size-4" />
@@ -91,16 +103,17 @@ export function DocsHeader({ onOpenMobileMenu }: DocsHeaderProps) {
               href="https://github.com/hidessh99/wahide-api-docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground px-2.5 py-1.5 rounded-lg hover:bg-muted/40 transition-colors"
+              className="text-muted-foreground hover:text-foreground hidden items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition hover:bg-muted/40 md:flex"
             >
               <GithubIcon className="size-4" />
               <span>GitHub</span>
-              <ExternalLink className="size-3 text-muted-foreground/60" />
+              <ExternalLink className="text-muted-foreground/60 size-3" />
             </Link>
 
+            {/* Option 1: Dashboard link hidden on mobile header, placed in Mobile Drawer Menu */}
             <Link
               href="/dashboard"
-              className="hidden sm:inline-flex items-center text-xs font-bold text-foreground hover:text-emerald-700 dark:hover:text-wise-green px-3 py-1.5 rounded-lg border border-border/80 hover:border-emerald-500/50 dark:hover:border-wise-green/50 transition-colors"
+              className="border-border/80 hover:border-emerald-500/50 dark:hover:border-wise-green/50 text-foreground hover:text-emerald-700 dark:hover:text-wise-green hidden items-center rounded-lg border px-3 py-1.5 text-xs font-bold transition sm:inline-flex"
             >
               Dashboard
             </Link>
@@ -110,10 +123,12 @@ export function DocsHeader({ onOpenMobileMenu }: DocsHeaderProps) {
         </div>
       </header>
 
-      <DocsSearchModal
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-      />
+      {!onOpenSearch && (
+        <DocsSearchModal
+          isOpen={searchOpen}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
     </>
   );
 }

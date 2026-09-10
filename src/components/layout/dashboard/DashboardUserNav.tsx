@@ -51,7 +51,7 @@ export function DashboardUserNav() {
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-56 p-1.5 shadow-xl"
+        className="w-56 max-w-[calc(100vw-1.5rem)] p-1.5 shadow-xl"
       >
         <DropdownMenuLabel className="border-border/60 border-b px-2.5 py-2">
           <p className="text-foreground truncate text-xs font-bold">

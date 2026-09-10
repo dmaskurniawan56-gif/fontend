@@ -144,9 +144,9 @@ export function BillingView() {
 
       {/* Filter Toolbar (Search Submit & Horizontal Scrollable Status Filters) */}
       <div className="border-border bg-surface space-y-3 rounded-xl border p-3.5 shadow-xs sm:space-y-4 sm:p-4">
-        {/* Top Row: Search Form + Refresh Button */}
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-          <div className="w-full flex-1 sm:max-w-lg">
+        {/* Top Row: Search Form + Refresh Button (Unified 1-Row on Mobile & Desktop) */}
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="min-w-0 flex-1 sm:max-w-lg">
             <SearchInput
               value={searchInput}
               onChange={setSearchInput}
@@ -166,7 +166,7 @@ export function BillingView() {
             size="sm"
             onClick={fetchBillingData}
             disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
+            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
             aria-label={t("billing.refreshInvoices")}
             title={t("billing.refreshInvoices")}
           >
@@ -177,8 +177,8 @@ export function BillingView() {
           </Button>
         </div>
 
-        {/* Status Filter Chips (Horizontal Scrollable) */}
-        <div className="no-scrollbar border-border/50 flex items-center gap-1.5 overflow-x-auto scroll-smooth border-t pt-2">
+        {/* Status Filter Chips (Horizontal Scrollable with Edge Bleed on Mobile) */}
+        <div className="no-scrollbar border-border/50 -mx-3.5 flex items-center gap-1.5 overflow-x-auto scroll-smooth border-t px-3.5 pt-2 sm:mx-0 sm:px-0">
           {statusOptions.map((opt) => {
             const isActive = statusFilter === opt.value;
             return (
@@ -186,7 +186,7 @@ export function BillingView() {
                 key={opt.value}
                 type="button"
                 onClick={() => setStatusFilter(opt.value)}
-                className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition ${
+                className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition active:scale-95 ${
                   isActive
                     ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
                     : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"

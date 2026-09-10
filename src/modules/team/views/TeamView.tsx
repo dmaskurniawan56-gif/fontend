@@ -139,8 +139,8 @@ export function TeamView() {
       </div>
 
       {/* Filter & Search Toolbar */}
-      <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4">
-        <div className="w-full flex-1 sm:max-w-lg">
+      <div className="border-border bg-surface flex items-center justify-between gap-2 rounded-xl border p-3.5 shadow-xs sm:gap-3 sm:p-4">
+        <div className="min-w-0 flex-1 sm:max-w-lg">
           <SearchInput
             value={searchInput}
             onChange={setSearchInput}
@@ -160,7 +160,7 @@ export function TeamView() {
           size="sm"
           onClick={fetchAgents}
           disabled={isLoading}
-          className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
+          className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
           aria-label={t("team.refreshAgents")}
           title={t("team.refreshAgents")}
         >

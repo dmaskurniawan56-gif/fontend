@@ -250,9 +250,9 @@ export function UserActivitiesTable({
     <div className="w-full min-w-0 space-y-4">
       {/* Toolbar Section: Search Bar & Filter Chips */}
       <div className="border-border bg-surface w-full min-w-0 space-y-3 overflow-hidden rounded-xl border p-3.5 shadow-xs sm:p-4">
-        <div className="flex w-full min-w-0 flex-col justify-between gap-3 sm:flex-row sm:items-center">
+        <div className="flex w-full min-w-0 items-center justify-between gap-2 sm:gap-3">
           {/* Search Form */}
-          <div className="w-full flex-1 sm:max-w-lg">
+          <div className="min-w-0 flex-1 sm:max-w-lg">
             <SearchInput
               value={searchInput}
               onChange={setSearchInput}
@@ -269,7 +269,7 @@ export function UserActivitiesTable({
             size="sm"
             onClick={onRefresh}
             disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
+            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
             title={t("activities.refreshTitle")}
             aria-label={t("admin.activities.refreshAria")}
           >

@@ -5,6 +5,7 @@ import { docNavigation } from "./data";
 import { DocsHeader } from "./DocsHeader";
 import { DocsSidebar } from "./DocsSidebar";
 import { DocsMobileDrawer } from "./DocsMobileDrawer";
+import { DocsSearchModal } from "./DocsSearchModal";
 
 interface DocsLayoutClientProps {
   children: React.ReactNode;
@@ -12,17 +13,31 @@ interface DocsLayoutClientProps {
 
 export function DocsLayoutClient({ children }: DocsLayoutClientProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-wise-green/20">
+    <div className="bg-background text-foreground selection:bg-wise-green/20 flex min-h-screen flex-col">
       {/* 1. Top Navbar */}
-      <DocsHeader onOpenMobileMenu={() => setMobileMenuOpen(true)} />
+      <DocsHeader
+        onOpenMobileMenu={() => setMobileMenuOpen(true)}
+        onOpenSearch={() => setSearchOpen(true)}
+      />
 
       {/* 2. Mobile Drawer Navigation */}
       <DocsMobileDrawer
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         sections={docNavigation}
+        onOpenSearch={() => {
+          setMobileMenuOpen(false);
+          setSearchOpen(true);
+        }}
+      />
+
+      {/* 3. Global Search Modal */}
+      <DocsSearchModal
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
       />
 
       {/* 3. Main 3-Column Body Container */}

@@ -151,13 +151,13 @@ export function UserDashboardOverview({
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          <Link href="/devices">
+        {/* Action Buttons (Responsive 50:50 Grid on Mobile, Flex on Desktop) */}
+        <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-2.5">
+          <Link href="/devices" className="w-full sm:w-auto">
             <Button
               variant="outline"
               size="sm"
-              className="border-border hover:border-foreground-muted gap-1.5 rounded-full text-xs font-bold"
+              className="border-border hover:border-foreground-muted w-full sm:w-auto justify-center gap-1.5 rounded-full text-xs font-bold"
             >
               <Smartphone className="text-dark-green dark:text-wise-green size-3.5" />
               <span>
@@ -168,11 +168,11 @@ export function UserDashboardOverview({
               </span>
             </Button>
           </Link>
-          <Link href="/campaigns">
+          <Link href="/campaigns" className="w-full sm:w-auto">
             <Button
               variant="primaryPill"
               size="sm"
-              className="gap-1.5 rounded-full text-xs font-bold shadow-sm"
+              className="w-full sm:w-auto justify-center gap-1.5 rounded-full text-xs font-bold shadow-sm"
             >
               <Plus className="size-3.5" />
               <span>{t("overview.newBroadcastButton")}</span>

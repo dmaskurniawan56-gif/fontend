@@ -92,8 +92,8 @@ export function TemplateFilterBar({
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      {/* Category Pills */}
-      <div className="flex flex-wrap items-center gap-1.5">
+      {/* Category Pills (1-Row Horizontal Swipeable on Mobile, Wrap on Desktop) */}
+      <div className="no-scrollbar -mx-3 flex items-center gap-1.5 overflow-x-auto scroll-smooth px-3 py-1 sm:mx-0 sm:flex-wrap sm:px-0">
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const isActive = currentCategory === cat.id;
@@ -105,7 +105,7 @@ export function TemplateFilterBar({
               size="sm"
               onClick={() => onSelectCategory(cat.id)}
               className={cn(
-                "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
+                "h-8 shrink-0 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer transition active:scale-95",
                 isActive
                   ? "shadow-xs"
                   : "text-foreground-secondary hover:text-foreground",

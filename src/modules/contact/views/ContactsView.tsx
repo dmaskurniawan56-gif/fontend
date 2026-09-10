@@ -164,14 +164,27 @@ export function ContactsView() {
           </p>
         </div>
 
-        {/* Top Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+        {/* Top Action Buttons (Responsive Grid on Mobile, Flex on Desktop) */}
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+          <Button
+            variant="primaryPill"
+            size="sm"
+            onClick={() => {
+              setEditingContact(null);
+              setIsAddModalOpen(true);
+            }}
+            className="col-span-2 h-9 cursor-pointer justify-center gap-1.5 px-4 text-xs font-bold shadow-sm sm:order-last sm:h-9 sm:w-auto"
+          >
+            <UserPlus className="size-4" />
+            <span>{t("contact.addContact")}</span>
+          </Button>
+
           <Button
             variant="outline"
             size="sm"
             onClick={handleExportCsv}
             disabled={contacts.length === 0}
-            className="border-border hover:border-foreground-muted h-9 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold"
+            className="border-border hover:border-foreground-muted col-span-1 h-9 cursor-pointer justify-center gap-1.5 rounded-full px-3 text-xs font-bold sm:px-3.5"
           >
             <Download className="size-3.5" />
             <span className="hidden sm:inline">{t("contact.exportCsv")}</span>
@@ -182,67 +195,39 @@ export function ContactsView() {
             variant="outline"
             size="sm"
             onClick={() => setIsImportModalOpen(true)}
-            className="border-border hover:border-foreground-muted h-9 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold"
+            className="border-border hover:border-foreground-muted col-span-1 h-9 cursor-pointer justify-center gap-1.5 rounded-full px-3 text-xs font-bold sm:px-3.5"
           >
             <FileSpreadsheet className="text-dark-green dark:text-wise-green size-3.5" />
             <span className="hidden sm:inline">{t("contact.importCsv")}</span>
             <span className="sm:hidden">Impor</span>
           </Button>
-
-          <Button
-            variant="primaryPill"
-            size="sm"
-            onClick={() => {
-              setEditingContact(null);
-              setIsAddModalOpen(true);
-            }}
-            className="ml-auto h-9 cursor-pointer gap-1.5 px-4 text-xs font-bold shadow-sm sm:ml-0"
-          >
-            <UserPlus className="size-4" />
-            <span>{t("contact.addContact")}</span>
-          </Button>
         </div>
       </div>
 
       {/* Filter Toolbar & Actions */}
-      <div className="border-border bg-surface flex flex-col justify-between gap-3 rounded-xl border p-3.5 shadow-xs sm:flex-row sm:items-center sm:p-4">
-        {/* Search Form with Submit Button */}
-        <SearchInput
-          value={searchInput}
-          onChange={setSearchInput}
-          onSearch={() => executeSearch(searchInput.trim())}
-          onClear={() => {
-            setSearchInput("");
-            clearSearch();
-          }}
-          placeholder={t("contact.searchPlaceholder")}
-          buttonText={t("contact.searchBtn")}
-        />
-
-        {/* Bulk Action & Refresh */}
-        <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-1 sm:justify-end sm:border-t-0 sm:pt-0">
-          {selectedIds.size > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRequestBulkDelete}
-              className="h-9 cursor-pointer gap-1.5 rounded-full border-rose-500/20 px-3.5 text-xs font-bold text-rose-600 hover:bg-rose-500/10 dark:text-rose-400"
-            >
-              <Trash2 className="size-3.5" />
-              <span>
-                {t("contact.selectedCount", {
-                  count: selectedIds.size.toString(),
-                })}
-              </span>
-            </Button>
-          )}
+      <div className="border-border bg-surface space-y-3 rounded-xl border p-3.5 shadow-xs sm:p-4">
+        {/* Main Search Row: Search Input + Refresh Button */}
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
+          <div className="min-w-0 flex-1">
+            <SearchInput
+              value={searchInput}
+              onChange={setSearchInput}
+              onSearch={() => executeSearch(searchInput.trim())}
+              onClear={() => {
+                setSearchInput("");
+                clearSearch();
+              }}
+              placeholder={t("contact.searchPlaceholder")}
+              buttonText={t("contact.searchBtn")}
+            />
+          </div>
 
           <Button
             variant="outline"
             size="sm"
             onClick={() => fetchContacts()}
             disabled={isLoading}
-            className="border-border hover:border-foreground-muted ml-auto h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition sm:ml-0"
+            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
             aria-label="Refresh Kontak"
             title="Refresh Kontak"
           >
@@ -252,6 +237,26 @@ export function ContactsView() {
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </div>
+
+        {/* Bulk Action Banner (Only visible when items are selected) */}
+        {selectedIds.size > 0 && (
+          <div className="border-border/60 bg-muted/40 flex items-center justify-between gap-2 rounded-xl border p-2.5 transition">
+            <span className="text-xs font-bold text-foreground">
+              {t("contact.selectedCount", {
+                count: selectedIds.size.toString(),
+              })}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRequestBulkDelete}
+              className="h-8 cursor-pointer gap-1.5 rounded-full border-rose-500/30 px-3 text-xs font-bold text-rose-600 hover:bg-rose-500/10 dark:text-rose-400"
+            >
+              <Trash2 className="size-3.5" />
+              <span>{t("contact.bulkDelete")}</span>
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Main Table or Empty State */}

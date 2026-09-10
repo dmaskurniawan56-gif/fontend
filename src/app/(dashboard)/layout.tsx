@@ -21,7 +21,8 @@ export default function DashboardLayout({
 
   useEffect(() => {
     // 1. Immediate client-side check: if completely unauthenticated, redirect to login
-    const cookieToken = getCookie("wahide_session_token");
+    const cookieToken =
+      getCookie("hide-jwt") || getCookie("wahide_session_token");
     if (!token && !cookieToken && !isAuthenticated) {
       router.replace("/login");
       return;

@@ -29,6 +29,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const sessionToken =
+    request.cookies.get("hide-jwt")?.value ||
     request.cookies.get("wahide_session_token")?.value ||
     request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
 

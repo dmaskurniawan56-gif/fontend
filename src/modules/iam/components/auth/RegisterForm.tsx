@@ -15,10 +15,14 @@ import {
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
 import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { PhoneWarningNotice } from "@/components/shared/PhoneWarningNotice";
 import {
   CountryCodeItem,
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
+  checkPhoneInputWarning,
+  sanitizeSubscriberInput,
+  type PhoneWarningResult,
 } from "@/lib/countryCodes";
 import {
   Eye,
@@ -38,6 +42,10 @@ export function RegisterForm() {
 
   const [selectedCountry, setSelectedCountry] =
     useState<CountryCodeItem>(DEFAULT_COUNTRY);
+  const [phoneWarning, setPhoneWarning] = useState<PhoneWarningResult>({
+    hasWarning: false,
+    suggestedValue: "",
+  });
   const [formData, setFormData] = useState<RegisterInput>({
     name: "",
     email: "",
@@ -66,8 +74,8 @@ export function RegisterForm() {
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
 
-    // Detect country if user pasted international format (+... or long starting with country code)
-    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+    // Detect country if user pasted international format (+...)
+    if (val.includes("+")) {
       const detected = detectCountryFromPhone(val);
       if (detected.country) {
         setSelectedCountry(detected.country);
@@ -75,11 +83,12 @@ export function RegisterForm() {
       val = detected.subscriberNumber;
     }
 
-    // Keep only numeric characters & auto-strip leading '0'
+    // Keep numeric characters (do not silently strip leading 0 or dialCode)
     val = val.replace(/[^0-9]/g, "");
-    if (val.startsWith("0")) {
-      val = val.replace(/^0+/, "");
-    }
+
+    // Check smart warning for leading 0 or duplicate dialCode
+    const warning = checkPhoneInputWarning(val, selectedCountry.dialCode);
+    setPhoneWarning(warning);
 
     setFormData((prev) => ({ ...prev, phone: val }));
     if (fieldErrors.phone) {
@@ -88,8 +97,18 @@ export function RegisterForm() {
     if (error) clearError();
   };
 
+  const handleFixPhone = (suggestedValue: string) => {
+    setFormData((prev) => ({ ...prev, phone: suggestedValue }));
+    setPhoneWarning({ hasWarning: false, suggestedValue: "" });
+    if (fieldErrors.phone) {
+      setFieldErrors((prev) => ({ ...prev, phone: "" }));
+    }
+  };
+
   const handleSelectCountry = (country: CountryCodeItem) => {
     setSelectedCountry(country);
+    const warning = checkPhoneInputWarning(formData.phone, country.dialCode);
+    setPhoneWarning(warning);
     if (fieldErrors.phone) {
       setFieldErrors((prev) => ({ ...prev, phone: "" }));
     }
@@ -107,10 +126,22 @@ export function RegisterForm() {
       return;
     }
 
-    // Combine country dial code + clean phone digits
-    const cleanDigits = formData.phone
-      .replace(/[^0-9]/g, "")
-      .replace(/^0+/, "");
+    // Option 2: Blokir proses submit dan tampilkan pesan error jika masih ada awalan 0 atau duplikasi dial code
+    const warning = checkPhoneInputWarning(
+      formData.phone,
+      selectedCountry.dialCode,
+    );
+    if (warning.hasWarning) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        phone:
+          warning.message ||
+          "Harap perbaiki format nomor WhatsApp terlebih dahulu.",
+      }));
+      return;
+    }
+
+    const cleanDigits = formData.phone.replace(/[^0-9]/g, "");
     const fullPhone = cleanDigits
       ? `${selectedCountry.dialCode}${cleanDigits}`
       : "";
@@ -247,6 +278,7 @@ export function RegisterForm() {
                 className="bg-transparent text-foreground h-full flex-1 pr-4 pl-3 text-sm font-semibold outline-none placeholder:text-foreground-muted/60"
               />
             </div>
+            <PhoneWarningNotice warning={phoneWarning} onFix={handleFixPhone} />
             {fieldErrors.phone && (
               <p className="mt-1 ml-4 text-xs font-semibold text-rose-600 dark:text-rose-400">
                 {fieldErrors.phone}

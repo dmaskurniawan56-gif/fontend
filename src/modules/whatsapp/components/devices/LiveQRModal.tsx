@@ -17,13 +17,17 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
-import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { isValidE164 } from "@/lib/phone";
 import { toast } from "sonner";
 import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { PhoneWarningNotice } from "@/components/shared/PhoneWarningNotice";
 import {
   CountryCodeItem,
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
+  checkPhoneInputWarning,
+  sanitizeSubscriberInput,
+  type PhoneWarningResult,
 } from "@/lib/countryCodes";
 import {
   RefreshCw,
@@ -39,10 +43,10 @@ import {
 } from "lucide-react";
 
 interface LiveQRModalProps {
-  device: WhatsAppDevice | null;
+  device: Device | null;
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (updatedDevice: WhatsAppDevice) => void;
+  onSuccess: (updatedDevice: Device) => void;
 }
 
 export function LiveQRModal({
@@ -62,6 +66,10 @@ export function LiveQRModal({
   const [customSubscriberPhone, setCustomSubscriberPhone] = useState<
     string | null
   >(null);
+  const [phoneWarning, setPhoneWarning] = useState<PhoneWarningResult>({
+    hasWarning: false,
+    suggestedValue: "",
+  });
 
   const subscriberPhone =
     customSubscriberPhone !== null
@@ -72,7 +80,7 @@ export function LiveQRModal({
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
-    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+    if (val.includes("+")) {
       const detected = detectCountryFromPhone(val);
       if (detected.country) {
         setSelectedCountry(detected.country);
@@ -80,10 +88,22 @@ export function LiveQRModal({
       val = detected.subscriberNumber;
     }
     val = val.replace(/[^0-9]/g, "");
-    if (val.startsWith("0")) {
-      val = val.replace(/^0+/, "");
-    }
+
+    const warning = checkPhoneInputWarning(val, selectedCountry.dialCode);
+    setPhoneWarning(warning);
+
     setCustomSubscriberPhone(val);
+  };
+
+  const handleFixPhone = (suggestedValue: string) => {
+    setCustomSubscriberPhone(suggestedValue);
+    setPhoneWarning({ hasWarning: false, suggestedValue: "" });
+  };
+
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    const warning = checkPhoneInputWarning(subscriberPhone, country.dialCode);
+    setPhoneWarning(warning);
   };
 
   const { isCopied: copied, copy } = useClipboard();
@@ -118,9 +138,21 @@ export function LiveQRModal({
 
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanDigits = subscriberPhone
-      .replace(/[^0-9]/g, "")
-      .replace(/^0+/, "");
+
+    // Option 2: Blokir proses jika masih ada awalan 0 atau duplikasi dial code
+    const warning = checkPhoneInputWarning(
+      subscriberPhone,
+      selectedCountry.dialCode,
+    );
+    if (warning.hasWarning) {
+      toast.error(
+        warning.message ||
+          "Harap perbaiki format nomor WhatsApp terlebih dahulu.",
+      );
+      return;
+    }
+
+    const cleanDigits = subscriberPhone.replace(/[^0-9]/g, "");
     if (!cleanDigits) return;
     const fullE164Phone = `${selectedCountry.dialCode}${cleanDigits}`;
     if (!isValidE164(fullE164Phone)) {
@@ -339,7 +371,7 @@ export function LiveQRModal({
                       <div className="flex h-10 w-full items-center rounded-xl border border-border bg-surface shadow-xs transition hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green">
                         <CountryCodeSelector
                           selectedCountry={selectedCountry}
-                          onSelectCountry={setSelectedCountry}
+                          onSelectCountry={handleSelectCountry}
                           disabled={isLoadingCode}
                           variant="rounded"
                         />
@@ -355,6 +387,10 @@ export function LiveQRModal({
                           required
                         />
                       </div>
+                      <PhoneWarningNotice
+                        warning={phoneWarning}
+                        onFix={handleFixPhone}
+                      />
                     </div>
 
                     <Button

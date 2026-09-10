@@ -20,10 +20,14 @@ import {
 import { useI18n } from "@/lib/i18n/context";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { PhoneWarningNotice } from "@/components/shared/PhoneWarningNotice";
 import {
   CountryCodeItem,
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
+  checkPhoneInputWarning,
+  sanitizeSubscriberInput,
+  type PhoneWarningResult,
 } from "@/lib/countryCodes";
 import { UserPlus, Loader2, Save, Tag as TagIcon, Plus } from "lucide-react";
 
@@ -60,6 +64,10 @@ function ContactForm({
   const [phone, setPhone] = useState(
     detectedInitial ? detectedInitial.subscriberNumber : "",
   );
+  const [phoneWarning, setPhoneWarning] = useState<PhoneWarningResult>({
+    hasWarning: false,
+    suggestedValue: "",
+  });
   const initialTagIds = (contact?.tags || []).map((t) =>
     typeof t === "string" ? t : t.id,
   );
@@ -87,7 +95,7 @@ function ContactForm({
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
-    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+    if (val.includes("+")) {
       const detected = detectCountryFromPhone(val);
       if (detected.country) {
         setSelectedCountry(detected.country);
@@ -95,10 +103,24 @@ function ContactForm({
       val = detected.subscriberNumber;
     }
     val = val.replace(/[^0-9]/g, "");
-    if (val.startsWith("0")) {
-      val = val.replace(/^0+/, "");
-    }
+
+    const warning = checkPhoneInputWarning(val, selectedCountry.dialCode);
+    setPhoneWarning(warning);
+
     setPhone(val);
+    if (error) setError(null);
+  };
+
+  const handleFixPhone = (suggestedValue: string) => {
+    setPhone(suggestedValue);
+    setPhoneWarning({ hasWarning: false, suggestedValue: "" });
+    if (error) setError(null);
+  };
+
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    const warning = checkPhoneInputWarning(phone, country.dialCode);
+    setPhoneWarning(warning);
     if (error) setError(null);
   };
 
@@ -109,7 +131,17 @@ function ContactForm({
       return;
     }
 
-    const cleanDigits = phone.replace(/[^0-9]/g, "").replace(/^0+/, "");
+    // Option 2: Blokir proses jika masih ada awalan 0 atau duplikasi dial code
+    const warning = checkPhoneInputWarning(phone, selectedCountry.dialCode);
+    if (warning.hasWarning) {
+      setError(
+        warning.message ||
+          "Harap perbaiki format nomor WhatsApp terlebih dahulu.",
+      );
+      return;
+    }
+
+    const cleanDigits = phone.replace(/[^0-9]/g, "");
     if (!cleanDigits) {
       setError(t("contact.errPhonePrefix"));
       return;
@@ -176,7 +208,7 @@ function ContactForm({
           <div className="flex h-11 w-full items-center rounded-xl border border-border bg-surface shadow-xs transition hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green">
             <CountryCodeSelector
               selectedCountry={selectedCountry}
-              onSelectCountry={setSelectedCountry}
+              onSelectCountry={handleSelectCountry}
               disabled={isLoading}
               variant="rounded"
             />
@@ -194,6 +226,7 @@ function ContactForm({
               required
             />
           </div>
+          <PhoneWarningNotice warning={phoneWarning} onFix={handleFixPhone} />
         </div>
 
         {/* Tag / Category Selector */}

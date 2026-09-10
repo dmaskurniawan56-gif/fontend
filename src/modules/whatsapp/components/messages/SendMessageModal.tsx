@@ -5,7 +5,6 @@ import { Device } from "@/modules/whatsapp/types/whatsapp.types";
 import { formatPhoneNumber } from "@/modules/whatsapp/components/devices/DeviceCard";
 import { whatsappApi } from "@/modules/whatsapp/api/whatsapp.api";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,10 +21,14 @@ import { Send, Loader2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { PhoneWarningNotice } from "@/components/shared/PhoneWarningNotice";
 import {
   CountryCodeItem,
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
+  checkPhoneInputWarning,
+  sanitizeSubscriberInput,
+  type PhoneWarningResult,
 } from "@/lib/countryCodes";
 
 interface SendMessageModalProps {
@@ -47,12 +50,16 @@ export function SendMessageModal({
   const [selectedCountry, setSelectedCountry] =
     useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [recipient, setRecipient] = useState("");
+  const [phoneWarning, setPhoneWarning] = useState<PhoneWarningResult>({
+    hasWarning: false,
+    suggestedValue: "",
+  });
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
 
   const handleRecipientChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value;
-    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+    if (val.includes("+")) {
       const detected = detectCountryFromPhone(val);
       if (detected.country) {
         setSelectedCountry(detected.country);
@@ -60,10 +67,22 @@ export function SendMessageModal({
       val = detected.subscriberNumber;
     }
     val = val.replace(/[^0-9]/g, "");
-    if (val.startsWith("0")) {
-      val = val.replace(/^0+/, "");
-    }
+
+    const warning = checkPhoneInputWarning(val, selectedCountry.dialCode);
+    setPhoneWarning(warning);
+
     setRecipient(val);
+  };
+
+  const handleFixPhone = (suggestedValue: string) => {
+    setRecipient(suggestedValue);
+    setPhoneWarning({ hasWarning: false, suggestedValue: "" });
+  };
+
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    const warning = checkPhoneInputWarning(recipient, country.dialCode);
+    setPhoneWarning(warning);
   };
 
   // Derive the active selected device ID cleanly without cascading effects
@@ -75,7 +94,18 @@ export function SendMessageModal({
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanDigits = recipient.replace(/[^0-9]/g, "").replace(/^0+/, "");
+
+    // Option 2: Blokir proses jika masih ada awalan 0 atau duplikasi dial code
+    const warning = checkPhoneInputWarning(recipient, selectedCountry.dialCode);
+    if (warning.hasWarning) {
+      toast.error(
+        warning.message ||
+          "Harap perbaiki format nomor WhatsApp terlebih dahulu.",
+      );
+      return;
+    }
+
+    const cleanDigits = recipient.replace(/[^0-9]/g, "");
     if (!cleanDigits || !message.trim()) {
       toast.error(t("whatsapp.recipientPhoneHint"));
       return;
@@ -178,7 +208,7 @@ export function SendMessageModal({
               <div className="flex h-11 w-full items-center rounded-xl border border-border bg-surface shadow-xs transition hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green">
                 <CountryCodeSelector
                   selectedCountry={selectedCountry}
-                  onSelectCountry={setSelectedCountry}
+                  onSelectCountry={handleSelectCountry}
                   disabled={isSending}
                   variant="rounded"
                 />
@@ -187,13 +217,15 @@ export function SendMessageModal({
                   type="tel"
                   value={recipient}
                   onChange={handleRecipientChange}
-                  placeholder={
-                    selectedCountry.formatHint || "812 3456 7890"
-                  }
+                  placeholder={selectedCountry.formatHint || "812 3456 7890"}
                   className="flex-1 bg-transparent px-3 text-xs sm:text-sm font-semibold text-foreground focus:outline-none font-mono placeholder:text-foreground-muted/60"
                   required
                 />
               </div>
+              <PhoneWarningNotice
+                warning={phoneWarning}
+                onFix={handleFixPhone}
+              />
               <span className="text-foreground-muted mt-1 block text-[11px]">
                 {t("whatsapp.recipientPhoneHint")}
               </span>

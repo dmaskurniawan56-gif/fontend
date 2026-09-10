@@ -515,7 +515,24 @@ export function checkPhoneInputWarning(
     return { hasWarning: false, suggestedValue: "" };
   }
 
-  // Check duplicate dial code (e.g. "62..." when dialCode is "62")
+  // Combined Case: Starts with 0 followed by dialCode (e.g. "062812345678")
+  if (clean.startsWith("0")) {
+    const withoutZero = clean.replace(/^0+/, "");
+    if (
+      withoutZero.startsWith(dialCode) &&
+      withoutZero.length >= dialCode.length
+    ) {
+      const finalDigits = withoutZero.slice(dialCode.length).replace(/^0+/, "");
+      return {
+        hasWarning: true,
+        type: "duplicate_dial_code",
+        message: `Nomor tidak perlu diawali '0' atau kode negara (+${dialCode}). Cukup ketik langsung nomor setelahnya.`,
+        suggestedValue: finalDigits,
+      };
+    }
+  }
+
+  // Case 1: Check duplicate dial code (e.g. "62..." when dialCode is "62")
   if (clean.startsWith(dialCode) && clean.length >= dialCode.length) {
     const remainder = clean.slice(dialCode.length).replace(/^0+/, "");
     return {
@@ -526,7 +543,7 @@ export function checkPhoneInputWarning(
     };
   }
 
-  // Check leading zero (e.g. "0..." or "08...")
+  // Case 2: Check leading zero (e.g. "0..." or "08...")
   if (clean.startsWith("0")) {
     const remainder = clean.replace(/^0+/, "");
     return {

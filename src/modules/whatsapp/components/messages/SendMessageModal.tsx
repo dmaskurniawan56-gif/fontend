@@ -27,7 +27,6 @@ import {
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
   checkPhoneInputWarning,
-  sanitizeSubscriberInput,
   type PhoneWarningResult,
 } from "@/lib/countryCodes";
 

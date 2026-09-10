@@ -26,7 +26,6 @@ import {
   DEFAULT_COUNTRY,
   detectCountryFromPhone,
   checkPhoneInputWarning,
-  sanitizeSubscriberInput,
   type PhoneWarningResult,
 } from "@/lib/countryCodes";
 import { UserPlus, Loader2, Save, Tag as TagIcon, Plus } from "lucide-react";

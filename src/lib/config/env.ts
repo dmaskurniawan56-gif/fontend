@@ -5,10 +5,16 @@ const envSchema = z
     NEXT_PUBLIC_APP_NAME: z.string().optional().default("Wahide"),
     NEXT_PUBLIC_APP_URL: z
       .string()
-      .min(1, "NEXT_PUBLIC_APP_URL is required in .env"),
+      .optional()
+      .transform((val) =>
+        val && val.trim() !== "" ? val : "https://wa.hidessh.com",
+      ),
     NEXT_PUBLIC_API_BASE_URL: z
       .string()
-      .min(1, "NEXT_PUBLIC_API_BASE_URL is required in .env"),
+      .optional()
+      .transform((val) =>
+        val && val.trim() !== "" ? val : "https://api-wa.hidessh.com/api/v1",
+      ),
     NEXT_PUBLIC_IAM_API_URL: z.string().optional(),
     NEXT_PUBLIC_WHATSAPP_API_URL: z.string().optional(),
     NEXT_PUBLIC_CAMPAIGN_API_URL: z.string().optional(),

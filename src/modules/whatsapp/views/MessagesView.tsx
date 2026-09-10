@@ -76,18 +76,18 @@ export function MessagesView() {
             </p>
           </div>
 
-          {/* Tab Switcher */}
-          <TabsList className="bg-muted border-border h-auto rounded-full border p-1 self-start sm:self-auto">
+          {/* Tab Switcher (Segmented Control 50:50 on Mobile, Flex on Desktop) */}
+          <TabsList className="bg-muted border-border h-auto w-full grid grid-cols-2 rounded-full border p-1 sm:w-auto sm:flex">
             <TabsTrigger
               value="chats"
-              className="data-active:bg-surface data-active:text-foreground cursor-pointer gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition data-active:shadow-sm dark:data-active:bg-[#161715]"
+              className="data-active:bg-surface data-active:text-foreground cursor-pointer justify-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition data-active:shadow-sm sm:py-1.5 dark:data-active:bg-[#161715]"
             >
               <MessageSquare className="size-3.5" />
               <span>{t("whatsapp.messagesTabChats")}</span>
             </TabsTrigger>
             <TabsTrigger
               value="compose"
-              className="data-active:bg-surface data-active:text-foreground cursor-pointer gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold transition data-active:shadow-sm dark:data-active:bg-[#161715]"
+              className="data-active:bg-surface data-active:text-foreground cursor-pointer justify-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold transition data-active:shadow-sm sm:py-1.5 dark:data-active:bg-[#161715]"
             >
               <Send className="size-3.5" />
               <span>{t("whatsapp.messagesTabCompose")}</span>

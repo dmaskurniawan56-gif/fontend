@@ -175,13 +175,13 @@ export function ReminderTable({
           </div>
         </div>
 
-        {/* Status Filter Tabs */}
-        <div className="pt-2">
+        {/* Status Filter Tabs (Scrollable on small mobile) */}
+        <div className="no-scrollbar -mx-1 overflow-x-auto pt-2 px-1">
           <Tabs
             value={status}
             onValueChange={(v) => onStatusChange(v as ReminderStatus | "ALL")}
           >
-            <TabsList className="h-8">
+            <TabsList className="h-8 w-max sm:w-auto">
               <TabsTrigger value="ALL" className="text-xs">
                 {t("reminder.table.tabAll")}
               </TabsTrigger>
@@ -206,7 +206,118 @@ export function ReminderTable({
 
       {/* Table Content */}
       <CardContent className="p-0">
-        <div className="overflow-x-auto rounded-xl border border-border/50">
+        {/* 1. Mobile Card View (Visible on < 1024px) */}
+        <div className="divide-border/50 divide-y lg:hidden">
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="space-y-3 p-4">
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-4 w-28" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+                <div className="space-y-1.5">
+                  <Skeleton className="h-3.5 w-32" />
+                  <Skeleton className="h-3.5 w-40" />
+                </div>
+                <Skeleton className="h-8 w-full rounded-lg" />
+              </div>
+            ))
+          ) : reminders.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-2 py-12 text-center text-foreground-muted">
+              <Clock className="size-8 text-foreground-muted/40" />
+              <p className="text-sm font-medium">
+                {t("reminder.table.emptyTitle")}
+              </p>
+              <p className="text-xs text-foreground-muted/70">
+                {t("reminder.table.emptyDesc")}
+              </p>
+            </div>
+          ) : (
+            reminders.map((rem) => {
+              const formatted = formatDate(rem.targetDate);
+              return (
+                <div
+                  key={rem.id}
+                  className="bg-surface hover:bg-muted/20 space-y-3 p-4 transition-colors"
+                >
+                  {/* Top: Name & Status */}
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-1.5 text-sm font-bold text-foreground">
+                      <User className="text-primary/70 size-3.5 shrink-0" />
+                      <span className="truncate">{rem.recipientName}</span>
+                    </div>
+                    <div>{getStatusBadge(rem.status)}</div>
+                  </div>
+
+                  {/* Middle: Phone & Date/Time */}
+                  <div className="space-y-1.5 text-xs font-medium text-foreground-secondary">
+                    <div className="flex items-center gap-1.5 font-mono">
+                      <Phone className="size-3 shrink-0 text-emerald-500/80" />
+                      <span>{rem.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 font-bold text-foreground">
+                      <Calendar className="size-3 shrink-0 text-blue-500/80" />
+                      <span className="font-mono text-xs tracking-tight">
+                        {formatted.numeric}
+                      </span>
+                      {formatted.text && (
+                        <span className="text-[11px] font-normal text-foreground-muted">
+                          ({formatted.text})
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Notes (if any) */}
+                  {rem.notes && (
+                    <div className="border-border/50 bg-muted/40 rounded-lg border p-2.5 text-xs text-foreground-secondary">
+                      <p className="line-clamp-2">{rem.notes}</p>
+                    </div>
+                  )}
+
+                  {/* Bottom: Action Controls */}
+                  <div className="border-border/40 flex items-center justify-end gap-2 border-t pt-2.5">
+                    {(rem.status === "ACTIVE" || rem.status === "PAUSED") && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onToggleStatus(rem.id, rem.status)}
+                        className="border-border hover:border-foreground-muted h-8 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold"
+                      >
+                        {rem.status === "ACTIVE" ? (
+                          <>
+                            <Pause className="size-3 text-amber-500" />
+                            <span>{t("reminder.table.pauseSchedule")}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play className="size-3 text-emerald-500" />
+                            <span>{t("reminder.table.activateSchedule")}</span>
+                          </>
+                        )}
+                      </Button>
+                    )}
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => onDeleteRequest(rem)}
+                      className="border-border hover:border-rose-500/30 hover:bg-rose-500/10 h-8 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold text-rose-600 dark:text-rose-400"
+                    >
+                      <Trash2 className="size-3" />
+                      <span>{t("reminder.table.deleteSchedule")}</span>
+                    </Button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* 2. Desktop Full Table (Visible on >= 1024px) */}
+        <div className="hidden lg:block overflow-x-auto rounded-xl border border-border/50">
           <Table>
             <TableHeader className="bg-muted/40">
               <TableRow>
@@ -383,8 +494,8 @@ export function ReminderTable({
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <CardFooter className="flex items-center justify-between p-0 pt-2 text-xs text-foreground-muted">
-          <span>
+        <CardFooter className="flex flex-col sm:flex-row items-center justify-between gap-2.5 p-0 pt-2 text-xs text-foreground-muted">
+          <span className="text-center sm:text-left">
             {t("reminder.table.tabAll") === "All"
               ? `Showing page ${page} of ${totalPages} (Total ${total} items)`
               : `Menampilkan halaman ${page} dari ${totalPages} (Total ${total} data)`}

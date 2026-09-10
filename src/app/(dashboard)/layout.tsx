@@ -51,7 +51,7 @@ export default function DashboardLayout({
       {/* Main Content Area */}
       <div className="flex min-w-0 flex-1 flex-col lg:pl-64">
         <DashboardHeader onOpenMobileNav={() => setMobileNavOpen(true)} />
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1 pb-8 sm:pb-12">
           <ErrorBoundary>{children}</ErrorBoundary>
         </main>
       </div>

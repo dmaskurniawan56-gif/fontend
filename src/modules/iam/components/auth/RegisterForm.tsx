@@ -14,12 +14,17 @@ import {
 } from "@/modules/iam/schemas/auth.schema";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { useI18n } from "@/lib/i18n/context";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+} from "@/lib/countryCodes";
 import {
   Eye,
   EyeOff,
   Lock,
   Mail,
-  Phone,
   User,
   ArrowRight,
   AlertCircle,
@@ -31,6 +36,8 @@ export function RegisterForm() {
   const { t } = useI18n();
   const turnstileRef = useRef<TurnstileInstance>(null);
 
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [formData, setFormData] = useState<RegisterInput>({
     name: "",
     email: "",
@@ -56,6 +63,38 @@ export function RegisterForm() {
     if (error) clearError();
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+
+    // Detect country if user pasted international format (+... or long starting with country code)
+    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+      const detected = detectCountryFromPhone(val);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+      }
+      val = detected.subscriberNumber;
+    }
+
+    // Keep only numeric characters & auto-strip leading '0'
+    val = val.replace(/[^0-9]/g, "");
+    if (val.startsWith("0")) {
+      val = val.replace(/^0+/, "");
+    }
+
+    setFormData((prev) => ({ ...prev, phone: val }));
+    if (fieldErrors.phone) {
+      setFieldErrors((prev) => ({ ...prev, phone: "" }));
+    }
+    if (error) clearError();
+  };
+
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    if (fieldErrors.phone) {
+      setFieldErrors((prev) => ({ ...prev, phone: "" }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFieldErrors({});
@@ -68,7 +107,20 @@ export function RegisterForm() {
       return;
     }
 
-    const result = registerSchema.safeParse(formData);
+    // Combine country dial code + clean phone digits
+    const cleanDigits = formData.phone
+      .replace(/[^0-9]/g, "")
+      .replace(/^0+/, "");
+    const fullPhone = cleanDigits
+      ? `${selectedCountry.dialCode}${cleanDigits}`
+      : "";
+
+    const payloadToValidate = {
+      ...formData,
+      phone: fullPhone,
+    };
+
+    const result = registerSchema.safeParse(payloadToValidate);
     if (!result.success) {
       const errors: Record<string, string> = {};
       result.error.issues.forEach((issue) => {
@@ -167,20 +219,32 @@ export function RegisterForm() {
             <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
               {t("auth.register.phoneLabel")}
             </label>
-            <div className="relative">
-              <Phone className="text-foreground-muted absolute top-1/2 left-4 size-5 -translate-y-1/2" />
+            <div
+              className={`flex h-12 w-full items-center rounded-full border bg-surface transition shadow-xs ${
+                fieldErrors.phone
+                  ? "border-rose-500 ring-1 ring-rose-500"
+                  : "border-border hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green"
+              }`}
+            >
+              <CountryCodeSelector
+                selectedCountry={selectedCountry}
+                onSelectCountry={handleSelectCountry}
+                disabled={isLoading}
+                variant="pill"
+              />
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
-                onChange={handleChange}
-                placeholder={t("auth.register.phonePlaceholder")}
+                onChange={handlePhoneChange}
+                placeholder={
+                  selectedCountry.formatHint ||
+                  t("auth.register.phonePlaceholder") ||
+                  "812 3456 7890"
+                }
                 disabled={isLoading}
-                className={`bg-surface text-foreground h-12 w-full rounded-full border pr-4 pl-12 font-semibold ${
-                  fieldErrors.phone
-                    ? "border-rose-500 ring-1 ring-rose-500"
-                    : "border-border hover:border-foreground-muted focus:border-wise-green focus:ring-wise-green focus:ring-2"
-                } text-sm transition outline-none`}
+                autoComplete="tel"
+                className="bg-transparent text-foreground h-full flex-1 pr-4 pl-3 text-sm font-semibold outline-none placeholder:text-foreground-muted/60"
               />
             </div>
             {fieldErrors.phone && (

@@ -19,6 +19,12 @@ import {
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+} from "@/lib/countryCodes";
 import { UserPlus, Loader2, Save, Tag as TagIcon, Plus } from "lucide-react";
 
 interface ContactModalProps {
@@ -44,8 +50,16 @@ function ContactForm({
   onSubmit: (data: CreateContactInput) => Promise<unknown>;
 }) {
   const { t } = useI18n();
+  const detectedInitial = contact?.phone
+    ? detectCountryFromPhone(contact.phone)
+    : null;
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(
+    detectedInitial?.country || DEFAULT_COUNTRY,
+  );
   const [name, setName] = useState(contact?.name || "");
-  const [phone, setPhone] = useState(contact?.phone || "");
+  const [phone, setPhone] = useState(
+    detectedInitial ? detectedInitial.subscriberNumber : "",
+  );
   const initialTagIds = (contact?.tags || []).map((t) =>
     typeof t === "string" ? t : t.id,
   );
@@ -71,6 +85,23 @@ function ContactForm({
     }
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    if (val.includes("+") || (val.startsWith("62") && val.length > 10)) {
+      const detected = detectCountryFromPhone(val);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+      }
+      val = detected.subscriberNumber;
+    }
+    val = val.replace(/[^0-9]/g, "");
+    if (val.startsWith("0")) {
+      val = val.replace(/^0+/, "");
+    }
+    setPhone(val);
+    if (error) setError(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) {
@@ -78,7 +109,14 @@ function ContactForm({
       return;
     }
 
-    const cleanPhone = normalizePhoneNumber(phone);
+    const cleanDigits = phone.replace(/[^0-9]/g, "").replace(/^0+/, "");
+    if (!cleanDigits) {
+      setError(t("contact.errPhonePrefix"));
+      return;
+    }
+
+    const fullPhone = `${selectedCountry.dialCode}${cleanDigits}`;
+    const cleanPhone = normalizePhoneNumber(fullPhone);
     if (!isValidE164(cleanPhone)) {
       setError(t("contact.errPhonePrefix"));
       return;
@@ -135,15 +173,27 @@ function ContactForm({
           <Label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
             {t("contact.phoneLabel")}
           </Label>
-          <Input
-            type="text"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder={t("contact.phonePlaceholder")}
-            disabled={isLoading}
-            variant="pill"
-            className="font-mono"
-          />
+          <div className="flex h-11 w-full items-center rounded-xl border border-border bg-surface shadow-xs transition hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green">
+            <CountryCodeSelector
+              selectedCountry={selectedCountry}
+              onSelectCountry={setSelectedCountry}
+              disabled={isLoading}
+              variant="rounded"
+            />
+            <input
+              type="tel"
+              value={phone}
+              onChange={handlePhoneChange}
+              placeholder={
+                selectedCountry.formatHint ||
+                t("contact.phonePlaceholder") ||
+                "812 3456 7890"
+              }
+              disabled={isLoading}
+              className="flex-1 bg-transparent px-3 text-xs sm:text-sm font-semibold text-foreground focus:outline-none font-mono placeholder:text-foreground-muted/60"
+              required
+            />
+          </div>
         </div>
 
         {/* Tag / Category Selector */}

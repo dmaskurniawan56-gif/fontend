@@ -205,10 +205,10 @@ export function UserActivityForm({
   return (
     <div className="space-y-4">
       {/* Toolbar Section: Search Bar & Filter Chips */}
-      <div className="border-border bg-surface space-y-3 rounded-xl border p-4 shadow-xs">
-        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+      <div className="border-border bg-surface space-y-3 rounded-xl border p-3.5 shadow-xs sm:p-4">
+        <div className="flex items-center justify-between gap-2 sm:gap-3">
           {/* Search Form */}
-          <div className="w-full flex-1 sm:max-w-lg">
+          <div className="min-w-0 flex-1 sm:max-w-lg">
             <SearchInput
               value={searchInput}
               onChange={setSearchInput}
@@ -226,7 +226,7 @@ export function UserActivityForm({
             size="sm"
             onClick={onRefresh}
             disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 self-start rounded-full px-3.5 text-xs font-bold transition sm:self-auto"
+            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
             aria-label={t("activities.refreshAria")}
             title={t("activities.refreshTitle")}
           >
@@ -237,8 +237,8 @@ export function UserActivityForm({
           </Button>
         </div>
 
-        {/* Filter Category Chips (Horizontal Scrollable) */}
-        <div className="no-scrollbar border-border/50 flex items-center gap-1.5 overflow-x-auto scroll-smooth border-t pt-1">
+        {/* Filter Category Chips (Horizontal Scrollable with Edge Bleed on Mobile) */}
+        <div className="no-scrollbar border-border/50 -mx-3.5 flex items-center gap-1.5 overflow-x-auto scroll-smooth border-t px-3.5 pt-1.5 sm:mx-0 sm:px-0">
           <div className="text-foreground-muted mr-1 flex shrink-0 items-center gap-1 text-[11px] font-bold">
             <Filter className="size-3" />
             <span>{t("activities.categoryLabel")}</span>

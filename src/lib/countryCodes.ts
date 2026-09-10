@@ -495,3 +495,86 @@ export function detectCountryFromPhone(raw: string): {
     subscriberNumber: clean,
   };
 }
+
+export interface PhoneWarningResult {
+  hasWarning: boolean;
+  type?: "leading_zero" | "duplicate_dial_code";
+  message?: string;
+  suggestedValue: string;
+}
+
+/**
+ * Checks whether user input has unnecessary leading zero ('0...') or duplicated dial code ('62...').
+ */
+export function checkPhoneInputWarning(
+  value: string,
+  dialCode: string = "62",
+): PhoneWarningResult {
+  const clean = value.replace(/[^0-9]/g, "");
+  if (!clean) {
+    return { hasWarning: false, suggestedValue: "" };
+  }
+
+  // Combined Case: Starts with 0 followed by dialCode (e.g. "062812345678")
+  if (clean.startsWith("0")) {
+    const withoutZero = clean.replace(/^0+/, "");
+    if (
+      withoutZero.startsWith(dialCode) &&
+      withoutZero.length >= dialCode.length
+    ) {
+      const finalDigits = withoutZero.slice(dialCode.length).replace(/^0+/, "");
+      return {
+        hasWarning: true,
+        type: "duplicate_dial_code",
+        message: `Nomor tidak perlu diawali '0' atau kode negara (+${dialCode}). Cukup ketik langsung nomor setelahnya.`,
+        suggestedValue: finalDigits,
+      };
+    }
+  }
+
+  // Case 1: Check duplicate dial code (e.g. "62..." when dialCode is "62")
+  if (clean.startsWith(dialCode) && clean.length >= dialCode.length) {
+    const remainder = clean.slice(dialCode.length).replace(/^0+/, "");
+    return {
+      hasWarning: true,
+      type: "duplicate_dial_code",
+      message: `Kode negara (+${dialCode}) sudah ada di sebelah kiri. Tidak perlu mengetik '${dialCode}' lagi.`,
+      suggestedValue: remainder,
+    };
+  }
+
+  // Case 2: Check leading zero (e.g. "0..." or "08...")
+  if (clean.startsWith("0")) {
+    const remainder = clean.replace(/^0+/, "");
+    return {
+      hasWarning: true,
+      type: "leading_zero",
+      message:
+        "Nomor tidak perlu diawali angka '0'. Cukup ketik langsung nomor setelahnya.",
+      suggestedValue: remainder,
+    };
+  }
+
+  return {
+    hasWarning: false,
+    suggestedValue: clean,
+  };
+}
+
+/**
+ * Fully cleans subscriber input digits, ensuring no duplicate dial code and no leading zeros.
+ */
+export function sanitizeSubscriberInput(
+  raw: string,
+  dialCode: string = "62",
+): string {
+  let clean = raw.replace(/[^0-9]/g, "");
+  if (clean.startsWith(dialCode) && clean.length > dialCode.length) {
+    clean = clean.slice(dialCode.length);
+  }
+  clean = clean.replace(/^0+/, "");
+  if (clean.startsWith(dialCode) && clean.length > dialCode.length) {
+    clean = clean.slice(dialCode.length).replace(/^0+/, "");
+  }
+  return clean;
+}

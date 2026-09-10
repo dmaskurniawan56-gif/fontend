@@ -17,8 +17,17 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
-import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { isValidE164 } from "@/lib/phone";
 import { toast } from "sonner";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { PhoneWarningNotice } from "@/components/shared/PhoneWarningNotice";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+  checkPhoneInputWarning,
+  type PhoneWarningResult,
+} from "@/lib/countryCodes";
 import {
   RefreshCw,
   CheckCircle2,
@@ -36,7 +45,7 @@ interface LiveQRModalProps {
   device: Device | null;
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (device: Device) => void;
+  onSuccess: (updatedDevice: Device) => void;
 }
 
 export function LiveQRModal({
@@ -47,9 +56,55 @@ export function LiveQRModal({
 }: LiveQRModalProps) {
   const { t } = useI18n();
   const authUserPhone = useAuth((s) => s.user?.phone || "");
-  const [customPhone, setCustomPhone] = useState<string | null>(null);
+  const detectedAuth = authUserPhone
+    ? detectCountryFromPhone(authUserPhone)
+    : null;
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(
+    detectedAuth?.country || DEFAULT_COUNTRY,
+  );
+  const [customSubscriberPhone, setCustomSubscriberPhone] = useState<
+    string | null
+  >(null);
+  const [phoneWarning, setPhoneWarning] = useState<PhoneWarningResult>({
+    hasWarning: false,
+    suggestedValue: "",
+  });
 
-  const rawPhone = customPhone !== null ? customPhone : authUserPhone;
+  const subscriberPhone =
+    customSubscriberPhone !== null
+      ? customSubscriberPhone
+      : detectedAuth
+        ? detectedAuth.subscriberNumber
+        : "";
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    if (val.includes("+")) {
+      const detected = detectCountryFromPhone(val);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+      }
+      val = detected.subscriberNumber;
+    }
+    val = val.replace(/[^0-9]/g, "");
+
+    const warning = checkPhoneInputWarning(val, selectedCountry.dialCode);
+    setPhoneWarning(warning);
+
+    setCustomSubscriberPhone(val);
+  };
+
+  const handleFixPhone = (suggestedValue: string) => {
+    setCustomSubscriberPhone(suggestedValue);
+    setPhoneWarning({ hasWarning: false, suggestedValue: "" });
+  };
+
+  const handleSelectCountry = (country: CountryCodeItem) => {
+    setSelectedCountry(country);
+    const warning = checkPhoneInputWarning(subscriberPhone, country.dialCode);
+    setPhoneWarning(warning);
+  };
+
   const { isCopied: copied, copy } = useClipboard();
 
   const handlePairingSuccess = () => {
@@ -82,8 +137,23 @@ export function LiveQRModal({
 
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!rawPhone.trim()) return;
-    const fullE164Phone = normalizePhoneNumber(rawPhone);
+
+    // Option 2: Blokir proses jika masih ada awalan 0 atau duplikasi dial code
+    const warning = checkPhoneInputWarning(
+      subscriberPhone,
+      selectedCountry.dialCode,
+    );
+    if (warning.hasWarning) {
+      toast.error(
+        warning.message ||
+          "Harap perbaiki format nomor WhatsApp terlebih dahulu.",
+      );
+      return;
+    }
+
+    const cleanDigits = subscriberPhone.replace(/[^0-9]/g, "");
+    if (!cleanDigits) return;
+    const fullE164Phone = `${selectedCountry.dialCode}${cleanDigits}`;
     if (!isValidE164(fullE164Phone)) {
       toast.error(
         t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid",
@@ -297,27 +367,36 @@ export function LiveQRModal({
                       <Label className="text-foreground text-xs font-bold">
                         {t("whatsapp.phoneLabel")}
                       </Label>
-                      <div className="border-border bg-surface focus-within:ring-wise-green/40 flex overflow-hidden rounded-md border focus-within:ring-2">
-                        <span className="bg-muted text-foreground-secondary border-border flex items-center border-r px-3 py-2 text-xs font-bold font-mono">
-                          +
-                        </span>
+                      <div className="flex h-10 w-full items-center rounded-xl border border-border bg-surface shadow-xs transition hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green">
+                        <CountryCodeSelector
+                          selectedCountry={selectedCountry}
+                          onSelectCountry={handleSelectCountry}
+                          disabled={isLoadingCode}
+                          variant="rounded"
+                        />
                         <input
                           type="tel"
-                          placeholder="6281234567890 atau 081234567890"
-                          value={rawPhone}
-                          onChange={(e) => setCustomPhone(e.target.value)}
-                          className="text-foreground flex-1 bg-transparent px-3 py-2 text-xs font-semibold focus:outline-none font-mono"
+                          placeholder={
+                            selectedCountry.formatHint || "812 3456 7890"
+                          }
+                          value={subscriberPhone}
+                          onChange={handlePhoneChange}
+                          className="flex-1 bg-transparent px-3 text-xs font-semibold text-foreground focus:outline-none font-mono placeholder:text-foreground-muted/60"
                           autoFocus
                           required
                         />
                       </div>
+                      <PhoneWarningNotice
+                        warning={phoneWarning}
+                        onFix={handleFixPhone}
+                      />
                     </div>
 
                     <Button
                       type="submit"
                       variant="primaryPill"
                       size="sm"
-                      disabled={isLoadingCode || !rawPhone.trim()}
+                      disabled={isLoadingCode || !subscriberPhone.trim()}
                       className="w-full gap-2 text-xs font-bold"
                     >
                       {isLoadingCode ? (

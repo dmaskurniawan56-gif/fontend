@@ -1,4 +1,5 @@
 import { EndpointDoc, GuideDoc } from "../types";
+import { env } from "@/lib/config/env";
 
 export const webhooksGuideDoc: GuideDoc = {
   type: "guide",
@@ -90,7 +91,7 @@ X-Wahide-Timestamp: 1725845000`,
         "Select your backend language below to view a production-ready webhook receiver boilerplate featuring header verification, text handling, media attachment downloading, and instant HTTP 200 OK acknowledgments.",
       codeTabsTitle: "Webhook Receiver Boilerplate & Simulation",
       codeTabs: {
-        curl: `curl -X POST "http://localhost:3000/api/webhook/whatsapp" \\
+        curl: `curl -X POST "${env.NEXT_PUBLIC_APP_URL}/api/webhook/whatsapp" \\
   -H "Content-Type: application/json" \\
   -H "X-Wahide-Secret: whsec_live_9f8e7d6c5b4a3210fedcba9876543210" \\
   -d '{

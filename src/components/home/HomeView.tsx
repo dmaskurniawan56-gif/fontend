@@ -287,7 +287,6 @@ export function HomeView() {
                   t("common.landing.pricing.p2F3"),
                   t("common.landing.pricing.p2F4"),
                   t("common.landing.pricing.p2F5"),
-                  t("common.landing.pricing.p2F6"),
                 ].map((f, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <Check className="text-dark-green dark:text-wise-green size-3.5 shrink-0" />

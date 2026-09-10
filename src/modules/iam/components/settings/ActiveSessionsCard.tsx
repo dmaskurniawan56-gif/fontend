@@ -136,7 +136,7 @@ export function ActiveSessionsCard() {
       targetSession: {
         tokenId: session.token_id,
         device: name,
-        ip: session.ip_address || "127.0.0.1",
+        ip: session.ip_address || "-",
       },
     });
   };
@@ -270,7 +270,7 @@ export function ActiveSessionsCard() {
                       )}
                     </div>
                     <span className="text-foreground-muted block truncate font-mono text-[11px]">
-                      {s.ip_address || "127.0.0.1"} • {timeLabel}
+                      {s.ip_address || "-"} • {timeLabel}
                     </span>
                   </div>
                 </div>

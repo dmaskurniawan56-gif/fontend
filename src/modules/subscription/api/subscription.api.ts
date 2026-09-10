@@ -27,8 +27,8 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
     features: [
       "1.500 Pesan Broadcast / bulan",
       "1 Slot WhatsApp Multi-Device",
-      "Spintax Engine Regex Parser",
-      "Dynamic Jitter Delay 3-7 Detik",
+      "Proteksi Variasi Kata (Spintax)",
+      "Jeda Waktu Kirim Santai & Alami",
       "Watermark 'Powered by Wahide'",
       "Support Komunitas & Dokumentasi",
     ],
@@ -74,7 +74,7 @@ export const DEFAULT_PLANS: SubscriptionPlan[] = [
       "100.000+ Pesan Broadcast / bulan",
       "15 Slot WhatsApp Multi-Device",
       "10 Akun Operator CS / Multi-Agent",
-      "Dedicated Session Hibernation Manager",
+      "Optimasi Koneksi & Sesi Tanpa Batas",
       "Kirim Media Gambar, Dokumen & Audio",
       "Auto-Reply & AI Chatbot Response",
       "Penjadwalan Pesan Otomatis",
@@ -240,7 +240,7 @@ function normalizePlan(raw: Record<string, unknown>): SubscriptionPlan {
       features.push(`${maxAgents} Akun Operator CS / Multi-Agent`);
     }
     if (allowCampaign) {
-      features.push("Spintax Engine & Jitter Anti-Ban 3-7s");
+      features.push("Variasi Kata Otomatis & Jeda Kirim Santai");
     }
     if (allowAttachment) {
       features.push("Kirim Media Gambar, Dokumen & Audio");

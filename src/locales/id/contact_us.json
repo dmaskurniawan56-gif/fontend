@@ -26,5 +26,10 @@
   "mapCity": "Semarang, Jawa Tengah, Indonesia",
   "slaResponse": "Respon Chat Rata-Rata < 5 Menit",
   "slaUptime": "SLA Ketersediaan 99.9% Uptime",
-  "slaSecurity": "Standar Enkripsi End-to-End AES-GCM 256"
+  "slaSecurity": "Standar Enkripsi End-to-End AES-GCM 256",
+  "badgeFastResponse": "Respon Cepat",
+  "badgePartnership": "B2B & Kemitraan",
+  "slaResponseDesc": "WhatsApp CS Siap Membantu",
+  "slaSecurityDesc": "Perlindungan Privasi Payload",
+  "slaUptimeDesc": "Infrastruktur Terdistribusi"
 }

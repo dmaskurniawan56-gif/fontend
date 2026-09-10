@@ -9,28 +9,28 @@ export function EnterpriseBentoGrid() {
 
   const features = [
     {
-      icon: <Users className="size-5 text-wise-green" />,
+      icon: <Users className="size-5 text-emerald-600 dark:text-wise-green" />,
       title: t("landingPages.enterprise.featureWorkflowsTitle"),
       desc: t("landingPages.enterprise.featureWorkflowsDesc"),
-      badge: "Kolaborasi Tim",
+      badge: t("landingPages.enterprise.badgeWorkflows"),
     },
     {
       icon: <ShieldCheck className="size-5 text-blue-500" />,
       title: t("landingPages.enterprise.featureSecurityTitle"),
       desc: t("landingPages.enterprise.featureSecurityDesc"),
-      badge: "Kontrol Privasi",
+      badge: t("landingPages.enterprise.badgeSecurity"),
     },
     {
       icon: <Layers className="size-5 text-purple-500" />,
       title: t("landingPages.enterprise.featureIntegrationTitle"),
       desc: t("landingPages.enterprise.featureIntegrationDesc"),
-      badge: "Integrasi Fleksibel",
+      badge: t("landingPages.enterprise.badgeIntegration"),
     },
     {
       icon: <Headphones className="size-5 text-emerald-500" />,
       title: t("landingPages.enterprise.featureSupportTitle"),
       desc: t("landingPages.enterprise.featureSupportDesc"),
-      badge: "Bantuan Prioritas",
+      badge: t("landingPages.enterprise.badgeSupport"),
     },
   ];
 
@@ -56,7 +56,7 @@ export function EnterpriseBentoGrid() {
                 <div className="size-11 rounded-xl bg-muted/60 flex items-center justify-center">
                   {f.icon}
                 </div>
-                <span className="text-[10px] font-bold font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-wise-green/10 text-dark-green dark:text-wise-green">
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-wise-green border border-emerald-500/20">
                   {f.badge}
                 </span>
               </div>

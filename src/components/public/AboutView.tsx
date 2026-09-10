@@ -89,15 +89,15 @@ export function AboutView() {
           </h2>
           <ul className="space-y-2.5 text-xs sm:text-sm font-semibold text-foreground-secondary leading-relaxed">
             <li className="flex items-start gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-wise-green mt-2 shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-wise-green mt-2 shrink-0" />
               <span>{t("about.mission1")}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-wise-green mt-2 shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-wise-green mt-2 shrink-0" />
               <span>{t("about.mission2")}</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-wise-green mt-2 shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-wise-green mt-2 shrink-0" />
               <span>{t("about.mission3")}</span>
             </li>
           </ul>

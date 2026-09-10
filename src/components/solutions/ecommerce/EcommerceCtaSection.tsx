@@ -15,16 +15,15 @@ export function EcommerceCtaSection() {
       <div className="border border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 space-y-6 rounded-2xl p-7 sm:p-10 text-center shadow-xs">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-border text-[11px] font-bold text-dark-green dark:text-wise-green shadow-2xs">
           <Sparkles className="size-3" />
-          <span>Siap Terkoneksi ke Webhook Toko Anda</span>
+          <span>{t("landingPages.ecommerce.ctaBoxBadge")}</span>
         </div>
 
         <div className="mx-auto max-w-xl space-y-2">
           <h2 className="text-foreground text-2xl leading-tight font-black tracking-tight sm:text-3xl lg:text-4xl">
-            Tingkatkan Penjualan Toko Online Anda Hari Ini
+            {t("landingPages.ecommerce.ctaBoxTitle")}
           </h2>
           <p className="text-foreground-secondary text-xs sm:text-sm font-semibold leading-relaxed">
-            Hubungkan WhatsApp toko ke sistem checkout Anda dalam hitungan menit
-            dan biarkan bot menangani notifikasi otomatis 24/7.
+            {t("landingPages.ecommerce.ctaBoxSubtitle")}
           </p>
         </div>
 
@@ -47,7 +46,7 @@ export function EcommerceCtaSection() {
               "min-h-11 sm:min-h-12 px-6 sm:px-7 text-xs sm:text-sm font-bold",
             )}
           >
-            Lihat Fitur Broadcast Promosi
+            {t("landingPages.ecommerce.ctaBoxBtnBroadcast")}
           </Link>
         </div>
       </div>

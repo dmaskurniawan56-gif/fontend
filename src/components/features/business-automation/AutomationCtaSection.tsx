@@ -5,23 +5,25 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useI18n } from "@/lib/i18n/context";
 
 export function AutomationCtaSection() {
+  const { t } = useI18n();
+
   return (
     <section className="mx-auto max-w-4xl px-4 sm:px-6 pt-2 pb-6 sm:pt-4 sm:pb-8">
       <div className="border border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 space-y-6 rounded-2xl p-7 sm:p-10 text-center shadow-xs">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-border text-[11px] font-bold text-dark-green dark:text-wise-green shadow-2xs">
           <Sparkles className="size-3" />
-          <span>Siap Pakai Tanpa Coding</span>
+          <span>{t("landingPages.automation.ctaBoxBadge")}</span>
         </div>
 
         <div className="mx-auto max-w-xl space-y-2">
           <h2 className="text-foreground text-2xl leading-tight font-black tracking-tight sm:text-3xl lg:text-4xl">
-            Otomatiskan Operasional Bisnis Anda Sekarang
+            {t("landingPages.automation.ctaBoxTitle")}
           </h2>
           <p className="text-foreground-secondary text-xs sm:text-sm font-semibold leading-relaxed">
-            Aktifkan sistem reservasi jadwal, pengingat otomatis, dan formulir
-            publik dalam beberapa klik saja.
+            {t("landingPages.automation.ctaBoxSubtitle")}
           </p>
         </div>
 
@@ -33,7 +35,7 @@ export function AutomationCtaSection() {
               "min-h-11 sm:min-h-12 gap-2 px-6 sm:px-7 text-xs sm:text-sm font-bold shadow-sm",
             )}
           >
-            <span>Daftar Gratis Sekarang</span>
+            <span>{t("landingPages.automation.ctaBoxBtnRegister")}</span>
             <ArrowRight className="size-4" />
           </Link>
           <Link
@@ -43,7 +45,7 @@ export function AutomationCtaSection() {
               "min-h-11 sm:min-h-12 px-6 sm:px-7 text-xs sm:text-sm font-bold",
             )}
           >
-            Pelajari Cara Kerja
+            {t("landingPages.automation.ctaBoxBtnHowItWorks")}
           </Link>
         </div>
       </div>

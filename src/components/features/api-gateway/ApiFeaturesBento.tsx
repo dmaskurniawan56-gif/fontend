@@ -19,37 +19,37 @@ export function ApiFeaturesBento() {
       icon: <Zap className="size-5 text-amber-500" />,
       title: t("landingPages.apiGateway.featureFastTitle"),
       desc: t("landingPages.apiGateway.featureFastDesc"),
-      badge: "Sub-Second",
+      badge: t("landingPages.apiGateway.bentoBadgeFast"),
     },
     {
-      icon: <Layers className="size-5 text-wise-green" />,
+      icon: <Layers className="size-5 text-emerald-600 dark:text-wise-green" />,
       title: t("landingPages.apiGateway.featureOtpTitle"),
       desc: t("landingPages.apiGateway.featureOtpDesc"),
-      badge: "Preemption",
+      badge: t("landingPages.apiGateway.bentoBadgeOtp"),
     },
     {
       icon: <Webhook className="size-5 text-blue-500" />,
       title: t("landingPages.apiGateway.featureWebhookTitle"),
       desc: t("landingPages.apiGateway.featureWebhookDesc"),
-      badge: "Two-Way",
+      badge: t("landingPages.apiGateway.bentoBadgeWebhook"),
     },
     {
       icon: <ShieldCheck className="size-5 text-emerald-500" />,
       title: t("landingPages.apiGateway.featureMultiTitle"),
       desc: t("landingPages.apiGateway.featureMultiDesc"),
-      badge: "Hibernation",
+      badge: t("landingPages.apiGateway.bentoBadgeMulti"),
     },
     {
       icon: <Lock className="size-5 text-rose-500" />,
       title: t("landingPages.apiGateway.featureSecurityTitle"),
       desc: t("landingPages.apiGateway.featureSecurityDesc"),
-      badge: "ULID Isolation",
+      badge: t("landingPages.apiGateway.bentoBadgeSecurity"),
     },
     {
       icon: <RotateCcw className="size-5 text-indigo-500" />,
       title: t("landingPages.apiGateway.featureRetryTitle"),
       desc: t("landingPages.apiGateway.featureRetryDesc"),
-      badge: "Zero Dropped",
+      badge: t("landingPages.apiGateway.bentoBadgeRetry"),
     },
   ];
 
@@ -72,15 +72,15 @@ export function ApiFeaturesBento() {
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="size-10 rounded-xl bg-wise-green/10 flex items-center justify-center">
+                <div className="size-10 rounded-xl bg-muted/60 flex items-center justify-center">
                   {f.icon}
                 </div>
-                <span className="text-[11px] font-bold font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-muted/60 text-foreground-muted">
+                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-muted/80 text-foreground-secondary border border-border/60">
                   {f.badge}
                 </span>
               </div>
               <div>
-                <h3 className="text-base font-bold text-foreground group-hover:text-wise-green transition-colors">
+                <h3 className="text-base font-bold text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green transition-colors">
                   {f.title}
                 </h3>
                 <p className="mt-2 text-xs sm:text-sm font-medium leading-relaxed text-foreground-secondary">

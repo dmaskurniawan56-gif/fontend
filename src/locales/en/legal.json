@@ -19,5 +19,9 @@
 
   "sectionTableOfContents": "Table of Contents",
   "contactDpoTitle": "Data Protection Officer Contact",
-  "contactDpoDesc": "If you have any questions regarding privacy or wish to exercise your data subject rights (including the right to be forgotten), please reach out to our compliance desk:"
+  "contactDpoDesc": "If you have any questions regarding privacy or wish to exercise your data subject rights (including the right to be forgotten), please reach out to our compliance desk:",
+  "operatorLabel": "Operator",
+  "providerLabel": "Platform Provider",
+  "emailLabel": "Official Email",
+  "phoneLabel": "WhatsApp / Hotline"
 }

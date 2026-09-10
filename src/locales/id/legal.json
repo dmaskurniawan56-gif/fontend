@@ -19,5 +19,9 @@
 
   "sectionTableOfContents": "Daftar Pasal",
   "contactDpoTitle": "Kontak Perlindungan Data",
-  "contactDpoDesc": "Jika Anda memiliki pertanyaan mengenai privasi atau ingin mengajukan hak penghapusan data (right to be forgotten), hubungi tim kepatuhan kami:"
+  "contactDpoDesc": "Jika Anda memiliki pertanyaan mengenai privasi atau ingin mengajukan hak penghapusan data (right to be forgotten), hubungi tim kepatuhan kami:",
+  "operatorLabel": "Pengelola",
+  "providerLabel": "Penyedia Platform",
+  "emailLabel": "Email Resmi",
+  "phoneLabel": "WhatsApp / Hotline"
 }

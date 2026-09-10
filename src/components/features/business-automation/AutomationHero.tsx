@@ -22,7 +22,7 @@ export function AutomationHero() {
         <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
-            <Sparkles className="size-4 text-wise-green" />
+            <Sparkles className="size-4 text-emerald-600 dark:text-wise-green" />
             <span className="text-foreground">
               {t("landingPages.automation.badge")}
             </span>
@@ -57,22 +57,25 @@ export function AutomationHero() {
                 "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:text-base",
               )}
             >
-              Masuk ke Dashboard
+              {t("landingPages.automation.ctaDashboard")}
             </Link>
           </div>
 
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-3.5" /> 100% No-Code Setup
+              <CheckCircle2 className="size-3.5" />{" "}
+              {t("landingPages.automation.trustNoCode")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-500">
-              <Briefcase className="size-3.5" /> 4 Modul Terpadu
+              <Briefcase className="size-3.5" />{" "}
+              {t("landingPages.automation.trustModules")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> Notifikasi WhatsApp Otomatis
+              <Zap className="size-3.5" />{" "}
+              {t("landingPages.automation.trustAutoNotify")}
             </span>
           </div>
         </div>

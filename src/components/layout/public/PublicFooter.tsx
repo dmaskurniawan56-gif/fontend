@@ -50,7 +50,7 @@ export function PublicFooter() {
                   href="/solutions/enterprise"
                   className="hover:text-foreground transition-colors"
                 >
-                  Enterprise & Dedicated
+                  {t("footer.enterprise")}
                 </Link>
               </li>
               <li>
@@ -58,7 +58,7 @@ export function PublicFooter() {
                   href="/solutions/ecommerce"
                   className="hover:text-foreground transition-colors"
                 >
-                  E-Commerce & Retail
+                  {t("footer.ecommerce")}
                 </Link>
               </li>
               <li>
@@ -66,7 +66,7 @@ export function PublicFooter() {
                   href="/features/business-automation"
                   className="hover:text-foreground transition-colors"
                 >
-                  Business Automation
+                  {t("footer.businessAutomation")}
                 </Link>
               </li>
               <li>
@@ -74,7 +74,7 @@ export function PublicFooter() {
                   href="/features/broadcast-messaging"
                   className="hover:text-foreground transition-colors"
                 >
-                  Smart Broadcast
+                  {t("footer.smartBroadcast")}
                 </Link>
               </li>
             </ul>
@@ -91,7 +91,7 @@ export function PublicFooter() {
                   href="/features/api-gateway"
                   className="hover:text-foreground transition-colors"
                 >
-                  API Gateway RESTful
+                  {t("footer.apiGateway")}
                 </Link>
               </li>
               <li>

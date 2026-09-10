@@ -22,7 +22,7 @@ export function BroadcastHero() {
         <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
-            <ShieldCheck className="size-4 text-wise-green" />
+            <ShieldCheck className="size-4 text-emerald-600 dark:text-wise-green" />
             <span className="text-foreground">
               {t("landingPages.broadcast.badge")}
             </span>
@@ -57,7 +57,7 @@ export function BroadcastHero() {
                 "border-border hover:border-foreground-muted min-h-12 rounded-full px-6 py-5 text-sm font-bold sm:text-base gap-2",
               )}
             >
-              <ShieldCheck className="size-4 text-wise-green" />
+              <ShieldCheck className="size-4 text-emerald-600 dark:text-wise-green" />
               <span>{t("landingPages.broadcast.ctaLearn")}</span>
             </a>
           </div>
@@ -65,19 +65,23 @@ export function BroadcastHero() {
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <ShieldCheck className="size-3.5" /> 5-Lapis Smart Anti-Ban
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustProtection")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> Simulasi Mengetik Alami
+              <Zap className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustTyping")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
-              <Users className="size-3.5" /> Multi-Device Pool Rotation
+              <Users className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustMultiNumber")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
-              <CheckCircle2 className="size-3.5" /> Tanpa Markup Biaya Pesan
+              <CheckCircle2 className="size-3.5" />{" "}
+              {t("landingPages.broadcast.trustNoMarkup")}
             </span>
           </div>
         </div>

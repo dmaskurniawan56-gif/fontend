@@ -6,9 +6,9 @@ import { BroadcastFeaturesGrid } from "@/components/features/broadcast-messaging
 import { BroadcastCtaSection } from "@/components/features/broadcast-messaging/BroadcastCtaSection";
 
 export const metadata: Metadata = {
-  title: "WhatsApp Broadcast Messaging & 5-Lapis Anti-Ban",
+  title: "Kirim Pesan Promosi Massal WhatsApp & Bebas Blokir | Wahide",
   description:
-    "Kirim pesan siaran massal WhatsApp terpersonalisasi dengan proteksi reputasi nomor nomor 1 di Indonesia: Spintax variasi kata, simulasi mengetik alami, dan rotasi nomor cadangan.",
+    "Kirim pesan siaran massal WhatsApp ke ribuan pelanggan dengan aman tanpa khawatir nomor diblokir. Dilengkapi variasi kata otomatis, jeda kirim alami, dan rotasi nomor.",
   keywords: [
     "WhatsApp Broadcast",
     "WhatsApp Blast Anti Blokir",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     canonical: "/features/broadcast-messaging",
   },
   openGraph: {
-    title: "WhatsApp Broadcast Messaging & 5-Lapis Anti-Ban | Wahide",
+    title: "Kirim Pesan Promosi Massal WhatsApp & Bebas Blokir | Wahide",
     description:
-      "Kirim pesan siaran massal WhatsApp terpersonalisasi dengan proteksi reputasi nomor nomor 1 di Indonesia: Spintax variasi kata, simulasi mengetik alami, dan rotasi nomor cadangan.",
+      "Kirim pesan siaran massal WhatsApp ke ribuan pelanggan dengan aman tanpa khawatir nomor diblokir. Dilengkapi variasi kata otomatis, jeda kirim alami, dan rotasi nomor.",
     url: "/features/broadcast-messaging",
     siteName: "Wahide",
     locale: "id_ID",
@@ -44,7 +44,7 @@ const broadcastJsonLd = {
     availability: "https://schema.org/InStock",
   },
   description:
-    "Smart WhatsApp broadcast messaging with 5-layer anti-ban protection, spintax randomization, and audience segmentation.",
+    "Kirim pesan siaran massal WhatsApp aman dengan perlindungan anti-blokir, variasi kata otomatis, dan pembagian ke banyak nomor.",
 };
 
 export default function BroadcastMessagingPage() {

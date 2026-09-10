@@ -140,7 +140,7 @@ export function MessageSimulator() {
               </div>
               <div className="font-mono text-[10px] text-white/80">
                 {isSimulating
-                  ? "mengetik pesan..."
+                  ? t("common.landing.showcase.typing")
                   : "+62 877-1113-01818 • Online"}
               </div>
             </div>
@@ -156,13 +156,9 @@ export function MessageSimulator() {
             <div className="border-wise-green/30 animate-in fade-in slide-in-from-bottom-2 max-w-[92%] space-y-2.5 rounded-xl rounded-tl-none border bg-[#1b2b1d] p-3.5 shadow-md duration-200">
               {activeTab === "TEXT" && (
                 <div className="space-y-1 text-xs leading-relaxed text-white/95">
-                  <p>
-                    Halo <strong>Budi Santoso</strong>! Pesanan #INV-9821 telah
-                    kami konfirmasi dan saat ini dalam proses pengemasan.
-                  </p>
+                  <p>{t("common.landing.showcase.simTextP1")}</p>
                   <p className="text-[11px] text-white/85">
-                    Estimasi pengiriman tiba besok sore via JNE Reguler. Terima
-                    kasih telah berbelanja!
+                    {t("common.landing.showcase.simTextP2")}
                   </p>
                 </div>
               )}
@@ -176,12 +172,12 @@ export function MessageSimulator() {
                         Invoice_INV-9821_Wahide.pdf
                       </div>
                       <div className="font-mono text-[10px] text-white/75">
-                        142 KB • Dokumen PDF
+                        {t("common.landing.showcase.simMediaPdf")}
                       </div>
                     </div>
                   </div>
                   <p className="text-[11px] leading-relaxed text-white/95">
-                    Berikut kami lampirkan salinan resmi faktur pembayaran Anda.
+                    {t("common.landing.showcase.simMediaCaption")}
                   </p>
                 </div>
               )}
@@ -189,14 +185,13 @@ export function MessageSimulator() {
               {activeTab === "OTP" && (
                 <div className="space-y-2 text-xs">
                   <p className="text-white/90">
-                    Kode Verifikasi Keamanan Akun Anda:
+                    {t("common.landing.showcase.simOtpLabel")}
                   </p>
                   <div className="border-wise-green/40 text-wise-green rounded border bg-black/60 p-2.5 text-center font-mono text-lg font-black tracking-widest">
                     849 - 201
                   </div>
                   <p className="text-[10px] text-white/80">
-                    Jangan bagikan kode ini kepada siapa pun termasuk staf
-                    Wahide. Berlaku 5 menit.
+                    {t("common.landing.showcase.simOtpWarning")}
                   </p>
                 </div>
               )}
@@ -204,17 +199,16 @@ export function MessageSimulator() {
               {activeTab === "BUTTON" && (
                 <div className="space-y-2.5 text-xs">
                   <p className="text-white/95">
-                    Tiket bantuan #TKT-4412 telah selesai diproses oleh tim CS.
-                    Silakan pilih tindakan selanjutnya:
+                    {t("common.landing.showcase.simBtnPrompt")}
                   </p>
                   <div className="space-y-1.5 pt-1">
                     <button className="text-wise-green flex h-8 w-full items-center justify-center gap-1.5 rounded border border-white/10 bg-white/10 px-3 text-[11px] font-bold transition hover:bg-white/15">
                       <CheckCheck className="size-3.5" />
-                      <span>Konfirmasi Masalah Selesai</span>
+                      <span>{t("common.landing.showcase.simBtnConfirm")}</span>
                     </button>
                     <button className="flex h-8 w-full items-center justify-center gap-1.5 rounded border border-white/10 bg-white/10 px-3 text-[11px] font-bold text-white/95 transition hover:bg-white/15">
                       <ExternalLink className="size-3.5" />
-                      <span>Lihat Rincian Tiket Online</span>
+                      <span>{t("common.landing.showcase.simBtnTicket")}</span>
                     </button>
                   </div>
                 </div>
@@ -223,21 +217,20 @@ export function MessageSimulator() {
               {activeTab === "LIST" && (
                 <div className="space-y-2.5 text-xs">
                   <p className="text-white/95">
-                    Selamat datang di Bot Otomasi Wahide! Silakan pilih opsi
-                    layanan:
+                    {t("common.landing.showcase.simListPrompt")}
                   </p>
                   <div className="space-y-1.5 rounded border border-white/10 bg-black/40 p-2">
                     <div className="text-[10px] font-bold tracking-wider text-white/80 uppercase">
-                      PILIHAN MENU:
+                      {t("common.landing.showcase.simListMenuTitle")}
                     </div>
                     <div className="border-wise-green border-l-2 pl-1 text-[11px] font-semibold text-white/95">
-                      1. Cek Kuota Pesan Gateway
+                      {t("common.landing.showcase.simListOpt1")}
                     </div>
                     <div className="border-l-2 border-transparent pl-1 text-[11px] font-semibold text-white/95">
-                      2. Status Perangkat WhatsApp
+                      {t("common.landing.showcase.simListOpt2")}
                     </div>
                     <div className="border-l-2 border-transparent pl-1 text-[11px] font-semibold text-white/95">
-                      3. Sambungkan ke Agen CS Manusia
+                      {t("common.landing.showcase.simListOpt3")}
                     </div>
                   </div>
                 </div>

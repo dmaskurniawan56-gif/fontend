@@ -82,19 +82,23 @@ export function HomeView() {
           {/* High-Impact Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-3.5" /> 99.9% Uptime Delivery
+              <CheckCircle2 className="size-3.5" />{" "}
+              {t("common.landing.trustStrip.stripUptime")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-amber-500">
-              <Zap className="size-3.5" /> &lt; 0.4s OTP Kilat
+              <Zap className="size-3.5" />{" "}
+              {t("common.landing.trustStrip.stripOtp")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-dark-green dark:text-wise-green">
-              <ShieldCheck className="size-3.5" /> 5-Lapis Smart Delivery
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("common.landing.trustStrip.stripSmart")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
-              <Check className="size-3.5" /> Hemat Tanpa Markup
+              <Check className="size-3.5" />{" "}
+              {t("common.landing.trustStrip.stripCost")}
             </span>
           </div>
         </div>
@@ -195,10 +199,9 @@ export function HomeView() {
         {/* Cost Comparison Callout Banner */}
         <div className="mx-auto max-w-2xl rounded-xl border border-wise-green/40 bg-wise-green/10 dark:bg-wise-green/5 p-3.5 text-center text-xs font-bold text-foreground sm:text-sm shadow-xs">
           <span className="text-dark-green dark:text-wise-green mr-1.5">
-            ⚡ Bandingkan Biaya:
+            {t("common.landing.pricing.costCompareTitle")}
           </span>
-          Hemat hingga 98% dibanding Meta WhatsApp Cloud API resmi (~Rp
-          500/chat). Di Wahide, kirim 25.000 pesan mulai Rp 10.000/bulan!
+          {t("common.landing.pricing.costCompareDesc")}
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">

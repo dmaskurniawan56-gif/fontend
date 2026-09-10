@@ -22,7 +22,7 @@ export function EnterpriseHero() {
         <div className="space-y-6 sm:space-y-8 text-center flex flex-col items-center">
           {/* Top Badge */}
           <div className="bg-surface border-border inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold shadow-xs">
-            <Building2 className="size-4 text-wise-green" />
+            <Building2 className="size-4 text-emerald-600 dark:text-wise-green" />
             <span className="text-foreground">
               {t("landingPages.enterprise.badge")}
             </span>
@@ -64,15 +64,18 @@ export function EnterpriseHero() {
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
             <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-              <Clock className="size-3.5" /> Layanan Siap Pakai 24/7
+              <Clock className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trust247")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-blue-500">
-              <ShieldCheck className="size-3.5" /> Data Terjaga Rahasia & Aman
+              <ShieldCheck className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trustSecurity")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-indigo-500">
-              <Headphones className="size-3.5" /> Pendampingan Langsung Tim Ahli
+              <Headphones className="size-3.5" />{" "}
+              {t("landingPages.enterprise.trustExperts")}
             </span>
           </div>
         </div>

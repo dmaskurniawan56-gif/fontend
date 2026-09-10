@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { BlogListView } from "@/components/public/BlogListView";
 
 export const metadata: Metadata = {
-  title: "Blog & Panduan Rekayasa WhatsApp Gateway",
+  title: "Blog & Panduan WhatsApp Gateway",
   description:
-    "Panduan arsitektur WhatsApp Multi-Device, integrasi Webhook HMAC, dan strategi anti-ban Spintax Engine.",
+    "Panduan praktis integrasi WhatsApp Multi-Device, keamanan Webhook, dan strategi pengiriman pesan yang aman.",
   alternates: {
     canonical: "/blog",
   },
   openGraph: {
-    title: "Blog & Panduan Rekayasa WhatsApp Gateway",
+    title: "Blog & Panduan WhatsApp Gateway",
     description:
-      "Panduan arsitektur WhatsApp Multi-Device, integrasi Webhook HMAC, dan strategi anti-ban Spintax Engine.",
+      "Panduan praktis integrasi WhatsApp Multi-Device, keamanan Webhook, dan strategi pengiriman pesan yang aman.",
     url: "/blog",
     siteName: "Wahide",
     locale: "id_ID",

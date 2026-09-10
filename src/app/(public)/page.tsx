@@ -40,7 +40,7 @@ const faqJsonLd = {
       name: "Bagaimana Wahide menjaga keamanan dan reputasi nomor bisnis saya?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Wahide dilengkapi 5-Lapis Proteksi Pengiriman Cerdas meliputi variasi kata dinamis (spintax), simulasi pengetikan manusia alami (ChatPresence), jeda acak jitter 3–15 detik, dan rotasi nomor cerdas untuk menjaga pengiriman pesan tetap wajar dan terhindar dari spam reporting.",
+        text: "Wahide dilengkapi 5-Lapis Proteksi Pengiriman Cerdas meliputi variasi kata otomatis, jeda waktu santai antar pesan, status mengetik wajar layaknya manusia, dan pembagian beban ke beberapa nomor untuk menjaga reputasi nomor Anda tetap aman.",
       },
     },
     {

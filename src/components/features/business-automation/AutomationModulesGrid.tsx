@@ -20,11 +20,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.reservationTitle"),
       desc: t("landingPages.automation.reservationDesc"),
       benefits: [
-        "Link booking publik mandiri",
-        "Pencegahan jadwal bentrok otomatis",
-        "Notifikasi WhatsApp ke pelanggan & tim",
+        t("landingPages.automation.resB1"),
+        t("landingPages.automation.resB2"),
+        t("landingPages.automation.resB3"),
       ],
-      badge: "Booking & Appointment",
+      badge: t("landingPages.automation.badgeReservation"),
     },
     {
       id: "reminder",
@@ -32,11 +32,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.reminderTitle"),
       desc: t("landingPages.automation.reminderDesc"),
       benefits: [
-        "Jadwal pengingat berkala otomatis",
-        "Pengurangan risiko tagihan macet",
-        "Variabel dinamis nama & nominal faktur",
+        t("landingPages.automation.remB1"),
+        t("landingPages.automation.remB2"),
+        t("landingPages.automation.remB3"),
       ],
-      badge: "Due Date & Invoicing",
+      badge: t("landingPages.automation.badgeReminder"),
     },
     {
       id: "form",
@@ -44,11 +44,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.formTitle"),
       desc: t("landingPages.automation.formDesc"),
       benefits: [
-        "Link instan siap bagikan di bio medsos",
-        "Validasi input nomor telepon WhatsApp",
-        "Otomatis kirim pesan terima kasih ke responden",
+        t("landingPages.automation.formB1"),
+        t("landingPages.automation.formB2"),
+        t("landingPages.automation.formB3"),
       ],
-      badge: "No-Code Dynamic Forms",
+      badge: t("landingPages.automation.badgeForm"),
     },
     {
       id: "template",
@@ -56,11 +56,11 @@ export function AutomationModulesGrid() {
       title: t("landingPages.automation.templateTitle"),
       desc: t("landingPages.automation.templateDesc"),
       benefits: [
-        "Standarisasi komunikasi tim CS",
-        "Kategori pesan lengkap (Sales, Billing, CS)",
-        "Dukungan media gambar dan tombol pesan",
+        t("landingPages.automation.tmplB1"),
+        t("landingPages.automation.tmplB2"),
+        t("landingPages.automation.tmplB3"),
       ],
-      badge: "Template Library",
+      badge: t("landingPages.automation.badgeTemplate"),
     },
   ];
 
@@ -87,7 +87,7 @@ export function AutomationModulesGrid() {
                 <div className="size-12 rounded-2xl bg-muted/60 flex items-center justify-center">
                   {m.icon}
                 </div>
-                <span className="text-[11px] font-bold font-mono uppercase tracking-wider px-2.5 py-1 rounded-full bg-wise-green/10 text-dark-green dark:text-wise-green">
+                <span className="text-[11px] font-bold tracking-wider px-2.5 py-1 rounded-full bg-muted/80 text-foreground-secondary border border-border/60">
                   {m.badge}
                 </span>
               </div>
@@ -107,7 +107,7 @@ export function AutomationModulesGrid() {
                     key={bi}
                     className="flex items-center gap-2 text-xs font-semibold text-foreground-secondary"
                   >
-                    <CheckCircle2 className="size-3.5 text-wise-green shrink-0" />
+                    <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-wise-green shrink-0" />
                     <span>{b}</span>
                   </li>
                 ))}

@@ -58,6 +58,7 @@
   "toastDisconnected": "Sesi WhatsApp berhasil diputuskan.",
   "toastHibernated": "Sesi perangkat berhasil dihibernasi (hemat memori).",
   "toastWoken": "Sesi perangkat berhasil dibangunkan.",
+  "toastSettingsSaved": "Pengaturan perangkat berhasil disimpan.",
   "toastPairingSuccess": "Perangkat WhatsApp '{name}' berhasil terhubung!",
   "fastSendBtn": "Kirim Pesan Instan",
   "fastSendTitle": "Kirim Pesan WhatsApp Cepat",

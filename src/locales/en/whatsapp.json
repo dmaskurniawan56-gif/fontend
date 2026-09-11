@@ -58,6 +58,7 @@
   "toastDisconnected": "WhatsApp session disconnected successfully.",
   "toastHibernated": "Device session hibernated (memory-saving mode).",
   "toastWoken": "Device session resumed successfully.",
+  "toastSettingsSaved": "Device settings saved successfully.",
   "toastPairingSuccess": "WhatsApp device '{name}' connected successfully!",
   "fastSendBtn": "Instant Fast-Send",
   "fastSendTitle": "Send Instant WhatsApp Message",

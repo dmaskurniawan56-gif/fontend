@@ -7,6 +7,7 @@
   "deleteTemplate": "Delete",
   "copyContent": "Copy Message",
   "copyBtn": "Copy",
+  "copied": "Copied!",
   "useBtn": "Use",
   "contentCopied": "Template message successfully copied to clipboard!",
   "copyFailed": "Failed to copy message text",

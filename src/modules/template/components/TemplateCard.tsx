@@ -276,7 +276,7 @@ export function TemplateCard({
               <>
                 <Check className="size-3 text-emerald-500" />
                 <span className="text-emerald-600 dark:text-emerald-400">
-                  {t("copied")}
+                  {t("template.copied")}
                 </span>
               </>
             ) : (

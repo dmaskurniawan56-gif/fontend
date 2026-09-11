@@ -123,7 +123,7 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
         <button
           type="button"
           onClick={toggleAll}
-          className="hover:text-foreground transition-colors cursor-pointer text-[10px] font-medium text-emerald-700 dark:text-wise-green hover:underline"
+          className="hover:text-foreground transition-colors cursor-pointer text-[10px] font-medium text-emerald-800 dark:text-wise-green hover:underline"
         >
           {allOpen ? "Collapse All" : "Expand All"}
         </button>

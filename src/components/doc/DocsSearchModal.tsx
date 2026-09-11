@@ -152,7 +152,7 @@ export function DocsSearchModal({ isOpen, onClose }: DocsSearchModalProps) {
                     ) : (
                       <FileText className="size-3.5 text-emerald-600 dark:text-wise-green shrink-0" />
                     )}
-                    <span className="text-xs font-semibold text-foreground group-hover:text-emerald-700 dark:group-hover:text-wise-green transition-colors truncate">
+                    <span className="text-xs font-semibold text-foreground group-hover:text-emerald-800 dark:group-hover:text-wise-green transition-colors truncate">
                       {item.title}
                     </span>
                     <span className="text-[10px] text-muted-foreground px-1.5 py-0.2 rounded bg-muted/60">

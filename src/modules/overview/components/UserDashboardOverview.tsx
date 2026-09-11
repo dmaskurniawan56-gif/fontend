@@ -193,7 +193,7 @@ export function UserDashboardOverview({
             total: totalDevCount,
           })}
           subtitle={
-            <span className="block text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="block text-[11px] font-semibold text-emerald-800 dark:text-emerald-400">
               {connectedCount > 0
                 ? t("overview.nodesReady")
                 : t("overview.noNodesConnected")}

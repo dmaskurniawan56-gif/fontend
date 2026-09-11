@@ -35,7 +35,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
       <div className="border-border flex flex-col justify-between gap-4 border-b pb-5 sm:flex-row sm:items-center sm:pb-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/15 px-2.5 py-0.5 text-xs font-bold text-amber-500">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/15 px-2.5 py-0.5 text-xs font-bold text-amber-800 dark:text-amber-400">
               <ShieldCheck className="size-3.5" />
               <span>{t("overview.adminBadge")}</span>
             </span>
@@ -106,7 +106,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
             total: stats.total_devices,
           })}
           subtitle={
-            <span className="block text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+            <span className="block text-[11px] font-semibold text-emerald-800 dark:text-emerald-400">
               {t("overview.adminMultiDeviceActive")}
             </span>
           }
@@ -138,7 +138,7 @@ export function AdminDashboardOverview({ stats }: AdminDashboardOverviewProps) {
           iconClassName="bg-amber-500/15 text-amber-500"
           value={`Rp ${stats.total_transactions.toLocaleString(locale === "en" ? "en-US" : "id-ID")}`}
           subtitle={
-            <span className="block text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+            <span className="block text-[11px] font-semibold text-amber-800 dark:text-amber-400">
               {t("overview.adminActiveTickets", {
                 count: stats.active_tickets,
               })}

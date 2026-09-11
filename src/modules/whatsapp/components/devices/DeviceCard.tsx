@@ -189,7 +189,7 @@ export function DeviceCard({
           {Boolean(device.webhook_url || device.webhookUrl) && (
             <Tooltip>
               <TooltipTrigger>
-                <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-800 dark:text-emerald-400">
                   <Webhook className="size-2.5" />
                   <span>Hook</span>
                 </span>

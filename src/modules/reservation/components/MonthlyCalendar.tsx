@@ -257,7 +257,7 @@ export function MonthlyCalendar({
                   className={cn(
                     "text-xs sm:text-sm leading-none",
                     item.isToday
-                      ? "text-emerald-600 dark:text-emerald-400 font-bold"
+                      ? "text-emerald-800 dark:text-emerald-400 font-bold"
                       : item.isCurrentMonth
                         ? "text-slate-700 dark:text-slate-200"
                         : "text-slate-400 dark:text-slate-600",

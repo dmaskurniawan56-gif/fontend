@@ -457,7 +457,7 @@ export function WebhookConfigCard({
                         {ev.tag}
                       </span>
                       {isChecked && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 dark:text-emerald-400">
                           <Check className="size-3" />
                           Aktif
                         </span>

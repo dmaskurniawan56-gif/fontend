@@ -57,7 +57,7 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
           container:
             "border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-500/10",
           icon: <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />,
-          title: "text-emerald-700 dark:text-emerald-400",
+          title: "text-emerald-800 dark:text-emerald-400",
         };
       case "info":
       default:
@@ -209,13 +209,13 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
             className="group p-4 rounded-xl border border-border bg-card hover:border-emerald-500/50 dark:hover:border-wise-green/50 hover:bg-muted/20 transition-all shadow-xs space-y-2"
           >
             <div className="flex items-center justify-between">
-              <div className="p-2 rounded-lg bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-700 dark:text-wise-green">
+              <div className="p-2 rounded-lg bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-800 dark:text-wise-green">
                 <Key className="size-4" />
               </div>
               <ArrowRight className="size-3.5 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-foreground group-hover:text-emerald-700 dark:group-hover:text-wise-green transition-colors">
+              <h4 className="text-xs font-bold text-foreground group-hover:text-emerald-800 dark:group-hover:text-wise-green transition-colors">
                 Authentication
               </h4>
               <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">

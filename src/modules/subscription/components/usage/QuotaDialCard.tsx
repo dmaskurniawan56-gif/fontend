@@ -194,12 +194,12 @@ export function QuotaDialCard({ subscription }: QuotaDialCardProps) {
             </div>
 
             {subscription.hasWatermark ? (
-              <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+              <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-800 dark:text-amber-400">
                 <AlertCircle className="size-3" />
                 <span>Aktif</span>
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-bold text-emerald-800 dark:text-emerald-400">
                 <CheckCircle2 className="size-3" />
                 <span>White-Label</span>
               </span>

@@ -72,7 +72,7 @@ export function EcommerceUseCases() {
                 <div className="size-11 rounded-xl bg-muted/60 flex items-center justify-center">
                   {uc.icon}
                 </div>
-                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-wise-green border border-emerald-500/20">
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-wise-green border border-emerald-500/20">
                   {uc.badge}
                 </span>
               </div>

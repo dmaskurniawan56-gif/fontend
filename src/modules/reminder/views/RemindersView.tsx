@@ -193,12 +193,12 @@ export function RemindersView() {
             <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.active")}
             </span>
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-400">
               <CheckCircle2 className="size-4" />
             </div>
           </div>
           <div>
-            <div className="mt-2 text-xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 sm:text-2xl">
+            <div className="mt-2 text-xl font-black tracking-tight text-emerald-800 dark:text-emerald-400 sm:text-2xl">
               {stats.active}
             </div>
             <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">
@@ -213,12 +213,12 @@ export function RemindersView() {
             <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.paused")}
             </span>
-            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-800 dark:bg-amber-500/15 dark:text-amber-400">
               <Pause className="size-4" />
             </div>
           </div>
           <div>
-            <div className="mt-2 text-xl font-black tracking-tight text-amber-600 dark:text-amber-400 sm:text-2xl">
+            <div className="mt-2 text-xl font-black tracking-tight text-amber-800 dark:text-amber-400 sm:text-2xl">
               {stats.paused}
             </div>
             <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">

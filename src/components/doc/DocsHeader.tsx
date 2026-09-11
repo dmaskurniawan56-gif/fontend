@@ -113,7 +113,7 @@ export function DocsHeader({
             {/* Option 1: Dashboard link hidden on mobile header, placed in Mobile Drawer Menu */}
             <Link
               href="/dashboard"
-              className="border-border/80 hover:border-emerald-500/50 dark:hover:border-wise-green/50 text-foreground hover:text-emerald-700 dark:hover:text-wise-green hidden items-center rounded-lg border px-3 py-1.5 text-xs font-bold transition sm:inline-flex"
+              className="border-border/80 hover:border-emerald-500/50 dark:hover:border-wise-green/50 text-foreground hover:text-emerald-800 dark:hover:text-wise-green hidden items-center rounded-lg border px-3 py-1.5 text-xs font-bold transition sm:inline-flex"
             >
               Dashboard
             </Link>

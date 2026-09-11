@@ -71,7 +71,7 @@ export function UpdateTicketStatusModal({
       description: t("support.statusOptionProgressDesc"),
       icon: Clock,
       accentClass:
-        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+        "bg-amber-500/10 text-amber-800 dark:text-amber-400 border-amber-500/20",
       borderActiveClass:
         "border-amber-500 ring-1 ring-amber-500 bg-amber-500/5",
     },
@@ -81,7 +81,7 @@ export function UpdateTicketStatusModal({
       description: t("support.statusOptionResolvedDesc"),
       icon: CheckCircle2,
       accentClass:
-        "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+        "bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/20",
       borderActiveClass:
         "border-emerald-500 ring-1 ring-emerald-500 bg-emerald-500/5",
     },

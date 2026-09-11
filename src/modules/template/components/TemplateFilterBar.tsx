@@ -148,7 +148,7 @@ export function TemplateFilterBar({
           className={cn(
             "h-8 gap-1.5 rounded-xl px-3 text-xs font-semibold cursor-pointer",
             favoriteOnly &&
-              "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+              "border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-400",
           )}
           title={t("template.stats.favorites")}
         >

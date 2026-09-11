@@ -135,6 +135,7 @@ export function TemplateFilterBar({
             onSearch={onSearchChange}
             onClear={() => onSearchChange("")}
             placeholder={t("template.filter.searchPlaceholder")}
+            hideSubmitButton={true}
             className="h-8 text-xs rounded-xl"
           />
         </div>

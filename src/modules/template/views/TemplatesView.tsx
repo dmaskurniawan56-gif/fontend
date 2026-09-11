@@ -140,53 +140,65 @@ export function TemplatesView() {
 
       {/* Metrics Summary Strip */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-            <Layers className="size-4" />
-          </div>
-          <div>
-            <p className="text-[11px] font-medium text-foreground-muted">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.total")}
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0">
+              <Layers className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
+              {stats.total}
             </p>
-            <p className="text-lg font-bold text-foreground">{stats.total}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
-            <Flame className="size-4" />
-          </div>
-          <div>
-            <p className="text-[11px] font-medium text-foreground-muted">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.marketing")}
-            </p>
-            <p className="text-lg font-bold text-foreground">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+              <Flame className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
               {stats.marketing}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-            <Info className="size-4" />
-          </div>
-          <div>
-            <p className="text-[11px] font-medium text-foreground-muted">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.utility")}
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+              <Info className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
+              {stats.utility}
             </p>
-            <p className="text-lg font-bold text-foreground">{stats.utility}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400">
-            <Star className="size-4 fill-yellow-500" />
-          </div>
-          <div>
-            <p className="text-[11px] font-medium text-foreground-muted">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.favorites")}
-            </p>
-            <p className="text-lg font-bold text-foreground">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 shrink-0">
+              <Star className="size-4 fill-yellow-500" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
               {stats.favorites}
             </p>
           </div>

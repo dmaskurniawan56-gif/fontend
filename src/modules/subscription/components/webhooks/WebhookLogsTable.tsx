@@ -448,7 +448,7 @@ export function WebhookLogsTable() {
 
       {/* Detail Modal */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="sm:max-w-2xl max-h-[85vh] flex flex-col p-6">
+        <DialogContent className="border-border bg-surface flex max-h-[90dvh] w-full max-w-[calc(100%-1.5rem)] flex-col gap-0 overflow-hidden rounded-2xl p-5 shadow-2xl sm:max-w-2xl sm:p-6">
           <DialogHeader>
             <div className="flex items-center gap-2.5">
               {selectedLog && renderStatusBadge(selectedLog.response_status)}

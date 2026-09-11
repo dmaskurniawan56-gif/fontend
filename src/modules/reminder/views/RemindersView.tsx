@@ -151,66 +151,82 @@ export function RemindersView() {
       {/* Metrics Summary Cards */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {/* Total Reminders */}
-        <Card className="p-4 shadow-xs">
-          <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">
+        <Card className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.total")}
             </span>
-            <Calendar className="size-4 text-primary" />
+            <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-700">
+              <Calendar className="size-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-foreground">
-            {stats.total}
-          </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">
-            {t("reminder.stats.totalDesc")}
+          <div>
+            <div className="mt-2 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+              {stats.total}
+            </div>
+            <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">
+              {t("reminder.stats.totalDesc")}
+            </div>
           </div>
         </Card>
 
         {/* Active Reminders */}
-        <Card className="p-4 shadow-xs">
-          <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">
+        <Card className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.active")}
             </span>
-            <CheckCircle2 className="size-4 text-emerald-500" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400">
+              <CheckCircle2 className="size-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
-            {stats.active}
-          </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">
-            {t("reminder.stats.activeDesc")}
+          <div>
+            <div className="mt-2 text-xl font-black tracking-tight text-emerald-600 dark:text-emerald-400 sm:text-2xl">
+              {stats.active}
+            </div>
+            <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">
+              {t("reminder.stats.activeDesc")}
+            </div>
           </div>
         </Card>
 
         {/* Paused Reminders */}
-        <Card className="p-4 shadow-xs">
-          <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">
+        <Card className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.paused")}
             </span>
-            <Pause className="size-4 text-amber-500" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400">
+              <Pause className="size-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-amber-600 dark:text-amber-400">
-            {stats.paused}
-          </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">
-            {t("reminder.stats.pausedDesc")}
+          <div>
+            <div className="mt-2 text-xl font-black tracking-tight text-amber-600 dark:text-amber-400 sm:text-2xl">
+              {stats.paused}
+            </div>
+            <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">
+              {t("reminder.stats.pausedDesc")}
+            </div>
           </div>
         </Card>
 
         {/* Total Logs Dispatched */}
-        <Card className="p-4 shadow-xs">
-          <div className="flex items-center justify-between text-foreground-muted">
-            <span className="text-xs font-medium">
+        <Card className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reminder.stats.dispatched")}
             </span>
-            <Clock className="size-4 text-purple-500" />
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400">
+              <Clock className="size-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-purple-600 dark:text-purple-400">
-            {logsTotal}
-          </div>
-          <div className="mt-1 text-[11px] text-foreground-muted">
-            {t("reminder.stats.dispatchedDesc")}
+          <div>
+            <div className="mt-2 text-xl font-black tracking-tight text-purple-600 dark:text-purple-400 sm:text-2xl">
+              {logsTotal}
+            </div>
+            <div className="mt-1 text-[11px] font-medium text-foreground-muted line-clamp-1">
+              {t("reminder.stats.dispatchedDesc")}
+            </div>
           </div>
         </Card>
       </div>

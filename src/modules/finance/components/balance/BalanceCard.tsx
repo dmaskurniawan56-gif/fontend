@@ -38,11 +38,11 @@ export function BalanceCard({ balance, onOpenTopUp }: BalanceCardProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex w-full items-center gap-3 sm:w-auto">
         <Button
           variant="primaryPill"
           onClick={onOpenTopUp}
-          className="gap-2 px-6 py-2.5 text-xs font-bold shadow-sm"
+          className="w-full justify-center gap-2 px-6 py-2.5 text-xs font-bold shadow-sm sm:w-auto"
         >
           <Plus className="size-4" />
           <span>{t("billing.topUpBalance")}</span>

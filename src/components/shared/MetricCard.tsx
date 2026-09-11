@@ -26,13 +26,13 @@ export function MetricCard({
         className,
       )}
     >
-      <div className="flex items-center justify-between">
-        <span className="text-foreground-muted text-xs font-bold tracking-wider uppercase">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-foreground-muted min-w-0 flex-1 text-xs font-bold tracking-wider uppercase line-clamp-2 leading-tight">
           {title}
         </span>
         <div
           className={cn(
-            "flex size-8 items-center justify-center rounded-full",
+            "flex size-8 shrink-0 items-center justify-center rounded-full",
             iconClassName ||
               "bg-light-mint dark:bg-wise-green/15 text-dark-green dark:text-wise-green",
           )}

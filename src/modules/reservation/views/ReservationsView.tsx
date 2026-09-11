@@ -116,59 +116,63 @@ export function ReservationsView() {
 
       {/* Metric Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {/* Total Month */}
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reservation.metricMonth")}
-            </p>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
-              {stats.totalMonth}
-            </h3>
+            </span>
+            <div className="dark:bg-wise-green/15 dark:text-wise-green flex size-8 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-700">
+              <CalendarCheck className="size-4" />
+            </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400">
-            <CalendarCheck className="h-5 w-5" />
+          <div className="mt-2 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+            {stats.totalMonth}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {/* Today */}
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reservation.metricToday")}
-            </p>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
-              {stats.today}
-            </h3>
+            </span>
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:bg-blue-500/15 dark:text-blue-400">
+              <Clock className="size-4" />
+            </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400">
-            <Clock className="h-5 w-5" />
+          <div className="mt-2 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+            {stats.today}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {/* Confirmed */}
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reservation.metricConfirmed")}
-            </p>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
-              {stats.confirmed}
-            </h3>
+            </span>
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-teal-500/10 text-teal-600 dark:bg-teal-500/15 dark:text-teal-400">
+              <CheckCircle2 className="size-4" />
+            </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-teal-50 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400">
-            <CheckCircle2 className="h-5 w-5" />
+          <div className="mt-2 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+            {stats.confirmed}
           </div>
         </div>
 
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        {/* Completed */}
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3.5 shadow-xs transition hover:shadow-sm sm:p-4.5">
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-foreground-muted min-h-[2.4em] text-xs font-semibold leading-snug line-clamp-2 sm:min-h-0">
               {t("reservation.metricCompleted")}
-            </p>
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
-              {stats.completed}
-            </h3>
+            </span>
+            <div className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-400">
+              <CheckCircle2 className="size-4" />
+            </div>
           </div>
-          <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
-            <CheckCircle2 className="h-5 w-5" />
+          <div className="mt-2 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+            {stats.completed}
           </div>
         </div>
       </div>

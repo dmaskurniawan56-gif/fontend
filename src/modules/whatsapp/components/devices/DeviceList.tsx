@@ -144,57 +144,65 @@ export function DeviceList() {
     <div className="space-y-6">
       {/* Top Action Bar & Stat Cards */}
       <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
-        <div className="border-border bg-surface flex items-center gap-2.5 rounded-xl border p-3 shadow-xs sm:gap-3 sm:p-4">
-          <div className="bg-muted text-foreground-secondary flex size-8.5 shrink-0 items-center justify-center rounded-full sm:size-10">
-            <Server className="size-4 sm:size-5" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3 shadow-xs sm:p-4 transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-foreground-muted text-[10px] font-semibold tracking-wider uppercase sm:text-[11px] leading-tight line-clamp-2 min-h-[2.2em] sm:min-h-0">
               {t("whatsapp.totalSlot")}
             </span>
-            <span className="text-foreground text-lg font-black sm:text-xl">
+            <div className="bg-muted text-foreground-secondary flex size-7 sm:size-8 shrink-0 items-center justify-center rounded-lg sm:rounded-xl">
+              <Server className="size-3.5 sm:size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <span className="text-foreground text-lg font-black sm:text-2xl">
               {stats.total}
             </span>
           </div>
         </div>
 
-        <div className="border-border bg-surface flex items-center gap-2.5 rounded-xl border p-3 shadow-xs sm:gap-3 sm:p-4">
-          <div className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 sm:size-10">
-            <CheckCircle2 className="size-4 sm:size-5" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3 shadow-xs sm:p-4 transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-foreground-muted text-[10px] font-semibold tracking-wider uppercase sm:text-[11px] leading-tight line-clamp-2 min-h-[2.2em] sm:min-h-0">
               {t("whatsapp.statusConnected")}
             </span>
-            <span className="text-lg font-black text-emerald-600 sm:text-xl dark:text-emerald-400">
+            <div className="flex size-7 sm:size-8 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-emerald-500/10 text-emerald-500">
+              <CheckCircle2 className="size-3.5 sm:size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <span className="text-lg font-black text-emerald-600 sm:text-2xl dark:text-emerald-400">
               {stats.connected}
             </span>
           </div>
         </div>
 
-        <div className="border-border bg-surface flex items-center gap-2.5 rounded-xl border p-3 shadow-xs sm:gap-3 sm:p-4">
-          <div className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-rose-500 sm:size-10">
-            <XCircle className="size-4 sm:size-5" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3 shadow-xs sm:p-4 transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-foreground-muted text-[10px] font-semibold tracking-wider uppercase sm:text-[11px] leading-tight line-clamp-2 min-h-[2.2em] sm:min-h-0">
               {t("whatsapp.statusDisconnected")}
             </span>
-            <span className="text-lg font-black text-rose-600 sm:text-xl dark:text-rose-400">
+            <div className="flex size-7 sm:size-8 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-rose-500/10 text-rose-500">
+              <XCircle className="size-3.5 sm:size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <span className="text-lg font-black text-rose-600 sm:text-2xl dark:text-rose-400">
               {stats.disconnected}
             </span>
           </div>
         </div>
 
-        <div className="border-border bg-surface flex items-center gap-2.5 rounded-xl border p-3 shadow-xs sm:gap-3 sm:p-4">
-          <div className="flex size-8.5 shrink-0 items-center justify-center rounded-full bg-sky-500/10 text-sky-500 sm:size-10">
-            <Moon className="size-4 sm:size-5" />
-          </div>
-          <div className="min-w-0">
-            <span className="text-foreground-muted block truncate text-[10px] font-semibold tracking-wider uppercase sm:text-[11px]">
+        <div className="border-border bg-surface flex flex-col justify-between rounded-xl border p-3 shadow-xs sm:p-4 transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-foreground-muted text-[10px] font-semibold tracking-wider uppercase sm:text-[11px] leading-tight line-clamp-2 min-h-[2.2em] sm:min-h-0">
               {t("whatsapp.statusHibernated")}
             </span>
-            <span className="text-lg font-black text-sky-600 sm:text-xl dark:text-sky-400">
+            <div className="flex size-7 sm:size-8 shrink-0 items-center justify-center rounded-lg sm:rounded-xl bg-sky-500/10 text-sky-500">
+              <Moon className="size-3.5 sm:size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <span className="text-lg font-black text-sky-600 sm:text-2xl dark:text-sky-400">
               {stats.hibernated}
             </span>
           </div>

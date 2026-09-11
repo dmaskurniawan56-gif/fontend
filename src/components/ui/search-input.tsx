@@ -16,6 +16,7 @@ export interface SearchInputProps {
   disabled?: boolean;
   buttonText?: string;
   autoFocus?: boolean;
+  hideSubmitButton?: boolean;
 }
 
 /**
@@ -33,6 +34,7 @@ export function SearchInput({
   disabled = false,
   buttonText = "Cari",
   autoFocus = false,
+  hideSubmitButton = true,
 }: SearchInputProps) {
   const isControlled = value !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState("");
@@ -67,14 +69,15 @@ export function SearchInput({
       <div className="relative flex-1">
         <Search className="text-foreground-muted pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2" />
         <input
-          type="text"
+          type="search"
+          enterKeyHint="search"
           value={currentValue}
           onChange={handleChange}
           placeholder={placeholder}
           disabled={disabled}
           autoFocus={autoFocus}
           className={cn(
-            "bg-surface text-foreground border-border hover:border-foreground-muted placeholder:text-muted-foreground h-10 w-full rounded-full border pr-9 pl-10 text-xs font-semibold transition outline-none focus:border-emerald-600 disabled:opacity-50 dark:bg-[#10110e] dark:focus:border-emerald-500",
+            "bg-surface text-foreground border-border hover:border-foreground-muted placeholder:text-muted-foreground h-10 w-full rounded-full border pr-9 pl-10 text-xs font-semibold transition outline-none focus:border-emerald-600 disabled:opacity-50 dark:bg-[#10110e] dark:focus:border-emerald-500 [&::-webkit-search-cancel-button]:hidden",
             inputClassName,
           )}
         />
@@ -90,18 +93,20 @@ export function SearchInput({
         )}
       </div>
 
-      <Button
-        type="submit"
-        variant="primaryPill"
-        size="sm"
-        disabled={disabled}
-        aria-label={buttonText}
-        title={buttonText}
-        className="h-10 w-10 shrink-0 cursor-pointer justify-center rounded-full p-0 text-xs font-bold shadow-xs sm:w-auto sm:px-4"
-      >
-        <Search className="size-3.5 sm:mr-1" />
-        <span className="hidden sm:inline">{buttonText}</span>
-      </Button>
+      {!hideSubmitButton && (
+        <Button
+          type="submit"
+          variant="primaryPill"
+          size="sm"
+          disabled={disabled}
+          aria-label={buttonText}
+          title={buttonText}
+          className="h-10 w-10 shrink-0 cursor-pointer justify-center rounded-full p-0 text-xs font-bold shadow-xs sm:w-auto sm:px-4"
+        >
+          <Search className="size-3.5 sm:mr-1" />
+          <span className="hidden sm:inline">{buttonText}</span>
+        </Button>
+      )}
     </form>
   );
 }

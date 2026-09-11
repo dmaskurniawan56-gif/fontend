@@ -33,8 +33,8 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto p-6 space-y-6 animate-pulse">
-        <div className="h-8 w-48 bg-muted rounded" />
-        <div className="h-64 bg-muted rounded" />
+        <div className="h-8 w-48 bg-muted rounded-xl" />
+        <div className="h-64 bg-muted rounded-2xl" />
       </div>
     );
   }

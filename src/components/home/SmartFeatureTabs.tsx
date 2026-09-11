@@ -12,7 +12,7 @@ import {
   MessageSquare,
   ArrowRight,
   CheckCircle2,
-  Sparkles,
+  Layers,
   Zap,
   Server,
 } from "lucide-react";
@@ -32,7 +32,7 @@ export function SmartFeatureTabs() {
       {/* Section Header */}
       <div className="mx-auto max-w-2xl space-y-3 text-center">
         <div className="bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs font-bold shadow-xs">
-          <Sparkles className="size-3.5" />
+          <Layers className="size-3.5" />
           <span>
             {isId
               ? "Solusi Terpadu Sesuai Kebutuhan Anda"
@@ -53,9 +53,15 @@ export function SmartFeatureTabs() {
 
       {/* Tab Selector Buttons */}
       <div className="flex justify-center">
-        <div className="border-border bg-muted/40 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-2xl border p-1.5 shadow-xs sm:gap-2">
+        <div
+          role="tablist"
+          aria-label={isId ? "Kategori Fitur Utama" : "Core Feature Categories"}
+          className="border-border bg-muted/40 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-2xl border p-1.5 shadow-xs sm:gap-2"
+        >
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "developer"}
             onClick={() => setActiveTab("developer")}
             className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all sm:px-5 sm:text-sm ${
               activeTab === "developer"
@@ -63,14 +69,14 @@ export function SmartFeatureTabs() {
                 : "text-foreground-secondary hover:text-foreground"
             }`}
           >
-            <Code2 className="size-4 text-emerald-600 dark:text-wise-green" />
-            <span>
-              {isId ? "⚡ Developer & OTP API" : "⚡ Developer & OTP API"}
-            </span>
+            <Code2 className="size-4 text-emerald-800 dark:text-wise-green" />
+            <span>{isId ? "Developer & OTP API" : "Developer & OTP API"}</span>
           </button>
 
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "marketing"}
             onClick={() => setActiveTab("marketing")}
             className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all sm:px-5 sm:text-sm ${
               activeTab === "marketing"
@@ -78,14 +84,16 @@ export function SmartFeatureTabs() {
                 : "text-foreground-secondary hover:text-foreground"
             }`}
           >
-            <Megaphone className="size-4 text-blue-600 dark:text-blue-400" />
+            <Megaphone className="size-4 text-blue-800 dark:text-blue-300" />
             <span>
-              {isId ? "🚀 Broadcast & Anti-Ban" : "🚀 Broadcast & Anti-Ban"}
+              {isId ? "Broadcast & Anti-Ban" : "Broadcast & Anti-Ban"}
             </span>
           </button>
 
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "business"}
             onClick={() => setActiveTab("business")}
             className={`flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all sm:px-5 sm:text-sm ${
               activeTab === "business"
@@ -93,11 +101,9 @@ export function SmartFeatureTabs() {
                 : "text-foreground-secondary hover:text-foreground"
             }`}
           >
-            <Calendar className="size-4 text-amber-600 dark:text-amber-400" />
+            <Calendar className="size-4 text-amber-800 dark:text-amber-300" />
             <span>
-              {isId
-                ? "🛠️ Otomasi Bisnis Siap Pakai"
-                : "🛠️ Turnkey Business Tools"}
+              {isId ? "Otomasi Bisnis Siap Pakai" : "Turnkey Business Tools"}
             </span>
           </button>
         </div>
@@ -238,7 +244,7 @@ export function SmartFeatureTabs() {
                 {/* Enterprise Cloud Stability Box */}
                 <div className="rounded-xl border border-border/80 bg-muted/20 p-3 text-xs space-y-1">
                   <div className="flex items-center gap-1.5 font-bold text-foreground">
-                    <Server className="size-3.5 text-emerald-600 dark:text-wise-green" />
+                    <Server className="size-3.5 text-emerald-800 dark:text-wise-green" />
                     <span>
                       {isId
                         ? "Infrastruktur Cloud Berkinerja Tinggi"

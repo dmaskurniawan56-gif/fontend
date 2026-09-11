@@ -80,7 +80,7 @@ export function AutomationModulesGrid() {
           <div
             key={m.id}
             id={m.id}
-            className="rounded-3xl border border-border bg-surface p-7 sm:p-8 shadow-xs flex flex-col justify-between hover:border-wise-green/50 transition-all space-y-6"
+            className="rounded-2xl border border-border bg-surface p-7 sm:p-8 shadow-xs flex flex-col justify-between hover:border-wise-green/50 transition-all space-y-6"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">

@@ -48,16 +48,16 @@ export function DocsResponseView({
     }
 
     if (is2xx)
-      return "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20";
+      return "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/20";
     if (is4xx)
-      return "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 hover:bg-amber-500/20";
-    return "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20 hover:bg-rose-500/20";
+      return "bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/20 hover:bg-amber-500/20";
+    return "bg-rose-500/10 text-rose-800 dark:text-rose-300 border-rose-500/20 hover:bg-rose-500/20";
   };
 
   return (
     <div className="space-y-4">
       {title && (
-        <h3 className="text-base font-bold text-foreground">{title}</h3>
+        <h2 className="text-base font-bold text-foreground">{title}</h2>
       )}
 
       {/* Response Status Selector Tabs */}
@@ -123,9 +123,9 @@ export function DocsResponseView({
       {/* Response Attributes Breakdown Table */}
       {activeResponse.attributes && activeResponse.attributes.length > 0 && (
         <div className="space-y-2 pt-2">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
             Response Attributes Breakdown
-          </h4>
+          </h3>
 
           <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-xs">
             <table className="w-full text-left text-sm border-collapse">

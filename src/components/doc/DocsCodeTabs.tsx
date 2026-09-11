@@ -49,7 +49,7 @@ export function DocsCodeTabs({
     <div className="space-y-3">
       {title && (
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-foreground">{title}</h3>
+          <h2 className="text-base font-bold text-foreground">{title}</h2>
         </div>
       )}
 

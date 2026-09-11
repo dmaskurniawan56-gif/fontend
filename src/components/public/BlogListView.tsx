@@ -38,15 +38,15 @@ export function BlogListView() {
       {/* Posts Grid */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-pulse">
-          <div className="h-64 rounded-md bg-muted" />
-          <div className="h-64 rounded-md bg-muted" />
+          <div className="h-64 rounded-2xl bg-muted" />
+          <div className="h-64 rounded-2xl bg-muted" />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {posts.map((post) => (
             <article
               key={post.id}
-              className="p-6 rounded-md border border-border bg-surface flex flex-col justify-between space-y-4 hover:border-foreground-muted transition shadow-sm"
+              className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between space-y-4 hover:border-foreground-muted transition shadow-sm"
             >
               <div className="space-y-3">
                 {/* Tags */}

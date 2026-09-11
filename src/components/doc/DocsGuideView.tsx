@@ -48,23 +48,29 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
       case "warning":
         return {
           container: "border-amber-500/30 bg-amber-500/5 dark:bg-amber-500/10",
-          icon: <AlertTriangle className="size-4 text-amber-500 shrink-0" />,
-          title: "text-amber-700 dark:text-amber-400",
+          icon: (
+            <AlertTriangle className="size-4 text-amber-700 dark:text-amber-300 shrink-0" />
+          ),
+          title: "text-amber-800 dark:text-amber-300",
         };
       case "success":
       case "tip":
         return {
           container:
             "border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-500/10",
-          icon: <CheckCircle2 className="size-4 text-emerald-500 shrink-0" />,
-          title: "text-emerald-800 dark:text-emerald-400",
+          icon: (
+            <CheckCircle2 className="size-4 text-emerald-700 dark:text-emerald-300 shrink-0" />
+          ),
+          title: "text-emerald-800 dark:text-emerald-300",
         };
       case "info":
       default:
         return {
           container: "border-blue-500/30 bg-blue-500/5 dark:bg-blue-500/10",
-          icon: <Info className="size-4 text-blue-500 shrink-0" />,
-          title: "text-blue-700 dark:text-blue-400",
+          icon: (
+            <Info className="size-4 text-blue-700 dark:text-blue-300 shrink-0" />
+          ),
+          title: "text-blue-800 dark:text-blue-300",
         };
     }
   };
@@ -92,11 +98,11 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
       {doc.bannerNotice && (
         <div className="rounded-xl border border-border bg-muted/30 p-4 shadow-xs">
           <div className="flex items-start gap-3">
-            <Info className="size-4 text-emerald-600 dark:text-wise-green shrink-0 mt-0.5" />
+            <Info className="size-4 text-emerald-800 dark:text-wise-green shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <h4 className="text-xs font-bold text-foreground">
+              <div className="text-xs font-bold text-foreground">
                 {doc.bannerNotice.title}
-              </h4>
+              </div>
               <p className="text-xs text-foreground-secondary leading-relaxed">
                 {doc.bannerNotice.content}
               </p>
@@ -128,13 +134,13 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
                 <div className="flex items-start gap-3">
                   {getCalloutStyles(section.callout.type).icon}
                   <div className="space-y-1 text-xs">
-                    <h5
+                    <div
                       className={`font-semibold ${
                         getCalloutStyles(section.callout.type).title
                       }`}
                     >
                       {section.callout.title}
-                    </h5>
+                    </div>
                     <div className="text-foreground-secondary leading-relaxed whitespace-pre-line">
                       {interpolateEnv(section.callout.content)}
                     </div>
@@ -229,13 +235,13 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
             className="group p-4 rounded-xl border border-border bg-card hover:border-blue-500/50 hover:bg-muted/20 transition-all shadow-xs space-y-2"
           >
             <div className="flex items-center justify-between">
-              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-800 dark:text-blue-300">
                 <Send className="size-4" />
               </div>
               <ArrowRight className="size-3.5 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h4 className="text-xs font-bold text-foreground group-hover:text-blue-800 dark:group-hover:text-blue-300 transition-colors">
                 Send Messages
               </h4>
               <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
@@ -249,13 +255,13 @@ export function DocsGuideView({ doc }: DocsGuideViewProps) {
             className="group p-4 rounded-xl border border-border bg-card hover:border-purple-500/50 hover:bg-muted/20 transition-all shadow-xs space-y-2"
           >
             <div className="flex items-center justify-between">
-              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400">
+              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-800 dark:text-purple-300">
                 <Smartphone className="size-4" />
               </div>
               <ArrowRight className="size-3.5 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              <h4 className="text-xs font-bold text-foreground group-hover:text-purple-800 dark:group-hover:text-purple-300 transition-colors">
                 Device Management
               </h4>
               <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">

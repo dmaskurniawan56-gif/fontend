@@ -83,11 +83,11 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
       {doc.bannerNotice && (
         <div className="rounded-xl border border-border bg-muted/30 p-4 shadow-xs">
           <div className="flex items-start gap-3">
-            <Info className="size-4 text-emerald-600 dark:text-wise-green shrink-0 mt-0.5" />
+            <Info className="size-4 text-emerald-800 dark:text-wise-green shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <h4 className="text-xs font-bold text-foreground">
+              <div className="text-xs font-bold text-foreground">
                 {doc.bannerNotice.title}
-              </h4>
+              </div>
               <p className="text-xs text-foreground-secondary leading-relaxed">
                 {doc.bannerNotice.content}
               </p>
@@ -98,7 +98,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
 
       {/* 4. Endpoint Box */}
       <div className="space-y-3" id="endpoint">
-        <h3 className="text-base font-bold text-foreground">HTTP Endpoint</h3>
+        <h2 className="text-base font-bold text-foreground">HTTP Endpoint</h2>
 
         <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 p-3.5 rounded-xl border border-border bg-card shadow-xs">
           <div className="flex items-center gap-3 font-mono text-xs overflow-x-auto min-w-0">
@@ -125,8 +125,10 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
           >
             {copiedUrl ? (
               <>
-                <Check className="size-3.5 text-emerald-500" />
-                <span className="text-emerald-500 font-bold">Copied!</span>
+                <Check className="size-3.5 text-emerald-800 dark:text-wise-green" />
+                <span className="text-emerald-800 dark:text-emerald-300 font-bold">
+                  Copied!
+                </span>
               </>
             ) : (
               <>
@@ -140,11 +142,11 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
 
       {/* 5. Authentication & Headers Card */}
       <div className="space-y-3" id="authentication">
-        <h3 className="text-base font-bold text-foreground">Authentication</h3>
+        <h2 className="text-base font-bold text-foreground">Authentication</h2>
 
         <div className="rounded-xl border border-border bg-card p-4 space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Lock className="size-3.5 text-emerald-500 shrink-0" />
+            <Lock className="size-3.5 text-emerald-800 dark:text-wise-green shrink-0" />
             <span>
               This endpoint requires Bearer authentication via your secret API
               Key.
@@ -171,7 +173,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
                         {header.value}
                       </td>
                       <td className="py-2.5 px-3">
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
                           {header.required ? "Required" : "Optional"}
                         </span>
                       </td>
@@ -187,7 +189,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
                         Bearer &lt;your_api_key&gt;
                       </td>
                       <td className="py-2.5 px-3">
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
                           Required
                         </span>
                       </td>
@@ -200,7 +202,7 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
                         application/json
                       </td>
                       <td className="py-2.5 px-3">
-                        <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
                           Required
                         </span>
                       </td>
@@ -231,9 +233,9 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
       {/* 9. Error Handling Matrix */}
       {doc.errorMatrix && doc.errorMatrix.length > 0 && (
         <div className="space-y-3" id="errors">
-          <h3 className="text-base font-bold text-foreground">
+          <h2 className="text-base font-bold text-foreground">
             Error Codes & Troubleshooting
-          </h3>
+          </h2>
 
           <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-xs">
             <table className="w-full text-left text-sm border-collapse">
@@ -251,11 +253,11 @@ export function DocsEndpointView({ doc }: DocsEndpointViewProps) {
                     key={err.error}
                     className="hover:bg-muted/20 transition-colors"
                   >
-                    <td className="py-3 px-4 font-mono font-bold text-rose-500">
+                    <td className="py-3 px-4 font-mono font-bold text-rose-800 dark:text-rose-300">
                       {err.code}
                     </td>
                     <td className="py-3 px-3">
-                      <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 font-semibold">
+                      <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-800 dark:text-rose-300 border border-rose-500/20 font-semibold">
                         {err.error}
                       </code>
                     </td>

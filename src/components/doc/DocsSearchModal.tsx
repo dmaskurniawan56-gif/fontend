@@ -69,19 +69,19 @@ export function DocsSearchModal({ isOpen, onClose }: DocsSearchModalProps) {
     switch (method) {
       case "GET":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-800 dark:text-emerald-300">
             GET
           </span>
         );
       case "POST":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-800 dark:text-blue-300">
             POST
           </span>
         );
       case "DELETE":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-800 dark:text-rose-300">
             DEL
           </span>
         );
@@ -150,7 +150,7 @@ export function DocsSearchModal({ isOpen, onClose }: DocsSearchModalProps) {
                     {item.type === "endpoint" ? (
                       getMethodBadge(item.method)
                     ) : (
-                      <FileText className="size-3.5 text-emerald-600 dark:text-wise-green shrink-0" />
+                      <FileText className="size-3.5 text-emerald-800 dark:text-wise-green shrink-0" />
                     )}
                     <span className="text-xs font-semibold text-foreground group-hover:text-emerald-800 dark:group-hover:text-wise-green transition-colors truncate">
                       {item.title}

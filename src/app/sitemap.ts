@@ -53,6 +53,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Feature & Solution Landing Pages (High Commercial Conversion Intent)
+  const commercialRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/solutions/enterprise`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/solutions/ecommerce`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/features/api-gateway`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/features/broadcast-messaging`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/features/business-automation`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+  ];
+
   // Documentation API Routes (High SEO Crawl Priority)
   const docRoutes: MetadataRoute.Sitemap = allDocs.map((doc) => ({
     url: `${baseUrl}/docs/${doc.slug}`,
@@ -69,5 +103,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...docRoutes, ...blogRoutes];
+  return [...staticRoutes, ...commercialRoutes, ...docRoutes, ...blogRoutes];
 }

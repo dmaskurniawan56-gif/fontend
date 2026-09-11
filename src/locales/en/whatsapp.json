@@ -206,6 +206,8 @@
   "messagesErrDeviceNotConnected": "Device is not connected or still in pairing stage.",
   "totalSlot": "Total Slots",
   "instantMessageBtn": "Send Instant Message",
+  "instantMessageShort": "Instant Msg",
+  "addDeviceShort": "New Device",
   "refreshListBtn": "Refresh List",
   "overlimitBannerTitle": "⚠️ Devices Exceed {planName} Plan Quota ({totalSlots}/{maxAllowedSlots} Devices)",
   "overlimitBannerDesc": "Your {planName} plan only includes {maxAllowedSlots} devices. There are {overlimitCount} excess devices that are temporarily deactivated. Please remove marked devices or upgrade your plan to reactivate all your devices.",

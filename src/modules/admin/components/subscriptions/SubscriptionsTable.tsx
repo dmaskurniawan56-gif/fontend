@@ -252,11 +252,11 @@ export function SubscriptionsTable({
                 return (
                   <div key={s.id} className="bg-surface space-y-3 p-4">
                     <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-0.5">
-                        <span className="text-foreground text-sm font-bold">
+                      <div className="min-w-0 flex-1 space-y-0.5">
+                        <span className="text-foreground block truncate text-sm font-bold">
                           {tenantName}
                         </span>
-                        <span className="text-foreground-secondary block font-mono text-xs font-bold">
+                        <span className="text-foreground-secondary block truncate font-mono text-xs font-bold">
                           {planName} &bull; {formatCurrency(s.plan?.price ?? 0)}
                         </span>
                       </div>

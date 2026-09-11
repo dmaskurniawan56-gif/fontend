@@ -102,35 +102,54 @@ export function TemplatesView() {
     <div className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8">
       {/* Top Header & Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            {t("template.title")}
-          </h1>
-          <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            {t("template.subtitle")}
-          </p>
+        <div className="flex items-start justify-between gap-3 sm:block">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              {t("template.title")}
+            </h1>
+            <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
+              {t("template.subtitle")}
+            </p>
+          </div>
+
+          {/* Mobile-Only Header Refresh Button (Inline with title) */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={reload}
+            disabled={isLoading}
+            className="size-9 shrink-0 rounded-full border-border/70 text-xs cursor-pointer sm:hidden"
+            title="Muat Ulang"
+            aria-label="Refresh Data"
+          >
+            <RefreshCw
+              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
+            />
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          {/* Desktop-Only Refresh Button */}
           <Button
             variant="outline"
             size="sm"
             onClick={reload}
             disabled={isLoading}
-            className="h-9 gap-1.5 rounded-full border-border/70 text-xs"
+            className="hidden sm:inline-flex h-9 gap-1.5 rounded-full border-border/70 text-xs cursor-pointer"
             title="Muat Ulang"
           >
             <RefreshCw
               className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
             />
-            <span className="hidden sm:inline">Refresh</span>
+            <span>Refresh</span>
           </Button>
 
+          {/* Primary Action Button (Full-width on mobile, auto on desktop) */}
           <Button
             variant="primaryPill"
             size="sm"
             onClick={handleOpenCreate}
-            className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
+            className="h-10 sm:h-9 gap-2 px-5 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer justify-center rounded-full"
           >
             <Plus className="size-4" />
             <span>{t("template.addTemplate")}</span>

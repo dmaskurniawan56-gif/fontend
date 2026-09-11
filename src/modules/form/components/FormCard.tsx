@@ -83,7 +83,7 @@ export function FormCard({
 
         {/* Title & Description */}
         <h3
-          className="font-semibold text-slate-900 dark:text-slate-100 text-base line-clamp-1 mb-1"
+          className="font-semibold text-slate-900 dark:text-slate-100 text-sm sm:text-base line-clamp-2 leading-snug break-words sm:line-clamp-1 mb-1"
           title={form.title}
         >
           {form.title}

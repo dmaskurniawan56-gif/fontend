@@ -61,39 +61,58 @@ export function ReservationsView() {
   return (
     <div className="flex flex-col gap-6 p-4 sm:p-6 max-w-7xl mx-auto w-full">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
-            <CalendarDays className="h-7 w-7 text-emerald-600 dark:text-emerald-500" />
-            {t("reservation.pageTitle")}
-          </h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-            {t("reservation.pageSubtitle")}
-          </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start justify-between gap-3 sm:block">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
+              <CalendarDays className="h-7 w-7 text-emerald-600 dark:text-emerald-500" />
+              {t("reservation.pageTitle")}
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              {t("reservation.pageSubtitle")}
+            </p>
+          </div>
+
+          {/* Mobile-Only Header Refresh Button */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={reload}
+            disabled={isLoading || isCalendarLoading}
+            className="size-9 shrink-0 rounded-full border-border/70 text-xs cursor-pointer sm:hidden"
+            title={t("common.refresh")}
+            aria-label="Refresh Data"
+          >
+            <RefreshCw
+              className={`size-3.5 ${isLoading || isCalendarLoading ? "animate-spin" : ""}`}
+            />
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          {/* Desktop-Only Refresh Button */}
           <Button
             variant="outline"
             size="sm"
             onClick={reload}
             disabled={isLoading || isCalendarLoading}
-            className="h-9 text-xs"
+            className="hidden sm:inline-flex h-9 gap-1.5 rounded-full border-border/70 text-xs cursor-pointer"
+            title={t("common.refresh")}
           >
             <RefreshCw
-              className={`h-3.5 w-3.5 mr-1.5 ${
-                isLoading || isCalendarLoading ? "animate-spin" : ""
-              }`}
+              className={`size-3.5 ${isLoading || isCalendarLoading ? "animate-spin" : ""}`}
             />
-            {t("common.refresh")}
+            <span>{t("common.refresh")}</span>
           </Button>
+
+          {/* Primary Action Button (Full-width on mobile, auto on desktop) */}
           <Button
             variant="primaryPill"
             onClick={() => setIsAddOpen(true)}
             size="sm"
-            className="h-9 cursor-pointer gap-1.5 px-4 text-xs font-bold shadow-xs"
+            className="h-10 sm:h-9 gap-2 px-5 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer justify-center rounded-full"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="size-4" />
             <span>{t("reservation.newReservation")}</span>
           </Button>
         </div>

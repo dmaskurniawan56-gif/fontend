@@ -2,6 +2,7 @@
   "title": "Broadcast Campaigns",
   "subtitle": "Dispatch mass broadcast messages with human typing simulation, dynamic Spintax, and 5-layer anti-ban protection.",
   "createCampaign": "Create New Campaign",
+  "createCampaignShort": "New Campaign",
   "templateLabel": "Message Template (Spintax Supported)",
   "spintaxHint": "Use {Hello|Hi|Greetings} format to randomize word variations automatically.",
   "jitterDelayLabel": "Dynamic Jitter Delay",

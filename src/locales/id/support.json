@@ -2,6 +2,7 @@
   "title": "Tiket Bantuan & Support",
   "subtitle": "Ajukan kendala teknis, pertanyaan integrasi API, atau permintaan bantuan langsung ke tim teknis Wahide.",
   "createTicket": "Buat Tiket Baru",
+  "createTicketShort": "Buat Tiket",
   "searchPlaceholder": "Cari tiket berdasarkan subjek atau nomor...",
   "search": "Cari",
   "refreshAria": "Perbarui daftar tiket",

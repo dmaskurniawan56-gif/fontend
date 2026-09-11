@@ -215,7 +215,7 @@ export function TemplateCard({
         </div>
 
         {/* Template Title */}
-        <h3 className="mt-2.5 font-semibold text-foreground line-clamp-1 text-sm sm:text-base">
+        <h3 className="mt-2.5 font-semibold text-foreground line-clamp-2 leading-snug break-words text-sm sm:line-clamp-1 sm:text-base">
           {template.name}
         </h3>
 

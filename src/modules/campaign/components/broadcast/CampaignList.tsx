@@ -220,7 +220,7 @@ export function CampaignList() {
             size="sm"
             onClick={fetchCampaigns}
             disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
+            className="border-border hover:border-foreground-muted h-10 flex-1 sm:flex-initial shrink-0 cursor-pointer gap-1.5 rounded-full px-3 text-xs font-bold transition sm:px-3.5"
             aria-label="Refresh Kampanye"
             title="Refresh Kampanye"
           >
@@ -235,14 +235,19 @@ export function CampaignList() {
             size="sm"
             onClick={handleCreateCampaignClick}
             disabled={isLoading || isCheckingPreflight}
-            className="h-10 shrink-0 cursor-pointer gap-2 px-4 text-xs font-bold shadow-sm"
+            className="h-10 flex-1 sm:flex-initial shrink-0 cursor-pointer gap-1.5 px-3.5 text-xs font-bold shadow-sm sm:gap-2 sm:px-4"
           >
             {isCheckingPreflight ? (
               <Loader2 className="size-4 animate-spin" />
             ) : (
               <Plus className="size-4" />
             )}
-            <span>{t("campaign.createCampaign")}</span>
+            <span className="hidden sm:inline">
+              {t("campaign.createCampaign")}
+            </span>
+            <span className="sm:hidden">
+              {t("campaign.createCampaignShort")}
+            </span>
           </Button>
         </div>
       </div>
@@ -295,12 +300,12 @@ export function CampaignList() {
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1">
+                  <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-1 text-base font-extrabold transition">
+                      <h3 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-2 leading-snug break-words text-sm font-extrabold transition sm:line-clamp-1 sm:text-base">
                         {campaign.name || "Kampanye Siaran"}
                       </h3>
-                      <ExternalLink className="text-foreground-muted size-3.5 opacity-0 transition group-hover:opacity-100" />
+                      <ExternalLink className="text-foreground-muted size-3.5 shrink-0 opacity-0 transition group-hover:opacity-100" />
                     </div>
                     <div className="text-foreground-muted flex flex-wrap items-center gap-2 text-xs font-semibold">
                       <div className="flex items-center gap-1">
@@ -337,7 +342,9 @@ export function CampaignList() {
                       </div>
                     </div>
                   </div>
-                  {renderStatusBadge(campaign.status, campaign.scheduledAt)}
+                  <div className="shrink-0">
+                    {renderStatusBadge(campaign.status, campaign.scheduledAt)}
+                  </div>
                 </div>
 
                 {/* Scheduled banner pill (if set) */}

@@ -36,7 +36,6 @@ import { useSubscription } from "@/modules/subscription/hooks/useSubscription";
 import {
   Smartphone,
   Plus,
-  RefreshCw,
   Server,
   CheckCircle2,
   XCircle,
@@ -46,7 +45,27 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export function DeviceList() {
+export interface DeviceListProps {
+  deviceState?: ReturnType<typeof useDevices>;
+}
+
+export function DeviceList({ deviceState }: DeviceListProps = {}) {
+  if (deviceState) {
+    return <DeviceListContent deviceState={deviceState} />;
+  }
+  return <DeviceListWithSelfState />;
+}
+
+function DeviceListWithSelfState() {
+  const state = useDevices();
+  return <DeviceListContent deviceState={state} />;
+}
+
+function DeviceListContent({
+  deviceState,
+}: {
+  deviceState: ReturnType<typeof useDevices>;
+}) {
   const { t } = useI18n();
   const {
     devices,
@@ -65,7 +84,7 @@ export function DeviceList() {
     wakeDevice,
     updateDeviceStatus,
     updateDeviceSettings,
-  } = useDevices();
+  } = deviceState;
   const { subscription } = useSubscription();
 
   const overlimitDevices = devices.filter((d) =>
@@ -269,14 +288,14 @@ export function DeviceList() {
               variant="outline"
               size="sm"
               onClick={() => setIsSendModalOpen(true)}
-              className="border-border hover:border-foreground-muted h-10 flex-1 cursor-pointer justify-center gap-1.5 rounded-full px-3.5 text-xs font-bold sm:flex-initial sm:px-4"
+              className="border-border hover:border-foreground-muted h-10 flex-1 cursor-pointer justify-center gap-1.5 rounded-full px-3 text-xs font-bold sm:flex-initial sm:px-4"
             >
               <Send className="dark:text-wise-green size-3.5 text-emerald-700" />
               <span className="hidden sm:inline">
                 {t("whatsapp.instantMessageBtn")}
               </span>
               <span className="sm:hidden">
-                {t("whatsapp.instantMessageBtn")}
+                {t("whatsapp.instantMessageShort")}
               </span>
             </Button>
 
@@ -284,18 +303,21 @@ export function DeviceList() {
               variant="primaryPill"
               size="sm"
               onClick={() => setIsAddModalOpen(true)}
-              className="h-10 flex-1 cursor-pointer justify-center gap-2 px-4 text-xs font-bold shadow-sm sm:flex-initial"
+              className="h-10 flex-1 cursor-pointer justify-center gap-1.5 px-3 text-xs font-bold shadow-sm sm:flex-initial sm:gap-2 sm:px-4"
             >
               <Plus className="size-4" />
-              <span>{t("whatsapp.addDevice")}</span>
+              <span className="hidden sm:inline">
+                {t("whatsapp.addDevice")}
+              </span>
+              <span className="sm:hidden">{t("whatsapp.addDeviceShort")}</span>
             </Button>
           </div>
         </div>
 
-        {/* Bottom Row: Horizontal Scrollable Filter Chips + Refresh Action */}
-        <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-1">
-          {/* Scrollable Filter Chips */}
-          <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
+        {/* Bottom Row: Horizontal Scrollable Filter Chips */}
+        <div className="border-border/50 border-t pt-1">
+          {/* Scrollable Filter Chips (100% full width swipable) */}
+          <div className="no-scrollbar flex w-full items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
             {(
               ["ALL", "CONNECTED", "DISCONNECTED", "HIBERNATED"] as (
                 DeviceStatus | "ALL"
@@ -317,7 +339,7 @@ export function DeviceList() {
                   key={status}
                   type="button"
                   onClick={() => setStatusFilter(status)}
-                  className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition ${
+                  className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition active:scale-95 ${
                     isActive
                       ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
                       : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
@@ -328,21 +350,6 @@ export function DeviceList() {
               );
             })}
           </div>
-
-          {/* Refresh Action */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => fetchDevices()}
-            disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
-            aria-label={t("whatsapp.refreshListBtn")}
-          >
-            <RefreshCw
-              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
-            />
-            <span className="hidden sm:inline">{t("common.refresh")}</span>
-          </Button>
         </div>
       </div>
 

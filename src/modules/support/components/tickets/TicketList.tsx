@@ -274,7 +274,7 @@ function TicketListContent({
                 <div className="space-y-1">
                   <Link
                     href={`/support/${tkt.id}`}
-                    className="text-foreground dark:hover:text-wise-green line-clamp-2 leading-snug break-words sm:line-clamp-1 block text-sm font-bold transition hover:text-emerald-700 hover:underline"
+                    className="text-foreground dark:hover:text-wise-green line-clamp-2 leading-snug wrap-break-words sm:line-clamp-1 block text-sm font-bold transition hover:text-emerald-700 hover:underline"
                   >
                     {tkt.subject}
                   </Link>

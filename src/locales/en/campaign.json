@@ -139,7 +139,6 @@
   "createdAtLabel": "Created",
   "scheduledAtLabel": "Scheduled",
   "scheduledBanner": "Scheduled: {time}",
-  "detailModalTitle": "Broadcast Campaign Details",
   "detailModalSubtitle": "Configuration parameters, target audience, and dispatch execution status.",
   "deviceInfoLabel": "WhatsApp Device",
   "audienceScope": "Audience Scope",

@@ -302,7 +302,7 @@ export function CampaignList() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0 flex-1 space-y-1">
                     <div className="flex items-center gap-1.5">
-                      <h3 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-2 leading-snug break-words text-sm font-extrabold transition sm:line-clamp-1 sm:text-base">
+                      <h3 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-2 leading-snug wrap-break-words text-sm font-extrabold transition sm:line-clamp-1 sm:text-base">
                         {campaign.name || "Kampanye Siaran"}
                       </h3>
                       <ExternalLink className="text-foreground-muted size-3.5 shrink-0 opacity-0 transition group-hover:opacity-100" />

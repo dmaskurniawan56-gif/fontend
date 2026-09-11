@@ -30,6 +30,7 @@ interface SolutionItem {
   icon: React.ElementType;
   titleKey: string;
   descKey: string;
+  href: string;
   features: string[];
   tags: string[];
 }
@@ -43,6 +44,7 @@ export function BusinessSolutionsSection() {
       icon: Calendar,
       titleKey: "common.landing.solutions.reservationTitle",
       descKey: "common.landing.solutions.reservationDesc",
+      href: "/features/business-automation#reservation",
       features: [
         t("common.landing.solutions.reservationF1"),
         t("common.landing.solutions.reservationF2"),
@@ -59,6 +61,7 @@ export function BusinessSolutionsSection() {
       icon: Clock,
       titleKey: "common.landing.solutions.reminderTitle",
       descKey: "common.landing.solutions.reminderDesc",
+      href: "/features/business-automation#reminder",
       features: [
         t("common.landing.solutions.reminderF1"),
         t("common.landing.solutions.reminderF2"),
@@ -75,6 +78,7 @@ export function BusinessSolutionsSection() {
       icon: FileText,
       titleKey: "common.landing.solutions.formTitle",
       descKey: "common.landing.solutions.formDesc",
+      href: "/features/business-automation#form",
       features: [
         t("common.landing.solutions.formF1"),
         t("common.landing.solutions.formF2"),
@@ -91,6 +95,7 @@ export function BusinessSolutionsSection() {
       icon: MessageSquare,
       titleKey: "common.landing.solutions.templateTitle",
       descKey: "common.landing.solutions.templateDesc",
+      href: "/features/business-automation#template",
       features: [
         t("common.landing.solutions.templateF1"),
         t("common.landing.solutions.templateF2"),
@@ -182,10 +187,10 @@ export function BusinessSolutionsSection() {
                 <Separator className="bg-border/60" />
                 <CardFooter className="p-0 flex items-center justify-between">
                   <span className="text-foreground-muted text-xs font-semibold">
-                    {t("common.landing.solutions.badge")}
+                    {t(item.titleKey)}
                   </span>
                   <Link
-                    href="/register"
+                    href={item.href}
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "sm" }),
                       "text-dark-green hover:text-dark-green dark:text-wise-green dark:hover:text-wise-green group-hover:translate-x-0.5 gap-1.5 px-2.5 text-xs font-bold transition-transform",

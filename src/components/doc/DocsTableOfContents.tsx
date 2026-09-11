@@ -92,7 +92,7 @@ export function DocsTableOfContents({
                 onClick={() => scrollTo(item.id)}
                 className={`text-left block py-1 transition-colors w-full truncate ${
                   isActive
-                    ? "text-emerald-700 dark:text-wise-green font-semibold border-l-2 border-emerald-600 dark:border-wise-green -ml-[13px] pl-[11px]"
+                    ? "text-emerald-800 dark:text-wise-green font-semibold border-l-2 border-emerald-600 dark:border-wise-green -ml-[13px] pl-[11px]"
                     : "text-muted-foreground hover:text-foreground"
                 } ${item.level === 3 ? "pl-3 text-[11px]" : ""}`}
               >

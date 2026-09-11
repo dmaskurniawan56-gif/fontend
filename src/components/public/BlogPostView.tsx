@@ -33,8 +33,8 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto p-6 space-y-6 animate-pulse">
-        <div className="h-8 w-48 bg-muted rounded" />
-        <div className="h-64 bg-muted rounded" />
+        <div className="h-8 w-48 bg-muted rounded-xl" />
+        <div className="h-64 bg-muted rounded-2xl" />
       </div>
     );
   }
@@ -50,7 +50,7 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
         </p>
         <Link
           href="/blog"
-          className="text-xs font-bold text-emerald-700 dark:text-wise-green hover:underline"
+          className="text-xs font-bold text-emerald-800 dark:text-wise-green hover:underline"
         >
           &larr; {t("content.backToBlog")}
         </Link>
@@ -101,7 +101,7 @@ export function BlogPostView({ slug }: BlogPostViewProps) {
 
         <div className="flex items-center gap-4 text-xs font-semibold text-foreground-muted pt-1">
           <span className="flex items-center gap-1.5">
-            <User className="size-3.5 text-emerald-700 dark:text-wise-green" />
+            <User className="size-3.5 text-emerald-800 dark:text-wise-green" />
             <span className="text-foreground font-bold">{post.author}</span>
           </span>
           <span>•</span>

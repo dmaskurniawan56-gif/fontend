@@ -25,7 +25,7 @@ export function DocsParametersTable({
     <div className="space-y-3">
       {title && (
         <div>
-          <h3 className="text-base font-bold text-foreground">{title}</h3>
+          <h2 className="text-base font-bold text-foreground">{title}</h2>
           {description && (
             <p className="text-xs text-muted-foreground mt-0.5">
               {description}
@@ -70,7 +70,7 @@ export function DocsParametersTable({
                         className={`text-xs font-mono font-semibold px-2 py-0.5 rounded ${
                           isNested
                             ? "bg-secondary text-foreground border border-border/60"
-                            : "bg-wise-green/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                            : "bg-wise-green/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20"
                         }`}
                       >
                         {param.name}
@@ -88,7 +88,7 @@ export function DocsParametersTable({
                   {/* Required Badge */}
                   <td className="py-3 px-3 align-top">
                     {param.required ? (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
                         Required
                       </span>
                     ) : (

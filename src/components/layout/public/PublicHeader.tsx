@@ -84,18 +84,19 @@ export function PublicHeader() {
           <div className="relative group py-2">
             <button
               type="button"
+              aria-haspopup="true"
               className="flex items-center gap-1 hover:text-foreground transition-colors outline-none cursor-pointer"
             >
               <span>{t("common.nav.solutions")}</span>
-              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
+              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
             </button>
-            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-80 z-50 pointer-events-none group-hover:pointer-events-auto">
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-80 z-50 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
               <div className="rounded-2xl border border-border bg-surface p-2.5 shadow-xl ring-1 ring-border/50 space-y-1">
                 <Link
                   href="/solutions/enterprise"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-blue-500/10 text-blue-800 dark:text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
                     <Building2 className="size-4" />
                   </div>
                   <div>
@@ -112,7 +113,7 @@ export function PublicHeader() {
                   href="/solutions/ecommerce"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-800 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
                     <ShoppingBag className="size-4" />
                   </div>
                   <div>
@@ -143,18 +144,19 @@ export function PublicHeader() {
           <div className="relative group py-2">
             <button
               type="button"
+              aria-haspopup="true"
               className="flex items-center gap-1 hover:text-foreground transition-colors outline-none cursor-pointer"
             >
               <span>{t("common.nav.features")}</span>
-              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180" />
+              <ChevronDown className="size-3.5 transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
             </button>
-            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-84 z-50 pointer-events-none group-hover:pointer-events-auto">
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-150 absolute top-full left-0 pt-2 w-84 z-50 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
               <div className="rounded-2xl border border-border bg-surface p-2.5 shadow-xl ring-1 ring-border/50 space-y-1">
                 <Link
                   href="/features/api-gateway"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-emerald-500/10 text-emerald-800 dark:text-wise-green flex items-center justify-center shrink-0 mt-0.5">
                     <Code2 className="size-4" />
                   </div>
                   <div>
@@ -171,7 +173,7 @@ export function PublicHeader() {
                   href="/features/broadcast-messaging"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-amber-500/10 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
                     <Radio className="size-4" />
                   </div>
                   <div>
@@ -188,7 +190,7 @@ export function PublicHeader() {
                   href="/features/business-automation"
                   className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-muted/70 transition-colors group/item"
                 >
-                  <div className="size-9 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="size-9 rounded-lg bg-purple-500/10 text-purple-800 dark:text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
                     <Sparkles className="size-4" />
                   </div>
                   <div>
@@ -303,17 +305,17 @@ export function PublicHeader() {
             <Link
               href="/solutions/enterprise"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+              className="py-2 px-3 rounded-xl hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <Building2 className="size-3.5 text-blue-500" />
+              <Building2 className="size-3.5 text-blue-800 dark:text-blue-300" />
               <span>{t("common.nav.solutionEnterprise")}</span>
             </Link>
             <Link
               href="/solutions/ecommerce"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+              className="py-2 px-3 rounded-xl hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <ShoppingBag className="size-3.5 text-emerald-600 dark:text-wise-green" />
+              <ShoppingBag className="size-3.5 text-emerald-800 dark:text-wise-green" />
               <span>{t("common.nav.solutionEcommerce")}</span>
             </Link>
 
@@ -324,25 +326,25 @@ export function PublicHeader() {
             <Link
               href="/features/api-gateway"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+              className="py-2 px-3 rounded-xl hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <Code2 className="size-3.5 text-emerald-600 dark:text-wise-green" />
+              <Code2 className="size-3.5 text-emerald-800 dark:text-wise-green" />
               <span>{t("common.nav.featureApi")}</span>
             </Link>
             <Link
               href="/features/broadcast-messaging"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+              className="py-2 px-3 rounded-xl hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <Radio className="size-3.5 text-amber-500" />
+              <Radio className="size-3.5 text-amber-800 dark:text-amber-300" />
               <span>{t("common.nav.featureBroadcast")}</span>
             </Link>
             <Link
               href="/features/business-automation"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-md hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
+              className="py-2 px-3 rounded-xl hover:bg-muted/60 transition flex items-center gap-2.5 text-xs font-bold text-foreground-secondary hover:text-foreground"
             >
-              <Sparkles className="size-3.5 text-purple-500" />
+              <Sparkles className="size-3.5 text-purple-800 dark:text-purple-300" />
               <span>{t("common.nav.featureAutomation")}</span>
             </Link>
 
@@ -351,14 +353,14 @@ export function PublicHeader() {
               <Link
                 href="/#pricing"
                 onClick={(e) => handleMobileAnchorClick(e, "pricing")}
-                className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+                className="py-2.5 px-3 rounded-xl hover:bg-muted/60 transition min-h-11 flex items-center"
               >
                 {t("common.nav.pricing")}
               </Link>
               <Link
                 href="/#faq"
                 onClick={(e) => handleMobileAnchorClick(e, "faq")}
-                className="py-2.5 px-3 rounded-md hover:bg-muted/60 transition min-h-11 flex items-center"
+                className="py-2.5 px-3 rounded-xl hover:bg-muted/60 transition min-h-11 flex items-center"
               >
                 {t("common.nav.faq")}
               </Link>

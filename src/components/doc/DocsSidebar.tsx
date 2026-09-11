@@ -85,26 +85,26 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
     switch (method) {
       case "GET":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 shrink-0">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 shrink-0">
             GET
           </span>
         );
       case "POST":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400 shrink-0">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-800 dark:text-blue-300 shrink-0">
             POST
           </span>
         );
       case "DELETE":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 shrink-0">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-800 dark:text-rose-300 shrink-0">
             DEL
           </span>
         );
       case "PUT":
       case "PATCH":
         return (
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 dark:text-amber-400 shrink-0">
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-800 dark:text-amber-300 shrink-0">
             PUT
           </span>
         );
@@ -123,7 +123,7 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
         <button
           type="button"
           onClick={toggleAll}
-          className="hover:text-foreground transition-colors cursor-pointer text-[10px] font-medium text-emerald-700 dark:text-wise-green hover:underline"
+          className="hover:text-foreground transition-colors cursor-pointer text-[10px] font-medium text-emerald-800 dark:text-wise-green hover:underline"
         >
           {allOpen ? "Collapse All" : "Expand All"}
         </button>
@@ -155,7 +155,7 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
                     <IconComponent
                       className={`size-3.5 shrink-0 transition-colors ${
                         hasActiveChild
-                          ? "text-emerald-600 dark:text-wise-green"
+                          ? "text-emerald-800 dark:text-wise-green"
                           : "text-muted-foreground group-hover:text-foreground"
                       }`}
                     />
@@ -197,7 +197,7 @@ export function DocsSidebar({ sections, onItemClick }: DocsSidebarProps) {
                             onClick={onItemClick}
                             className={`group flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                               isActive
-                                ? "bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-950 dark:text-foreground font-semibold border-l-2 border-emerald-600 dark:border-wise-green -ml-[9px] pl-[7px]"
+                                ? "bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-950 dark:text-foreground font-semibold border-l-2 border-emerald-600 dark:border-wise-green -ml-2.25"
                                 : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                             }`}
                           >

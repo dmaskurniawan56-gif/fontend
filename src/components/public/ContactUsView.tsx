@@ -56,7 +56,7 @@ export function ContactUsView() {
               <div className="size-11 rounded-xl bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center shadow-xs">
                 <Phone className="size-5" />
               </div>
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
                 <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 {t("contactUs.badgeFastResponse")}
               </span>

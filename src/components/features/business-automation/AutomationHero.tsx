@@ -63,17 +63,17 @@ export function AutomationHero() {
 
           {/* Trust Strip */}
           <div className="border-border/60 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t pt-4 text-xs font-semibold text-foreground-secondary w-full max-w-3xl mx-auto">
-            <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
+            <span className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-400">
               <CheckCircle2 className="size-3.5" />{" "}
               {t("landingPages.automation.trustNoCode")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-blue-500">
+            <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400">
               <Briefcase className="size-3.5" />{" "}
               {t("landingPages.automation.trustModules")}
             </span>
             <span className="text-border hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-amber-500">
+            <span className="flex items-center gap-1.5 text-amber-800 dark:text-amber-400">
               <Zap className="size-3.5" />{" "}
               {t("landingPages.automation.trustAutoNotify")}
             </span>

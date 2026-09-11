@@ -23,7 +23,7 @@ export function BlogListView() {
     <div className="space-y-10 max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div className="space-y-2 border-b border-border pb-6">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-700 dark:text-wise-green border border-emerald-500/20 dark:border-wise-green/20">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 dark:bg-wise-green/15 text-emerald-800 dark:text-wise-green border border-emerald-500/20 dark:border-wise-green/20">
           <Newspaper className="size-3.5" />
           <span>{t("content.badge")}</span>
         </div>
@@ -38,15 +38,15 @@ export function BlogListView() {
       {/* Posts Grid */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-pulse">
-          <div className="h-64 rounded-md bg-muted" />
-          <div className="h-64 rounded-md bg-muted" />
+          <div className="h-64 rounded-2xl bg-muted" />
+          <div className="h-64 rounded-2xl bg-muted" />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {posts.map((post) => (
             <article
               key={post.id}
-              className="p-6 rounded-md border border-border bg-surface flex flex-col justify-between space-y-4 hover:border-foreground-muted transition shadow-sm"
+              className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between space-y-4 hover:border-foreground-muted transition shadow-sm"
             >
               <div className="space-y-3">
                 {/* Tags */}
@@ -63,7 +63,7 @@ export function BlogListView() {
                 </div>
 
                 <Link href={`/blog/${post.slug}`} className="block group">
-                  <h2 className="text-lg font-black text-foreground group-hover:text-emerald-700 dark:group-hover:text-wise-green transition leading-snug">
+                  <h2 className="text-lg font-black text-foreground group-hover:text-emerald-800 dark:group-hover:text-wise-green transition leading-snug">
                     {post.title}
                   </h2>
                 </Link>
@@ -92,7 +92,7 @@ export function BlogListView() {
 
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-wise-green hover:underline"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 dark:text-wise-green hover:underline"
                 >
                   <span>{t("content.readArticle")}</span>
                   <ArrowRight className="size-3" />

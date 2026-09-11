@@ -50,7 +50,7 @@ export function AboutView() {
           return (
             <div
               key={idx}
-              className="p-5 sm:p-6 rounded-md border border-border bg-surface text-center space-y-2 shadow-sm"
+              className="p-5 sm:p-6 rounded-2xl border border-border bg-surface text-center space-y-2 shadow-sm"
             >
               <Icon className="size-5 text-dark-green dark:text-wise-green mx-auto" />
               <div className="text-2xl sm:text-3xl font-black text-foreground font-mono">
@@ -66,10 +66,10 @@ export function AboutView() {
 
       {/* Vision & Mission */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="p-6 sm:p-8 rounded-md border border-border bg-surface space-y-4 shadow-sm">
+        <div className="p-6 sm:p-8 rounded-2xl border border-border bg-surface space-y-4 shadow-sm">
           <div className="inline-flex items-center gap-2 text-dark-green dark:text-wise-green font-bold text-xs uppercase tracking-wider">
             <Sparkles className="size-4" />
-            <span>{t("about.visionTitle")}</span>
+            <span>{t("about.visionBadge")}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-foreground">
             {t("about.visionTitle")}
@@ -79,10 +79,10 @@ export function AboutView() {
           </p>
         </div>
 
-        <div className="p-6 sm:p-8 rounded-md border border-border bg-surface space-y-4 shadow-sm">
+        <div className="p-6 sm:p-8 rounded-2xl border border-border bg-surface space-y-4 shadow-sm">
           <div className="inline-flex items-center gap-2 text-dark-green dark:text-wise-green font-bold text-xs uppercase tracking-wider">
             <CheckCircle2 className="size-4" />
-            <span>{t("about.missionTitle")}</span>
+            <span>{t("about.missionBadge")}</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-black text-foreground">
             {t("about.missionTitle")}
@@ -113,7 +113,7 @@ export function AboutView() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-md border border-border bg-surface space-y-3">
+          <div className="p-6 rounded-2xl border border-border bg-surface space-y-3">
             <div className="size-10 rounded-full bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center">
               <Cpu className="size-5" />
             </div>
@@ -125,7 +125,7 @@ export function AboutView() {
             </p>
           </div>
 
-          <div className="p-6 rounded-md border border-border bg-surface space-y-3">
+          <div className="p-6 rounded-2xl border border-border bg-surface space-y-3">
             <div className="size-10 rounded-full bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center">
               <Zap className="size-5" />
             </div>
@@ -137,7 +137,7 @@ export function AboutView() {
             </p>
           </div>
 
-          <div className="p-6 rounded-md border border-border bg-surface space-y-3">
+          <div className="p-6 rounded-2xl border border-border bg-surface space-y-3">
             <div className="size-10 rounded-full bg-wise-green/20 dark:bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center">
               <ShieldCheck className="size-5" />
             </div>
@@ -152,7 +152,7 @@ export function AboutView() {
       </div>
 
       {/* Office & Headquarters Card */}
-      <div className="p-6 sm:p-8 rounded-md border border-border bg-surface shadow-sm space-y-6">
+      <div className="p-6 sm:p-8 rounded-2xl border border-border bg-surface shadow-sm space-y-6">
         <div className="space-y-1">
           <h2 className="text-xl sm:text-2xl font-black text-foreground">
             {t("about.officeTitle")}
@@ -163,20 +163,20 @@ export function AboutView() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-          <div className="p-4 rounded-md border border-border bg-muted/20 space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-muted/20 space-y-2">
             <div className="flex items-center gap-2 text-foreground font-bold text-xs">
               <MapPin className="size-4 text-dark-green dark:text-wise-green" />
-              <span>Alamat Kantor</span>
+              <span>{t("about.officeAddressLabel")}</span>
             </div>
             <p className="text-xs font-semibold text-foreground-secondary leading-relaxed">
               {t("about.officeAddress")}
             </p>
           </div>
 
-          <div className="p-4 rounded-md border border-border bg-muted/20 space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-muted/20 space-y-2">
             <div className="flex items-center gap-2 text-foreground font-bold text-xs">
               <Mail className="size-4 text-dark-green dark:text-wise-green" />
-              <span>Email Resmi</span>
+              <span>{t("about.officeEmailLabel")}</span>
             </div>
             <a
               href={`mailto:${t("about.officeEmail")}`}
@@ -186,10 +186,10 @@ export function AboutView() {
             </a>
           </div>
 
-          <div className="p-4 rounded-md border border-border bg-muted/20 space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-muted/20 space-y-2">
             <div className="flex items-center gap-2 text-foreground font-bold text-xs">
               <Phone className="size-4 text-dark-green dark:text-wise-green" />
-              <span>WhatsApp / Hotline</span>
+              <span>{t("about.officePhoneLabel")}</span>
             </div>
             <a
               href={`https://wa.me/62877111301818`}
@@ -204,7 +204,7 @@ export function AboutView() {
       </div>
 
       {/* Call to Action Banner */}
-      <div className="p-8 sm:p-10 rounded-md border border-wise-green/30 bg-wise-green/10 dark:bg-wise-green/5 text-center space-y-4">
+      <div className="p-8 sm:p-10 rounded-2xl border border-wise-green/30 bg-wise-green/10 dark:bg-wise-green/5 text-center space-y-4">
         <h2 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
           {t("about.ctaTitle")}
         </h2>

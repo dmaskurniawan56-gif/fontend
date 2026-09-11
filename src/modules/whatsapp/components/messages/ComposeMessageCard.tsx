@@ -376,7 +376,7 @@ export function ComposeMessageCard({
             </div>
           )}
           {!hasActiveDevice && !isLoadingDevices && (
-            <p className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1.5 pt-0.5">
+            <p className="text-[11px] text-amber-800 dark:text-amber-400 font-semibold flex items-center gap-1.5 pt-0.5">
               <AlertCircle className="size-3.5 shrink-0" />
               <span>{t("whatsapp.messagesErrDeviceNotConnected")}</span>
             </p>

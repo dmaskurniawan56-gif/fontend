@@ -137,7 +137,7 @@ export function WebhookLogsTable() {
     }
     if (status >= 400 && status < 500) {
       return (
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-600 dark:text-amber-400">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-800 dark:text-amber-400">
           <AlertTriangle className="size-3.5" />
           {status} Client Err
         </span>
@@ -336,7 +336,7 @@ export function WebhookLogsTable() {
                         {log.latency_ms} ms
                       </span>
                       {log.attempt > 1 && (
-                        <span className="ml-1.5 text-[10px] text-amber-500 font-bold">
+                        <span className="ml-1.5 text-[10px] text-amber-800 dark:text-amber-400 font-bold">
                           (Try #{log.attempt})
                         </span>
                       )}

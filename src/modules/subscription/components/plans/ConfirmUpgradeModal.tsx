@@ -114,11 +114,11 @@ export function ConfirmUpgradeModal({
               <>
                 <div className="text-foreground-secondary border-border/80 flex items-center justify-between border-t pt-2 font-medium">
                   <span>{t("subscription.remainingBalance")}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                  <span className="font-bold text-emerald-800 dark:text-emerald-400">
                     Rp {remainingBalance.toLocaleString("id-ID")}
                   </span>
                 </div>
-                <div className="flex items-start gap-2 rounded-md border border-emerald-500/20 bg-emerald-500/10 p-2.5 text-[11px] leading-relaxed text-emerald-700 dark:text-emerald-400">
+                <div className="flex items-start gap-2 rounded-md border border-emerald-500/20 bg-emerald-500/10 p-2.5 text-[11px] leading-relaxed text-emerald-800 dark:text-emerald-400">
                   <CheckCircle2 className="mt-0.5 size-4 shrink-0" />
                   <div>
                     <strong>{t("subscription.sufficientTitle")}</strong>{" "}

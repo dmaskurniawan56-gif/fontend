@@ -189,7 +189,7 @@ function DeviceListContent({
             </div>
           </div>
           <div className="mt-2 sm:mt-3">
-            <span className="text-lg font-black text-emerald-600 sm:text-2xl dark:text-emerald-400">
+            <span className="text-lg font-black text-emerald-800 sm:text-2xl dark:text-emerald-400">
               {stats.connected}
             </span>
           </div>
@@ -232,7 +232,7 @@ function DeviceListContent({
       {hasOverlimit && (
         <div className="flex flex-col gap-3.5 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-start gap-3.5">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-800 dark:text-amber-400">
               <AlertTriangle className="size-5.5" />
             </div>
             <div className="space-y-1">

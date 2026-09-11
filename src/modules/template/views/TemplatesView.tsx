@@ -180,7 +180,7 @@ export function TemplatesView() {
             <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.marketing")}
             </span>
-            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-800 dark:text-amber-400 shrink-0">
               <Flame className="size-4" />
             </div>
           </div>
@@ -196,7 +196,7 @@ export function TemplatesView() {
             <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.utility")}
             </span>
-            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 shrink-0">
               <Info className="size-4" />
             </div>
           </div>
@@ -212,8 +212,8 @@ export function TemplatesView() {
             <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("template.stats.favorites")}
             </span>
-            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 shrink-0">
-              <Star className="size-4 fill-yellow-500" />
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-800 dark:text-amber-400 shrink-0">
+              <Star className="size-4 fill-amber-500 text-amber-500" />
             </div>
           </div>
           <div className="mt-2 sm:mt-3">

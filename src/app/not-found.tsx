@@ -65,28 +65,28 @@ export default function NotFound() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/dashboard"
-              className="dark:text-wise-green text-emerald-700 hover:underline"
+              className="text-emerald-800 hover:underline dark:text-wise-green font-semibold"
             >
               {t("common.errors.notFound.dashboardBtn")}
             </Link>
             <span>•</span>
             <Link
-              href="/pricing"
-              className="dark:text-wise-green text-emerald-700 hover:underline"
+              href="/#pricing"
+              className="text-emerald-800 hover:underline dark:text-wise-green font-semibold"
             >
               {t("common.nav.pricing")}
             </Link>
             <span>•</span>
             <Link
               href="/blog"
-              className="dark:text-wise-green text-emerald-700 hover:underline"
+              className="text-emerald-800 hover:underline dark:text-wise-green font-semibold"
             >
               Blog &amp; Panduan
             </Link>
             <span>•</span>
             <Link
               href="/about"
-              className="dark:text-wise-green text-emerald-700 hover:underline"
+              className="text-emerald-800 hover:underline dark:text-wise-green font-semibold"
             >
               Tentang Kami
             </Link>

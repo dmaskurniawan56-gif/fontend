@@ -80,7 +80,7 @@ export function DashboardUserNav() {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => router.push("/settings/api-key")}
+            onClick={() => router.push("/settings?tab=api-keys")}
             className="cursor-pointer gap-2 rounded-md px-2.5 py-2 text-xs font-semibold"
           >
             <Key className="size-3.5" />

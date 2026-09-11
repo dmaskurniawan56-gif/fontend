@@ -27,7 +27,10 @@ export function ApiFeaturesBento() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {/* Bento 1: VIP Priority OTP Express (Span 2 on lg, 1 on mobile/tablet) */}
-        <div className="lg:col-span-2 group relative flex flex-col justify-between rounded-2xl border border-border bg-surface p-6 sm:p-7 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-wise-green/50 hover:shadow-md space-y-5">
+        <div
+          id="otp-express-lane"
+          className="lg:col-span-2 group relative flex flex-col justify-between rounded-2xl border border-border bg-surface p-6 sm:p-7 shadow-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-wise-green/50 hover:shadow-md space-y-5 scroll-mt-24"
+        >
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="size-11 rounded-xl bg-wise-green/15 text-dark-green dark:text-wise-green flex items-center justify-center">

@@ -170,7 +170,7 @@ export function PublicFooter() {
             &copy; {new Date().getFullYear()} Hide Group. {t("footer.rights")}
           </span>
           <div className="flex flex-wrap items-center gap-2.5 text-[11px]">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-500/20">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 font-bold border border-emerald-500/20">
               <ShieldCheck className="size-3.5" />
               <span>{t("footer.sla")}</span>
             </div>

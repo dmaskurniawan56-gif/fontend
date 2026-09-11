@@ -69,7 +69,7 @@ export function DashboardBreadcrumb() {
     <div className="flex min-w-0 items-center">
       {/* Mobile Single Page Title (< sm) */}
       <div className="flex min-w-0 items-center sm:hidden">
-        <h1 className="text-foreground max-w-[130px] truncate text-sm font-bold tracking-tight xs:max-w-[180px]">
+        <h1 className="text-foreground max-w-47.5 truncate text-sm font-bold tracking-tight xs:max-w-[240px]">
           {activeTitle}
         </h1>
       </div>
@@ -96,13 +96,13 @@ export function DashboardBreadcrumb() {
             <React.Fragment key={href}>
               <ChevronRight className="text-border size-3 shrink-0" />
               {isLast ? (
-                <span className="text-foreground max-w-[160px] truncate font-bold md:max-w-[240px] lg:max-w-none">
+                <span className="text-foreground max-w-40 truncate font-bold md:max-w-60 lg:max-w-none">
                   {title}
                 </span>
               ) : (
                 <Link
                   href={href}
-                  className="hover:text-foreground max-w-[100px] truncate md:max-w-[140px]"
+                  className="hover:text-foreground max-w-25 truncate md:max-w-35"
                 >
                   {title}
                 </Link>

@@ -7,7 +7,6 @@ import {
   FileCheck2,
   Calendar,
   UserPlus,
-  Lock,
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -141,59 +140,71 @@ export function FormsView() {
         </div>
       </div>
 
-      {/* Overview Stat Cards (Clean Responsive Pill Format) */}
+      {/* Overview Stat Cards (Modern Vertical Metric Card Pattern) */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0">
-            <FileSpreadsheet className="size-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">
+        {/* 1. Total Forms */}
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("form.stats.totalForms")}
-            </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0">
+              <FileSpreadsheet className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
               {stats.totalForms}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
-            <FileCheck2 className="size-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">
+        {/* 2. Total Submissions */}
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("form.stats.totalSubmissions")}
-            </p>
-            <p className="text-lg font-bold text-primary sm:text-xl">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+              <FileCheck2 className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">
               {stats.totalSubmissions.toLocaleString()}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 shrink-0">
-            <Calendar className="size-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">
+        {/* 3. Reservation Forms */}
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("form.stats.reservationForms")}
-            </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 shrink-0">
+              <Calendar className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
               {stats.reservationForms}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-3.5 shadow-xs">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
-            <UserPlus className="size-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-medium text-foreground-muted">
+        {/* 4. Lead Forms */}
+        <div className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-3 sm:p-4 shadow-xs transition-colors hover:border-border">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-foreground-muted leading-snug line-clamp-2 min-h-[2.4em] sm:min-h-0">
               {t("form.stats.leadForms")}
-            </p>
-            <p className="text-lg font-bold text-foreground sm:text-xl">
+            </span>
+            <div className="flex size-7.5 sm:size-8 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+              <UserPlus className="size-4" />
+            </div>
+          </div>
+          <div className="mt-2 sm:mt-3">
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">
               {stats.leadForms}
             </p>
           </div>
@@ -218,13 +229,14 @@ export function FormsView() {
               setSearch("");
               setPage(1);
             }}
+            hideSubmitButton={true}
             className="text-xs h-9 w-full"
           />
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 w-full lg:w-auto">
           {/* Type Filter Tabs with horizontal scroll on small devices */}
-          <div className="overflow-x-auto scrollbar-none pb-0.5 w-full sm:w-auto">
+          <div className="overflow-x-auto scrollbar-none -mx-0.5 px-0.5 pb-0.5 w-full sm:w-auto">
             <Tabs
               value={type}
               onValueChange={(val) => {
@@ -233,38 +245,33 @@ export function FormsView() {
               }}
               className="w-full sm:w-auto"
             >
-              <TabsList className="h-9 w-full sm:w-auto justify-start shrink-0">
+              <TabsList className="h-9 w-full sm:w-auto justify-start shrink-0 gap-0.5">
                 <TabsTrigger
                   value="ALL"
-                  className="text-xs px-2.5 cursor-pointer"
+                  className="text-xs px-3 cursor-pointer shrink-0"
                 >
                   {t("common.allTypesFilter")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="STANDARD"
-                  className="text-xs px-2.5 cursor-pointer"
+                  className="text-xs px-3 cursor-pointer shrink-0"
                 >
                   {t("form.typeStandard")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="RESERVATION"
-                  className="text-xs px-2.5 cursor-pointer"
+                  className="text-xs px-3 cursor-pointer shrink-0"
                 >
                   {t("form.typeReservation")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="LEAD"
-                  className="text-xs px-2.5 cursor-pointer"
+                  className="text-xs px-3 cursor-pointer shrink-0"
                 >
                   {t("form.typeLead")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs font-semibold shrink-0">
-            <Lock className="size-3.5" />
-            <span>100% Privat Internal</span>
           </div>
         </div>
       </div>

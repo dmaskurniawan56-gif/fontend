@@ -396,7 +396,7 @@ export function CampaignList() {
                 <Separator />
 
                 {/* Action Footer */}
-                <div className="flex items-center justify-between pt-0.5">
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between pt-0.5">
                   <div className="text-foreground-muted flex items-center gap-1.5 text-[11px] font-semibold">
                     <Calendar className="size-3.5 shrink-0" />
                     <span>
@@ -406,7 +406,7 @@ export function CampaignList() {
                   </div>
 
                   <div
-                    className="flex items-center gap-1.5"
+                    className="flex items-center justify-end gap-1.5 self-end sm:self-auto"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {campaign.status === "DRAFT" && (

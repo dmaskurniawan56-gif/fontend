@@ -255,13 +255,13 @@ export function DevicesManagementTable({
               {sortedDevices.map((d) => (
                 <div key={d.id} className="bg-surface space-y-3 p-4">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-0.5">
+                    <div className="min-w-0 flex-1 space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-foreground text-sm font-bold">
+                        <span className="text-foreground block truncate text-sm font-bold">
                           {d.pushName}
                         </span>
                       </div>
-                      <span className="text-foreground-secondary block font-mono text-xs font-bold">
+                      <span className="text-foreground-secondary block truncate font-mono text-xs font-bold">
                         {d.jid || t("admin.devices.notConnected")}
                       </span>
                     </div>

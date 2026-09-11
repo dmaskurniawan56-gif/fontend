@@ -149,30 +149,30 @@ export function DeviceCard({
     >
       {/* Card Header */}
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="bg-muted text-foreground-secondary group-hover:bg-wise-green/15 group-hover:text-wise-green flex size-11 items-center justify-center rounded-full transition">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="bg-muted text-foreground-secondary group-hover:bg-wise-green/15 group-hover:text-wise-green flex size-11 shrink-0 items-center justify-center rounded-full transition">
             <Smartphone className="size-5" />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
-              <h2 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-1 text-base font-extrabold tracking-tight transition sm:text-lg">
+              <h2 className="text-foreground group-hover:text-dark-green dark:group-hover:text-wise-green line-clamp-2 text-sm font-extrabold tracking-tight leading-snug break-words transition sm:line-clamp-1 sm:text-lg">
                 {device.push_name ||
                   device.pushName ||
                   device.name ||
                   "WhatsApp Device"}
               </h2>
-              <ExternalLink className="text-foreground-muted size-3.5 opacity-0 transition group-hover:opacity-100" />
+              <ExternalLink className="text-foreground-muted size-3.5 shrink-0 opacity-0 transition group-hover:opacity-100" />
             </div>
-            <div className="text-foreground-secondary mt-0.5 flex items-center gap-1.5 text-xs font-semibold">
+            <div className="text-foreground-secondary mt-0.5 flex items-center gap-1.5 text-xs font-semibold truncate">
               {device.phone ? (
                 <>
                   <Phone className="text-foreground-muted size-3 shrink-0" />
-                  <span className="font-mono">
+                  <span className="truncate font-mono">
                     {formatPhoneNumber(device.phone)}
                   </span>
                 </>
               ) : (
-                <span className="text-foreground-muted font-sans text-[11px] italic">
+                <span className="text-foreground-muted truncate font-sans text-[11px] italic">
                   {device.status === "PAIRING"
                     ? t("whatsapp.waitingScanQR")
                     : t("whatsapp.numberNotLinked")}
@@ -183,7 +183,7 @@ export function DeviceCard({
         </div>
 
         <div
-          className="flex items-center gap-2"
+          className="flex shrink-0 items-center gap-1.5 sm:gap-2"
           onClick={(e) => e.stopPropagation()}
         >
           {Boolean(device.webhook_url || device.webhookUrl) && (

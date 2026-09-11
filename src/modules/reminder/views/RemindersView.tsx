@@ -103,22 +103,42 @@ export function RemindersView() {
     <div className="flex flex-col gap-6 p-4 sm:p-6 lg:p-8">
       {/* Top Header & Actions */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-            {t("reminder.title")}
-          </h1>
-          <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
-            {t("reminder.subtitle")}
-          </p>
+        <div className="flex items-start justify-between gap-3 sm:block">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              {t("reminder.title")}
+            </h1>
+            <p className="mt-1 text-xs text-foreground-muted sm:text-sm">
+              {t("reminder.subtitle")}
+            </p>
+          </div>
+
+          {/* Mobile-Only Header Refresh Button */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleGlobalRefresh}
+            disabled={isRemindersLoading || isLogsLoading}
+            className="size-9 shrink-0 rounded-full border-border/70 text-xs cursor-pointer sm:hidden"
+            title={t("reminder.actions.refreshTooltip")}
+            aria-label="Refresh Data"
+          >
+            <RefreshCw
+              className={`size-3.5 ${
+                isRemindersLoading || isLogsLoading ? "animate-spin" : ""
+              }`}
+            />
+          </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          {/* Desktop-Only Refresh Button */}
           <Button
             variant="outline"
             size="sm"
             onClick={handleGlobalRefresh}
             disabled={isRemindersLoading || isLogsLoading}
-            className="h-9 gap-1.5 rounded-xl border-border/70 text-xs cursor-pointer"
+            className="hidden sm:inline-flex h-9 gap-1.5 rounded-full border-border/70 text-xs cursor-pointer"
             title={t("reminder.actions.refreshTooltip")}
           >
             <RefreshCw
@@ -126,24 +146,21 @@ export function RemindersView() {
                 isRemindersLoading || isLogsLoading ? "animate-spin" : ""
               }`}
             />
-            <span className="hidden sm:inline">
-              {t("reminder.actions.refresh")}
-            </span>
+            <span>{t("reminder.actions.refresh")}</span>
           </Button>
 
+          {/* Primary Action Button (Full-width on mobile, auto on desktop) */}
           <Button
             type="button"
             variant="primaryPill"
             size="sm"
             onClick={dispatchNow}
             disabled={isDispatching}
-            className="h-9 gap-1.5 px-4 text-xs font-bold shadow-xs cursor-pointer"
+            className="h-10 sm:h-9 gap-2 px-5 text-xs font-bold shadow-xs w-full sm:w-auto cursor-pointer justify-center rounded-full"
             title={t("reminder.actions.dispatchTooltip")}
           >
             <Send className="size-3.5" />
-            <span className="hidden sm:inline">
-              {t("reminder.actions.dispatchNow")}
-            </span>
+            <span>{t("reminder.actions.dispatchNow")}</span>
           </Button>
         </div>
       </div>

@@ -2,6 +2,7 @@
   "title": "Helpdesk & Support Tickets",
   "subtitle": "Submit technical issues, API integration inquiries, or get direct assistance from the Wahide technical team.",
   "createTicket": "Create New Ticket",
+  "createTicketShort": "New Ticket",
   "searchPlaceholder": "Search tickets by subject or ticket number...",
   "search": "Search",
   "refreshAria": "Refresh ticket list",

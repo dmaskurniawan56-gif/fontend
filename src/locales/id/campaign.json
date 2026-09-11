@@ -2,6 +2,7 @@
   "title": "Kampanye Broadcast",
   "subtitle": "Kirim pesan blast massal dengan simulasi pengetikan manusia, Spintax dinamis, dan proteksi 5-lapis anti-ban.",
   "createCampaign": "Buat Kampanye Baru",
+  "createCampaignShort": "Buat Kampanye",
   "templateLabel": "Pesan Template (Mendukung Spintax)",
   "spintaxHint": "Gunakan format {Halo|Hai|Selamat Pagi} untuk mengacak variasi kata secara otomatis.",
   "jitterDelayLabel": "Dynamic Jitter Delay",

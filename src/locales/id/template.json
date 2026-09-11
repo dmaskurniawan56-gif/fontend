@@ -7,6 +7,7 @@
   "deleteTemplate": "Hapus",
   "copyContent": "Salin Pesan",
   "copyBtn": "Salin",
+  "copied": "Tersalin!",
   "useBtn": "Gunakan",
   "contentCopied": "Pesan template berhasil disalin ke clipboard!",
   "copyFailed": "Gagal menyalin teks pesan",

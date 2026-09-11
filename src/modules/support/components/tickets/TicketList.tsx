@@ -34,7 +34,6 @@ import {
   LifeBuoy,
   Plus,
   MessageSquare,
-  RefreshCw,
   Clock,
   CheckCircle2,
   AlertCircle,
@@ -45,7 +44,27 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 
-export function TicketList() {
+export interface TicketListProps {
+  supportState?: ReturnType<typeof useSupport>;
+}
+
+export function TicketList({ supportState }: TicketListProps = {}) {
+  if (supportState) {
+    return <TicketListContent supportState={supportState} />;
+  }
+  return <TicketListWithSelfState />;
+}
+
+function TicketListWithSelfState() {
+  const state = useSupport();
+  return <TicketListContent supportState={state} />;
+}
+
+function TicketListContent({
+  supportState,
+}: {
+  supportState: ReturnType<typeof useSupport>;
+}) {
   const { t } = useI18n();
   const authUser = useAuth((s) => s.user);
   const isSuperAdmin = isAdmin(authUser?.role);
@@ -68,7 +87,7 @@ export function TicketList() {
     prevPage,
     fetchTickets,
     createTicket,
-  } = useSupport();
+  } = supportState;
 
   const [searchInput, setSearchInput] = useState("");
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -166,17 +185,20 @@ export function TicketList() {
             variant="primaryPill"
             size="sm"
             onClick={() => setIsCreateOpen(true)}
-            className="h-10 shrink-0 cursor-pointer gap-2 px-4 text-xs font-bold shadow-sm"
+            className="h-10 shrink-0 cursor-pointer gap-1.5 px-3.5 text-xs font-bold shadow-sm sm:gap-2 sm:px-4"
           >
             <Plus className="size-4" />
-            <span>{t("support.createTicket")}</span>
+            <span className="hidden sm:inline">
+              {t("support.createTicket")}
+            </span>
+            <span className="sm:hidden">{t("support.createTicketShort")}</span>
           </Button>
         </div>
 
-        {/* Bottom Row: Horizontal Scrollable Filter Chips + Refresh Button */}
-        <div className="border-border/50 flex items-center justify-between gap-2 border-t pt-1">
-          {/* Scrollable Filter Chips (No awkward multi-line text wrapping on mobile!) */}
-          <div className="no-scrollbar flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
+        {/* Bottom Row: Horizontal Scrollable Filter Chips */}
+        <div className="border-border/50 border-t pt-1">
+          {/* Scrollable Filter Chips (100% full width swipable) */}
+          <div className="no-scrollbar flex w-full items-center gap-1.5 overflow-x-auto scroll-smooth py-1">
             {(
               ["ALL", "OPEN", "IN_PROGRESS", "RESOLVED", "CLOSED"] as (
                 TicketStatus | "ALL"
@@ -200,7 +222,7 @@ export function TicketList() {
                   key={st}
                   type="button"
                   onClick={() => setStatusFilter(st)}
-                  className={`shrink-0 cursor-pointer rounded-full px-3 py-1.5 text-xs whitespace-nowrap transition ${
+                  className={`shrink-0 cursor-pointer rounded-full px-3.5 py-1.5 text-xs whitespace-nowrap transition active:scale-95 ${
                     isActive
                       ? "bg-dark-green dark:bg-wise-green font-extrabold text-white shadow-xs dark:text-black"
                       : "bg-muted/70 hover:bg-muted text-foreground-secondary hover:text-foreground border-border/60 border font-semibold"
@@ -211,21 +233,6 @@ export function TicketList() {
               );
             })}
           </div>
-
-          {/* Refresh Action */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => fetchTickets()}
-            disabled={isLoading}
-            className="border-border hover:border-foreground-muted h-10 shrink-0 cursor-pointer gap-1.5 rounded-full px-3.5 text-xs font-bold transition"
-            aria-label={t("support.refreshAria")}
-          >
-            <RefreshCw
-              className={`size-3.5 ${isLoading ? "animate-spin" : ""}`}
-            />
-            <span className="hidden sm:inline">Refresh</span>
-          </Button>
         </div>
       </div>
 
@@ -267,7 +274,7 @@ export function TicketList() {
                 <div className="space-y-1">
                   <Link
                     href={`/support/${tkt.id}`}
-                    className="text-foreground dark:hover:text-wise-green line-clamp-1 block text-sm font-bold transition hover:text-emerald-700 hover:underline"
+                    className="text-foreground dark:hover:text-wise-green line-clamp-2 leading-snug wrap-break-words sm:line-clamp-1 block text-sm font-bold transition hover:text-emerald-700 hover:underline"
                   >
                     {tkt.subject}
                   </Link>

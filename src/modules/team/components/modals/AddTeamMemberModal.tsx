@@ -14,6 +14,16 @@ import {
 import { useI18n } from "@/lib/i18n/context";
 import { CreateAgentInput } from "../../types/team.types";
 import { Users, ShieldCheck, Loader2 } from "lucide-react";
+import { isValidE164, formatDisplayPhone } from "@/lib/phone";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+  sanitizeSubscriberInput,
+} from "@/lib/countryCodes";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface AddTeamMemberModalProps {
   isOpen: boolean;
@@ -29,6 +39,8 @@ export function AddTeamMemberModal({
   const { t } = useI18n();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -37,6 +49,7 @@ export function AddTeamMemberModal({
   const resetForm = () => {
     setName("");
     setEmail("");
+    setSelectedCountry(DEFAULT_COUNTRY);
     setPhone("");
     setPassword("");
     setPasswordError(null);
@@ -48,9 +61,45 @@ export function AddTeamMemberModal({
     onClose();
   };
 
+  const handlePhoneChange = (val: string) => {
+    let currentVal = val;
+    if (currentVal.includes("+")) {
+      const detected = detectCountryFromPhone(currentVal);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+        const cleaned = sanitizeSubscriberInput(
+          detected.subscriberNumber,
+          detected.country.dialCode,
+        );
+        setPhone(cleaned);
+        return;
+      }
+      currentVal = detected.subscriberNumber;
+    }
+    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    setPhone(cleaned);
+  };
+
+  const cleanDigits = sanitizeSubscriberInput(phone, selectedCountry.dialCode);
+  const fullPhone = cleanDigits
+    ? `${selectedCountry.dialCode}${cleanDigits}`
+    : "";
+  const isPhoneValid = Boolean(
+    fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8,
+  );
+  const isPhoneTooLong = cleanDigits.length > 14;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !phone.trim()) return;
+
+    if (!isPhoneValid) {
+      toast.error(
+        t("team.errInvalidPhone") ||
+          "Format nomor WhatsApp tidak valid (minimal 8 digit).",
+      );
+      return;
+    }
 
     if (!password.trim() || password.trim().length < 6) {
       setPasswordError("Password akun agen wajib diisi minimal 6 karakter");
@@ -63,7 +112,7 @@ export function AddTeamMemberModal({
       await onSubmit({
         name: name.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        phone: fullPhone,
         role: "AGENT",
         password: password.trim(),
       });
@@ -126,17 +175,70 @@ export function AddTeamMemberModal({
 
             <div>
               <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                {t("team.phoneLabel")}
+                {t("team.phoneLabel")} <span className="text-destructive">*</span>
               </label>
-              <Input
-                type="text"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder={t("team.phonePlaceholder")}
-                variant="pill"
-                className="font-mono"
-              />
+              <div
+                className={cn(
+                  "flex h-10 w-full items-center rounded-xl border bg-surface transition-all overflow-hidden focus-within:ring-2",
+                  isPhoneValid
+                    ? "border-emerald-500/70 focus-within:ring-emerald-500/30"
+                    : isPhoneTooLong
+                      ? "border-rose-500/70 focus-within:ring-rose-500/30"
+                      : "border-border focus-within:border-primary focus-within:ring-primary/20",
+                )}
+              >
+                <CountryCodeSelector
+                  selectedCountry={selectedCountry}
+                  onSelectCountry={(c) => {
+                    setSelectedCountry(c);
+                    if (phone) {
+                      setPhone(sanitizeSubscriberInput(phone, c.dialCode));
+                    }
+                  }}
+                  disabled={isSubmitting}
+                  variant="rounded"
+                  className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+                />
+                <Input
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => handlePhoneChange(e.target.value)}
+                  placeholder={
+                    t("team.phonePlaceholder") || "812 3456 7890"
+                  }
+                  className="h-full flex-1 rounded-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Live Preview & Helper Micro-Feedback */}
+              <div className="flex items-center justify-between px-1 pt-1 text-[11px]">
+                {isPhoneValid ? (
+                  <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium animate-fadeIn">
+                    <span>✓</span>
+                    <span>
+                      {t("team.phoneReadyPreview", {
+                        formatted: formatDisplayPhone(fullPhone),
+                      })}
+                    </span>
+                  </span>
+                ) : isPhoneTooLong ? (
+                  <span className="text-rose-600 dark:text-rose-400 font-medium">
+                    {t("team.phoneTooLong")}
+                  </span>
+                ) : phone.length > 0 ? (
+                  <span className="text-foreground-muted">
+                    +{selectedCountry.dialCode} {cleanDigits} (min. 8 digit)
+                  </span>
+                ) : (
+                  <span className="text-foreground-muted/70 text-[10px]">
+                    {t("team.phoneHelperHint")}
+                  </span>
+                )}
+              </div>
             </div>
 
             <div>

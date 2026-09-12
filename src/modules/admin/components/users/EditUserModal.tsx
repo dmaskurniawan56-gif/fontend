@@ -30,6 +30,16 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
+import { isValidE164, formatDisplayPhone } from "@/lib/phone";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+  sanitizeSubscriberInput,
+} from "@/lib/countryCodes";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface EditUserModalProps {
   user: UserItem | null;
@@ -50,11 +60,16 @@ function EditUserModalContent({
   onSubmit,
 }: EditUserModalContentProps) {
   const { t } = useI18n();
+  const rawPhone = user.phoneNumber || user.phone || "";
+  const detectedInitial = rawPhone ? detectCountryFromPhone(rawPhone) : null;
+  const [selectedCountry, setSelectedCountry] = useState<CountryCodeItem>(
+    detectedInitial?.country || DEFAULT_COUNTRY,
+  );
+  const [phone, setPhone] = useState(
+    detectedInitial ? detectedInitial.subscriberNumber : rawPhone,
+  );
   const [name, setName] = useState(user.name || "");
   const [email, setEmail] = useState(user.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(
-    user.phoneNumber || user.phone || "",
-  );
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isActive, setIsActive] = useState(
@@ -62,6 +77,34 @@ function EditUserModalContent({
   );
   const [role, setRole] = useState(user.role || user.roleName || "SELLER");
   const [isLoading, setIsLoading] = useState(false);
+
+  const handlePhoneChange = (val: string) => {
+    let currentVal = val;
+    if (currentVal.includes("+")) {
+      const detected = detectCountryFromPhone(currentVal);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+        const cleaned = sanitizeSubscriberInput(
+          detected.subscriberNumber,
+          detected.country.dialCode,
+        );
+        setPhone(cleaned);
+        return;
+      }
+      currentVal = detected.subscriberNumber;
+    }
+    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    setPhone(cleaned);
+  };
+
+  const cleanDigits = sanitizeSubscriberInput(phone, selectedCountry.dialCode);
+  const fullPhone = cleanDigits
+    ? `${selectedCountry.dialCode}${cleanDigits}`
+    : "";
+  const isPhoneValid = Boolean(
+    fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8,
+  );
+  const isPhoneTooLong = cleanDigits.length > 14;
 
   const handleGeneratePassword = () => {
     const randomPass = generateSecureRandomString("Wahide@", 6);
@@ -71,12 +114,26 @@ function EditUserModalContent({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let finalPhone: string | undefined = undefined;
+    if (cleanDigits.length > 0) {
+      if (!isPhoneValid) {
+        toast.error(
+          t("contact.errPhonePrefix") ||
+            "Format nomor WhatsApp tidak valid (minimal 8 digit).",
+        );
+        return;
+      }
+      finalPhone = fullPhone;
+    }
+
     setIsLoading(true);
     try {
       const payload: UpdateUserInput = {
         name: name.trim(),
         email: email.trim(),
-        phoneNumber: phoneNumber.trim(),
+        phoneNumber: finalPhone,
+        phone: finalPhone,
         isActive: isActive,
         role: role,
       };
@@ -163,15 +220,68 @@ function EditUserModalContent({
               <Phone className="size-3.5" />
               <span>{t("admin.users.phoneLabel")}</span>
             </label>
-            <Input
-              id="edit-user-phone"
-              type="tel"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder={t("admin.users.phonePlaceholder")}
-              variant="pill"
-              className="font-mono"
-            />
+            <div
+              className={cn(
+                "flex h-10 w-full items-center rounded-xl border bg-surface transition-all overflow-hidden focus-within:ring-2",
+                isPhoneValid
+                  ? "border-emerald-500/70 focus-within:ring-emerald-500/30"
+                  : isPhoneTooLong
+                    ? "border-rose-500/70 focus-within:ring-rose-500/30"
+                    : "border-border focus-within:border-primary focus-within:ring-primary/20",
+              )}
+            >
+              <CountryCodeSelector
+                selectedCountry={selectedCountry}
+                onSelectCountry={(c) => {
+                  setSelectedCountry(c);
+                  if (phone) {
+                    setPhone(sanitizeSubscriberInput(phone, c.dialCode));
+                  }
+                }}
+                disabled={isLoading}
+                variant="rounded"
+                className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+              />
+              <Input
+                id="edit-user-phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                placeholder={
+                  t("admin.users.phonePlaceholder") || "812 3456 7890"
+                }
+                className="h-full flex-1 rounded-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                disabled={isLoading}
+              />
+            </div>
+
+            {/* Live Preview & Helper Micro-Feedback */}
+            <div className="flex items-center justify-between px-1 pt-1 text-[11px]">
+              {isPhoneValid ? (
+                <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium animate-fadeIn">
+                  <span>✓</span>
+                  <span>
+                    {t("admin.users.phoneReadyPreview", {
+                      formatted: formatDisplayPhone(fullPhone),
+                    })}
+                  </span>
+                </span>
+              ) : isPhoneTooLong ? (
+                <span className="text-rose-600 dark:text-rose-400 font-medium">
+                  {t("admin.users.phoneTooLong")}
+                </span>
+              ) : phone.length > 0 ? (
+                <span className="text-foreground-muted">
+                  +{selectedCountry.dialCode} {cleanDigits} (min. 8 digit)
+                </span>
+              ) : (
+                <span className="text-foreground-muted/70 text-[10px]">
+                  {t("admin.users.phoneHelperHint")}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Role Selection */}

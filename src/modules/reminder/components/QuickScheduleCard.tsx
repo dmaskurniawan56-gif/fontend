@@ -294,7 +294,7 @@ export function QuickScheduleCard({
             </Label>
             <div
               className={cn(
-                "flex h-10 w-full items-center rounded-xl border bg-surface transition shadow-xs overflow-hidden",
+                "flex h-10 w-full items-center rounded-xl border bg-surface transition shadow-xs",
                 isPhoneValid
                   ? "border-emerald-500/70 focus-within:ring-2 focus-within:ring-emerald-500/30"
                   : isPhoneTooLong
@@ -312,7 +312,7 @@ export function QuickScheduleCard({
                 }}
                 disabled={isSubmitting}
                 variant="rounded"
-                className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+                className="h-full rounded-l-xl rounded-r-none border-y-0 border-l-0 px-2.5"
               />
               <input
                 id="rem-phone"
@@ -326,7 +326,7 @@ export function QuickScheduleCard({
                   t("reminder.quick.phonePlaceholder") ||
                   "812 3456 7890"
                 }
-                className="bg-transparent text-foreground h-full flex-1 px-3 text-xs font-semibold outline-none placeholder:text-foreground-muted/60"
+                className="bg-transparent text-foreground h-full flex-1 rounded-r-xl px-3 text-xs font-semibold outline-none placeholder:text-foreground-muted/60"
                 disabled={isSubmitting}
                 required
               />

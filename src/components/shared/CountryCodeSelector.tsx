@@ -53,7 +53,7 @@ export function CountryCodeSelector({
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
-        searchInputRef.current?.focus();
+        searchInputRef.current?.focus({ preventScroll: true });
       }, 50);
       return () => clearTimeout(timer);
     } else {
@@ -144,7 +144,7 @@ export function CountryCodeSelector({
           </div>
 
           {/* Scrollable Country List */}
-          <div className="max-h-60 overflow-y-auto space-y-0.5 pr-1 scrollbar-thin">
+          <div className="max-h-60 overflow-y-auto overscroll-contain space-y-0.5 pr-1 scrollbar-thin">
             {filteredCountries.length === 0 ? (
               <div className="py-6 text-center text-xs text-foreground-secondary">
                 <Globe className="size-6 mx-auto mb-1.5 opacity-40 text-foreground-secondary" />

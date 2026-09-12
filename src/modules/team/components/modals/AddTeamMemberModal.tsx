@@ -179,7 +179,7 @@ export function AddTeamMemberModal({
               </label>
               <div
                 className={cn(
-                  "flex h-10 w-full items-center rounded-xl border bg-surface transition-all overflow-hidden focus-within:ring-2",
+                  "flex h-10 w-full items-center rounded-xl border bg-surface transition-all focus-within:ring-2",
                   isPhoneValid
                     ? "border-emerald-500/70 focus-within:ring-emerald-500/30"
                     : isPhoneTooLong
@@ -197,7 +197,7 @@ export function AddTeamMemberModal({
                   }}
                   disabled={isSubmitting}
                   variant="rounded"
-                  className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+                  className="h-full rounded-l-xl rounded-r-none border-y-0 border-l-0 px-2.5"
                 />
                 <Input
                   type="tel"
@@ -209,7 +209,7 @@ export function AddTeamMemberModal({
                   placeholder={
                     t("team.phonePlaceholder") || "812 3456 7890"
                   }
-                  className="h-full flex-1 rounded-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="h-full flex-1 rounded-r-xl rounded-l-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
                   disabled={isSubmitting}
                 />
               </div>

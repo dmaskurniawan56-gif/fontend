@@ -83,6 +83,9 @@ tmp/
 .prettierrc
 ..prettierignore
 
+# Documentation & Internal Planning Folder
+doc/
+
 # Markdown Documentation & Planning Files (Exclude all except root README and SECURITY)
 *.md
 **/*.md

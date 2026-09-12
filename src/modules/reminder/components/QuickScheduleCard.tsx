@@ -27,7 +27,14 @@ import {
   Smartphone,
 } from "lucide-react";
 import { toast } from "sonner";
-import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { isValidE164, formatDisplayPhone } from "@/lib/phone";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+  sanitizeSubscriberInput,
+} from "@/lib/countryCodes";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
 import { useI18n } from "@/lib/i18n/context";
 
 interface QuickScheduleCardProps {
@@ -44,6 +51,8 @@ export function QuickScheduleCard({
   const { t } = useI18n();
   const [recipientName, setRecipientName] = useState("");
   const [phone, setPhone] = useState("");
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [displayDate, setDisplayDate] = useState("");
   const [isoDate, setIsoDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -108,6 +117,28 @@ export function QuickScheduleCard({
     return null;
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+
+    // Detect country if user pasted international format (+...)
+    if (val.includes("+")) {
+      const detected = detectCountryFromPhone(val);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+      }
+      val = detected.subscriberNumber;
+    }
+
+    // Keep only numeric characters and clean leading 0 or duplicate dialCode
+    const cleaned = sanitizeSubscriberInput(val, selectedCountry.dialCode);
+    setPhone(cleaned);
+  };
+
+  const cleanDigits = sanitizeSubscriberInput(phone, selectedCountry.dialCode);
+  const fullPhone = cleanDigits ? `${selectedCountry.dialCode}${cleanDigits}` : "";
+  const isPhoneValid = Boolean(fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8);
+  const isPhoneTooLong = cleanDigits.length > 14;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -124,13 +155,12 @@ export function QuickScheduleCard({
       return;
     }
 
-    if (!phone.trim()) {
+    if (!cleanDigits) {
       toast.error(t("reminder.quick.errPhoneRequired"));
       return;
     }
 
-    const cleanPhone = normalizePhoneNumber(phone);
-    if (!isValidE164(cleanPhone)) {
+    if (!isValidE164(fullPhone) || cleanDigits.length < 8) {
       toast.error(t("reminder.quick.errPhoneInvalid"));
       return;
     }
@@ -145,7 +175,7 @@ export function QuickScheduleCard({
     try {
       const success = await onSchedule({
         recipientName: recipientName.trim(),
-        phone: cleanPhone,
+        phone: fullPhone,
         targetDate: finalDate,
         notes: notes.trim(),
       });
@@ -153,6 +183,7 @@ export function QuickScheduleCard({
       if (success) {
         setRecipientName("");
         setPhone("");
+        setSelectedCountry(DEFAULT_COUNTRY);
         setNotes("");
         // reset to tomorrow
         const tomorrow = new Date();
@@ -169,7 +200,7 @@ export function QuickScheduleCard({
   };
 
   return (
-    <Card className="p-5">
+    <Card className="p-4 sm:p-5">
       <CardHeader className="p-0">
         <div className="flex items-center gap-2.5">
           <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -245,24 +276,86 @@ export function QuickScheduleCard({
             />
           </div>
 
-          {/* WhatsApp Phone */}
+          {/* WhatsApp Phone with CountryCodeSelector */}
           <div className="flex flex-col gap-1.5">
             <Label
               htmlFor="rem-phone"
-              className="flex items-center gap-1.5 text-xs"
+              className="flex items-center justify-between text-xs"
             >
-              <Phone className="size-3.5 text-emerald-500" />
-              <span>{t("reminder.quick.phoneLabel")} *</span>
+              <div className="flex items-center gap-1.5">
+                <Phone className="size-3.5 text-emerald-500" />
+                <span>{t("reminder.quick.phoneLabel")} *</span>
+              </div>
+              {phone.length > 0 && !isPhoneValid && (
+                <span className="text-[10px] font-mono text-foreground-muted">
+                  {cleanDigits.length}/8+ digit
+                </span>
+              )}
             </Label>
-            <Input
-              id="rem-phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder={t("reminder.quick.phonePlaceholder")}
-              className="h-10 text-xs rounded-xl"
-              disabled={isSubmitting}
-              required
-            />
+            <div
+              className={cn(
+                "flex h-10 w-full items-center rounded-xl border bg-surface transition shadow-xs overflow-hidden",
+                isPhoneValid
+                  ? "border-emerald-500/70 focus-within:ring-2 focus-within:ring-emerald-500/30"
+                  : isPhoneTooLong
+                    ? "border-rose-500 focus-within:ring-2 focus-within:ring-rose-500/30"
+                    : "border-border hover:border-foreground-muted focus-within:border-wise-green focus-within:ring-2 focus-within:ring-wise-green",
+              )}
+            >
+              <CountryCodeSelector
+                selectedCountry={selectedCountry}
+                onSelectCountry={(c) => {
+                  setSelectedCountry(c);
+                  if (phone) {
+                    setPhone(sanitizeSubscriberInput(phone, c.dialCode));
+                  }
+                }}
+                disabled={isSubmitting}
+                variant="rounded"
+                className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+              />
+              <input
+                id="rem-phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={handlePhoneChange}
+                placeholder={
+                  selectedCountry.formatHint ||
+                  t("reminder.quick.phonePlaceholder") ||
+                  "812 3456 7890"
+                }
+                className="bg-transparent text-foreground h-full flex-1 px-3 text-xs font-semibold outline-none placeholder:text-foreground-muted/60"
+                disabled={isSubmitting}
+                required
+              />
+            </div>
+            {/* Live Micro-Feedback */}
+            <div className="min-h-4 text-[11px] leading-tight">
+              {isPhoneValid ? (
+                <span className="text-emerald-700 dark:text-wise-green font-medium flex items-center gap-1">
+                  <span>✓</span>
+                  <span>
+                    {t("reminder.quick.phoneReadyPreview", {
+                      formatted: formatDisplayPhone(fullPhone),
+                    })}
+                  </span>
+                </span>
+              ) : isPhoneTooLong ? (
+                <span className="text-rose-600 dark:text-rose-400 font-medium">
+                  {t("reminder.quick.phoneTooLong")}
+                </span>
+              ) : phone.length > 0 ? (
+                <span className="text-foreground-muted">
+                  +{selectedCountry.dialCode} {cleanDigits} (min. 8 digit)
+                </span>
+              ) : (
+                <span className="text-foreground-muted/70 text-[10px]">
+                  {t("reminder.quick.phoneHelperHint")}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Target Date */}
@@ -353,7 +446,7 @@ export function QuickScheduleCard({
               variant={hasConfiguredDevice ? "primaryPill" : "default"}
               disabled={isSubmitting}
               className={cn(
-                "h-10 px-5 text-xs font-bold gap-2 shadow-xs cursor-pointer transition-all",
+                "w-full sm:w-auto h-10 px-5 text-xs font-bold gap-2 shadow-xs cursor-pointer transition-all",
                 !hasConfiguredDevice
                   ? "bg-amber-600 hover:bg-amber-700 text-white rounded-full"
                   : "",

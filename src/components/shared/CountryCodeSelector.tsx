@@ -126,7 +126,7 @@ export function CountryCodeSelector({
 
       {/* Popover Menu */}
       {isOpen && (
-        <div className="absolute left-0 top-full z-50 mt-1.5 w-72 sm:w-80 rounded-2xl border border-border bg-popover p-2 text-popover-foreground shadow-2xl ring-1 ring-black/5 animate-fadeIn">
+        <div className="absolute left-0 top-full z-50 mt-1.5 w-72 sm:w-80 max-w-[calc(100vw-2.5rem)] rounded-2xl border border-border bg-popover p-2 text-popover-foreground shadow-2xl ring-1 ring-black/5 animate-fadeIn">
           {/* Search Header */}
           <div className="relative mb-2 px-1">
             <Search className="absolute left-3.5 top-2.5 size-3.5 text-foreground-secondary pointer-events-none" />

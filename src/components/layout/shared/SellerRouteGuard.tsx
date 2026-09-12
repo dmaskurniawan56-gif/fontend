@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/modules/iam/hooks/useAuth";
 import { isSeller, isAdmin } from "@/modules/iam/types/auth.types";
@@ -19,11 +19,33 @@ export function SellerRouteGuard({
   fallbackTitle,
   fallbackDescription,
 }: SellerRouteGuardProps) {
-  const user = useAuth((s) => s.user);
+  // Fine-grained atomic selector: only listen to 'role' changes.
+  // Prevents unnecessary re-renders when background /auth/profile updates balance, name, etc.
+  const userRole = useAuth((s) => s.user?.role);
   const { t } = useI18n();
 
-  // Jika user belum login atau memiliki role selain seller/admin (misal role 'user')
-  const hasAccess = isSeller(user?.role) || isAdmin(user?.role);
+  // 1. Client hydration synchronization to avoid premature evaluation on F5 reload
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  // 2. Neutral skeleton placeholder during initial client hydration tick (<30ms)
+  // Eliminates the red 'Akses Terbatas' flicker without exposing sensitive UI
+  if (!isHydrated) {
+    return (
+      <div className="flex flex-col gap-6 p-4 sm:p-6 max-w-7xl mx-auto w-full animate-pulse">
+        <div className="h-8 w-64 bg-muted/60 rounded-xl" />
+        <div className="h-4 w-96 bg-muted/40 rounded-lg -mt-3" />
+        <div className="h-36 w-full bg-muted/30 rounded-2xl border border-border/40" />
+        <div className="h-64 w-full bg-muted/20 rounded-2xl border border-border/30" />
+      </div>
+    );
+  }
+
+  // 3. Authenticated role evaluation only after verified hydration
+  const hasAccess = isSeller(userRole) || isAdmin(userRole);
 
   if (!hasAccess) {
     const title =
@@ -33,7 +55,7 @@ export function SellerRouteGuard({
       "Halaman ini memuat pengaturan sensitif yang hanya dapat dikelola oleh Akun Pemilik Bisnis (Seller). Staf agen CS/Operator tidak memiliki izin untuk mengakses menu ini.";
 
     return (
-      <div className="flex min-h-[70vh] items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="flex min-h-[70vh] items-center justify-center p-4 sm:p-6 lg:p-8 animate-fadeIn">
         <div className="bg-surface border-border w-full max-w-md space-y-5 rounded-3xl border p-6 text-center shadow-lg sm:p-8">
           <div className="mx-auto flex size-14 items-center justify-center rounded-2xl border border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400">
             <ShieldAlert className="size-7" />

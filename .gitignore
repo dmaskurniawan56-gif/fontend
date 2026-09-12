@@ -82,3 +82,9 @@ tmp/
 
 .prettierrc
 ..prettierignore
+
+# Markdown Documentation & Planning Files (Exclude all except root README and SECURITY)
+*.md
+**/*.md
+!README.md
+!SECURITY.md

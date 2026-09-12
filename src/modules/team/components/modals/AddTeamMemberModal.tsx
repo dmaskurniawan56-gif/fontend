@@ -76,7 +76,10 @@ export function AddTeamMemberModal({
       }
       currentVal = detected.subscriberNumber;
     }
-    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    const cleaned = sanitizeSubscriberInput(
+      currentVal,
+      selectedCountry.dialCode,
+    );
     setPhone(cleaned);
   };
 
@@ -175,7 +178,8 @@ export function AddTeamMemberModal({
 
             <div>
               <label className="text-foreground-secondary mb-1.5 block text-xs font-semibold tracking-wider uppercase">
-                {t("team.phoneLabel")} <span className="text-destructive">*</span>
+                {t("team.phoneLabel")}{" "}
+                <span className="text-destructive">*</span>
               </label>
               <div
                 className={cn(
@@ -206,9 +210,7 @@ export function AddTeamMemberModal({
                   required
                   value={phone}
                   onChange={(e) => handlePhoneChange(e.target.value)}
-                  placeholder={
-                    t("team.phonePlaceholder") || "812 3456 7890"
-                  }
+                  placeholder={t("team.phonePlaceholder") || "812 3456 7890"}
                   className="h-full flex-1 rounded-r-xl rounded-l-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
                   disabled={isSubmitting}
                 />

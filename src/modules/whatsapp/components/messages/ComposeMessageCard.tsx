@@ -270,7 +270,7 @@ export function ComposeMessageCard({
   );
 
   return (
-    <div className="border-border bg-surface overflow-hidden rounded-2xl border p-5 shadow-xs sm:rounded-3xl sm:p-7">
+    <div className="border-border bg-surface rounded-2xl border p-5 shadow-xs sm:rounded-3xl sm:p-7">
       <div className="mb-6 space-y-1">
         <h2 className="text-base sm:text-lg font-bold text-foreground tracking-tight">
           {t("whatsapp.messagesComposeTitle")}

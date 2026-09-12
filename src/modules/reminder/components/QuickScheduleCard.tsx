@@ -200,7 +200,7 @@ export function QuickScheduleCard({
   };
 
   return (
-    <Card className="p-4 sm:p-5">
+    <Card className="p-4 sm:p-5 overflow-visible relative z-20">
       <CardHeader className="p-0">
         <div className="flex items-center gap-2.5">
           <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">

@@ -9,34 +9,37 @@
 ## 1. Executive Security Verdict (Penilaian Ahli Keamanan)
 
 ### Pertanyaan Kunci:
-> *"Apakah planning perbaikan hidrasi ini aman? Apakah bisa dimodifikasi/dilewati oleh hacker atau attacker di sisi frontend?"*
+
+> _"Apakah planning perbaikan hidrasi ini aman? Apakah bisa dimodifikasi/dilewati oleh hacker atau attacker di sisi frontend?"_
 
 ### Jawaban Singkat & Tegas:
+
 **YA, SANGAT AMAN.**  
 Perubahan pada `SellerRouteGuard.tsx` ini **100% aman dari ancaman peretasan data**, karena arsitektur sistem mematuhi **Hukum Utama Keamanan Web Modern**:
-1. **Frontend adalah Lingkungan Klien yang Tidak Boleh Dipercaya (*Untrusted Environment*):**  
+
+1. **Frontend adalah Lingkungan Klien yang Tidak Boleh Dipercaya (_Untrusted Environment_):**  
    Fungsi guard di frontend hanyalah penjaga **Pengalaman Pengguna (UX Guard & Anti-Information Disclosure)**, bukan benteng otentikasi data akhir.
-2. **Backend Go Echo adalah Pemegang Otoritas Mutlak (*Single Source of Truth*):**  
+2. **Backend Go Echo adalah Pemegang Otoritas Mutlak (_Single Source of Truth_):**  
    Meskipun seorang hacker memanipulasi kode JavaScript frontend hingga tampilan halaman reservasi terbuka di layarnya, **ia tetap tidak akan bisa membaca, mengedit, ataupun menghapus satu baris data pun di database**.
 
 ---
 
-## 2. Matriks Simulasi Serangan Hacker (*Attack Vector Simulation Matrix*)
+## 2. Matriks Simulasi Serangan Hacker (_Attack Vector Simulation Matrix_)
 
 Berikut adalah simulasi teknis jika seorang peretas (misalnya: staf internal dengan role `OPERATOR` yang berniat jahat atau hacker luar) mencoba membobol sistem:
 
-| No | Metode Penyerangan (*Attack Scenario*) | Apa yang Terjadi di Frontend? | Apa Respons Backend Go Echo? | Dampak Keamanan (*Security Impact*) | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | **Manipulasi Cookie Browser**<br>`document.cookie = "wahide_user_role=SELLER"` | Guard kami **TIDAK menggunakan cookie teks biasa**, sehingga manipulasi ini **tidak berpengaruh sama sekali**. Layar tetap terkunci. | Backend tidak terpengaruh karena backend membaca cookie HttpOnly `hide-jwt` yang terenkripsi dan bertanda tangan kriptografis. | **0% Kebocoran.** Serangan gagal total. | 🛡️ **KEBAL (IMMUNE)** |
-| **2** | **Manipulasi LocalStorage**<br>`localStorage.setItem('wahide_auth_storage', JSON.stringify({ state: { user: { role: 'SELLER' } } }))` | Jika attacker me-reload halaman, Zustand membaca role `SELLER` palsu dan me-render kerangka UI Reservasi. | Komponen UI akan mengirim request ke backend `GET /api/v1/reservations`. Backend memeriksa JWT asli (yang masih berisi role `OPERATOR`). Backend merespons: **`HTTP 403 Forbidden`**. | **0% Kebocoran Data.** Tabel data kosong total, muncul pesan *"Gagal memuat data / Forbidden"*. Penyerang hanya melihat form kosong yang tidak berfungsi. | 🛡️ **TERLINDUNGI (DEFENSE IN DEPTH)** |
-| **3** | **Manipulasi Memory State via Console F12**<br>`useAuth.setState({ user: { role: 'SELLER' } })` | UI secara instan membuka komponen anak (`children`). | Sama seperti skenario 2: Semua aksi tombol *"Simpan"*, *"Hapus"*, atau *"Update Status"* mengirim request ke API backend dan langsung diblokir dengan **`HTTP 403 Forbidden`**. | **0% Kerusakan Data.** Tidak ada operasi database yang dieksekusi. | 🛡️ **TERLINDUNGI** |
-| **4** | **Manipulasi Elemen DOM**<br>Menghapus overlay *"Akses Terbatas"* lewat menu *Inspect Element*. | Konten di balik overlay terlihat jika sudah dimuat di DOM. | Karena guard menggunakan sistem *conditional rendering* (`if (!hasAccess) return <RestrictionScreen />`), komponen asli reservasi **sama sekali tidak di-inject ke DOM** jika akses ditolak. Hacker hanya melihat layar kosong. | **0% Kebocoran UI.** Komponen reservasi tidak pernah ada di DOM sebelum otentikasi lolos. | 🛡️ **KEBAL (IMMUNE)** |
-| **5** | **Pemalsuan Token JWT (*JWT Forgery / Alg None*)**<br>Hacker membuat JWT sendiri dengan payload `{"role":"SELLER"}`. | Frontend mungkin menerima token jika disimpan ke storage. | Backend Go Echo memvalidasi tanda tangan token menggunakan **HMAC-SHA256** dan Secret Key rahasia server (`JWT_SECRET`). Karena hacker tidak tahu secret key server, verifikasi tanda tangan kriptografi **GAGAL**. Backend merespons: **`HTTP 401 Unauthorized: Invalid or expired JWT`**. Sesi langsung dimatikan (*revoked*). | **0% Akses.** Penyerang otomatis ditendang keluar (*logout*). | 🛡️ **KEBAL (CRYPTOGRAPHICALLY SECURE)** |
-| **6** | **Bypass Frontend Total via cURL / Postman**<br>Hacker tidak menggunakan browser sama sekali, langsung menembak API backend. | Tidak relevan (Frontend dilewati). | Middleware backend `RequireRoles(RoleSeller, RoleAdmin)` mencegat request di pintu masuk `/api/v1/reservations`. Karena role penyerang bukan Seller/Admin, request langsung dipotong sebelum menyentuh Usecase/Database. | **0% Akses.** Backend terlindungi secara independen. | 🛡️ **KEBAL (ZERO TRUST GATEWAY)** |
+| No    | Metode Penyerangan (_Attack Scenario_)                                                                                                | Apa yang Terjadi di Frontend?                                                                                                        | Apa Respons Backend Go Echo?                                                                                                                                                                                                                                                                                                     | Dampak Keamanan (_Security Impact_)                                                                                                                       | Status                                  |
+| :---- | :------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
+| **1** | **Manipulasi Cookie Browser**<br>`document.cookie = "wahide_user_role=SELLER"`                                                        | Guard kami **TIDAK menggunakan cookie teks biasa**, sehingga manipulasi ini **tidak berpengaruh sama sekali**. Layar tetap terkunci. | Backend tidak terpengaruh karena backend membaca cookie HttpOnly `hide-jwt` yang terenkripsi dan bertanda tangan kriptografis.                                                                                                                                                                                                   | **0% Kebocoran.** Serangan gagal total.                                                                                                                   | 🛡️ **KEBAL (IMMUNE)**                   |
+| **2** | **Manipulasi LocalStorage**<br>`localStorage.setItem('wahide_auth_storage', JSON.stringify({ state: { user: { role: 'SELLER' } } }))` | Jika attacker me-reload halaman, Zustand membaca role `SELLER` palsu dan me-render kerangka UI Reservasi.                            | Komponen UI akan mengirim request ke backend `GET /api/v1/reservations`. Backend memeriksa JWT asli (yang masih berisi role `OPERATOR`). Backend merespons: **`HTTP 403 Forbidden`**.                                                                                                                                            | **0% Kebocoran Data.** Tabel data kosong total, muncul pesan _"Gagal memuat data / Forbidden"_. Penyerang hanya melihat form kosong yang tidak berfungsi. | 🛡️ **TERLINDUNGI (DEFENSE IN DEPTH)**   |
+| **3** | **Manipulasi Memory State via Console F12**<br>`useAuth.setState({ user: { role: 'SELLER' } })`                                       | UI secara instan membuka komponen anak (`children`).                                                                                 | Sama seperti skenario 2: Semua aksi tombol _"Simpan"_, _"Hapus"_, atau _"Update Status"_ mengirim request ke API backend dan langsung diblokir dengan **`HTTP 403 Forbidden`**.                                                                                                                                                  | **0% Kerusakan Data.** Tidak ada operasi database yang dieksekusi.                                                                                        | 🛡️ **TERLINDUNGI**                      |
+| **4** | **Manipulasi Elemen DOM**<br>Menghapus overlay _"Akses Terbatas"_ lewat menu _Inspect Element_.                                       | Konten di balik overlay terlihat jika sudah dimuat di DOM.                                                                           | Karena guard menggunakan sistem _conditional rendering_ (`if (!hasAccess) return <RestrictionScreen />`), komponen asli reservasi **sama sekali tidak di-inject ke DOM** jika akses ditolak. Hacker hanya melihat layar kosong.                                                                                                  | **0% Kebocoran UI.** Komponen reservasi tidak pernah ada di DOM sebelum otentikasi lolos.                                                                 | 🛡️ **KEBAL (IMMUNE)**                   |
+| **5** | **Pemalsuan Token JWT (_JWT Forgery / Alg None_)**<br>Hacker membuat JWT sendiri dengan payload `{"role":"SELLER"}`.                  | Frontend mungkin menerima token jika disimpan ke storage.                                                                            | Backend Go Echo memvalidasi tanda tangan token menggunakan **HMAC-SHA256** dan Secret Key rahasia server (`JWT_SECRET`). Karena hacker tidak tahu secret key server, verifikasi tanda tangan kriptografi **GAGAL**. Backend merespons: **`HTTP 401 Unauthorized: Invalid or expired JWT`**. Sesi langsung dimatikan (_revoked_). | **0% Akses.** Penyerang otomatis ditendang keluar (_logout_).                                                                                             | 🛡️ **KEBAL (CRYPTOGRAPHICALLY SECURE)** |
+| **6** | **Bypass Frontend Total via cURL / Postman**<br>Hacker tidak menggunakan browser sama sekali, langsung menembak API backend.          | Tidak relevan (Frontend dilewati).                                                                                                   | Middleware backend `RequireRoles(RoleSeller, RoleAdmin)` mencegat request di pintu masuk `/api/v1/reservations`. Karena role penyerang bukan Seller/Admin, request langsung dipotong sebelum menyentuh Usecase/Database.                                                                                                         | **0% Akses.** Backend terlindungi secara independen.                                                                                                      | 🛡️ **KEBAL (ZERO TRUST GATEWAY)**       |
 
 ---
 
-## 3. Arsitektur Pertahanan Berlapis (*Defense-in-Depth Architecture*)
+## 3. Arsitektur Pertahanan Berlapis (_Defense-in-Depth Architecture_)
 
 Sistem kita mengadopsi prinsip **2 Lapis Pertahanan**:
 
@@ -78,11 +81,13 @@ Sistem kita mengadopsi prinsip **2 Lapis Pertahanan**:
 ## 4. Mengapa Solusi "Neutral Skeleton + Hydration Sync" adalah Standar Emas?
 
 Banyak pengembang pemula melakukan 2 kesalahan umum:
+
 1. **Kesalahan 1 (Percaya Cookie Plaintext):** Membaca `document.cookie` untuk menentukan hak akses. Ini rentan dimanipulasi via F12 Console.
-2. **Kesalahan 2 (Default Open):** Membiarkan halaman terbuka dulu, baru mengecek role belakangan. Ini menyebabkan data/tombol sensitif sempat berkedip ke mata pengguna yang tidak berhak (*Information Disclosure*).
+2. **Kesalahan 2 (Default Open):** Membiarkan halaman terbuka dulu, baru mengecek role belakangan. Ini menyebabkan data/tombol sensitif sempat berkedip ke mata pengguna yang tidak berhak (_Information Disclosure_).
 
 Solusi yang kita terapkan menerapkan prinsip **Fail-Safe Defaults (Default Deny)**:
-- **Sebelum hidrasi selesai (`!isHydrated`):** Komponen rahasia **TIDAK DI-RENDER**, dan komponen peringatan juga **TIDAK DI-RENDER**. Yang tampil adalah kerangka netral (*skeleton*).
+
+- **Sebelum hidrasi selesai (`!isHydrated`):** Komponen rahasia **TIDAK DI-RENDER**, dan komponen peringatan juga **TIDAK DI-RENDER**. Yang tampil adalah kerangka netral (_skeleton_).
 - Hal ini menyelesaikan 2 aspek sekaligus:
   1. **UX:** Seller sah tidak kaget melihat pesan peringatan palsu saat menekan F5.
   2. **Security:** Staf yang tidak berhak tidak bisa mengintip bentuk antarmuka reservasi saat koneksi lambat.
@@ -203,24 +208,29 @@ export function SellerRouteGuard({
 
 ---
 
-## 6. Prosedur Uji Penetrasi Mandiri (*Self-PenTest Procedure*)
+## 6. Prosedur Uji Penetrasi Mandiri (_Self-PenTest Procedure_)
 
 Untuk membuktikan keamanannya kepada Anda sendiri, lakukan pengujian berikut setelah kode diterapkan:
 
 ### Test 1: Uji Anti-Flicker (Akun Seller Sah)
+
 1. Login sebagai akun **Seller**.
 2. Masuk ke halaman `/reservations`.
 3. Tekan tombol **F5** (atau Ctrl+F5) berulang kali dengan cepat.
-4. **Hasil yang Diharapkan:** Tulisan *"Akses Terbatas"* **TIDAK PERNAH** muncul sedetik pun. Halaman hanya menampilkan shimmer skeleton sesaat lalu langsung menampilkan data reservasi dengan mulus.
+4. **Hasil yang Diharapkan:** Tulisan _"Akses Terbatas"_ **TIDAK PERNAH** muncul sedetik pun. Halaman hanya menampilkan shimmer skeleton sesaat lalu langsung menampilkan data reservasi dengan mulus.
 
 ### Test 2: Uji Pembobolan Frontend (Akun Non-Seller / Operator)
+
 1. Login sebagai akun **Operator** (atau akun staf biasa).
 2. Akses halaman `/reservations`.
 3. Buka **F12 -> Console**, jalankan perintah hacking client:
    ```javascript
-   localStorage.setItem('wahide_auth_storage', JSON.stringify({
-     state: { user: { role: 'SELLER' }, isAuthenticated: true }
-   }));
+   localStorage.setItem(
+     "wahide_auth_storage",
+     JSON.stringify({
+       state: { user: { role: "SELLER" }, isAuthenticated: true },
+     }),
+   );
    ```
 4. Tekan **F5**.
 5. **Hasil:**
@@ -228,13 +238,14 @@ Untuk membuktikan keamanannya kepada Anda sendiri, lakukan pengujian berikut set
    - **TETAPI:** Periksa tab **Network (F12)** saat browser memanggil `GET /api/v1/reservations`.
    - Backend Go Echo mengembalikan **`403 Forbidden`**.
    - Tidak ada data pelanggan, nama, nomor telepon, atau jadwal reservasi yang bisa dibaca.
-   - Jika Anda menekan tombol *"Tambah Reservasi"*, API menolak dengan respons error dan database tidak berubah.
+   - Jika Anda menekan tombol _"Tambah Reservasi"_, API menolak dengan respons error dan database tidak berubah.
 
 ---
 
 ## 7. Kesimpulan Akhir Security Engineer
 
 Perencanaan ini memenuhi standar industri tertinggi:
+
 1. **Keamanan Data:** Dijamin 100% oleh backend Go Echo (HMAC-SHA256 JWT, RBAC Middleware, Multi-tenant DB isolation).
-2. **Keamanan UI:** Tidak ada celah *Information Disclosure* karena skeleton loader netral menahan perenderan sebelum hidrasi.
-3. **Kenyamanan Pengguna:** Kedipan palsu (*false alert flicker*) tereliminasi total.
+2. **Keamanan UI:** Tidak ada celah _Information Disclosure_ karena skeleton loader netral menahan perenderan sebelum hidrasi.
+3. **Kenyamanan Pengguna:** Kedipan palsu (_false alert flicker_) tereliminasi total.

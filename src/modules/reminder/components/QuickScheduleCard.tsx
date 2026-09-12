@@ -135,8 +135,12 @@ export function QuickScheduleCard({
   };
 
   const cleanDigits = sanitizeSubscriberInput(phone, selectedCountry.dialCode);
-  const fullPhone = cleanDigits ? `${selectedCountry.dialCode}${cleanDigits}` : "";
-  const isPhoneValid = Boolean(fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8);
+  const fullPhone = cleanDigits
+    ? `${selectedCountry.dialCode}${cleanDigits}`
+    : "";
+  const isPhoneValid = Boolean(
+    fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8,
+  );
   const isPhoneTooLong = cleanDigits.length > 14;
 
   const handleSubmit = async (e: React.FormEvent) => {

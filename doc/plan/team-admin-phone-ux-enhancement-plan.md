@@ -11,7 +11,7 @@ Dokumentasi implementasi standardisasi input nomor WhatsApp pada modal **Tambah 
    - Default negara: **Indonesia (`🇮🇩 +62`)**, atau auto-detect dari nomor pengguna yang ada saat membuka edit modal.
    - Popover pencarian negara lengkap dan berbendera (Malaysia `🇲🇾 +60`, Singapura `🇸🇬 +65`, dll.).
 2. **Auto-Detect Region Saat Paste:**
-   - Menempelkan (*paste*) nomor internasional berawalan `+` otomatis beralih bendera via `detectCountryFromPhone`.
+   - Menempelkan (_paste_) nomor internasional berawalan `+` otomatis beralih bendera via `detectCountryFromPhone`.
 3. **Smart Input & Sanitasi Otomatis:**
    - Menghapus otomatis awalan `0` berlebih via `sanitizeSubscriberInput`.
    - Mencegah input non-angka dengan `type="tel"` dan `inputMode="tel"`.
@@ -27,6 +27,7 @@ Dokumentasi implementasi standardisasi input nomor WhatsApp pada modal **Tambah 
 ## 2. Rincian File yang Diubah
 
 Semua perubahan berada di `G:\WEB2026\fontwahide`:
+
 1. `src/modules/team/components/modals/AddTeamMemberModal.tsx`
 2. `src/modules/admin/components/users/EditUserModal.tsx`
 3. `src/locales/id/team.json`
@@ -37,5 +38,6 @@ Semua perubahan berada di `G:\WEB2026\fontwahide`:
 ---
 
 ## 3. Rencana Verifikasi
+
 - TypeScript check: `bun run typescript` -> 0 errors.
 - ESLint: `bun run lint` -> 0 errors / 0 warnings.

@@ -98,7 +98,10 @@ export function AddReservationForm({
       }
       currentVal = detected.subscriberNumber;
     }
-    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    const cleaned = sanitizeSubscriberInput(
+      currentVal,
+      selectedCountry.dialCode,
+    );
     setPhone(cleaned);
   };
 
@@ -166,7 +169,9 @@ export function AddReservationForm({
     }
 
     if (!isPhoneValid) {
-      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid.");
+      toast.error(
+        t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid.",
+      );
       return;
     }
 

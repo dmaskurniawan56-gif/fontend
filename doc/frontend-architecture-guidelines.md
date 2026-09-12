@@ -1,37 +1,38 @@
 # Panduan Arsitektur Frontend & Aturan Coding AI (Wahide Frontend)
 
-Dokumen ini adalah **pedoman resmi dan acuan tunggal (*single source of truth*)** arsitektur, struktur folder, konvensi penamaan, standar desain, dan aturan pemrograman untuk seluruh AI Agent (Antigravity, Gemini, Claude) maupun developer manusia yang berkontribusi pada repository `fontwahide`.
+Dokumen ini adalah **pedoman resmi dan acuan tunggal (_single source of truth_)** arsitektur, struktur folder, konvensi penamaan, standar desain, dan aturan pemrograman untuk seluruh AI Agent (Antigravity, Gemini, Claude) maupun developer manusia yang berkontribusi pada repository `fontwahide`.
 
 ---
 
 ## 1. Ringkasan & Filosofi Proyek
 
-Aplikasi frontend `fontwahide` adalah antarmuka web SaaS B2B (*Business-to-Business*) modern untuk platform **Wahide Enterprise WhatsApp Gateway, Marketing & Business Automation**.
+Aplikasi frontend `fontwahide` adalah antarmuka web SaaS B2B (_Business-to-Business_) modern untuk platform **Wahide Enterprise WhatsApp Gateway, Marketing & Business Automation**.
 
 ### Prinsip Utama:
+
 1. **Modular Monolith (Domain-Driven):** Setiap fitur bisnis berdiri mandiri di dalam folder modulnya masing-masing dengan antarmuka yang jelas.
-2. **Thin App Router:** Folder `src/app/` hanya berfungsi sebagai router tipis, penanggung jawab rute, metadata SEO, dan penjaga izin akses (*route guards*). Seluruh logika bisnis berada di `src/modules/`.
-3. **Desain Aksesibel & Resik (Clean UX):** Menggunakan desain semantik modern, dukungan penuh mode Gelap (*Dark*) & Terang (*Light*), responsif dari layar smartphone hingga monitor ultrawide.
-4. **Keamanan & Performa Tinggi:** Validasi input ketat (Zod), penanganan error elegan (*graceful failure*), dan pencegahan masalah tata letak (*layout shifts* / *overflow clipping*).
+2. **Thin App Router:** Folder `src/app/` hanya berfungsi sebagai router tipis, penanggung jawab rute, metadata SEO, dan penjaga izin akses (_route guards_). Seluruh logika bisnis berada di `src/modules/`.
+3. **Desain Aksesibel & Resik (Clean UX):** Menggunakan desain semantik modern, dukungan penuh mode Gelap (_Dark_) & Terang (_Light_), responsif dari layar smartphone hingga monitor ultrawide.
+4. **Keamanan & Performa Tinggi:** Validasi input ketat (Zod), penanganan error elegan (_graceful failure_), dan pencegahan masalah tata letak (_layout shifts_ / _overflow clipping_).
 
 ---
 
 ## 2. Tech Stack & Ekosistem
 
-| Lapisan / Kebutuhan | Teknologi & Versi | Catatan Penggunaan |
-| :--- | :--- | :--- |
-| **Runtime & Package Manager** | **Bun** (`bun@1.4.0`) | Eksekutor perintah dan manajemen paket super cepat. |
-| **Framework Web** | **Next.js 16** (`next@16.3.3`) | App Router, Turbopack bundler, Streaming SSR. |
-| **UI Library Dasar** | **React 19** (`react@19.2.8`) | React Server Components (RSC) + Client Components. |
-| **Styling & CSS** | **Tailwind CSS v4** (`@tailwindcss/postcss@^4`) | CSS Variables, design tokens, utility classes. |
-| **Theme Management** | **next-themes** (`^0.4.6`) | Toggle otomatis tema gelap/terang berbasis class `.dark`. |
-| **UI Primitives & Headless** | **Base UI** (`@base-ui/react`) & **shadcn/ui** | Dropdown, Dialog, Tabs, Popover, Card. |
-| **Ikonografi** | **lucide-react** (`^1.37.0`) | Ikon SVG konsisten dengan ukuran standar (`size-3.5`, `size-4`, `size-5`). |
-| **State Management** | **Zustand 5** (`zustand@^5.0.15`) | Global auth store (`useAuth`), tenant session, dan cache UI. |
-| **Skema & Validasi** | **Zod 4** (`zod@^4.5.4`) | Validasi form request dan kontrak respons API. |
-| **Notifikasi / Toast** | **Sonner** (`sonner@^2.0.8`) | Micro-feedback interaktif (`toast.success`, `toast.error`, `toast.info`). |
-| **Internasionalisasi (i18n)** | **Custom Context Engine** (`@/lib/i18n`) | Multi-bahasa dinamis (Bahasa Indonesia `id` & English `en`). |
-| **Tabel & Virtualisasi** | **@tanstack/react-virtual** (`^3.14.10`) | Render antrean data besar (kontak, pesan, log) tanpa lag. |
+| Lapisan / Kebutuhan           | Teknologi & Versi                               | Catatan Penggunaan                                                         |
+| :---------------------------- | :---------------------------------------------- | :------------------------------------------------------------------------- |
+| **Runtime & Package Manager** | **Bun** (`bun@1.4.0`)                           | Eksekutor perintah dan manajemen paket super cepat.                        |
+| **Framework Web**             | **Next.js 16** (`next@16.3.3`)                  | App Router, Turbopack bundler, Streaming SSR.                              |
+| **UI Library Dasar**          | **React 19** (`react@19.2.8`)                   | React Server Components (RSC) + Client Components.                         |
+| **Styling & CSS**             | **Tailwind CSS v4** (`@tailwindcss/postcss@^4`) | CSS Variables, design tokens, utility classes.                             |
+| **Theme Management**          | **next-themes** (`^0.4.6`)                      | Toggle otomatis tema gelap/terang berbasis class `.dark`.                  |
+| **UI Primitives & Headless**  | **Base UI** (`@base-ui/react`) & **shadcn/ui**  | Dropdown, Dialog, Tabs, Popover, Card.                                     |
+| **Ikonografi**                | **lucide-react** (`^1.37.0`)                    | Ikon SVG konsisten dengan ukuran standar (`size-3.5`, `size-4`, `size-5`). |
+| **State Management**          | **Zustand 5** (`zustand@^5.0.15`)               | Global auth store (`useAuth`), tenant session, dan cache UI.               |
+| **Skema & Validasi**          | **Zod 4** (`zod@^4.5.4`)                        | Validasi form request dan kontrak respons API.                             |
+| **Notifikasi / Toast**        | **Sonner** (`sonner@^2.0.8`)                    | Micro-feedback interaktif (`toast.success`, `toast.error`, `toast.info`).  |
+| **Internasionalisasi (i18n)** | **Custom Context Engine** (`@/lib/i18n`)        | Multi-bahasa dinamis (Bahasa Indonesia `id` & English `en`).               |
+| **Tabel & Virtualisasi**      | **@tanstack/react-virtual** (`^3.14.10`)        | Render antrean data besar (kontak, pesan, log) tanpa lag.                  |
 
 ---
 
@@ -104,6 +105,7 @@ src/modules/<feature-name>/
 ```
 
 ### Rincian Tugas Tiap Lapisan:
+
 1. **`types/<feature>.types.ts`:**
    - Mendefinisikan interface entitas data, enum status, request DTO, dan response DTO.
    - Contoh: `Reservation`, `ReservationStatus`, `CreateReservationInput`, `UpdateStatusInput`.
@@ -123,14 +125,16 @@ src/modules/<feature-name>/
 
 ---
 
-## 5. Pola Halaman Tipis (*Thin Page Pattern*)
+## 5. Pola Halaman Tipis (_Thin Page Pattern_)
 
 Berkas rute di `src/app/(dashboard)/<route>/page.tsx` **TIDAK BOLEH** berisi logika bisnis yang panjang. File ini hanya bertugas:
+
 1. Menentukan metadata SEO (`title`, `description`).
 2. Menerapkan Route Guard (`<SellerRouteGuard>` atau `<AdminRouteGuard>`).
 3. Me-render View dari modul terkait.
 
 **Contoh Standar `src/app/(dashboard)/reservations/page.tsx`:**
+
 ```tsx
 import type { Metadata } from "next";
 import { ReservationsView } from "@/modules/reservation/views/ReservationsView";
@@ -152,29 +156,35 @@ export default function ReservationsPage() {
 
 ---
 
-## 6. Aturan Wajib & Larangan Keras untuk AI (*AI Hard Rules*)
+## 6. Aturan Wajib & Larangan Keras untuk AI (_AI Hard Rules_)
 
 Setiap AI coding assistant yang bekerja pada repositori ini **WAJIB MEMATUHI** aturan di bawah ini tanpa pengecualian:
 
 ### ⚠️ 1. LARANGAN KERAS: JANGAN JALANKAN `bun run build`
+
 > [!CAUTION]
 > **Dilarang keras mengeksekusi `bun run build` atau `next build`** di terminal saat sedang membantu user menyelesaikan tugas atau coding harian!
+>
 > - Proses build Next.js 16 memakan alokasi RAM dan CPU sangat tinggi, memicu hanging/interupsi proses, serta mematikan server dev aktif.
 > - Verifikasi kode cukup dilakukan dengan membaca kode, static check, atau menjalankan file scratch audit jika diperlukan.
 
 ### 2. Arahan `"use client";`
+
 Setiap file komponen atau hook yang menggunakan state (`useState`), effect (`useEffect`), ref (`useRef`), context (`useI18n`), event listener (`onClick`, `onChange`), atau akses window/document **WAJIB** menempatkan `"use client";` pada baris pertama file.
 
 ### 3. Pencegahan Jebakan CSS `overflow-hidden` (Popover & Dropdown Clipping)
+
 > [!IMPORTANT]
 > **Aturan Popover & Dropdown:**
+>
 > 1. **Dilarang memakai `overflow-hidden` pada wrapper input nomor WhatsApp:** Komponen pemilih negara ([`CountryCodeSelector`](file:///g:/WEB2026/fontwahide/src/components/shared/CountryCodeSelector.tsx)) memiliki menu dropdown melayang (`position: absolute; top: 100%`). Jika wrapper luar memiliki `h-9` atau `h-10` dengan `overflow-hidden`, menu dropdown akan terpotong paksa menjadi 36px/40px dan daftar negara tidak bisa di-scroll!
 > 2. **Komponen `<Card>` shadcn/ui:** Komponen dasar `src/components/ui/card.tsx` memiliki class default `overflow-hidden`. Jika sebuah Card menampung input form dengan dropdown atau popover, **WAJIB menambahkan class `overflow-visible relative z-20`** pada `<Card className="... overflow-visible relative z-20">`. Class `overflow-visible` akan meng-override `overflow-hidden` melalui `tailwind-merge`.
-> 3. **Sudut Melengkung (*Border Radius*) Input Komposit:**
+> 3. **Sudut Melengkung (_Border Radius_) Input Komposit:**
 >    - Prefiks / Selector kiri: `rounded-l-xl rounded-r-none`
 >    - Input field kanan: `rounded-r-xl rounded-l-none`
 
 ### 4. Standar Input Nomor WhatsApp & Kode Negara
+
 1. Selalu gunakan komponen terpadu:
    ```tsx
    import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
@@ -185,7 +195,10 @@ Setiap file komponen atau hook yang menggunakan state (`useState`), effect (`use
    ```tsx
    import { sanitizeSubscriberInput } from "@/lib/countryCodes";
    // Otomatis membuang awalan 0, +, atau dialCode ganda
-   const cleanSubscriber = sanitizeSubscriberInput(inputPhone, selectedCountry.dialCode);
+   const cleanSubscriber = sanitizeSubscriberInput(
+     inputPhone,
+     selectedCountry.dialCode,
+   );
    ```
 3. Selalu validasi dan tampilkan micro-feedback format E.164:
    ```tsx
@@ -193,6 +206,7 @@ Setiap file komponen atau hook yang menggunakan state (`useState`), effect (`use
    ```
 
 ### 5. Aturan Multi-Bahasa (i18n)
+
 1. **Dilarang meng-hardcode teks UI secara langsung di JSX**, baik dalam Bahasa Indonesia maupun Inggris.
 2. Gunakan hook terjemahan:
    ```tsx
@@ -204,7 +218,9 @@ Setiap file komponen atau hook yang menggunakan state (`useState`), effect (`use
    - `src/locales/en/<namespace>.json`
 
 ### 6. Standar Design Tokens (Tailwind v4)
+
 Hindari menuliskan arbitrary hex code (seperti `#0f172a` atau `#10b981`) di class Tailwind. Selalu gunakan token semantik yang telah dikonfigurasi:
+
 - **Latar Belakang:** `bg-background`, `bg-surface`, `bg-muted`, `bg-popover`.
 - **Border:** `border-border`, `border-border/70`, `hover:border-foreground-muted`.
 - **Tipografi:** `text-foreground` (utama), `text-foreground-secondary` (subjudul), `text-foreground-muted` (placeholder/keterangan).
@@ -212,6 +228,7 @@ Hindari menuliskan arbitrary hex code (seperti `#0f172a` atau `#10b981`) di clas
 - **Status Warna:** `text-emerald-600` (sukses), `text-rose-600` / `border-rose-500` (error/bahaya), `text-amber-600` (peringatan), `text-blue-600` (info).
 
 ### 7. Feedback Interaktif & Error Handling
+
 1. Gunakan **Sonner** untuk feedback aksi pengguna:
    ```tsx
    import { toast } from "sonner";
@@ -224,15 +241,15 @@ Hindari menuliskan arbitrary hex code (seperti `#0f172a` atau `#10b981`) di clas
 
 ## 7. Konvensi Penamaan Berkas & Simbol
 
-| Kategori | Konvensi | Contoh |
-| :--- | :--- | :--- |
-| **Komponen React** | `PascalCase.tsx` | `QuickScheduleCard.tsx`, `MonthlyCalendar.tsx` |
-| **Custom Hooks** | `camelCase.ts` (awalan `use`) | `useReservations.ts`, `useReminders.ts` |
-| **API Client** | `<feature>.api.ts` | `reservation.api.ts`, `whatsapp.api.ts` |
-| **Types / Kontrak** | `<feature>.types.ts` | `reservation.types.ts`, `auth.types.ts` |
-| **Helper & Utilitas** | `camelCase.ts` | `countryCodes.ts`, `phone.ts`, `utils.ts` |
-| **Halaman Rute** | `page.tsx`, `layout.tsx` | `src/app/(dashboard)/reminders/page.tsx` |
-| **Dokumentasi** | `kebab-case.md` | `frontend-architecture-guidelines.md` |
+| Kategori              | Konvensi                      | Contoh                                         |
+| :-------------------- | :---------------------------- | :--------------------------------------------- |
+| **Komponen React**    | `PascalCase.tsx`              | `QuickScheduleCard.tsx`, `MonthlyCalendar.tsx` |
+| **Custom Hooks**      | `camelCase.ts` (awalan `use`) | `useReservations.ts`, `useReminders.ts`        |
+| **API Client**        | `<feature>.api.ts`            | `reservation.api.ts`, `whatsapp.api.ts`        |
+| **Types / Kontrak**   | `<feature>.types.ts`          | `reservation.types.ts`, `auth.types.ts`        |
+| **Helper & Utilitas** | `camelCase.ts`                | `countryCodes.ts`, `phone.ts`, `utils.ts`      |
+| **Halaman Rute**      | `page.tsx`, `layout.tsx`      | `src/app/(dashboard)/reminders/page.tsx`       |
+| **Dokumentasi**       | `kebab-case.md`               | `frontend-architecture-guidelines.md`          |
 
 ---
 
@@ -241,6 +258,7 @@ Hindari menuliskan arbitrary hex code (seperti `#0f172a` atau `#10b981`) di clas
 Jika AI diminta menambahkan modul baru (misal: modul `voucher`), ikuti urutan berikut:
 
 ### Langkah 1: Buat Tipe (`src/modules/voucher/types/voucher.types.ts`)
+
 ```typescript
 export interface Voucher {
   id: string;
@@ -257,6 +275,7 @@ export interface CreateVoucherInput {
 ```
 
 ### Langkah 2: Buat API Client (`src/modules/voucher/api/voucher.api.ts`)
+
 ```typescript
 import { apiGet, apiPost } from "@/lib/api";
 import { Voucher, CreateVoucherInput } from "../types/voucher.types";
@@ -266,13 +285,16 @@ export async function fetchVouchers(): Promise<Voucher[]> {
   return res.data;
 }
 
-export async function createVoucher(input: CreateVoucherInput): Promise<Voucher> {
+export async function createVoucher(
+  input: CreateVoucherInput,
+): Promise<Voucher> {
   const res = await apiPost<{ data: Voucher }>("/api/v1/vouchers", input);
   return res.data;
 }
 ```
 
 ### Langkah 3: Buat Hook (`src/modules/voucher/hooks/useVouchers.ts`)
+
 ```typescript
 "use client";
 
@@ -308,6 +330,7 @@ export function useVouchers() {
 ```
 
 ### Langkah 4: Buat View (`src/modules/voucher/views/VouchersView.tsx`)
+
 ```typescript
 "use client";
 
@@ -330,6 +353,7 @@ export function VouchersView() {
 ```
 
 ### Langkah 5: Buat Rute App Router (`src/app/(dashboard)/vouchers/page.tsx`)
+
 ```typescript
 import { VouchersView } from "@/modules/voucher/views/VouchersView";
 import { SellerRouteGuard } from "@/components/layout/shared/SellerRouteGuard";
@@ -348,6 +372,7 @@ export default function VouchersPage() {
 ## 9. Checklist Verifikasi Mandiri Sebelum Menyelesaikan Tugas
 
 Sebelum AI menyatakan suatu tugas frontend selesai:
+
 - [ ] Apakah `"use client";` sudah terpasang jika file memakai hooks?
 - [ ] Apakah tidak ada perintah `bun run build` yang dijalankan?
 - [ ] Apakah seluruh dropdown / popover bebas dari ancaman `overflow-hidden`?

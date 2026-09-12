@@ -93,7 +93,10 @@ function EditUserModalContent({
       }
       currentVal = detected.subscriberNumber;
     }
-    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    const cleaned = sanitizeSubscriberInput(
+      currentVal,
+      selectedCountry.dialCode,
+    );
     setPhone(cleaned);
   };
 

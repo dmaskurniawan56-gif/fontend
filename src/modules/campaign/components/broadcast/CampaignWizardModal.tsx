@@ -257,7 +257,9 @@ export function CampaignWizardModal({
 
   const toggleTag = (tagId: string) => {
     setSelectedTagIds((prev) =>
-      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId],
+      prev.includes(tagId)
+        ? prev.filter((id) => id !== tagId)
+        : [...prev, tagId],
     );
   };
 
@@ -518,30 +520,32 @@ export function CampaignWizardModal({
                 ))}
               </div>
 
-              {total === 0 && contacts.length === 0 && targetType !== "CUSTOM" && (
-                <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-800 dark:border-amber-500/30 dark:text-amber-300">
-                  <div className="space-y-0.5">
-                    <p className="font-bold">Buku Kontak Masih Kosong</p>
-                    <p className="text-[11px] text-foreground-secondary">
-                      Tambahkan kontak terlebih dahulu atau pilih opsi
-                      &quot;Input Nomor Manual&quot;.
-                    </p>
+              {total === 0 &&
+                contacts.length === 0 &&
+                targetType !== "CUSTOM" && (
+                  <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-800 dark:border-amber-500/30 dark:text-amber-300">
+                    <div className="space-y-0.5">
+                      <p className="font-bold">Buku Kontak Masih Kosong</p>
+                      <p className="text-[11px] text-foreground-secondary">
+                        Tambahkan kontak terlebih dahulu atau pilih opsi
+                        &quot;Input Nomor Manual&quot;.
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        onClose();
+                        router.push("/contacts");
+                      }}
+                      className="shrink-0 gap-1 text-[11px] font-bold border-amber-500/40 hover:bg-amber-500/20"
+                    >
+                      <span>Buka Kontak</span>
+                      <ArrowRight className="size-3" />
+                    </Button>
                   </div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      onClose();
-                      router.push("/contacts");
-                    }}
-                    className="shrink-0 gap-1 text-[11px] font-bold border-amber-500/40 hover:bg-amber-500/20"
-                  >
-                    <span>Buka Kontak</span>
-                    <ArrowRight className="size-3" />
-                  </Button>
-                </div>
-              )}
+                )}
 
               {/* Tag Selector if TAGS */}
               {targetType === "TAGS" && (

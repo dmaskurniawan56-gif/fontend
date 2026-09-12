@@ -50,5 +50,9 @@
   "thisMonth": "This Month",
   "servicePlaceholder": "e.g.: Dental Consultation / Haircut",
   "prevMonth": "Previous Month",
-  "nextMonth": "Next Month"
+  "nextMonth": "Next Month",
+  "phonePlaceholder": "812 3456 7890",
+  "phoneReadyPreview": "Ready to send: {formatted}",
+  "phoneTooLong": "Phone number too long (max 15 digits)",
+  "phoneHelperHint": "Type number without leading 0 (e.g. 8123456789)"
 }

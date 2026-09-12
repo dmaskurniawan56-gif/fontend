@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
   Campaign,
@@ -79,6 +79,29 @@ export function CampaignList() {
   );
   const [selectedCampaignForDetail, setSelectedCampaignForDetail] =
     useState<Campaign | null>(null);
+  const [tagMap, setTagMap] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let isMounted = true;
+    contactApi
+      .getTags()
+      .then((tags) => {
+        if (!isMounted) return;
+        const map: Record<string, string> = {};
+        tags.forEach((tg) => {
+          map[tg.id] = tg.name;
+        });
+        setTagMap(map);
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const formatTagLabel = (tagIdOrName: string) => {
+    return tagMap[tagIdOrName] || tagIdOrName;
+  };
 
   const { locale } = useI18n();
 
@@ -336,7 +359,9 @@ export function CampaignList() {
                             : campaign.targetType === "TAGS" &&
                                 campaign.targetTags &&
                                 campaign.targetTags.length > 0
-                              ? `#${campaign.targetTags[0]}`
+                              ? campaign.targetTags.length === 1
+                                ? `#${formatTagLabel(campaign.targetTags[0])}`
+                                : `#${formatTagLabel(campaign.targetTags[0])} +${campaign.targetTags.length - 1}`
                               : t("campaign.audienceAllTitle")}
                         </span>
                       </div>
@@ -499,6 +524,7 @@ export function CampaignList() {
         <CampaignDetailModal
           isOpen={Boolean(selectedCampaignForDetail)}
           campaign={selectedCampaignForDetail}
+          tagMap={tagMap}
           onClose={() => setSelectedCampaignForDetail(null)}
           onStartCampaign={async (id) => {
             await startCampaign(id);

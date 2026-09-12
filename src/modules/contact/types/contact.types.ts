@@ -38,6 +38,8 @@ export interface GetContactsParams {
   page?: number;
   pageSize?: number;
   search?: string;
+  tag_id?: string;
+  tag?: string;
 }
 
 export interface ContactListResponse {

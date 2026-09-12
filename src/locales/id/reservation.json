@@ -50,5 +50,9 @@
   "thisMonth": "Bulan Ini",
   "servicePlaceholder": "Contoh: Konsultasi Dokter Gigi / Potong Rambut",
   "prevMonth": "Bulan Sebelumnya",
-  "nextMonth": "Bulan Berikutnya"
+  "nextMonth": "Bulan Berikutnya",
+  "phonePlaceholder": "812 3456 7890",
+  "phoneReadyPreview": "Format siap kirim: {formatted}",
+  "phoneTooLong": "Nomor terlalu panjang (maksimal 15 digit)",
+  "phoneHelperHint": "Ketik nomor tanpa awalan 0 (contoh: 8123456789)"
 }

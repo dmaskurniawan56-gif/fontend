@@ -36,6 +36,7 @@ import { Progress } from "@/components/ui/progress";
 interface CampaignDetailModalProps {
   isOpen: boolean;
   campaign: Campaign | null;
+  tagMap?: Record<string, string>;
   onClose: () => void;
   onStartCampaign?: (id: string) => Promise<void>;
   onPauseCampaign?: (id: string) => Promise<void>;
@@ -45,6 +46,7 @@ interface CampaignDetailModalProps {
 export function CampaignDetailModal({
   isOpen,
   campaign,
+  tagMap,
   onClose,
   onStartCampaign,
   onPauseCampaign,
@@ -293,7 +295,7 @@ export function CampaignDetailModal({
                             key={tag}
                             className="dark:bg-wise-green/20 dark:text-wise-green inline-flex items-center gap-0.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-700"
                           >
-                            <TagIcon className="size-2.5" />#{tag}
+                            <TagIcon className="size-2.5" />#{tagMap?.[tag] || tag}
                           </span>
                         ))}
                       </div>

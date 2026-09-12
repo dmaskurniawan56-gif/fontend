@@ -24,7 +24,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useI18n } from "@/lib/i18n/context";
-import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
+import { isValidE164, formatDisplayPhone } from "@/lib/phone";
+import {
+  CountryCodeItem,
+  DEFAULT_COUNTRY,
+  detectCountryFromPhone,
+  sanitizeSubscriberInput,
+} from "@/lib/countryCodes";
+import { CountryCodeSelector } from "@/components/shared/CountryCodeSelector";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { CreateReservationInput } from "../types/reservation.types";
 
@@ -44,6 +52,8 @@ export function AddReservationForm({
   const { t } = useI18n();
 
   const [customerName, setCustomerName] = useState("");
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryCodeItem>(DEFAULT_COUNTRY);
   const [phone, setPhone] = useState("");
   const [displayDate, setDisplayDate] = useState("");
   const [isoDate, setIsoDate] = useState("");
@@ -57,6 +67,7 @@ export function AddReservationForm({
     if (isOpen) {
       setCustomerName("");
       setPhone("");
+      setSelectedCountry(DEFAULT_COUNTRY);
       setBookingTime("10:00");
       setServiceName("");
       setNotes("");
@@ -71,6 +82,34 @@ export function AddReservationForm({
       }
     }
   }, [isOpen, defaultDate]);
+
+  const handlePhoneChange = (val: string) => {
+    let currentVal = val;
+    if (currentVal.includes("+")) {
+      const detected = detectCountryFromPhone(currentVal);
+      if (detected.country) {
+        setSelectedCountry(detected.country);
+        const cleaned = sanitizeSubscriberInput(
+          detected.subscriberNumber,
+          detected.country.dialCode,
+        );
+        setPhone(cleaned);
+        return;
+      }
+      currentVal = detected.subscriberNumber;
+    }
+    const cleaned = sanitizeSubscriberInput(currentVal, selectedCountry.dialCode);
+    setPhone(cleaned);
+  };
+
+  const cleanDigits = sanitizeSubscriberInput(phone, selectedCountry.dialCode);
+  const fullPhone = cleanDigits
+    ? `${selectedCountry.dialCode}${cleanDigits}`
+    : "";
+  const isPhoneValid = Boolean(
+    fullPhone && isValidE164(fullPhone) && cleanDigits.length >= 8,
+  );
+  const isPhoneTooLong = cleanDigits.length > 14;
 
   const handleNativeDateChange = (val: string) => {
     if (!val) return;
@@ -126,16 +165,15 @@ export function AddReservationForm({
       return;
     }
 
-    const cleanPhone = normalizePhoneNumber(phone);
-    if (!isValidE164(cleanPhone)) {
-      toast.error(t("contact.errPhonePrefix"));
+    if (!isPhoneValid) {
+      toast.error(t("contact.errPhonePrefix") || "Format nomor WhatsApp tidak valid.");
       return;
     }
 
     setIsSubmitting(true);
     const success = await onSubmit({
       customerName: customerName.trim(),
-      phone: cleanPhone,
+      phone: fullPhone,
       bookingDate: finalDate.trim(),
       bookingTime: bookingTime.trim() || undefined,
       serviceName: serviceName.trim() || undefined,
@@ -190,14 +228,69 @@ export function AddReservationForm({
                 <span>{t("reservation.phone")}</span>
                 <span className="text-destructive">*</span>
               </Label>
-              <Input
-                id="res-phone"
-                required
-                placeholder="08123456789 atau 628123456789"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="h-9 text-xs rounded-xl"
-              />
+              <div
+                className={cn(
+                  "flex h-9 w-full items-center rounded-xl border bg-surface transition-all overflow-hidden focus-within:ring-2",
+                  isPhoneValid
+                    ? "border-emerald-500/70 focus-within:ring-emerald-500/30"
+                    : isPhoneTooLong
+                      ? "border-rose-500/70 focus-within:ring-rose-500/30"
+                      : "border-border focus-within:border-primary focus-within:ring-primary/20",
+                )}
+              >
+                <CountryCodeSelector
+                  selectedCountry={selectedCountry}
+                  onSelectCountry={(c) => {
+                    setSelectedCountry(c);
+                    if (phone) {
+                      setPhone(sanitizeSubscriberInput(phone, c.dialCode));
+                    }
+                  }}
+                  disabled={isSubmitting}
+                  variant="rounded"
+                  className="h-full rounded-none border-y-0 border-l-0 px-2.5"
+                />
+                <Input
+                  id="res-phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => handlePhoneChange(e.target.value)}
+                  placeholder={
+                    t("reservation.phonePlaceholder") || "812 3456 7890"
+                  }
+                  className="h-full flex-1 rounded-none border-0 bg-transparent px-3 text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Live Preview & Helper Micro-Feedback */}
+              <div className="flex items-center justify-between px-1 text-[11px]">
+                {isPhoneValid ? (
+                  <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium animate-fadeIn">
+                    <span>✓</span>
+                    <span>
+                      {t("reservation.phoneReadyPreview", {
+                        formatted: formatDisplayPhone(fullPhone),
+                      })}
+                    </span>
+                  </span>
+                ) : isPhoneTooLong ? (
+                  <span className="text-rose-600 dark:text-rose-400 font-medium">
+                    {t("reservation.phoneTooLong")}
+                  </span>
+                ) : phone.length > 0 ? (
+                  <span className="text-foreground-muted">
+                    +{selectedCountry.dialCode} {cleanDigits} (min. 8 digit)
+                  </span>
+                ) : (
+                  <span className="text-foreground-muted/70 text-[10px]">
+                    {t("reservation.phoneHelperHint")}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Booking Date & Time Grid */}

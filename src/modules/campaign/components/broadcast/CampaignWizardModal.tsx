@@ -22,6 +22,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { useI18n } from "@/lib/i18n/context";
+import { ApiError } from "@/lib/api/http-client";
 import { normalizePhoneNumber, isValidE164 } from "@/lib/phone";
 import {
   Send,
@@ -65,7 +66,7 @@ export function CampaignWizardModal({
   const router = useRouter();
   const { t } = useI18n();
   const { devices } = useDevices();
-  const { contacts, allTags } = useContacts();
+  const { contacts, tags, total } = useContacts();
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [name, setName] = useState("");
@@ -73,7 +74,7 @@ export function CampaignWizardModal({
   const [targetType, setTargetType] = useState<"ALL" | "TAGS" | "CUSTOM">(
     "ALL",
   );
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [customNumbersStr, setCustomNumbersStr] = useState("");
   const [jitterDelaySeconds, setJitterDelaySeconds] = useState(4);
   const [enableHumanTyping, setEnableHumanTyping] = useState(true);
@@ -130,7 +131,7 @@ export function CampaignWizardModal({
         return;
       }
     } else if (step === 2) {
-      if (targetType === "ALL" && contacts.length === 0) {
+      if (targetType === "ALL" && total === 0 && contacts.length === 0) {
         setError(
           t("campaign.noTargetContactsSelected") ||
             "Target audiens kosong (0 penerima). Silakan tambahkan kontak terlebih dahulu atau gunakan input nomor manual.",
@@ -138,11 +139,11 @@ export function CampaignWizardModal({
         return;
       }
       if (targetType === "TAGS") {
-        if (selectedTags.length === 0) {
+        if (selectedTagIds.length === 0) {
           setError(t("campaign.errSelectTagRequired"));
           return;
         }
-        if (calculateTargetCount() === 0) {
+        if (total <= contacts.length && calculateTargetCount() === 0) {
           setError(t("campaign.noTargetContactsSelected"));
           return;
         }
@@ -171,13 +172,20 @@ export function CampaignWizardModal({
   };
 
   const calculateTargetCount = (): number => {
-    if (targetType === "ALL") return contacts.length;
+    if (targetType === "ALL") return total || contacts.length;
     if (targetType === "TAGS") {
+      const selectedTagNames = tags
+        .filter((tg) => selectedTagIds.includes(tg.id))
+        .map((tg) => tg.name.toLowerCase());
+
       return contacts.filter((c) =>
         c.tags?.some((t) => {
-          const name = typeof t === "string" ? t : t.name;
           const id = typeof t === "string" ? t : t.id;
-          return selectedTags.includes(name) || selectedTags.includes(id);
+          const name = (typeof t === "string" ? t : t.name)?.toLowerCase();
+          return (
+            selectedTagIds.includes(id) ||
+            (name && selectedTagNames.includes(name))
+          );
         }),
       ).length;
     }
@@ -203,7 +211,7 @@ export function CampaignWizardModal({
         jitterDelaySeconds,
         enableHumanTyping,
         targetType,
-        targetTags: targetType === "TAGS" ? selectedTags : undefined,
+        targetTags: targetType === "TAGS" ? selectedTagIds : undefined,
         targetNumbers,
         scheduledAt:
           isScheduled && scheduledAt
@@ -214,17 +222,29 @@ export function CampaignWizardModal({
       await onSubmit(payload);
       onClose();
     } catch (err: unknown) {
-      const msg =
-        err instanceof Error ? err.message : t("campaign.errCreateFailed");
-      setError(msg);
+      if (
+        (err instanceof ApiError && err.code === "NO_AUDIENCE_FOUND") ||
+        (err instanceof Error &&
+          (err.message.includes("NO_AUDIENCE_FOUND") ||
+            err.message.includes("no contacts found")))
+      ) {
+        setError(
+          t("campaign.noTargetContactsSelected") ||
+            "Tag yang dipilih tidak memiliki kontak aktif. Silakan pilih tag lain atau tambahkan kontak dengan tag ini terlebih dahulu.",
+        );
+      } else {
+        const msg =
+          err instanceof Error ? err.message : t("campaign.errCreateFailed");
+        setError(msg);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+  const toggleTag = (tagId: string) => {
+    setSelectedTagIds((prev) =>
+      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId],
     );
   };
 
@@ -450,7 +470,7 @@ export function CampaignWizardModal({
                     type: "ALL" as const,
                     title: t("campaign.audienceAllTitle"),
                     desc: t("campaign.audienceAllDesc", {
-                      count: String(contacts.length),
+                      count: String(total || contacts.length),
                     }),
                   },
                   {
@@ -485,7 +505,7 @@ export function CampaignWizardModal({
                 ))}
               </div>
 
-              {contacts.length === 0 && targetType !== "CUSTOM" && (
+              {total === 0 && contacts.length === 0 && targetType !== "CUSTOM" && (
                 <div className="flex items-center justify-between rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-800 dark:border-amber-500/30 dark:text-amber-300">
                   <div className="space-y-0.5">
                     <p className="font-bold">Buku Kontak Masih Kosong</p>
@@ -513,29 +533,36 @@ export function CampaignWizardModal({
               {/* Tag Selector if TAGS */}
               {targetType === "TAGS" && (
                 <div className="space-y-2 pt-2">
-                  <span className="text-foreground-secondary block text-[11px] font-bold uppercase">
-                    {t("campaign.chooseTagsLabel")}
-                  </span>
-                  {allTags.length === 0 ? (
+                  <div className="flex items-center justify-between">
+                    <span className="text-foreground-secondary block text-[11px] font-bold uppercase">
+                      {t("campaign.chooseTagsLabel")}
+                    </span>
+                    {selectedTagIds.length > 0 && (
+                      <span className="text-foreground-muted text-[11px] font-mono">
+                        {selectedTagIds.length} tag dipilih
+                      </span>
+                    )}
+                  </div>
+                  {tags.length === 0 ? (
                     <p className="text-foreground-muted text-xs italic">
                       {t("campaign.noTagsFound")}
                     </p>
                   ) : (
                     <div className="flex flex-wrap gap-1.5">
-                      {allTags.map((tag) => {
-                        const isSelected = selectedTags.includes(tag);
+                      {tags.map((tag) => {
+                        const isSelected = selectedTagIds.includes(tag.id);
                         return (
                           <button
-                            key={tag}
+                            key={tag.id}
                             type="button"
-                            onClick={() => toggleTag(tag)}
+                            onClick={() => toggleTag(tag.id)}
                             className={`cursor-pointer rounded-full border px-3 py-1 font-mono text-xs font-bold transition ${
                               isSelected
                                 ? "bg-dark-green text-light-mint dark:bg-wise-green dark:text-dark-green border-transparent"
                                 : "border-border bg-surface text-foreground-secondary hover:text-foreground dark:bg-[#10110e]"
                             }`}
                           >
-                            #{tag}
+                            #{tag.name}
                           </button>
                         );
                       })}

@@ -178,7 +178,7 @@ export function useCampaigns() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Gagal membuat kampanye";
       toast.error(msg);
-      return null;
+      throw err;
     }
   };
 

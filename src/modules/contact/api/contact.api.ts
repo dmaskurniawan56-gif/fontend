@@ -50,6 +50,12 @@ export const contactApi = {
       if (params?.search && params.search.trim()) {
         query.set("search", params.search.trim());
       }
+      if (params?.tag_id && params.tag_id.trim()) {
+        query.set("tag_id", params.tag_id.trim());
+      }
+      if (params?.tag && params.tag.trim()) {
+        query.set("tag", params.tag.trim());
+      }
       const queryString = `?${query.toString()}`;
       const res = await httpClient.get<Contact[]>(
         `${CONTACT_BASE}/contacts${queryString}`,

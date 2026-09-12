@@ -143,7 +143,7 @@ export function CampaignWizardModal({
           setError(t("campaign.errSelectTagRequired"));
           return;
         }
-        if (total <= contacts.length && calculateTargetCount() === 0) {
+        if (total === 0 && contacts.length === 0) {
           setError(t("campaign.noTargetContactsSelected"));
           return;
         }
@@ -174,20 +174,33 @@ export function CampaignWizardModal({
   const calculateTargetCount = (): number => {
     if (targetType === "ALL") return total || contacts.length;
     if (targetType === "TAGS") {
+      if (selectedTagIds.length === 0) return 0;
+
       const selectedTagNames = tags
         .filter((tg) => selectedTagIds.includes(tg.id))
         .map((tg) => tg.name.toLowerCase());
 
-      return contacts.filter((c) =>
+      const clientMatches = contacts.filter((c) =>
         c.tags?.some((t) => {
-          const id = typeof t === "string" ? t : t.id;
-          const name = (typeof t === "string" ? t : t.name)?.toLowerCase();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const anyTag = t as any;
+          const id =
+            typeof t === "string"
+              ? t
+              : anyTag?.id || anyTag?.tag_id || anyTag?.tagId;
+          const name = (
+            typeof t === "string" ? t : anyTag?.name
+          )?.toLowerCase();
           return (
-            selectedTagIds.includes(id) ||
+            (id && selectedTagIds.includes(id)) ||
             (name && selectedTagNames.includes(name))
           );
         }),
       ).length;
+
+      if (clientMatches > 0) return clientMatches;
+      if (total > contacts.length) return total;
+      return clientMatches;
     }
     return parseCustomNumbers(customNumbersStr).length;
   };
